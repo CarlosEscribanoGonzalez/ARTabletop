@@ -529,6 +529,7 @@ GameObject:
   - component: {fileID: 1264515769}
   - component: {fileID: 1264515768}
   - component: {fileID: 1264515770}
+  - component: {fileID: 1264515771}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -583,10 +584,97 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <trackablesChanged>k__BackingField:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1264515771}
+        m_TargetAssemblyTypeName: ImageDetectionManager, Assembly-CSharp
+        m_MethodName: OnTrackedImagesChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1793015356}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: UpdateCardsInfo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SerializedLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
   m_MaxNumberOfMovingImages: 20
   m_TrackedImagePrefab: {fileID: 8003255669912376228, guid: 798fecabf471b1a418bd8efc92d88bc5, type: 3}
+--- !u!114 &1264515771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264515767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abf735239d9eb9c44b427292523354f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1793015355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1793015357}
+  - component: {fileID: 1793015356}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1793015356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793015355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f1ac523cdcb4fe408a09015e95bd93b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardsInfo:
+  - sprite: {fileID: -1215044162, guid: 4d587a0aedd0c7942b3a6f6b76749afe, type: 3}
+    text: carta 1
+  - sprite: {fileID: 160173281, guid: 123d4eced926a3542aef37c8543610cc, type: 3}
+    text: carta 2
+  imagesLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
+  trackedImageManager: {fileID: 1264515770}
+--- !u!4 &1793015357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793015355}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.004710825, y: 0.38925064, z: 0.092066035}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2101137078
 GameObject:
   m_ObjectHideFlags: 0
@@ -870,3 +958,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 483600365}
   - {fileID: 1264515769}
+  - {fileID: 1793015357}
