@@ -583,66 +583,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <trackablesChanged>k__BackingField:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2033791580}
-        m_TargetAssemblyTypeName: Placeholder, Assembly-CSharp
-        m_MethodName: OnImageRecognized
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SerializedLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
   m_MaxNumberOfMovingImages: 20
-  m_TrackedImagePrefab: {fileID: 8644947155076163075, guid: 18ce9eb8818f5274983e19071f3fcd21, type: 3}
---- !u!1 &2033791579
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2033791581}
-  - component: {fileID: 2033791580}
-  m_Layer: 0
-  m_Name: Placeholder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2033791580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2033791579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66cd6769dd833a64caf8f435b96c9b93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &2033791581
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2033791579}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_TrackedImagePrefab: {fileID: 8003255669912376228, guid: 798fecabf471b1a418bd8efc92d88bc5, type: 3}
 --- !u!1 &2101137078
 GameObject:
   m_ObjectHideFlags: 0
@@ -926,4 +870,3 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 483600365}
   - {fileID: 1264515769}
-  - {fileID: 2033791581}
