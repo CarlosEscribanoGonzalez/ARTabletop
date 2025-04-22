@@ -119,6 +119,53 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &195647492
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 195647494}
+  - component: {fileID: 195647493}
+  m_Layer: 0
+  m_Name: PieceGameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &195647493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195647492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7d5cc17dd60fd4fa3c558c94f072f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pieces: []
+  imagesLibrary: {fileID: 0}
+  trackedImageManager: {fileID: 0}
+--- !u!4 &195647494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 195647492}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.022686116, y: -0.72765917, z: 0.099836916}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -461,7 +508,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1793015356}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: CardGameManager, Assembly-CSharp
         m_MethodName: UpdateCardsInfo
         m_Mode: 1
         m_Arguments:
@@ -498,7 +545,7 @@ GameObject:
   - component: {fileID: 1793015357}
   - component: {fileID: 1793015356}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: CardGameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -521,8 +568,7 @@ MonoBehaviour:
     text: carta 1
   - sprite: {fileID: 0}
     text: carta 2
-  imagesLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
-  trackedImageManager: {fileID: 1264515770}
+  imageLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
 --- !u!4 &1793015357
 Transform:
   m_ObjectHideFlags: 0
@@ -821,3 +867,4 @@ SceneRoots:
   - {fileID: 483600365}
   - {fileID: 1264515769}
   - {fileID: 1793015357}
+  - {fileID: 195647494}
