@@ -47,3 +47,13 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: Card03
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5585474990625848908
+      m_GuidHigh: 18102399143437536956
+    m_SerializedTextureGuid:
+      m_GuidLow: 3653557336130696752
+      m_GuidHigh: 16685155944981705416
+    m_Size: {x: 0.616, y: 0.86349624}
+    m_SpecifySize: 1
+    m_Name: Piece01
+    m_Texture: {fileID: 0}

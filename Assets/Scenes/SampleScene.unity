@@ -148,9 +148,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e7d5cc17dd60fd4fa3c558c94f072f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pieces: []
-  imagesLibrary: {fileID: 0}
-  trackedImageManager: {fileID: 0}
+  pieces:
+  - {fileID: 919132149155446097, guid: 2fa319a20333e204f945d891e9353b81, type: 3}
+  - {fileID: 3782178384305953298, guid: 193986d8ae187954d8bfbc2eb69264cc, type: 3}
+  - {fileID: 919132149155446097, guid: 49c05e1f97a270a46abaa522d9ac5863, type: 3}
+  imageLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
 --- !u!4 &195647494
 Transform:
   m_ObjectHideFlags: 0
@@ -201,7 +203,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -519,9 +521,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 195647493}
+        m_TargetAssemblyTypeName: PieceGameManager, Assembly-CSharp
+        m_MethodName: UpdatePieceInfo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SerializedLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
   m_MaxNumberOfMovingImages: 20
-  m_TrackedImagePrefab: {fileID: 8003255669912376228, guid: 798fecabf471b1a418bd8efc92d88bc5, type: 3}
+  m_TrackedImagePrefab: {fileID: 8003255669912376228, guid: 775aeca70efbd1145b5faca9f95b75f0, type: 3}
 --- !u!114 &1264515771
 MonoBehaviour:
   m_ObjectHideFlags: 0

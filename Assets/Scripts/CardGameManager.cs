@@ -22,13 +22,13 @@ public class CardGameManager : MonoBehaviour
 
     public void UpdateCardsInfo()
     {
-        foreach (var card in trackedImageManager.trackables)
+        foreach (var trackable in trackedImageManager.trackables)
         {
-            if (cardImagesList.Contains(card.referenceImage))
+            if (cardImagesList.Contains(trackable.referenceImage))
             {
-                index = cardImagesList.IndexOf(card.referenceImage);
-                if (cardsInfo[index].sprite != null) card.GetComponent<Card>().SetSprite(randomizedInfo[index].sprite);
-                card.GetComponent<Card>().SetText(randomizedInfo[index].text);
+                index = cardImagesList.IndexOf(trackable.referenceImage);
+                if (cardsInfo[index].sprite != null) trackable.GetComponent<Card>().SetSprite(randomizedInfo[index].sprite);
+                trackable.GetComponent<Card>().SetText(randomizedInfo[index].text);
             }
         }
     }
