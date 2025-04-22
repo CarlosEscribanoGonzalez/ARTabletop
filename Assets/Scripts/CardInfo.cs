@@ -5,5 +5,5 @@ using UnityEngine;
 public class CardInfo
 {
     public Sprite sprite;
-    public string text;
+    [TextArea] public string text;
 }
