@@ -30,7 +30,7 @@ public class Piece : MonoBehaviour
         if (mesh != null)
         {
             float scaleFactor = maxSize / mesh.sharedMesh.bounds.size.magnitude;
-            pieceModel.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            pieceModel.transform.localScale = Vector3.one * scaleFactor;
             if (pieceModel.GetComponentInChildren<Collider>() == null) pieceCollider = mesh.gameObject.AddComponent<BoxCollider>();
             if (pieceModel.GetComponentInChildren<Rigidbody>() == null) mesh.gameObject.AddComponent<Rigidbody>();
             pieceModel.GetComponentInChildren<Rigidbody>().isKinematic = true;

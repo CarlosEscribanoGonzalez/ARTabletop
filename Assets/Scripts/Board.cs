@@ -5,14 +5,8 @@ public class Board : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRend;
     [SerializeField] private float maxSize = 2f;
-    private float originalScale; 
     private GameObject boardModel;
     private Collider boardCollider;
-
-    private void Awake()
-    {
-        originalScale = spriteRend.transform.localScale.x;
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -38,14 +32,14 @@ public class Board : MonoBehaviour
         AdjustModelSize();
     }
 
-    Vector2 desiredTextureSize = new Vector2(1792, 1792);
+    Vector2 desiredTextureSize = new Vector2(64, 64);
     float scaleMult = 0;
     private void AdjustSpriteSize()
     {
         if (spriteRend.sprite.texture.width > spriteRend.sprite.texture.height)
             scaleMult = desiredTextureSize.x / spriteRend.sprite.texture.width;
         else scaleMult = desiredTextureSize.y / spriteRend.sprite.texture.height;
-        spriteRend.transform.localScale = new Vector3(originalScale * scaleMult, originalScale * scaleMult, originalScale * scaleMult);
+        spriteRend.transform.localScale = Vector3.one * scaleMult;
     }
 
     private void AdjustModelSize()
@@ -60,6 +54,5 @@ public class Board : MonoBehaviour
             boardModel.GetComponentInChildren<Rigidbody>().isKinematic = true;
             boardModel.GetComponentInChildren<Rigidbody>().useGravity = false;
         }
-        else Destroy(boardModel);
     }
 }

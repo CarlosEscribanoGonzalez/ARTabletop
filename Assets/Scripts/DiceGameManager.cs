@@ -3,12 +3,18 @@ using TMPro;
 
 public class DiceGameManager : MonoBehaviour
 {
+    [SerializeField] private bool gameHasDice = true;
     [SerializeField] private Dice dice;
     [SerializeField] private GameObject diceCamera;
     [SerializeField] private TMP_Dropdown typeDropdown;
     [SerializeField] private TMP_Dropdown numDropdown;
     int numFaces;
-    int numThrows; 
+    int numThrows;
+
+    private void Awake()
+    {
+        if (!gameHasDice) Destroy(this.gameObject);
+    }
 
     public void ToggleDiceThrow(bool enable)
     {
