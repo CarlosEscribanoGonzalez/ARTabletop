@@ -29,8 +29,8 @@ public class CardGameManager : MonoBehaviour
                 index = cardImagesList.IndexOf(trackable.referenceImage);
                 if (index >= 0 && index < cardsInfo.Length)
                 {
-                    if (cardsInfo[index].sprite != null) trackable.GetComponentInChildren<Card>()?.SetSprite(randomizedInfo[index].sprite);
-                    trackable.GetComponentInChildren<Card>()?.SetText(randomizedInfo[index].text);
+                    if (cardsInfo[index].sprite != null) trackable.GetComponentInChildren<Card>(true)?.SetSprite(randomizedInfo[index].sprite);
+                    trackable.GetComponentInChildren<Card>(true)?.SetText(randomizedInfo[index].text);
                 }
             }
         }

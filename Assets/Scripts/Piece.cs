@@ -8,7 +8,7 @@ public class Piece : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(pieceCollider == null) pieceCollider = pieceModel.GetComponent<Collider>();
+        if (pieceCollider == null) return;
         if (other == pieceCollider)
         {
             pieceModel.transform.localPosition += transform.up * 0.005f;
@@ -22,10 +22,6 @@ public class Piece : MonoBehaviour
         if (pieceModel != null) return;
         pieceModel = Instantiate(model, this.transform);
         AdjustModelSize();
-        if (pieceModel.GetComponentInChildren<Collider>() == null) pieceCollider = pieceModel.AddComponent<BoxCollider>();
-        if (pieceModel.GetComponentInChildren<Rigidbody>() == null) pieceModel.AddComponent<Rigidbody>();
-        pieceModel.GetComponent<Rigidbody>().isKinematic = true;
-        pieceModel.GetComponent<Rigidbody>().useGravity = false;
     }
 
     private void AdjustModelSize()
@@ -35,6 +31,10 @@ public class Piece : MonoBehaviour
         {
             float scaleFactor = maxSize / mesh.sharedMesh.bounds.size.magnitude;
             pieceModel.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            if (pieceModel.GetComponentInChildren<Collider>() == null) pieceCollider = mesh.gameObject.AddComponent<BoxCollider>();
+            if (pieceModel.GetComponentInChildren<Rigidbody>() == null) mesh.gameObject.AddComponent<Rigidbody>();
+            pieceModel.GetComponentInChildren<Rigidbody>().isKinematic = true;
+            pieceModel.GetComponentInChildren<Rigidbody>().useGravity = false;
         } 
         else Destroy(pieceModel);
     }

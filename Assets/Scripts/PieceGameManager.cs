@@ -25,7 +25,8 @@ public class PieceGameManager : MonoBehaviour
             if (pieceImagesList.Contains(trackable.referenceImage))
             {
                 index = pieceImagesList.IndexOf(trackable.referenceImage);
-                trackable.GetComponentInChildren<Piece>()?.SetModel(pieces[index]);
+                if(index >= 0 && index < pieces.Length) 
+                    trackable.GetComponentInChildren<Piece>(true)?.SetModel(pieces[index]);
             }
         }
     }
