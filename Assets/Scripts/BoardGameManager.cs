@@ -28,6 +28,7 @@ public class BoardGameManager : MonoBehaviour
                 index = boardImagesList.IndexOf(trackable.referenceImage);
                 if (index >= 0 && index < boardModels.Length)
                 {
+                    trackable.GetComponent<PlayableUnit>().DisplayUnit();
                     trackable.GetComponentInChildren<Board>(true)?.SetModel(boardModels[index]);
                 }
                 else if(index >= boardModels.Length)
@@ -35,6 +36,7 @@ public class BoardGameManager : MonoBehaviour
                     index -= boardModels.Length;
                     if(index < boardSprites.Length)
                     {
+                        trackable.GetComponent<PlayableUnit>().DisplayUnit();
                         trackable.GetComponentInChildren<Board>(true)?.SetSprite(boardSprites[index]);
                     }
                 }

@@ -32,6 +32,7 @@ public class SpecialCardGameManager : MonoBehaviour
             {
                 if (currentCardIndex >= 0 && currentCardIndex < cardsInfo.Length)
                 {
+                    trackable.GetComponent<PlayableUnit>().DisplayUnit();
                     specialCard = trackable.GetComponentInChildren<Card>(true);
                     this.transform.parent = specialCard.transform;
                     this.transform.localPosition = Vector3.zero;
