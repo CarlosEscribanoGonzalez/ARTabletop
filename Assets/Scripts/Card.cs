@@ -7,14 +7,7 @@ public class Card : MonoBehaviour
     [SerializeField] private TextMeshPro text;
     [SerializeField] private SpriteRenderer spriteRend;
     [SerializeField] private GameObject buttonCanvas;
-    private float originalScale;
     private SpecialCardGameManager specialCardManager;
-
-    private void Awake()
-    {
-        originalScale = spriteRend.transform.localScale.x;
-        AdjustSpriteSize();
-    }
 
     private void Update()
     {
@@ -46,11 +39,14 @@ public class Card : MonoBehaviour
 
     Vector2 desiredTextureSize = new Vector2(640, 896);
     float scaleMult = 0;
+    bool scaled = false;
     private void AdjustSpriteSize()
     {
+        if (scaled) return; //Coger la escala original no funciona porque es un número pequeño y en la build cuenta como 0
         if(spriteRend.sprite.texture.width > spriteRend.sprite.texture.height) 
             scaleMult = desiredTextureSize.x / spriteRend.sprite.texture.width;
         else scaleMult = desiredTextureSize.y / spriteRend.sprite.texture.height;
-        spriteRend.transform.localScale = new Vector3(originalScale * scaleMult, originalScale * scaleMult, originalScale * scaleMult);
+        spriteRend.transform.localScale *= scaleMult;
+		scaled = true;
     }
 }
