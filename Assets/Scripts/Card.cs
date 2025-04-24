@@ -1,16 +1,25 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class Card : MonoBehaviour
 {
     [SerializeField] private TextMeshPro text;
     [SerializeField] private SpriteRenderer spriteRend;
+    [SerializeField] private GameObject buttonCanvas;
     private float originalScale;
+    private SpecialCardGameManager specialCardManager;
 
     private void Awake()
     {
         originalScale = spriteRend.transform.localScale.x;
         AdjustSpriteSize();
+    }
+
+    private void Update()
+    {
+        if (!buttonCanvas.activeSelf) return;
+        buttonCanvas.transform.forward = buttonCanvas.transform.position - Camera.main.transform.position;
     }
 
     public void SetText(string t)
@@ -22,6 +31,17 @@ public class Card : MonoBehaviour
     {
         spriteRend.sprite = s;
         AdjustSpriteSize();
+    }
+
+    public void SetSpecial(SpecialCardGameManager manager)
+    {
+        specialCardManager = manager;
+        buttonCanvas.SetActive(true);
+    }
+
+    public void ChangeContent()
+    {
+        specialCardManager.UpdateCard();
     }
 
     Vector2 desiredTextureSize = new Vector2(640, 896);

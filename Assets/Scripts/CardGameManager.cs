@@ -17,7 +17,8 @@ public class CardGameManager : MonoBehaviour
     {
         trackedImageManager = FindFirstObjectByType<ARTrackedImageManager>();
         randomizedInfo = cardsInfo.OrderBy(x => UnityEngine.Random.value).ToArray();
-        cardImagesList = imageLibrary.Where(img => img.name.ToLower().Contains("card")).ToList();
+        cardImagesList = imageLibrary.Where(img => img.name.ToLower().Contains("card") 
+                                                    && !img.name.ToLower().Contains("special")).ToList();
     }
 
     public void UpdateCardsInfo()
