@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 685d8a92c80f8674297697ba62f2075b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -361,7 +361,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 1
   m_SortAtRoot: 1
 --- !u!1 &6503602563047129390
 GameObject:
@@ -511,6 +511,7 @@ GameObject:
   - component: {fileID: 5685958626572448633}
   - component: {fileID: 3286637594977137058}
   - component: {fileID: 4054721497896083250}
+  - component: {fileID: 8676706253941781291}
   m_Layer: 5
   m_Name: ChangeButtonCanvas
   m_TagString: Untagged
@@ -535,7 +536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.0191}
   m_SizeDelta: {x: 1, y: 0.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5685958626572448633
@@ -601,6 +602,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!210 &8676706253941781291
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7984248322305880616}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
+  m_SortAtRoot: 1
 --- !u!1 &8003255669912376228
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,6 +665,7 @@ MonoBehaviour:
   text: {fileID: 4443347288727445220}
   spriteRend: {fileID: 8692727708542954538}
   buttonCanvas: {fileID: 7984248322305880616}
+  defaultSprite: {fileID: 21300000, guid: 685d8a92c80f8674297697ba62f2075b, type: 3}
 --- !u!1 &9166432473196222689
 GameObject:
   m_ObjectHideFlags: 0

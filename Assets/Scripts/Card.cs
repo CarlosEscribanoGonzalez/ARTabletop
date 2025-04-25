@@ -6,6 +6,7 @@ public class Card : MonoBehaviour
     [SerializeField] private TextMeshPro text;
     [SerializeField] private SpriteRenderer spriteRend;
     [SerializeField] private GameObject buttonCanvas;
+    [SerializeField] private Sprite defaultSprite;
     private SpecialCardGameManager specialCardManager;
 
     private void Update()
@@ -21,8 +22,7 @@ public class Card : MonoBehaviour
 
     public void SetSprite(Sprite s)
     {
-        spriteRend.sprite = s;
-        AdjustSpriteSize();
+        spriteRend.sprite = s ?? defaultSprite;
     }
 
     public void SetSpecial(SpecialCardGameManager manager)
@@ -38,14 +38,32 @@ public class Card : MonoBehaviour
 
     Vector2 desiredTextureSize = new Vector2(640, 896);
     float scaleMult = 0;
+    float prevSizeMult = 0;
     bool scaled = false;
-    private void AdjustSpriteSize()
+    public void SetSize(float sizeMult, bool resetScale = false)
     {
+        if (resetScale)
+        {
+            scaled = false;
+            spriteRend.transform.localScale /= (scaleMult * prevSizeMult);
+            GetComponentInChildren<SpriteMask>().transform.localScale /= prevSizeMult;
+            text.transform.localScale /= prevSizeMult;
+        }
+        
         if (scaled) return; //Coger la escala original no funciona porque es un número pequeño y en la build cuenta como 0
-        if(spriteRend.sprite.texture.width > spriteRend.sprite.texture.height) 
+        scaled = true;
+        prevSizeMult = sizeMult;
+        GetComponentInChildren<SpriteMask>().transform.localScale *= sizeMult;
+        text.transform.localScale *= sizeMult;
+        if(spriteRend.sprite.texture is null)
+        {
+            spriteRend.transform.localScale *= sizeMult;
+            scaleMult = 1;
+            return;
+        }
+        if (spriteRend.sprite.texture.width > spriteRend.sprite.texture.height) 
             scaleMult = desiredTextureSize.x / spriteRend.sprite.texture.width;
         else scaleMult = desiredTextureSize.y / spriteRend.sprite.texture.height;
-        spriteRend.transform.localScale *= scaleMult;
-		scaled = true;
+        spriteRend.transform.localScale *= scaleMult * sizeMult;
     }
 }

@@ -21,6 +21,7 @@ public class CardGameManager : MonoBehaviour
                                                     && !img.name.ToLower().Contains("special")).ToList();
     }
 
+    Card currentCard;
     public void UpdateCardsInfo()
     {
         foreach (var trackable in trackedImageManager.trackables)
@@ -30,9 +31,11 @@ public class CardGameManager : MonoBehaviour
                 index = cardImagesList.IndexOf(trackable.referenceImage);
                 if (index >= 0 && index < randomizedInfo.Length)
                 {
+                    currentCard = trackable.GetComponentInChildren<Card>(true);
                     trackable.GetComponent<PlayableUnit>().DisplayUnit();
-                    if (randomizedInfo[index].sprite != null) trackable.GetComponentInChildren<Card>(true)?.SetSprite(randomizedInfo[index].sprite);
-                    trackable.GetComponentInChildren<Card>(true)?.SetText(randomizedInfo[index].text);
+                    currentCard?.SetSprite(randomizedInfo[index].sprite);
+                    currentCard?.SetText(randomizedInfo[index].text);
+                    currentCard?.SetSize(randomizedInfo[index].sizeMult);
                 }
             }
         }

@@ -36,10 +36,10 @@ public class SpecialCardGameManager : MonoBehaviour
                     specialCard = trackable.GetComponentInChildren<Card>(true);
                     this.transform.parent = specialCard.transform;
                     this.transform.localPosition = Vector3.zero;
-                    if (randomizedInfo[currentCardIndex].sprite != null)
-                        specialCard?.SetSprite(randomizedInfo[currentCardIndex].sprite);
+                    specialCard?.SetSprite(randomizedInfo[currentCardIndex].sprite);
                     specialCard?.SetText(randomizedInfo[currentCardIndex].text);
-                    specialCard.SetSpecial(this);
+                    specialCard?.SetSize(randomizedInfo[currentCardIndex].sizeMult);
+                    specialCard?.SetSpecial(this);
                 }
             }
         }
@@ -55,8 +55,8 @@ public class SpecialCardGameManager : MonoBehaviour
             while (prevCardInfo == randomizedInfo[0]);
             currentCardIndex = 0;
         }
-        if (randomizedInfo[currentCardIndex].sprite != null)
-            specialCard?.SetSprite(randomizedInfo[currentCardIndex].sprite);
+        specialCard?.SetSprite(randomizedInfo[currentCardIndex].sprite);
         specialCard?.SetText(randomizedInfo[currentCardIndex].text);
+        specialCard?.SetSize(randomizedInfo[currentCardIndex].sizeMult, true);
     }
 }
