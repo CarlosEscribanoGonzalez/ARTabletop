@@ -887,8 +887,6 @@ MonoBehaviour:
     text: Buenas
   - sprite: {fileID: 0}
     text: Tardes
-  - sprite: {fileID: 0}
-    text: Putero
   imageLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
 --- !u!4 &132595734
 Transform:
@@ -9771,10 +9769,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardsInfo:
   - sprite: {fileID: 0}
-    text: "\xBFQu\xE9 preferir\xEDas?\n\nQue se muera tu madre \n\no \n\no no."
-  - sprite: {fileID: 21300000, guid: 5f670de35e9504647ae9c993d1a463e0, type: 3}
-    text: "\xBFQu\xE9 preferir\xEDas?\n\nQue Mario Pel\xE1ez te bese\n\no \n\nBesar
-      a Mario Pel\xE1ez"
+    text: Carta 1
+  - sprite: {fileID: 21300000, guid: ecf493c7fcac0784182e9fdcc70298e8, type: 3}
+    text: Carta 2
   imageLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
 --- !u!4 &1793015357
 Transform:

@@ -28,10 +28,10 @@ public class CardGameManager : MonoBehaviour
             if (cardImagesList.Contains(trackable.referenceImage))
             {
                 index = cardImagesList.IndexOf(trackable.referenceImage);
-                if (index >= 0 && index < cardsInfo.Length)
+                if (index >= 0 && index < randomizedInfo.Length)
                 {
                     trackable.GetComponent<PlayableUnit>().DisplayUnit();
-                    if (cardsInfo[index].sprite != null) trackable.GetComponentInChildren<Card>(true)?.SetSprite(randomizedInfo[index].sprite);
+                    if (randomizedInfo[index].sprite != null) trackable.GetComponentInChildren<Card>(true)?.SetSprite(randomizedInfo[index].sprite);
                     trackable.GetComponentInChildren<Card>(true)?.SetText(randomizedInfo[index].text);
                 }
             }

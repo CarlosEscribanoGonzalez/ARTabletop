@@ -30,13 +30,13 @@ public class SpecialCardGameManager : MonoBehaviour
         {
             if (image == trackable.referenceImage)
             {
-                if (currentCardIndex >= 0 && currentCardIndex < cardsInfo.Length)
+                if (currentCardIndex >= 0 && currentCardIndex < randomizedInfo.Length)
                 {
                     trackable.GetComponent<PlayableUnit>().DisplayUnit();
                     specialCard = trackable.GetComponentInChildren<Card>(true);
                     this.transform.parent = specialCard.transform;
                     this.transform.localPosition = Vector3.zero;
-                    if (cardsInfo[currentCardIndex].sprite != null)
+                    if (randomizedInfo[currentCardIndex].sprite != null)
                         specialCard?.SetSprite(randomizedInfo[currentCardIndex].sprite);
                     specialCard?.SetText(randomizedInfo[currentCardIndex].text);
                     specialCard.SetSpecial(this);
@@ -55,7 +55,7 @@ public class SpecialCardGameManager : MonoBehaviour
             while (prevCardInfo == randomizedInfo[0]);
             currentCardIndex = 0;
         }
-        if (cardsInfo[currentCardIndex].sprite != null)
+        if (randomizedInfo[currentCardIndex].sprite != null)
             specialCard?.SetSprite(randomizedInfo[currentCardIndex].sprite);
         specialCard?.SetText(randomizedInfo[currentCardIndex].text);
     }
