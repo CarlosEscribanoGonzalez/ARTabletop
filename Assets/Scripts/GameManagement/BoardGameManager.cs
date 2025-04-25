@@ -6,35 +6,34 @@ using System.Collections.Generic;
 
 public class BoardGameManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] boardModels;
-    [SerializeField] private Sprite[] boardSprites;
+    //Los tableros pueden ser de tipo modelo o sprite. Los prioritarios son los de tipo tablero
+    [SerializeField] private GameObject[] boardModels; //Modelos de los tableros
+    [SerializeField] private Sprite[] boardSprites; //Sprites de los tableros
     [SerializeField] private XRReferenceImageLibrary imageLibrary;
-    private ARTrackedImageManager trackedImageManager;
-    private List<XRReferenceImage> boardImagesList = new();
-    int index = 0;
+    private List<XRReferenceImage> boardImagesList = new(); //Marcadores asociados a los tableros
+    private int index = 0;
 
     private void Awake()
     {
-        trackedImageManager = FindFirstObjectByType<ARTrackedImageManager>();
-        boardImagesList = imageLibrary.Where(img => img.name.ToLower().Contains("board")).ToList();
+        boardImagesList = imageLibrary.Where(img => img.name.ToLower().Contains("board")).ToList(); //Se almacenan los marcadores de tableros
     }
 
     ARTrackedImage trackable;
-    public bool ProvideInfo(Board board)
+    public bool ProvideInfo(Board board) //Se proporciona la información a los tableros escaneados
     {
         trackable = board.GetComponentInParent<ARTrackedImage>();
-        index = boardImagesList.IndexOf(trackable.referenceImage);
-        if (index >= 0 && index < boardModels.Length)
+        index = boardImagesList.IndexOf(trackable.referenceImage); //Se calcula el tablero a enseñar a partir del índice de su marcador
+        if (index >= 0 && index < boardModels.Length) //Los primeros marcadores enseñarán los tableros de tipo modelo
         {
-            board.SetModel(boardModels[index]);
+            board.SetModel(boardModels[index]); //Se aplican los modelos
             return true;
         }
-        else
+        else //Los siguientes marcadores aplicarán los de tipo sprite
         {
-            index -= boardModels.Length;
+            index -= boardModels.Length; //Se ajusta el índice al array de sprites
             if (index >= 0 && index < boardSprites.Length)
             {
-                board.SetSprite(boardSprites[index]);
+                board.SetSprite(boardSprites[index]); //Se aplican los sprites
                 return true;
             }
         }

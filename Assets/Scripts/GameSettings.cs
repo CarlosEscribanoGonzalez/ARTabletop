@@ -4,21 +4,21 @@ using System.Linq;
 
 public class GameSettings : MonoBehaviour
 {
-    [SerializeField] private bool extendedTracking = false;
-    private List<SpecialCardGameManager> specialCardManagers;
-    public static GameSettings Instance;
+    [SerializeField] private bool extendedTracking = false; //Indica si el tracking extendido está activo para el juego o no
+    private List<SpecialCardGameManager> specialCardManagers; //Lista con los managers de las cartas especiales
+    public static GameSettings Instance; 
 
     private void Awake()
     {
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
-        if (extendedTracking) FindFirstObjectByType<ImageDetectionManager>().enabled = false;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep; //La pantalla se configura para no apagarse sola
+        if (extendedTracking) FindFirstObjectByType<ImageDetectionManager>().enabled = false; //Se desactiva o no el extended tracking
         specialCardManagers = FindObjectsByType<SpecialCardGameManager>(FindObjectsSortMode.None).ToList();
         Instance = this;
     }
 
-    public SpecialCardGameManager GetSpecialCardManager(string markerName)
+    public SpecialCardGameManager GetSpecialCardManager(string markerName) //Asigna el manager a las cartas especiales que lo pidan, basándose en el nombre de su marcador
     {
-        int index = int.Parse(markerName.Substring(markerName.Length - 1)) - 1;
+        int index = int.Parse(markerName.Substring(markerName.Length - 1)) - 1; //El índice del marcador es el último char de su nombre
         if (index >= 0 && index < specialCardManagers.Count) return specialCardManagers[index];
         else return null;
     }

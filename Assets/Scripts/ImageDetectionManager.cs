@@ -11,7 +11,7 @@ public class ImageDetectionManager : MonoBehaviour
         imageManager = GetComponent<ARTrackedImageManager>();
     }
 
-    public void OnTrackedImagesChanged()
+    public void OnTrackedImagesChanged() //Cuando un marcador se pierde de vista su PlayableUnit se desactiva
     {
         foreach(ARTrackable trackedImage in imageManager.trackables)
         {
