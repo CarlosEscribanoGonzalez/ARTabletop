@@ -1,62 +1,45 @@
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using System.Linq;
-using System.Collections.Generic;
 
 public class SpecialCardGameManager : MonoBehaviour
 {
     [SerializeField] private CardInfo[] cardsInfo;
     [SerializeField] private XRReferenceImageLibrary imageLibrary;
-    private ARTrackedImageManager trackedImageManager;
-    private XRReferenceImage image;
     private CardInfo[] randomizedInfo;
-    private static Queue<int> indexList = new(new[] { 1, 2, 3, 4, 5 });
-    private int managerIndex = 0;
-    private int currentCardIndex = 0;
+    private int currentInfoIndex = 0;
     private Card specialCard;
 
     private void Awake()
     {
-        managerIndex = indexList.Dequeue();
-        trackedImageManager = FindFirstObjectByType<ARTrackedImageManager>();
         randomizedInfo = cardsInfo.OrderBy(x => UnityEngine.Random.value).ToArray();
-        image = imageLibrary.ToList().Find(img => img.name.Equals("SpecialCard0" + managerIndex));
     }
 
-    public void UpdateCardsInfo()
+    public bool ProvideInfo(Card card)
     {
-        foreach (var trackable in trackedImageManager.trackables)
+        specialCard = card;
+        if (currentInfoIndex >= 0 && currentInfoIndex < randomizedInfo.Length)
         {
-            if (image == trackable.referenceImage)
-            {
-                if (currentCardIndex >= 0 && currentCardIndex < randomizedInfo.Length)
-                {
-                    trackable.GetComponent<PlayableUnit>().DisplayUnit();
-                    specialCard = trackable.GetComponentInChildren<Card>(true);
-                    this.transform.parent = specialCard.transform;
-                    this.transform.localPosition = Vector3.zero;
-                    specialCard?.SetSprite(randomizedInfo[currentCardIndex].sprite);
-                    specialCard?.SetText(randomizedInfo[currentCardIndex].text);
-                    specialCard?.SetSize(randomizedInfo[currentCardIndex].sizeMult);
-                    specialCard?.SetSpecial(this);
-                }
-            }
+            specialCard.SetSprite(randomizedInfo[currentInfoIndex].sprite);
+            specialCard.SetText(randomizedInfo[currentInfoIndex].text);
+            specialCard.SetSize(randomizedInfo[currentInfoIndex].sizeMult);
+            return true;
         }
+        return false;
     }
 
     public void UpdateCard()
     {
-        if (++currentCardIndex >= cardsInfo.Length)
+        if (++currentInfoIndex >= cardsInfo.Length)
         {
             CardInfo prevCardInfo = randomizedInfo[cardsInfo.Length - 1];
             do
                 randomizedInfo = cardsInfo.OrderBy(x => UnityEngine.Random.value).ToArray();
             while (prevCardInfo == randomizedInfo[0]);
-            currentCardIndex = 0;
+            currentInfoIndex = 0;
         }
-        specialCard?.SetSprite(randomizedInfo[currentCardIndex].sprite);
-        specialCard?.SetText(randomizedInfo[currentCardIndex].text);
-        specialCard?.SetSize(randomizedInfo[currentCardIndex].sizeMult, true);
+        specialCard.SetSprite(randomizedInfo[currentInfoIndex].sprite);
+        specialCard.SetText(randomizedInfo[currentInfoIndex].text);
+        specialCard.SetSize(randomizedInfo[currentInfoIndex].sizeMult, true);
     }
 }

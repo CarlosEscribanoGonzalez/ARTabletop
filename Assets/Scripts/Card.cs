@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.XR.ARFoundation;
 
 public class Card : MonoBehaviour
 {
@@ -8,6 +9,22 @@ public class Card : MonoBehaviour
     [SerializeField] private GameObject buttonCanvas;
     [SerializeField] private Sprite defaultSprite;
     private SpecialCardGameManager specialCardManager;
+
+    private void Start()
+    {
+        ARTrackedImage trackedImg = GetComponentInParent<ARTrackedImage>();
+        if (trackedImg.referenceImage.name.ToLower().Contains("special"))
+        {
+            specialCardManager = GameSettings.Instance.GetSpecialCardManager(trackedImg.referenceImage.name);
+            if (specialCardManager is null || !specialCardManager.ProvideInfo(this))
+            {
+                GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();
+            }
+            else buttonCanvas.SetActive(true);
+        }
+        else if (!FindFirstObjectByType<CardGameManager>().ProvideInfo(this))
+            GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();
+    }
 
     private void Update()
     {
@@ -23,12 +40,6 @@ public class Card : MonoBehaviour
     public void SetSprite(Sprite s)
     {
         spriteRend.sprite = s ?? defaultSprite;
-    }
-
-    public void SetSpecial(SpecialCardGameManager manager)
-    {
-        specialCardManager = manager;
-        buttonCanvas.SetActive(true);
     }
 
     public void ChangeContent()

@@ -9,12 +9,19 @@ public class PlayableUnit : MonoBehaviour
     [SerializeField] private GameObject noInfoIndicator;
     private ARTrackedImage trackable;
 
-    public void DisplayUnit()
+    private void Start()
     {
         trackable = GetComponent<ARTrackedImage>();
         card.SetActive(trackable.referenceImage.name.ToLower().Contains("card"));
         piece.SetActive(trackable.referenceImage.name.ToLower().Contains("piece"));
         board.SetActive(trackable.referenceImage.name.ToLower().Contains("board"));
-        noInfoIndicator.SetActive(false);
+    }
+
+    public void DisplayNoInfoIndicator()
+    {
+        card.SetActive(false);
+        piece.SetActive(false);
+        board.SetActive(false);
+        noInfoIndicator.SetActive(true);
     }
 }

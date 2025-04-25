@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -7,6 +6,12 @@ public class Board : MonoBehaviour
     [SerializeField] private float maxSize = 2f;
     private GameObject boardModel;
     private Collider boardCollider;
+
+    private void Start()
+    {
+        if (!FindFirstObjectByType<BoardGameManager>().ProvideInfo(this))
+            GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();
+    }
 
     private void OnTriggerEnter(Collider other)
     {

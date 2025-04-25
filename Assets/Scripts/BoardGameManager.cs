@@ -19,28 +19,25 @@ public class BoardGameManager : MonoBehaviour
         boardImagesList = imageLibrary.Where(img => img.name.ToLower().Contains("board")).ToList();
     }
 
-    public void UpdateBoardInfo()
+    ARTrackedImage trackable;
+    public bool ProvideInfo(Board board)
     {
-        foreach (var trackable in trackedImageManager.trackables)
+        trackable = board.GetComponentInParent<ARTrackedImage>();
+        index = boardImagesList.IndexOf(trackable.referenceImage);
+        if (index >= 0 && index < boardModels.Length)
         {
-            if (boardImagesList.Contains(trackable.referenceImage))
+            board.SetModel(boardModels[index]);
+            return true;
+        }
+        else
+        {
+            index -= boardModels.Length;
+            if (index >= 0 && index < boardSprites.Length)
             {
-                index = boardImagesList.IndexOf(trackable.referenceImage);
-                if (index >= 0 && index < boardModels.Length)
-                {
-                    trackable.GetComponent<PlayableUnit>().DisplayUnit();
-                    trackable.GetComponentInChildren<Board>(true)?.SetModel(boardModels[index]);
-                }
-                else if(index >= boardModels.Length)
-                {
-                    index -= boardModels.Length;
-                    if(index < boardSprites.Length)
-                    {
-                        trackable.GetComponent<PlayableUnit>().DisplayUnit();
-                        trackable.GetComponentInChildren<Board>(true)?.SetSprite(boardSprites[index]);
-                    }
-                }
+                board.SetSprite(boardSprites[index]);
+                return true;
             }
         }
+        return false;
     }
 }

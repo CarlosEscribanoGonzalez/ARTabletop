@@ -6,6 +6,12 @@ public class Piece : MonoBehaviour
     private GameObject pieceModel;
     private Collider pieceCollider;
 
+    private void Start()
+    {
+        if (!FindFirstObjectByType<PieceGameManager>().ProvideInfo(this))
+            GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();  
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (pieceCollider == null) return;

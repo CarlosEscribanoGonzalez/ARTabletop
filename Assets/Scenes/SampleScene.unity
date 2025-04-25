@@ -6489,54 +6489,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1793015356}
-        m_TargetAssemblyTypeName: CardGameManager, Assembly-CSharp
-        m_MethodName: UpdateCardsInfo
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 195647493}
-        m_TargetAssemblyTypeName: PieceGameManager, Assembly-CSharp
-        m_MethodName: UpdatePieceInfo
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1699176585}
-        m_TargetAssemblyTypeName: BoardGameManager, Assembly-CSharp
-        m_MethodName: UpdateBoardInfo
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 132595733}
-        m_TargetAssemblyTypeName: SpecialCardGameManager, Assembly-CSharp
-        m_MethodName: UpdateCardsInfo
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   m_SerializedLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
   m_MaxNumberOfMovingImages: 20
   m_TrackedImagePrefab: {fileID: 7224310515829547234, guid: 828960c6b6860404086e444c27259d0d, type: 3}
