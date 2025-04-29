@@ -4,7 +4,7 @@ using UnityEngine.XR.ARSubsystems;
 using System.Linq;
 using System.Collections.Generic;
 
-public class BoardGameManager : MonoBehaviour
+public class BoardGameManager : MonoBehaviour, IGameManager
 {
     //Los tableros pueden ser de tipo modelo o sprite. Los prioritarios son los de tipo tablero
     [SerializeField] private GameObject[] boardModels; //Modelos de los tableros
@@ -19,13 +19,13 @@ public class BoardGameManager : MonoBehaviour
     }
 
     ARTrackedImage trackable;
-    public bool ProvideInfo(Board board) //Se proporciona la información a los tableros escaneados
+    public bool ProvideInfo(AGameUnit unit) //Se proporciona la información a los tableros escaneados
     {
-        trackable = board.GetComponentInParent<ARTrackedImage>();
+        trackable = unit.GetComponentInParent<ARTrackedImage>();
         index = boardImagesList.IndexOf(trackable.referenceImage); //Se calcula el tablero a enseñar a partir del índice de su marcador
         if (index >= 0 && index < boardModels.Length) //Los primeros marcadores enseñarán los tableros de tipo modelo
         {
-            board.SetModel(boardModels[index]); //Se aplican los modelos
+            unit.SetModel(boardModels[index]); //Se aplican los modelos
             return true;
         }
         else //Los siguientes marcadores aplicarán los de tipo sprite
@@ -33,7 +33,7 @@ public class BoardGameManager : MonoBehaviour
             index -= boardModels.Length; //Se ajusta el índice al array de sprites
             if (index >= 0 && index < boardSprites.Length)
             {
-                board.SetSprite(boardSprites[index]); //Se aplican los sprites
+                unit.SetSprite(boardSprites[index]); //Se aplican los sprites
                 return true;
             }
         }

@@ -2,10 +2,9 @@ using UnityEngine;
 using UnityEngine.XR.ARSubsystems;
 using System.Linq;
 
-public class SpecialCardGameManager : MonoBehaviour
+public class SpecialCardGameManager : MonoBehaviour, IGameManager
 {
     [SerializeField] private CardInfo[] cardsInfo; //Array de información de las cartas a mostrar
-    [SerializeField] private XRReferenceImageLibrary imageLibrary;
     private CardInfo[] randomizedInfo; //Array aleatorio de información; cardsInfo pero aleatorio
     private int currentInfoIndex = 0; //Índice de la información mostrada por la carta actualmente
     private Card specialCard; //Carta especial asociada a este manager
@@ -15,9 +14,9 @@ public class SpecialCardGameManager : MonoBehaviour
         randomizedInfo = cardsInfo.OrderBy(x => UnityEngine.Random.value).ToArray(); //Se aleatoriza la información
     }
 
-    public bool ProvideInfo(Card card) //Se proporciona información sobre la carta a las cartas escaneadas
+    public bool ProvideInfo(AGameUnit unit) //Se proporciona información sobre la carta a las cartas escaneadas
     {
-        specialCard = card;
+        specialCard = unit as Card;
         if (currentInfoIndex >= 0 && currentInfoIndex < randomizedInfo.Length)
         {
             ApplyInfo(false); //Se aplica la información a la carta
