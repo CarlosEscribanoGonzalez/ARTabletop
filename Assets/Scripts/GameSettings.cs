@@ -6,12 +6,12 @@ public class GameSettings : MonoBehaviour
 {
     [SerializeField] private bool extendedTracking = false; //Indica si el tracking extendido está activo para el juego o no
     private List<SpecialCardGameManager> specialCardManagers; //Lista con los managers de las cartas especiales
-    public static GameSettings Instance; 
+    public static GameSettings Instance { get; private set; }
+    public bool ExtendedTracking { get { return extendedTracking; } }
 
     private void Awake()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep; //La pantalla se configura para no apagarse sola
-        if (extendedTracking) FindFirstObjectByType<ImageDetectionManager>().enabled = false; //Se desactiva o no el extended tracking
         specialCardManagers = FindObjectsByType<SpecialCardGameManager>(FindObjectsSortMode.None).ToList();
         Instance = this;
     }

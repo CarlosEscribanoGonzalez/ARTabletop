@@ -890,7 +890,6 @@ MonoBehaviour:
   - sprite: {fileID: 0}
     text: Tardes
     sizeMult: 2
-  imageLibrary: {fileID: 11400000, guid: d671a7e96da589d459b556b20574d32f, type: 2}
 --- !u!4 &132595734
 Transform:
   m_ObjectHideFlags: 0
@@ -6422,6 +6421,7 @@ GameObject:
   - component: {fileID: 1264515768}
   - component: {fileID: 1264515770}
   - component: {fileID: 1264515771}
+  - component: {fileID: 1264515772}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -6504,6 +6504,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abf735239d9eb9c44b427292523354f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1264515772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264515767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728ad7fae8e460a4ba41265c7308d757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <trackablesChanged>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  m_AnchorPrefab: {fileID: 0}
 --- !u!1 &1265269639
 GameObject:
   m_ObjectHideFlags: 0
@@ -8032,7 +8048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea8b2ec79bf9f645aa9120b702c986e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  extendedTracking: 0
+  extendedTracking: 1
 --- !u!4 &1456468204
 Transform:
   m_ObjectHideFlags: 0
