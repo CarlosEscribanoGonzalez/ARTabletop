@@ -12,9 +12,10 @@ public class CardGameManager : MonoBehaviour, IGameManager
     private CardInfo[] randomizedInfo; //Array de información de las cartas. Es cardsInfo pero aleatorio
     private int index = 0;
 
-    private void Awake()
+    private void Start()
     {
-        randomizedInfo = cardsInfo.OrderBy(x => UnityEngine.Random.value).ToArray(); //Se aleatoriza la info
+        //Se aleatoriza la información una vez la semilla ha sido establecida
+        GameSettings.Instance.OnSeedSet += () => randomizedInfo = cardsInfo.OrderBy(x => Random.Range(0f, 1f)).ToArray();
         cardImagesList = imageLibrary.Where(img => img.name.ToLower().Contains("card")
                                                     && !img.name.ToLower().Contains("special")).ToList(); //Se almacenan los marcadores de cartas normales
     }

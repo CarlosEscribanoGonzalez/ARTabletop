@@ -1,23 +1,25 @@
 using UnityEngine;
-using UnityEngine.XR.ARSubsystems;
+using Unity.Netcode;
 using System.Linq;
 
-public class SpecialCardGameManager : MonoBehaviour, IGameManager
+public class SpecialCardGameManager : NetworkBehaviour, IGameManager
 {
     [SerializeField] private CardInfo[] cardsInfo; //Array de información de las cartas a mostrar
     private CardInfo[] randomizedInfo; //Array aleatorio de información; cardsInfo pero aleatorio
-    private int currentInfoIndex = 0; //Índice de la información mostrada por la carta actualmente
     private Card specialCard; //Carta especial asociada a este manager
+    private NetworkVariable<int> currentInfoIndex = new(0); //Índice de la información mostrada por la carta actualmente
 
-    private void Awake()
+    private void Start()
     {
-        randomizedInfo = cardsInfo.OrderBy(x => UnityEngine.Random.value).ToArray(); //Se aleatoriza la información
+        //Se aleatoriza la información una vez la semilla ha sido establecida
+        GameSettings.Instance.OnSeedSet += () => randomizedInfo = cardsInfo.OrderBy(x => Random.Range(0f, 1f)).ToArray();
+        currentInfoIndex.OnValueChanged += (int prevIndex, int currentIndex) => ApplyInfo(true); //La info se actualiza cuando el índice cambia
     }
 
     public bool ProvideInfo(AGameUnit unit) //Se proporciona información sobre la carta a las cartas escaneadas
     {
         specialCard = unit as Card;
-        if (currentInfoIndex >= 0 && currentInfoIndex < randomizedInfo.Length)
+        if (currentInfoIndex.Value >= 0 && currentInfoIndex.Value < randomizedInfo.Length)
         {
             ApplyInfo(false); //Se aplica la información a la carta
             return true;
@@ -27,22 +29,35 @@ public class SpecialCardGameManager : MonoBehaviour, IGameManager
 
     public void UpdateCard() //Se actualiza el contenido de la carta al ser pulsado el botón de cambio de contenido
     {
+        UpdateIndexServerRpc();
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdateIndexServerRpc()
+    {
         //Si ya se han mostrado todas las cartas posibles estas son barajadas y se reinicia el índice
-        if (++currentInfoIndex >= cardsInfo.Length) 
+        if (currentInfoIndex.Value + 1 >= cardsInfo.Length)
         {
-            CardInfo prevCardInfo = randomizedInfo[cardsInfo.Length - 1];
-            do
-                randomizedInfo = cardsInfo.OrderBy(x => UnityEngine.Random.value).ToArray();
-            while (prevCardInfo == randomizedInfo[0]); //Se garantiza que la nueva carta no sea la misma que la última mostrada
-            currentInfoIndex = 0;
+            ShuffleClientRpc();
+            currentInfoIndex.Value = 0;
         }
-        ApplyInfo(true); //Se aplica la información a la carta
+        else currentInfoIndex.Value++;
     }
 
     private void ApplyInfo(bool recalculateScale)
     {
-        specialCard.SetSprite(randomizedInfo[currentInfoIndex].sprite); //Se aplica el sprite
-        specialCard.SetText(randomizedInfo[currentInfoIndex].text); //Se aplica el texto
-        specialCard.SetSize(randomizedInfo[currentInfoIndex].sizeMult, recalculateScale); //Se ajusta el tamaño
+        if (specialCard == null) return;
+        specialCard.SetSprite(randomizedInfo[currentInfoIndex.Value].sprite); //Se aplica el sprite
+        specialCard.SetText(randomizedInfo[currentInfoIndex.Value].text); //Se aplica el texto
+        specialCard.SetSize(randomizedInfo[currentInfoIndex.Value].sizeMult, recalculateScale); //Se ajusta el tamaño
+    }
+
+    [ClientRpc]
+    private void ShuffleClientRpc() //Se baraja igual en todos los clientes al compartir semilla
+    {
+        CardInfo prevCardInfo = randomizedInfo[cardsInfo.Length - 1];
+        do
+            randomizedInfo = cardsInfo.OrderBy(x => Random.Range(0f, 1f)).ToArray();
+        while (prevCardInfo == randomizedInfo[0]); //Se garantiza que la nueva carta no sea la misma que la última mostrada
     }
 }
