@@ -1,31 +1,30 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using System.Collections.Generic;
 
 public class Dice : MonoBehaviour
 {
     [SerializeField] private Vector2 verticalThrustMinMax; //Mínimo y máximo de fuerza para el lanzamiento vertical del dado
     [SerializeField] private Vector2 angularThrustMinMax; //Mínimo y máximo de torque para su giro
     [SerializeField] private float textFadeSpeed; //Velocidad a la que se muestra el resultado en el dado
-    public List<int> Results { get; private set; } = new(); //Lista de resultados para todas las tiradas
     private Rigidbody rb;
     private TextMeshPro [] numbers; //Textos del dado, uno por cara
+    private DiceManager manager;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         numbers = GetComponentsInChildren<TextMeshPro>();
+        manager = FindFirstObjectByType<DiceManager>();
     }
 
-    public void ThrowDice(int numFaces, int numThrows) //Se lanza el dado y se calculan los resultados
+    public void OnEnable() //Se lanza el dado y se calculan los resultados
     {
         ResetDice();
         //Impulso vertical, dirección de giro y magnitud del torque son aleatorios para cada lanzamiento:
         rb.AddForce(Vector3.up * Random.Range(verticalThrustMinMax[0], verticalThrustMinMax[1]), ForceMode.Impulse);
         Vector3 randomTorque = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
         rb.AddTorque(randomTorque * Random.Range(angularThrustMinMax[0], angularThrustMinMax[1]), ForceMode.Impulse);
-        GenerateResults(numFaces, numThrows);
         StartCoroutine(CheckDiceStopped());
     }
 
@@ -41,21 +40,12 @@ public class Dice : MonoBehaviour
         StopAllCoroutines(); //Se paran todas las corrutinas para evitar bugs
     }
 
-    private void GenerateResults(int numFaces, int numThrows) //Se genera un resultado por lanzamiento
-    {
-        Results.Clear();
-        for(int i = 0; i < numThrows; i++)
-        {
-            Results.Add(Random.Range(0, numFaces) + 1);
-        }
-    }
-
     IEnumerator CheckDiceStopped() //Se comprueba cuándo ha parado el dado de girar para enseñar los resultados
     {
         do 
             yield return new WaitForSeconds(0.1f); 
-        while (rb.linearVelocity.magnitude >= 0.05f);
-        StartCoroutine(ShowResult(Results[0]));
+        while (rb.linearVelocity.magnitude >= 0.025f);
+        StartCoroutine(ShowResult(manager.GetDiceResult(this)));
     }
 
     IEnumerator ShowResult(int result)
@@ -84,6 +74,6 @@ public class Dice : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(0.2f); //Tras un pequeño cooldown se activa la pantalla de resultados
-        FindFirstObjectByType<DiceResults>(FindObjectsInactive.Include).gameObject.SetActive(true);
+        manager.NotifyDiceStopped();
     }
 }
