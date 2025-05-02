@@ -11,9 +11,10 @@ public class DiceManager : MonoBehaviour
     private int numFaces; //Número de caras del dado lanzado
     private int numThrows; //Número de dados lanzados simultáneamente
 
-    private void Awake()
+    private void Start()
     {
         if (!gameHasDice) Destroy(this.gameObject); //Si el juego en cuestión no tiene dado este objeto es eliminado
+        GameSettings.Instance.OnSeedSet += () => GetComponentInChildren<Canvas>(true).gameObject.SetActive(true); //Cuando se entra en partida se activa la UI
     }
 
     public void ToggleDiceThrow(bool enable) //Activa y desactiva la cámara que apunta al dado y se encarga de su lanzamiento

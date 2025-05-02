@@ -67,7 +67,6 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
 
     private void ApplyInfo(bool recalculateScale)
     {
-        Debug.LogError(randomizedInfo[currentInfoIndex.Value].text);
         if (specialCard == null) return;
         specialCard.SetSprite(randomizedInfo[currentInfoIndex.Value].sprite); //Se aplica el sprite
         specialCard.SetText(randomizedInfo[currentInfoIndex.Value].text); //Se aplica el texto

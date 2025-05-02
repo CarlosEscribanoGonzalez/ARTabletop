@@ -2,10 +2,10 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
+using UnityEngine.XR.ARFoundation;
 
 public class GameSettings : NetworkBehaviour
 {
-    [SerializeField] private GameObject diceUI; //Managers del juego que se activan cuadno se entra en la partida
     [SerializeField] private bool extendedTracking = false; //Indica si el tracking extendido está activo para el juego o no
     [SerializeField] private bool autoShuffle = true; //Indica si las cartas especiales se barajan solas cuando se llega al final
     private List<SpecialCardGameManager> specialCardManagers; //Lista con los managers de las cartas especiales
@@ -26,9 +26,9 @@ public class GameSettings : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         if (IsServer) RandomSeed.Value = Random.Range(0, 100000);
-        diceUI.SetActive(true);
         Random.InitState(RandomSeed.Value);
         OnSeedSet?.Invoke();
+        FindFirstObjectByType<ARTrackedImageManager>().enabled = true;
     }
 
     public SpecialCardGameManager GetSpecialCardManager(string markerName) //Asigna el manager a las cartas especiales que lo pidan, basándose en el nombre de su marcador
