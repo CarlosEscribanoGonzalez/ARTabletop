@@ -27,25 +27,47 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         return false;
     }
 
-    public void UpdateCard() //Se actualiza el contenido de la carta al ser pulsado el botón de cambio de contenido
+    public void UpdateCard(int dir) //Se actualiza el contenido de la carta al ser pulsado el botón de cambio de contenido
     {
-        UpdateIndexServerRpc();
+        UpdateIndexServerRpc(dir);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void UpdateIndexServerRpc()
+    public void RequestShuffleServerRpc()
+    {
+        CardInfo prevCardInfo = randomizedInfo[currentInfoIndex.Value];
+        int randSeed;
+        System.Random rand;
+        do
+        {
+            randSeed = Random.Range(0, 100000);
+            rand = new System.Random(randSeed);
+            randomizedInfo = cardsInfo.OrderBy(x => rand.Next()).ToArray();
+        } while (prevCardInfo == randomizedInfo[0]); //Se garantiza que la nueva carta no sea la misma que la última mostrada
+        ShuffleClientRpc(randSeed); 
+        currentInfoIndex.Value = 0;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdateIndexServerRpc(int dir)
     {
         //Si ya se han mostrado todas las cartas posibles estas son barajadas y se reinicia el índice
-        if (currentInfoIndex.Value + 1 >= cardsInfo.Length)
+        if (currentInfoIndex.Value + dir >= cardsInfo.Length)
         {
-            ShuffleClientRpc();
-            currentInfoIndex.Value = 0;
+            if (GameSettings.Instance.AutoShuffle) RequestShuffleServerRpc();
+            else currentInfoIndex.Value = 0;
         }
-        else currentInfoIndex.Value++;
+        else if (currentInfoIndex.Value + dir < 0)
+        {
+            if (!GameSettings.Instance.AutoShuffle) currentInfoIndex.Value = cardsInfo.Length - 1;
+            return;
+        }
+        else currentInfoIndex.Value += dir;
     }
 
     private void ApplyInfo(bool recalculateScale)
     {
+        Debug.LogError(randomizedInfo[currentInfoIndex.Value].text);
         if (specialCard == null) return;
         specialCard.SetSprite(randomizedInfo[currentInfoIndex.Value].sprite); //Se aplica el sprite
         specialCard.SetText(randomizedInfo[currentInfoIndex.Value].text); //Se aplica el texto
@@ -53,11 +75,10 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     }
 
     [ClientRpc]
-    private void ShuffleClientRpc() //Se baraja igual en todos los clientes al compartir semilla
+    private void ShuffleClientRpc(int randSeed) //Se baraja igual en todos los clientes al compartir semilla
     {
-        CardInfo prevCardInfo = randomizedInfo[cardsInfo.Length - 1];
-        do
-            randomizedInfo = cardsInfo.OrderBy(x => Random.Range(0f, 1f)).ToArray();
-        while (prevCardInfo == randomizedInfo[0]); //Se garantiza que la nueva carta no sea la misma que la última mostrada
+        System.Random rand = new System.Random(randSeed);
+        randomizedInfo = cardsInfo.OrderBy(x => rand.Next()).ToArray();
+        ApplyInfo(true);
     }
 }

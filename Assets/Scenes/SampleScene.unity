@@ -9216,6 +9216,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   diceUI: {fileID: 814273802}
   extendedTracking: 0
+  autoShuffle: 1
 --- !u!4 &1456468204
 Transform:
   m_ObjectHideFlags: 0
