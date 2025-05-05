@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1857662141932839145}
   - component: {fileID: 5642405948189416768}
   - component: {fileID: 607174035302316573}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,6 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4543300250284846279}
   - component: {fileID: 8692727708542954538}
+  - component: {fileID: 9114393093007131621}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -223,6 +224,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
+--- !u!210 &9114393093007131621
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3721629729928162185}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortAtRoot: 1
 --- !u!1 &4440906283829294556
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,7 +524,7 @@ GameObject:
   - component: {fileID: 2598139659315214785}
   - component: {fileID: 8404557918198120104}
   - component: {fileID: 8047597867888229338}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ButtonPrev
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +628,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 8404557918198120104}
   m_OnClick:
     m_PersistentCalls:
@@ -643,7 +656,7 @@ GameObject:
   - component: {fileID: 910973394844549814}
   - component: {fileID: 1016327756281802665}
   - component: {fileID: 534679740154326285}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -780,7 +793,7 @@ GameObject:
   - component: {fileID: 4383001850152634279}
   - component: {fileID: 5512123581181707303}
   - component: {fileID: 7959933373651761196}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ButtonShuffle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -914,7 +927,7 @@ GameObject:
   - component: {fileID: 3286637594977137058}
   - component: {fileID: 4054721497896083250}
   - component: {fileID: 8676706253941781291}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ChangeButtonCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1081,7 +1094,7 @@ GameObject:
   - component: {fileID: 7723239661285456796}
   - component: {fileID: 3969955445580115989}
   - component: {fileID: 3743822766049270593}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1218,7 +1231,7 @@ GameObject:
   - component: {fileID: 3306357746044399575}
   - component: {fileID: 7605247013459346937}
   - component: {fileID: 8346755823949009736}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ButtonNext
   m_TagString: Untagged
   m_Icon: {fileID: 0}

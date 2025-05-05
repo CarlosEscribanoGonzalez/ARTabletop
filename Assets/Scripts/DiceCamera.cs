@@ -11,7 +11,7 @@ public class DiceCamera : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    private void OnEnable()
+    private void Update()
     {
         float distance;
         if(Screen.orientation == ScreenOrientation.Portrait || Screen.orientation == ScreenOrientation.PortraitUpsideDown)

@@ -8,6 +8,7 @@ public class Card : AGameUnit
     [SerializeField] private GameObject buttonCanvas; //Canvas que contiene el botón de cambio de contenido, para las cartas especiales
     [SerializeField] private Sprite defaultSprite; //Sprite por defecto en caso de que no haya ninguno asociado a la información a mostrar
     private SpecialCardGameManager specialCardManager; //Manager encargado de gestionar la carta en caso de que sea especial
+    public GameObject PrevButton { get; private set; } = null; //Botón de volver atrás para las cartas especiales
 
     private void Start()
     {
@@ -22,6 +23,7 @@ public class Card : AGameUnit
                 buttonCanvas.SetActive(true); //Si se ha conseguido se activa el botón
                 RequestInfo(specialCardManager);    
             }
+            foreach (Transform t in buttonCanvas.transform) if (t.name.ToLower().Contains("prev")) PrevButton = t.gameObject;
         }
         else RequestInfo(FindFirstObjectByType<CardGameManager>());
     }
