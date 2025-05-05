@@ -16,12 +16,10 @@ public class RelayManager : MonoBehaviour
     [SerializeField] private Button clientButton;
     [SerializeField] private TextMeshProUGUI joinInputText;
     [SerializeField] private TextMeshProUGUI codeText;
-    [SerializeField] private GameObject errorText;
+    [SerializeField] private TextMeshProUGUI errorText;
 
-    async void Start()
+    private void Start()
     {
-        await UnityServices.InitializeAsync();
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
         hostButton.onClick.AddListener(CreateRelay);
         clientButton.onClick.AddListener(() => JoinRelay(joinInputText.text));
     }
@@ -31,7 +29,11 @@ public class RelayManager : MonoBehaviour
         try
         {
             ToggleButtonInteraction(false);
-            errorText.SetActive(false);
+            errorText.gameObject.SetActive(false);
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+                throw new System.Exception("No Internet connection.");
+            await UnityServices.InitializeAsync();
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(8);
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
             codeText.text = "Room code: " + joinCode;
@@ -40,9 +42,11 @@ public class RelayManager : MonoBehaviour
             NetworkManager.Singleton.StartHost();
             errorText.transform.parent.gameObject.SetActive(false);
         }
-        catch (RelayServiceException e)
+        catch (System.Exception e)
         {
-            Debug.LogError("No se pudo crear la partida: " + e);
+            Debug.LogError("Session couldn't be created: " + e);
+            StopAllCoroutines();
+            StartCoroutine(DisplayErrorText("We couldn't create the game session. Please, check your Internet connection and try again."));
         }
         finally { ToggleButtonInteraction(true); }
     }
@@ -52,7 +56,11 @@ public class RelayManager : MonoBehaviour
         try
         {
             ToggleButtonInteraction(false);
-            errorText.SetActive(false);
+            errorText.gameObject.SetActive(false);
+            if (Application.internetReachability == NetworkReachability.NotReachable)
+                throw new System.Exception("No Internet connection.");
+            await UnityServices.InitializeAsync();
+            await AuthenticationService.Instance.SignInAnonymouslyAsync();
             if (joinCode.Length > 6) joinCode = joinCode.Substring(0, 6);
             var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
             RelayServerData relayServerData = AllocationUtils.ToRelayServerData(joinAllocation, "wss");
@@ -61,11 +69,11 @@ public class RelayManager : MonoBehaviour
             errorText.transform.parent.gameObject.SetActive(false);
             codeText.text = "Room code: " + joinCode;
         }
-        catch(RelayServiceException e)
+        catch(System.Exception e)
         {
-            Debug.LogError("Código no válido: " + e);
+            Debug.LogError("Invalid code: " + e);
             StopAllCoroutines();
-            StartCoroutine(DisplayErrorText());
+            StartCoroutine(DisplayErrorText("We couldn't find a game session with the provided code. Please, check the code and your Internet connection."));
         }
         finally { ToggleButtonInteraction(true); }
     }
@@ -77,10 +85,11 @@ public class RelayManager : MonoBehaviour
         joinInputText.GetComponentInParent<TMP_InputField>(true).interactable = enable;
     }
 
-    IEnumerator DisplayErrorText()
+    IEnumerator DisplayErrorText(string text)
     {
-        errorText.SetActive(true);
+        errorText.text = text;
+        errorText.gameObject.SetActive(true);
         yield return new WaitForSeconds(5);
-        errorText.SetActive(false);
+        errorText.gameObject.SetActive(false);
     }
 }

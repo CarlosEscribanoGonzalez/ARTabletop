@@ -297,7 +297,7 @@ MonoBehaviour:
   clientButton: {fileID: 471715115}
   joinInputText: {fileID: 1605383193}
   codeText: {fileID: 660057257}
-  errorText: {fileID: 1803900967}
+  errorText: {fileID: 1803900969}
 --- !u!4 &20850816
 Transform:
   m_ObjectHideFlags: 0
@@ -2005,10 +2005,10 @@ RectTransform:
   - {fileID: 1803900968}
   m_Father: {fileID: 121909252}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -407}
-  m_SizeDelta: {x: 206, y: 496}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -170}
+  m_SizeDelta: {x: -316, y: 22}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &368461880
 MonoBehaviour:
@@ -2712,9 +2712,9 @@ RectTransform:
   - {fileID: 1524691946}
   m_Father: {fileID: 368461879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 103, y: -90.79}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 157.20999}
   m_SizeDelta: {x: 206, y: 46.36667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &477480255
@@ -4766,9 +4766,9 @@ RectTransform:
   - {fileID: 1965213368}
   m_Father: {fileID: 368461879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 103, y: -159.60666}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 88.39334}
   m_SizeDelta: {x: 206, y: 48.786667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &847521430
@@ -8554,9 +8554,9 @@ RectTransform:
   - {fileID: 579110075}
   m_Father: {fileID: 368461879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 103, y: -23.183334}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 224.81667}
   m_SizeDelta: {x: 206, y: 46.36667}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1342335327
@@ -12358,10 +12358,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 368461879}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -86.2, y: -221}
-  m_SizeDelta: {x: -341.5, y: 14.735417}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -189.2, y: 27}
+  m_SizeDelta: {x: -446, y: 48.735413}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1803900969
 MonoBehaviour:
@@ -12383,7 +12383,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Error: no game could be found with that code'
+  m_text: 'Error Text
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
