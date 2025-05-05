@@ -13,6 +13,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     private Card specialCard; //Carta especial asociada a este manager
     private NetworkVariable<int> currentInfoIndex = new(0); //Índice de la información mostrada por la carta actualmente
     private NetworkVariable<int> totalDrags = new(0); //Índice de cartas sacadas sin barajar
+    private NetworkVariable<int> randomizerSeed = new(0); //Índice de cartas sacadas sin barajar
 
     private void Start()
     {
@@ -23,6 +24,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         {
             if (specialCard != null) specialCard.PrevButton.GetComponent<Button>().interactable = currentIndex != 0; //El botón se actualiza
         };
+        randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ShuffleCards();
         GetComponentInChildren<TextMeshProUGUI>().text = $"{cardTypeName} cards have been shuffled.";
     }
 
@@ -54,7 +56,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
             rand = new System.Random(randSeed);
             randomizedInfo = cardsInfo.OrderBy(x => rand.Next()).ToArray();
         } while (prevCardInfo == randomizedInfo[0]); //Se garantiza que la nueva carta no sea la misma que la última mostrada
-        ShuffleClientRpc(randSeed); 
+        randomizerSeed.Value = randSeed; 
         currentInfoIndex.Value = 0;
         totalDrags.Value = 0;
     }
@@ -80,16 +82,16 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
 
     private void ApplyInfo(bool recalculateScale)
     {
+        Debug.LogError(randomizedInfo[currentInfoIndex.Value].text);
         if (specialCard == null) return;
         specialCard.SetSprite(randomizedInfo[currentInfoIndex.Value].sprite); //Se aplica el sprite
         specialCard.SetText(randomizedInfo[currentInfoIndex.Value].text); //Se aplica el texto
         specialCard.SetSize(randomizedInfo[currentInfoIndex.Value].sizeMult, recalculateScale); //Se ajusta el tamaño
     }
 
-    [ClientRpc]
-    private void ShuffleClientRpc(int randSeed) //Se baraja igual en todos los clientes al compartir semilla
+    private void ShuffleCards() //Se baraja igual en todos los clientes al compartir semilla
     {
-        System.Random rand = new System.Random(randSeed);
+        System.Random rand = new System.Random(randomizerSeed.Value);
         randomizedInfo = cardsInfo.OrderBy(x => rand.Next()).ToArray();
         ApplyInfo(true);
         StartCoroutine(DisplayShuffleFeedback());
