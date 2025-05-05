@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.XR.ARFoundation;
+using UnityEngine.Rendering;
 
 public class Card : AGameUnit
 {
@@ -8,6 +9,7 @@ public class Card : AGameUnit
     [SerializeField] private GameObject buttonCanvas; //Canvas que contiene el botón de cambio de contenido, para las cartas especiales
     [SerializeField] private Sprite defaultSprite; //Sprite por defecto en caso de que no haya ninguno asociado a la información a mostrar
     private SpecialCardGameManager specialCardManager; //Manager encargado de gestionar la carta en caso de que sea especial
+    private SortingGroup[] sortingGroups;
     public GameObject PrevButton { get; private set; } = null; //Botón de volver atrás para las cartas especiales
 
     private void Start()
@@ -26,10 +28,15 @@ public class Card : AGameUnit
             foreach (Transform t in buttonCanvas.transform) if (t.name.ToLower().Contains("prev")) PrevButton = t.gameObject;
         }
         else RequestInfo(FindFirstObjectByType<CardGameManager>());
+        sortingGroups = GetComponentsInChildren<SortingGroup>(true);
     }
 
     private void Update() //Se actualiza el botón para que siempre mire a cámara
     {
+        for (int i = 0; i < sortingGroups.Length; i++)
+        {
+            sortingGroups[i].sortingOrder = 1000 - (int)(Vector3.Distance(this.transform.position, Camera.main.transform.position) * 1000) + i;
+        }
         if (!buttonCanvas.activeSelf) return;
         buttonCanvas.transform.forward = buttonCanvas.transform.position - Camera.main.transform.position;
     }
