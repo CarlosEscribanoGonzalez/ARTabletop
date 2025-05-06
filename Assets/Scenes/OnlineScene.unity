@@ -5957,7 +5957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  cardTypeName: SCards1
+  cardTypeName: SCards2
   cardsInfo:
   - sprite: {fileID: 0}
     text: "\xBFQu\xE9 prefieres?\n\nQue tu gato se transforme en truilmero trulicina\n\no
