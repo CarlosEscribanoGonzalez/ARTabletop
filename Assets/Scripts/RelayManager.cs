@@ -17,11 +17,21 @@ public class RelayManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI joinInputText;
     [SerializeField] private TextMeshProUGUI codeText;
     [SerializeField] private TextMeshProUGUI errorText;
+    private GameObject lobby;
 
     private void Start()
     {
-        hostButton.onClick.AddListener(CreateRelay);
-        clientButton.onClick.AddListener(() => JoinRelay(joinInputText.text));
+        lobby = errorText.transform.parent.gameObject;
+        if (GameSettings.Instance.RequiresOnline)
+        {
+            hostButton.onClick.AddListener(CreateRelay);
+            clientButton.onClick.AddListener(() => JoinRelay(joinInputText.text));
+        }
+        else
+        {
+            hostButton.onClick.AddListener(CreateOfflineCode);
+            clientButton.onClick.AddListener(() => JoinOfflineCode(joinInputText.text));
+        }
     }
 
     async void CreateRelay()
@@ -40,7 +50,7 @@ public class RelayManager : MonoBehaviour
             RelayServerData relayServerData = AllocationUtils.ToRelayServerData(allocation, "wss");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartHost();
-            errorText.transform.parent.gameObject.SetActive(false);
+            lobby.SetActive(false);
         }
         catch (System.Exception e)
         {
@@ -67,7 +77,7 @@ public class RelayManager : MonoBehaviour
             RelayServerData relayServerData = AllocationUtils.ToRelayServerData(joinAllocation, "wss");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartClient();
-            errorText.transform.parent.gameObject.SetActive(false);
+            lobby.SetActive(false);
             codeText.text = "Room code: " + joinCode.ToUpper();
         }
         catch(System.Exception e)
@@ -78,6 +88,31 @@ public class RelayManager : MonoBehaviour
             StartCoroutine(DisplayErrorText("We couldn't find a game session with the provided code. Please, check the code and your Internet connection."));
         }
         finally { ToggleButtonInteraction(true); }
+    }
+
+    private void CreateOfflineCode()
+    {
+        int randSeed = Random.Range(0, 100000);
+        codeText.text = "Room code: " + randSeed;
+        GameSettings.Instance.SetSeed(randSeed);
+        lobby.SetActive(false);
+    }
+
+    private void JoinOfflineCode(string code)
+    {
+        try
+        {
+            int randSeed = int.Parse(code.Substring(0, code.Length - 1)); //El Input Field le añade siempre un char extra
+            codeText.text = "Room code: " + randSeed;
+            GameSettings.Instance.SetSeed(randSeed);
+            lobby.SetActive(false);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Invalid code: " + e);
+            StopAllCoroutines();
+            StartCoroutine(DisplayErrorText("Invalid code. Please, try using numbers only."));
+        }
     }
 
     private void ToggleButtonInteraction(bool enable)

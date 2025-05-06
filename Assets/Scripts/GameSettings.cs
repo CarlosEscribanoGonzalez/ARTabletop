@@ -14,6 +14,7 @@ public class GameSettings : NetworkBehaviour
     public bool AutoShuffle { get { return autoShuffle; } } 
     public NetworkVariable<int> RandomSeed { get; private set; } = new(); //Semilla para aleatorizar las cartas de todos los jugadores
     public event System.Action OnSeedSet;
+    public bool RequiresOnline { get { return SpecialCardsDictionary.Count > 0; } private set { } }
 
     private void Awake()
     {
@@ -29,7 +30,12 @@ public class GameSettings : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         if (IsServer) RandomSeed.Value = Random.Range(0, 100000);
-        Random.InitState(RandomSeed.Value);
+        SetSeed(RandomSeed.Value);
+    }
+
+    public void SetSeed(int seed)
+    {
+        Random.InitState(seed);
         OnSeedSet?.Invoke();
         FindFirstObjectByType<ARTrackedImageManager>().enabled = true;
     }
