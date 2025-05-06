@@ -18,7 +18,7 @@ public class Card : AGameUnit
         desiredTextureSize = new Vector2(640, 896);
         if (trackedImg.referenceImage.name.ToLower().Contains("special")) //Si es especial se obtiene su manager
         {
-            specialCardManager = GameSettings.Instance.GetSpecialCardManager(trackedImg.referenceImage.name);
+            specialCardManager = GameSettings.Instance.GetSpecialCardManager(trackedImg.referenceImage.name, this);
             if (specialCardManager is null) GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();
             else
             {

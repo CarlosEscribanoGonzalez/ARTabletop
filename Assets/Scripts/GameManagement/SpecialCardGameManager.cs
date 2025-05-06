@@ -82,7 +82,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
 
     private void ApplyInfo(bool recalculateScale)
     {
-        Debug.LogError(randomizedInfo[currentInfoIndex.Value].text);
+        specialCard ??= GameSettings.Instance.SpecialCardsDictionary[this]; //Tras llamadas RPC special card se puede desasignar al no ser una variable en red
         if (specialCard == null) return;
         specialCard.SetSprite(randomizedInfo[currentInfoIndex.Value].sprite); //Se aplica el sprite
         specialCard.SetText(randomizedInfo[currentInfoIndex.Value].text); //Se aplica el texto

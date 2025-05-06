@@ -8,7 +8,7 @@ public class GameSettings : NetworkBehaviour
 {
     [SerializeField] private bool extendedTracking = false; //Indica si el tracking extendido está activo para el juego o no
     [SerializeField] private bool autoShuffle = true; //Indica si las cartas especiales se barajan solas cuando se llega al final
-    private List<SpecialCardGameManager> specialCardManagers; //Lista con los managers de las cartas especiales
+    public Dictionary<SpecialCardGameManager, Card> SpecialCardsDictionary { get; private set; } = new(); //Diccionario con los managers de las cartas especiales y sus cartas asociadas
     public static GameSettings Instance { get; private set; }
     public bool ExtendedTracking { get { return extendedTracking; } } 
     public bool AutoShuffle { get { return autoShuffle; } } 
@@ -18,7 +18,10 @@ public class GameSettings : NetworkBehaviour
     private void Awake()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep; //La pantalla se configura para no apagarse sola
-        specialCardManagers = FindObjectsByType<SpecialCardGameManager>(FindObjectsInactive.Include, FindObjectsSortMode.None).ToList();
+        foreach(SpecialCardGameManager manager in FindObjectsByType<SpecialCardGameManager>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            SpecialCardsDictionary[manager] = null; //Se crea una entrada para cada uno
+        }
         Instance = this;
     }
 
@@ -31,10 +34,15 @@ public class GameSettings : NetworkBehaviour
         FindFirstObjectByType<ARTrackedImageManager>().enabled = true;
     }
 
-    public SpecialCardGameManager GetSpecialCardManager(string markerName) //Asigna el manager a las cartas especiales que lo pidan, basándose en el nombre de su marcador
+    public SpecialCardGameManager GetSpecialCardManager(string markerName, Card card) //Asigna el manager a las cartas especiales que lo pidan, basándose en el nombre de su marcador
     {
         int index = int.Parse(markerName.Substring(markerName.Length - 1)) - 1; //El índice del marcador es el último char de su nombre
-        if (index >= 0 && index < specialCardManagers.Count) return specialCardManagers[index];
+        if (index >= 0 && index < SpecialCardsDictionary.Count)
+        {
+            var manager = SpecialCardsDictionary.ElementAt(index).Key;
+            SpecialCardsDictionary[manager] = card;
+            return manager;
+        }
         else return null;
     }
 }

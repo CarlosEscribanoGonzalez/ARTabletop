@@ -36,7 +36,7 @@ public class RelayManager : MonoBehaviour
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(8);
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(allocation.AllocationId);
-            codeText.text = "Room code: " + joinCode;
+            codeText.text = "Room code: " + joinCode.ToUpper();
             RelayServerData relayServerData = AllocationUtils.ToRelayServerData(allocation, "wss");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartHost();
@@ -67,7 +67,7 @@ public class RelayManager : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartClient();
             errorText.transform.parent.gameObject.SetActive(false);
-            codeText.text = "Room code: " + joinCode;
+            codeText.text = "Room code: " + joinCode.ToUpper();
         }
         catch(System.Exception e)
         {
