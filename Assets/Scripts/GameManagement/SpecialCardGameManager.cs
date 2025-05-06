@@ -31,6 +31,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     public bool ProvideInfo(AGameUnit unit) //Se proporciona información sobre la carta a las cartas escaneadas
     {
         specialCard = unit as Card;
+        specialCard.PrevButton.GetComponent<Button>().interactable = totalDrags.Value != 0;
         if (currentInfoIndex.Value >= 0 && currentInfoIndex.Value < randomizedInfo.Length)
         {
             ApplyInfo(false); //Se aplica la información a la carta

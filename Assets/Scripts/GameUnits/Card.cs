@@ -18,6 +18,7 @@ public class Card : AGameUnit
         desiredTextureSize = new Vector2(640, 896);
         if (trackedImg.referenceImage.name.ToLower().Contains("special")) //Si es especial se obtiene su manager
         {
+            foreach (Transform t in buttonCanvas.transform) if (t.name.ToLower().Contains("prev")) PrevButton = t.gameObject;
             specialCardManager = GameSettings.Instance.GetSpecialCardManager(trackedImg.referenceImage.name, this);
             if (specialCardManager is null) GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();
             else
@@ -25,7 +26,6 @@ public class Card : AGameUnit
                 buttonCanvas.SetActive(true); //Si se ha conseguido se activa el botón
                 RequestInfo(specialCardManager);    
             }
-            foreach (Transform t in buttonCanvas.transform) if (t.name.ToLower().Contains("prev")) PrevButton = t.gameObject;
         }
         else RequestInfo(FindFirstObjectByType<CardGameManager>());
         sortingGroups = GetComponentsInChildren<SortingGroup>(true);
