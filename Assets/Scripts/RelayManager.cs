@@ -45,6 +45,7 @@ public class RelayManager : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError("Session couldn't be created: " + e);
+            AuthenticationService.Instance.SignOut();
             StopAllCoroutines();
             StartCoroutine(DisplayErrorText("We couldn't create the game session. Please, check your Internet connection and try again."));
         }
@@ -72,6 +73,7 @@ public class RelayManager : MonoBehaviour
         catch(System.Exception e)
         {
             Debug.LogError("Invalid code: " + e);
+            AuthenticationService.Instance.SignOut();
             StopAllCoroutines();
             StartCoroutine(DisplayErrorText("We couldn't find a game session with the provided code. Please, check the code and your Internet connection."));
         }
