@@ -8,6 +8,7 @@ public class PlayableUnit : MonoBehaviour
     [SerializeField] private GameObject board;
     [SerializeField] private GameObject noInfoIndicator;
     private ARTrackedImage trackable;
+    public static float ScaleCameraFactor { get; set; } = 1;
 
     private void Start() //Se activa la game unit asociada al marcador, aún sin información
     {
@@ -15,6 +16,7 @@ public class PlayableUnit : MonoBehaviour
         card.SetActive(trackable.referenceImage.name.ToLower().Contains("card"));
         piece.SetActive(trackable.referenceImage.name.ToLower().Contains("piece"));
         board.SetActive(trackable.referenceImage.name.ToLower().Contains("board"));
+        this.transform.localScale *= ScaleCameraFactor;
     }
 
     public void DisplayNoInfoIndicator() //Si no hay información disponible para el marcador se activa el indicador
