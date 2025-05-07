@@ -18,7 +18,7 @@ public class DiceManager : MonoBehaviour
     private void Start()
     {
         if (!gameHasDice) Destroy(this.gameObject); //Si el juego en cuestión no tiene dado este objeto es eliminado
-        GameSettings.Instance.OnSeedSet += () => GetComponentInChildren<Canvas>(true).gameObject.SetActive(true); //Cuando se entra en partida se activa la UI
+        GameSettings.Instance.OnSeedSet += () => GetComponentInChildren<Canvas>(true).enabled = true; //Cuando se entra en partida se activa la UI
         dices = GetComponentsInChildren<Dice>(true).ToList();
     }
 
