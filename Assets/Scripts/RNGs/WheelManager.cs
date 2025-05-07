@@ -6,7 +6,6 @@ using TMPro;
 
 public class WheelManager : MonoBehaviour
 {
-    [SerializeField] private bool gameHasWheel = true;
     [SerializeField] private Transform wheelTransform;
     [SerializeField] private GameObject optionPrefab;
     [SerializeField] private Button addButton;
@@ -23,10 +22,8 @@ public class WheelManager : MonoBehaviour
 
     private void Start()
     {
-        if (!gameHasWheel) Destroy(this.gameObject);
         optionList = FindFirstObjectByType<WheelOptionList>(FindObjectsInactive.Include);
         removeWinnerToggle = GetComponentInChildren<Toggle>(true);
-        GameSettings.Instance.OnSeedSet += () => GetComponentInChildren<Canvas>(true).enabled = true; //Cuando se entra en partida se activa la UI
         for(int i = 0; i < 3; i++) AddOption(); //Tres opciones iniciales
     }
 
@@ -42,7 +39,7 @@ public class WheelManager : MonoBehaviour
     {
         options.Remove(option);
         Destroy(option.gameObject);
-        UpdateWheel();
+        UpdateWheel(false);
     }
 
     public void SpinWheel()
@@ -60,26 +57,30 @@ public class WheelManager : MonoBehaviour
         ShowResults();
     }
 
-    private void UpdateWheel()
+    public void SetMenuState(bool inResults)
+    {
+        addButton.interactable = options.Count < 12;
+        spinButton.interactable = options.Count > 0;
+        wheelTransform.SetSiblingIndex(inResults ? 0 : 1);
+        resultPanel.SetActive(inResults);
+        skipButton.gameObject.SetActive(false);
+        foreach (Button button in optionList.GetComponentsInChildren<Button>()) button.interactable = true;
+    }
+
+    private void UpdateWheel(bool updateDefaultNames = true)
     {
         int numDefaultOptions = 1;
         for (int i = 0; i < options.Count; i++)
         {
             options[i].SetPosition(options.Count, i);
-            if (options[i].Text.Contains("Option")) options[i].Text = "Option " + numDefaultOptions++;
+            if (options[i].Text.Contains("Option") && updateDefaultNames) options[i].Text = "Option " + numDefaultOptions++;
             optionList.AddOrUpdateOption(options[i]);
         }
-        addButton.interactable = options.Count < 12;
-        spinButton.interactable = options.Count > 0;
-        wheelTransform.SetSiblingIndex(1);
-        resultPanel.SetActive(false);
+        SetMenuState(false);
     }
 
     private void ShowResults()
     {
-        addButton.interactable = true;
-        skipButton.gameObject.SetActive(false);
-        foreach (Button button in optionList.GetComponentsInChildren<Button>()) button.interactable = true;
         float maxResult = -1;
         float currentResult;
         WheelOption bestOption = null;
@@ -94,8 +95,7 @@ public class WheelManager : MonoBehaviour
         }
         if (removeWinnerToggle.isOn && options.Count > 1) optionList.RemoveOption(bestOption);
         resultPanel.GetComponentInChildren<TextMeshProUGUI>().text = bestOption.Text;
-        resultPanel.SetActive(true);
-        wheelTransform.SetSiblingIndex(0);
+        SetMenuState(true);
     }
 
     private IEnumerator Spin(float totalDegrees, float time)

@@ -5,7 +5,6 @@ using System.Linq;
 
 public class DiceManager : MonoBehaviour
 {
-    [SerializeField] private bool gameHasDice = true; 
     [SerializeField] private GameObject diceCamera; //Cámara en overlay que apunta al dado desde arriba
     [SerializeField] private TMP_Dropdown typeDropdown; //Dropdown con el tipo de dados
     [SerializeField] private TMP_Dropdown numDropdown; //Dropdown con el número de dados a lanzar
@@ -17,8 +16,6 @@ public class DiceManager : MonoBehaviour
 
     private void Start()
     {
-        if (!gameHasDice) Destroy(this.gameObject); //Si el juego en cuestión no tiene dado este objeto es eliminado
-        GameSettings.Instance.OnSeedSet += () => GetComponentInChildren<Canvas>(true).enabled = true; //Cuando se entra en partida se activa la UI
         dices = GetComponentsInChildren<Dice>(true).ToList();
     }
 

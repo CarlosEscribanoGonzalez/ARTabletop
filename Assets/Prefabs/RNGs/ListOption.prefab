@@ -247,7 +247,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -34.6, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 130, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4193603976928529630
 CanvasRenderer:
@@ -340,7 +340,7 @@ MonoBehaviour:
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
-  m_HideMobileInput: 0
+  m_HideMobileInput: 1
   m_HideSoftKeyboard: 0
   m_CharacterValidation: 0
   m_RegexValue: 
