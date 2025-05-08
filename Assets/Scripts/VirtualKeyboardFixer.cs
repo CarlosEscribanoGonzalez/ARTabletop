@@ -5,13 +5,15 @@ using UnityEngine.UI;
 
 public class VirtualKeyboardFixer : MonoBehaviour
 {
+    [SerializeField] private TMP_InputField inputField;
     private ScrollRect scrollRect;
-    private TMP_InputField inputField;
+    private CanvasGroup canvasGroup;
 
     void Start()
     {
-        inputField = GetComponent<TMP_InputField>();
         scrollRect = GetComponentInParent<ScrollRect>();
+        canvasGroup = GetComponent<CanvasGroup>();
+        inputField.onDeselect.AddListener((_) => OnFieldDeselected());
     }
 
     public void BeginScroll(BaseEventData data)
@@ -34,6 +36,24 @@ public class VirtualKeyboardFixer : MonoBehaviour
 
     public void OpenKeyBoard(BaseEventData data)
     {
+        inputField.shouldHideMobileInput = (Screen.orientation == ScreenOrientation.Portrait
+                                                || Screen.orientation == ScreenOrientation.PortraitUpsideDown);
+        ToggleScreenRotation(false);
         ExecuteEvents.Execute(inputField.gameObject, data, ExecuteEvents.pointerDownHandler);
+        canvasGroup.blocksRaycasts = false;
+    }
+
+    private void OnFieldDeselected()
+    {
+        canvasGroup.blocksRaycasts = true;
+        ToggleScreenRotation(true);
+    }
+
+    private void ToggleScreenRotation(bool allow)
+    {
+        Screen.autorotateToLandscapeLeft = allow;
+        Screen.autorotateToLandscapeRight = allow;
+        Screen.autorotateToPortrait = allow;
+        Screen.autorotateToPortraitUpsideDown = allow;
     }
 }

@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Padding: {x: -8, y: -5, z: -8, w: -5}
+  m_Padding: {x: -15, y: -5, z: -8, w: -5}
   m_Softness: {x: 0, y: 0}
 --- !u!1 &1204089566177623374
 GameObject:
@@ -88,7 +88,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 31.3, y: 0}
+  m_AnchoredPosition: {x: 40.3, y: 0}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1757905912226670418
@@ -186,8 +186,10 @@ GameObject:
   - component: {fileID: 8576041791081491044}
   - component: {fileID: 6823081726073792690}
   - component: {fileID: 2005573686024965289}
+  - component: {fileID: 6578488614578137960}
+  - component: {fileID: 1235867359305825149}
   m_Layer: 5
-  m_Name: InteractionButton
+  m_Name: InputFieldFixer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,8 +211,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -45.8, y: 0}
-  m_SizeDelta: {x: 124.81, y: 30}
+  m_AnchoredPosition: {x: -40, y: 0}
+  m_SizeDelta: {x: 129.66, y: 35.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8913668876481254218
 CanvasRenderer:
@@ -311,7 +313,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2016909191393169404}
+        - m_Target: {fileID: 6578488614578137960}
           m_TargetAssemblyTypeName: VirtualKeyboardFixer, Assembly-CSharp
           m_MethodName: Scroll
           m_Mode: 0
@@ -327,7 +329,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2016909191393169404}
+        - m_Target: {fileID: 6578488614578137960}
           m_TargetAssemblyTypeName: VirtualKeyboardFixer, Assembly-CSharp
           m_MethodName: BeginScroll
           m_Mode: 0
@@ -343,7 +345,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2016909191393169404}
+        - m_Target: {fileID: 6578488614578137960}
           m_TargetAssemblyTypeName: VirtualKeyboardFixer, Assembly-CSharp
           m_MethodName: EndScroll
           m_Mode: 0
@@ -359,7 +361,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2016909191393169404}
+        - m_Target: {fileID: 6578488614578137960}
           m_TargetAssemblyTypeName: VirtualKeyboardFixer, Assembly-CSharp
           m_MethodName: OpenKeyBoard
           m_Mode: 0
@@ -371,6 +373,31 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!114 &6578488614578137960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749687414456066249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91edd2e7d085f7f40b33bbc3fbf1e06c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputField: {fileID: 2328654484102412610}
+--- !u!225 &1235867359305825149
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749687414456066249}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3698643801523403701
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,7 +448,6 @@ GameObject:
   - component: {fileID: 4193603976928529630}
   - component: {fileID: 6775339529208867314}
   - component: {fileID: 2328654484102412610}
-  - component: {fileID: 2016909191393169404}
   m_Layer: 5
   m_Name: InputField (TMP)
   m_TagString: Untagged
@@ -446,8 +472,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -34.6, y: 0}
-  m_SizeDelta: {x: 130, y: 30}
+  m_AnchoredPosition: {x: -39.6, y: 0}
+  m_SizeDelta: {x: 122.8, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4193603976928529630
 CanvasRenderer:
@@ -540,7 +566,7 @@ MonoBehaviour:
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
-  m_HideMobileInput: 1
+  m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
   m_CharacterValidation: 0
   m_RegexValue: 
@@ -588,18 +614,6 @@ MonoBehaviour:
   isAlert: 0
   m_InputValidator: {fileID: 0}
   m_ShouldActivateOnSelect: 1
---- !u!114 &2016909191393169404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6524548288956833774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91edd2e7d085f7f40b33bbc3fbf1e06c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6695250284641798103
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,15 +778,15 @@ RectTransform:
   m_GameObject: {fileID: 8605599088110894991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1111414, y: 1.1111414, z: 1.1111414}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8059680634754468101}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.46000022}
+  m_SizeDelta: {x: 0, y: 5.7400007}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &592451834888020801
 CanvasRenderer:
@@ -829,7 +843,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15.2
+  m_fontSize: 19.5
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -837,7 +851,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 2
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -867,7 +881,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 2.6516113, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -920,15 +934,15 @@ RectTransform:
   m_GameObject: {fileID: 9115526216221855682}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1111414, y: 1.1111414, z: 1.1111414}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8059680634754468101}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.46000022}
+  m_SizeDelta: {x: 0, y: 5.7400007}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4585446202506222383
 CanvasRenderer:
@@ -985,7 +999,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15.2
+  m_fontSize: 20.35
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -993,7 +1007,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1023,7 +1037,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 25.2188, w: 0}
+  m_margin: {x: 0, y: 0, z: 2.7859383, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
