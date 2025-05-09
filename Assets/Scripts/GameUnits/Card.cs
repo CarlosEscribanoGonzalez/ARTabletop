@@ -4,13 +4,14 @@ using UnityEngine.XR.ARFoundation;
 using UnityEngine.Rendering;
 using UnityEngine.EventSystems;
 
-public class Card : AGameUnit, IPointerDownHandler
+public class Card : AGameUnit, IPointerClickHandler
 {
     [SerializeField] private TextMeshPro text; //Texto de la carta
     [SerializeField] private GameObject buttonCanvas; //Canvas que contiene el botón de cambio de contenido, para las cartas especiales
     [SerializeField] private Sprite defaultSprite; //Sprite por defecto en caso de que no haya ninguno asociado a la información a mostrar
     private SpecialCardGameManager specialCardManager; //Manager encargado de gestionar la carta en caso de que sea especial
     private SortingGroup[] sortingGroups;
+    private DetailedViewCardManager detailedViewManager;
     private bool IsSpecial => specialCardManager != null;
     public GameObject PrevButton { get; private set; } = null; //Botón de volver atrás para las cartas especiales
 
@@ -31,6 +32,7 @@ public class Card : AGameUnit, IPointerDownHandler
         }
         else RequestInfo(FindFirstObjectByType<CardGameManager>());
         sortingGroups = GetComponentsInChildren<SortingGroup>(true);
+        detailedViewManager = FindFirstObjectByType<DetailedViewCardManager>();
     }
 
     private void Update() //Se actualiza el botón para que siempre mire a cámara
@@ -85,8 +87,10 @@ public class Card : AGameUnit, IPointerDownHandler
         else AdjustSpriteSize();
     }
 
-    public void OnPointerDown(PointerEventData data)
+    public void OnPointerClick(PointerEventData data)
     {
-        if (IsSpecial) buttonCanvas.SetActive(!buttonCanvas.activeSelf);
+        if (detailedViewManager.IsInDetailedView) return;
+        //if (IsSpecial) buttonCanvas.SetActive(!buttonCanvas.activeSelf);
+        detailedViewManager.SetDetailedInfo(spriteRend.sprite, text.text);
     }
 }
