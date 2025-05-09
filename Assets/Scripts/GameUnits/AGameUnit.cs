@@ -60,11 +60,11 @@ public class AGameUnit : MonoBehaviour
         }
     }
 
-    protected virtual void AdjustSpriteSize(float sizeMult = 1) 
+    protected virtual void AdjustSpriteSize() 
     {
         if (spriteRend.sprite.texture.width > spriteRend.sprite.texture.height)
             spriteScaleMult = desiredTextureSize.x / spriteRend.sprite.texture.width;
         else spriteScaleMult = desiredTextureSize.y / spriteRend.sprite.texture.height;
-        spriteRend.transform.localScale *= spriteScaleMult * sizeMult;
+        spriteRend.transform.localScale *= spriteScaleMult;
     }
 }

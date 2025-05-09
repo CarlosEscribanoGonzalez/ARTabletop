@@ -70,26 +70,19 @@ public class Card : AGameUnit, IPointerDownHandler
         if (resetScale) //Las cartas especiales necesitan resetear su escala antes de cambiar de contenido
         {
             scaled = false;
-            spriteRend.transform.localScale /= (spriteScaleMult * prevSizeMult);
-            GetComponentInChildren<SpriteMask>().transform.localScale /= prevSizeMult;
-            text.transform.localScale /= prevSizeMult;
+            spriteRend.transform.localScale /= spriteScaleMult;
+            transform.localScale /= prevSizeMult;
         }
         
         if (scaled) return; //Coger la escala original no funciona porque es un número pequeño y en la build cuenta como 0
         scaled = true;
         prevSizeMult = sizeMult;
-        //El tamaño del texto y el sprite se ajustan automáticamente
-        GetComponentInChildren<SpriteMask>().transform.localScale *= sizeMult;
-        text.transform.localScale *= sizeMult;
+        //El tamaño del objeto se ajusta automáticamente
+        transform.localScale *= sizeMult;
         //Si la foto no cuenta con textura tendrá el mismo tamaño que el sprite mask que permite su visualización
-        if(spriteRend.sprite.texture is null)
-        {
-            spriteRend.transform.localScale *= sizeMult;
-            spriteScaleMult = 1;
-            return;
-        }
+        if (spriteRend.sprite.texture is null) spriteScaleMult = 1;
         //Si cuenta con textura el tamaño del sprite se ajusta para que su contenido se vea completamente
-        AdjustSpriteSize(sizeMult);
+        else AdjustSpriteSize();
     }
 
     public void OnPointerDown(PointerEventData data)
