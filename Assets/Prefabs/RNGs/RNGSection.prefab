@@ -1102,7 +1102,7 @@ GameObject:
   - component: {fileID: 6693605897131643173}
   - component: {fileID: 9143493322470998032}
   - component: {fileID: 8874821591424770446}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DiceCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1621,7 +1621,7 @@ GameObject:
   m_Component:
   - component: {fileID: 983424947689010579}
   - component: {fileID: 2389712613549494522}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3133,7 +3133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6685570580157045919}
   - component: {fileID: 1781292611972358209}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4075,7 +4075,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1372245969366707635}
   - component: {fileID: 3926194978682253027}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4120,7 +4120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1062718243643080610}
   - component: {fileID: 8443654416080301026}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4755,7 +4755,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6828973893884911657}
   - component: {fileID: 6815391053339307909}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4800,7 +4800,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5498881771841974652}
   - component: {fileID: 2445995805240833123}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11936,7 +11936,7 @@ GameObject:
   - component: {fileID: 6292559454030393689}
   - component: {fileID: 5978935121170743385}
   - component: {fileID: 7687430556644147817}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicesPositionManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13436,7 +13436,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5879366958910296407}
   - component: {fileID: 1569974930578894934}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13961,7 +13961,7 @@ GameObject:
   - component: {fileID: 8183520465915757537}
   - component: {fileID: 7926180907212297061}
   - component: {fileID: 3140927189282229627}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18280,7 +18280,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8754300149448713548}
   - component: {fileID: 4902797791036349711}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21072,7 +21072,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7675991287993332150}
   - component: {fileID: 7843250108132010576}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21225,7 +21225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1438775248412454035}
   - component: {fileID: 4468620247628684962}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24598,7 +24598,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7970863589857320929}
   - component: {fileID: 247955698154748615}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25240,7 +25240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7743551921453094983}
   - component: {fileID: 1963337421626052572}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25977,7 +25977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 429825839877450927}
   - component: {fileID: 2672222074960782156}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26842,7 +26842,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5937927469100361079}
   - component: {fileID: 2220830312764085836}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31631,7 +31631,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3991157129581825290}
   - component: {fileID: 2255659031680179375}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DicePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

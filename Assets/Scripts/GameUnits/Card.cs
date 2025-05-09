@@ -2,14 +2,16 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.Rendering;
+using UnityEngine.EventSystems;
 
-public class Card : AGameUnit
+public class Card : AGameUnit, IPointerDownHandler
 {
     [SerializeField] private TextMeshPro text; //Texto de la carta
     [SerializeField] private GameObject buttonCanvas; //Canvas que contiene el botón de cambio de contenido, para las cartas especiales
     [SerializeField] private Sprite defaultSprite; //Sprite por defecto en caso de que no haya ninguno asociado a la información a mostrar
     private SpecialCardGameManager specialCardManager; //Manager encargado de gestionar la carta en caso de que sea especial
     private SortingGroup[] sortingGroups;
+    private bool IsSpecial => specialCardManager != null;
     public GameObject PrevButton { get; private set; } = null; //Botón de volver atrás para las cartas especiales
 
     private void Start()
@@ -88,5 +90,10 @@ public class Card : AGameUnit
         }
         //Si cuenta con textura el tamaño del sprite se ajusta para que su contenido se vea completamente
         AdjustSpriteSize(sizeMult);
+    }
+
+    public void OnPointerDown(PointerEventData data)
+    {
+        if (IsSpecial) buttonCanvas.SetActive(!buttonCanvas.activeSelf);
     }
 }
