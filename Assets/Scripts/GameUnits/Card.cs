@@ -12,6 +12,7 @@ public class Card : AGameUnit, IPointerClickHandler
     private SpecialCardGameManager specialCardManager; //Manager encargado de gestionar la carta en caso de que sea especial
     private SortingGroup[] sortingGroups;
     private DetailedViewCardManager detailedViewManager;
+    private CardInfo cardInfo;
     private bool IsSpecial => specialCardManager != null;
     public GameObject PrevButton { get; private set; } = null; //Botón de volver atrás para las cartas especiales
 
@@ -45,14 +46,12 @@ public class Card : AGameUnit, IPointerClickHandler
         buttonCanvas.transform.forward = buttonCanvas.transform.position - Camera.main.transform.position;
     }
 
-    public void SetText(string t) //Se actualiza el texto
+    public void SetInfo(CardInfo info, bool resetScale = false)
     {
-        text.text = t;
-    }
-
-    public override void SetSprite(Sprite s) //Se actualiza el sprite
-    {
-        spriteRend.sprite = s ?? defaultSprite;
+        text.text = info.text;
+        spriteRend.sprite = info.sprite ?? defaultSprite;
+        SetSize(info.sizeMult, resetScale);
+        cardInfo = info;
     }
 
     public void ChangeContent(bool returnToPrevious) //Se actualiza el contenido cuando el botón de las cartas especiales es pulsado
@@ -89,8 +88,7 @@ public class Card : AGameUnit, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData data)
     {
-        if (detailedViewManager.IsInDetailedView) return;
         //if (IsSpecial) buttonCanvas.SetActive(!buttonCanvas.activeSelf);
-        detailedViewManager.SetDetailedInfo(spriteRend.sprite, text.text);
+        if(!detailedViewManager.IsInDetailedView) detailedViewManager.SetDetailedInfo(cardInfo);
     }
 }

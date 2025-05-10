@@ -81,13 +81,11 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         else currentInfoIndex.Value += dir;
     }
 
-    private void ApplyInfo(bool recalculateScale)
+    private void ApplyInfo(bool resetScale)
     {
         specialCard ??= GameSettings.Instance.SpecialCardsDictionary[this]; //Tras llamadas RPC special card se puede desasignar al no ser una variable en red
         if (specialCard == null) return;
-        specialCard.SetSprite(randomizedInfo[currentInfoIndex.Value].sprite); //Se aplica el sprite
-        specialCard.SetText(randomizedInfo[currentInfoIndex.Value].text); //Se aplica el texto
-        specialCard.SetSize(randomizedInfo[currentInfoIndex.Value].sizeMult, recalculateScale); //Se ajusta el tamaño
+        specialCard.SetInfo(randomizedInfo[currentInfoIndex.Value], resetScale);
     }
 
     private void ShuffleCards(bool displayFeedback = true) //Se baraja igual en todos los clientes al compartir semilla

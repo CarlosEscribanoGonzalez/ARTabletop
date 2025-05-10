@@ -27,9 +27,7 @@ public class CardGameManager : MonoBehaviour, IGameManager
         index = cardImagesList.IndexOf(trackable.referenceImage); //Se calcula la información a mostrar a partir del índice del marcador
         if (index >= 0 && index < randomizedInfo.Length)
         {
-            unit.SetSprite(randomizedInfo[index].sprite); //Se aplica el sprite
-            (unit as Card).SetText(randomizedInfo[index].text); //Se aplica el texto
-            (unit as Card).SetSize(randomizedInfo[index].sizeMult); //Se ajusta el tamaño
+            (unit as Card).SetInfo(randomizedInfo[index]);
             return true;
         }
         return false;
