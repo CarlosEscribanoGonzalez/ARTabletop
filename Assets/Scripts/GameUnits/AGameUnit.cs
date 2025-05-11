@@ -54,6 +54,8 @@ public class AGameUnit : MonoBehaviour
             unitModel.transform.localScale = Vector3.one * scaleFactor;
             //Se le dan al modelo los componentes necesarios para calcular su posición en Y con OnTriggerEnter
             if (unitModel.GetComponentInChildren<Collider>() == null) unitCollider = mesh.gameObject.AddComponent<BoxCollider>();
+            else unitCollider = unitModel.GetComponentInChildren<Collider>();
+            unitCollider.isTrigger = true;
             if (unitModel.GetComponentInChildren<Rigidbody>() == null) mesh.gameObject.AddComponent<Rigidbody>();
             unitModel.GetComponentInChildren<Rigidbody>().isKinematic = true;
             unitModel.GetComponentInChildren<Rigidbody>().useGravity = false;
