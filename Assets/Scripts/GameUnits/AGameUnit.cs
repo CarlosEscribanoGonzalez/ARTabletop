@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 public class AGameUnit : MonoBehaviour
 {
@@ -8,6 +10,16 @@ public class AGameUnit : MonoBehaviour
     protected SpriteRenderer spriteRend; //Renderer de sprites de la unidad
     protected Vector2 desiredTextureSize = new Vector2(64, 64); //Tamaño de la textura deseado
     protected float spriteScaleMult = 0; //Multiplicador del tamaño del sprite para que se ajuste al máximo espacio posible
+    private bool inForceMaintain = false;
+    public bool InForceMaintain { get { return inForceMaintain; }
+        set
+        {
+            inForceMaintain = value;
+            ARTrackedImage trackable = GetComponentInParent<ARTrackedImage>();
+            if (!inForceMaintain && !GameSettings.Instance.ExtendedTracking && trackable.trackingState != TrackingState.Tracking)
+                trackable.gameObject.SetActive(false);
+        }
+    }
 
     private void Awake()
     {

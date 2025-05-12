@@ -3,12 +3,14 @@ using TMPro;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.Rendering;
 using UnityEngine.EventSystems;
+using System.Collections;
 
-public class Card : AGameUnit, IPointerClickHandler
+public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
     [SerializeField] private TextMeshPro text; //Texto de la carta
     [SerializeField] private GameObject buttonCanvas; //Canvas que contiene el botón de cambio de contenido, para las cartas especiales
     [SerializeField] private Sprite defaultSprite; //Sprite por defecto en caso de que no haya ninguno asociado a la información a mostrar
+    [SerializeField] private float clickThreshold = 1; //Tiempo que se tarda en mantener pulsado para hacer toggle de los botones
     private SpecialCardGameManager specialCardManager; //Manager encargado de gestionar la carta en caso de que sea especial
     private SortingGroup[] sortingGroups;
     private DetailedViewCardManager detailedViewManager;
@@ -36,14 +38,12 @@ public class Card : AGameUnit, IPointerClickHandler
         detailedViewManager = FindFirstObjectByType<DetailedViewCardManager>();
     }
 
-    private void Update() //Se actualiza el botón para que siempre mire a cámara
+    private void Update() //Se fuerza a que se vean por encima siempre las cartas más cercanas a la cámara
     {
         for (int i = 0; i < sortingGroups.Length; i++)
         {
             sortingGroups[i].sortingOrder = 1000 - (int)(Vector3.Distance(this.transform.position, Camera.main.transform.position) * 1000) + i;
         }
-        if (!buttonCanvas.activeSelf) return;
-        buttonCanvas.transform.forward = buttonCanvas.transform.position - Camera.main.transform.position;
     }
 
     public void SetInfo(CardInfo info, bool resetScale = false)
@@ -86,9 +86,33 @@ public class Card : AGameUnit, IPointerClickHandler
         else AdjustSpriteSize();
     }
 
-    public void OnPointerClick(PointerEventData data)
+    private bool isPressing = false;
+    private float pressStartTime;
+    public void OnPointerDown(PointerEventData data)
     {
-        //if (IsSpecial) buttonCanvas.SetActive(!buttonCanvas.activeSelf);
-        if(!detailedViewManager.IsInDetailedView) detailedViewManager.SetDetailedInfo(cardInfo);
+        isPressing = true;
+        pressStartTime = Time.time;
+        if (IsSpecial) StartCoroutine(ToggleButtonsCoroutine());
+    }
+
+    public void OnPointerUp(PointerEventData data)
+    {
+        if (!isPressing) return;
+        isPressing = false;
+        if (Time.time - pressStartTime > clickThreshold) return;
+        detailedViewManager.SetDetailedInfo(cardInfo);
+        if (IsSpecial) StopAllCoroutines();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        isPressing = false;
+        if (IsSpecial) StopAllCoroutines();
+    }
+
+    IEnumerator ToggleButtonsCoroutine()
+    {
+        yield return new WaitForSeconds(clickThreshold + 0.2f);
+        buttonCanvas.SetActive(!buttonCanvas.activeSelf);
     }
 }

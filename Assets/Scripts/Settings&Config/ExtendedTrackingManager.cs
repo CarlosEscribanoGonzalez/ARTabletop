@@ -17,7 +17,9 @@ public class ExtendedTrackingManager : MonoBehaviour
     {
         foreach(ARTrackable trackedImage in imageManager.trackables)
         {
-            if (!GameSettings.Instance.ExtendedTracking) trackedImage.transform.gameObject.SetActive(trackedImage.trackingState == TrackingState.Tracking);
+            if (trackedImage.GetComponentInChildren<AGameUnit>() != null && trackedImage.GetComponentInChildren<AGameUnit>().InForceMaintain) 
+                trackedImage.transform.gameObject.SetActive(true);
+            else if (!GameSettings.Instance.ExtendedTracking) trackedImage.transform.gameObject.SetActive(trackedImage.trackingState == TrackingState.Tracking);
             /*else
             {
                 if (trackedImage.trackingState != TrackingState.Tracking && !trackedImage.transform.parent.TryGetComponent<ARAnchor>(out _))
