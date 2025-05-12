@@ -17,6 +17,7 @@ public class DiceResults : MonoBehaviour
 
     private void OnEnable()
     {
+        FindFirstObjectByType<DiceCamera>(FindObjectsInactive.Include).ZoomBackground();
         resultsList = manager.Results; //Se obtiene la lista de resultados
         totalResult = 0;
         for(int i = 0; i < results.childCount; i++) //Se activan las casillas pertinentes a cada resultado a la vez que estos se van sumando

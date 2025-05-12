@@ -50,7 +50,7 @@ public class PieceGameManager : NetworkBehaviour, IGameManager
     }
 
     [ServerRpc (RequireOwnership = false)]
-    private void RequestNameServerRpc(int index)
+    public void RequestNameServerRpc(int index)
     {
         UpdateNamesClientRpc(index, Names[index]);
     }

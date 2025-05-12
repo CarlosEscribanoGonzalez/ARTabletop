@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 6578488614578137960}
   - component: {fileID: 1235867359305825149}
   m_Layer: 5
-  m_Name: InputFieldFixer
+  m_Name: ScrollFixer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

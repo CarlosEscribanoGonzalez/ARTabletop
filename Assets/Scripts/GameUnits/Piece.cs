@@ -14,6 +14,11 @@ public class Piece : AGameUnit
         RequestInfo(manager);
     }
 
+    private void OnEnable()
+    {
+        manager.RequestNameServerRpc(Index);
+    }
+
     protected override void AdjustModelSize()
     {
         base.AdjustModelSize();

@@ -80,6 +80,7 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
         prevSizeMult = sizeMult;
         //El tamaño del objeto se ajusta automáticamente
         transform.localScale *= sizeMult;
+        if (IsSpecial) buttonCanvas.transform.localScale = Vector3.one / sizeMult; //El tamaño del botón se mantiene
         //Si la foto no cuenta con textura tendrá el mismo tamaño que el sprite mask que permite su visualización
         if (spriteRend.sprite.texture is null) spriteScaleMult = 1;
         //Si cuenta con textura el tamaño del sprite se ajusta para que su contenido se vea completamente

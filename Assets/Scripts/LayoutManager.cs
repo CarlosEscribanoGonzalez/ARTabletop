@@ -5,8 +5,8 @@ public class LayoutManager : MonoBehaviour
     [SerializeField] private Transform layoutInPortrait;
     [SerializeField] private Transform layoutInLandscape;
     [SerializeField] private Transform[] content;
-    [SerializeField] private float portraitSizeMult;
-    [SerializeField] private float landscapeSizeMult;
+    [SerializeField] private float portraitSizeMult = 1;
+    [SerializeField] private float landscapeSizeMult = 1;
     private ScreenOrientation orientation;
     
     void OnEnable()
@@ -35,11 +35,7 @@ public class LayoutManager : MonoBehaviour
     {
         layoutInPortrait.localScale = Vector3.one;
         layoutInLandscape.localScale = Vector3.one;
-        foreach (Transform t in content)
-        {
-            t.parent = newLayout;
-            t.SetAsLastSibling();
-        }
+        foreach (Transform t in content) t.parent = newLayout;
         layoutInPortrait.localScale *= portraitSizeMult;
         layoutInLandscape.localScale *= landscapeSizeMult;
     }

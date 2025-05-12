@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class VirtualKeyboardFixer : MonoBehaviour
+public class ScrollFixer : MonoBehaviour
 {
     [SerializeField] private TMP_InputField inputField;
     private ScrollRect scrollRect;
@@ -36,9 +36,6 @@ public class VirtualKeyboardFixer : MonoBehaviour
 
     public void OpenKeyBoard(BaseEventData data)
     {
-        inputField.shouldHideMobileInput = (Screen.orientation == ScreenOrientation.Portrait
-                                                || Screen.orientation == ScreenOrientation.PortraitUpsideDown);
-        ToggleScreenRotation(false);
         ExecuteEvents.Execute(inputField.gameObject, data, ExecuteEvents.pointerDownHandler);
         canvasGroup.blocksRaycasts = false;
     }
@@ -46,14 +43,5 @@ public class VirtualKeyboardFixer : MonoBehaviour
     private void OnFieldDeselected()
     {
         canvasGroup.blocksRaycasts = true;
-        ToggleScreenRotation(true);
-    }
-
-    private void ToggleScreenRotation(bool allow)
-    {
-        Screen.autorotateToLandscapeLeft = allow;
-        Screen.autorotateToLandscapeRight = allow;
-        Screen.autorotateToPortrait = allow;
-        Screen.autorotateToPortraitUpsideDown = allow;
     }
 }
