@@ -17,6 +17,7 @@ public class WheelManager : MonoBehaviour
     [Header("Spin settings:")]
     [SerializeField] private float spinDuration = 5;
     [SerializeField] private Vector2 spinDegreesMinMax = new Vector2(1080, 3240);
+    [SerializeField] private int maxOptions = 12;
     private List<WheelOption> options = new();
     private float endRotation = 0;
 
@@ -45,9 +46,10 @@ public class WheelManager : MonoBehaviour
     public void SpinWheel()
     {
         addButton.interactable = false;
-        foreach (Button button in optionList.GetComponentsInChildren<Button>()) button.interactable = false;
+        foreach (var listOption in optionList.Options)
+                listOption.GetComponentInChildren<Button>().interactable = false;
         StartCoroutine(Spin(Random.Range(spinDegreesMinMax[0], spinDegreesMinMax[1]), spinDuration));
-        wheelTransform.SetSiblingIndex(1);
+        wheelTransform.GetComponent<CanvasGroup>().alpha = 1;
     }
 
     public void SkipAnimation()
@@ -59,12 +61,13 @@ public class WheelManager : MonoBehaviour
 
     public void SetMenuState(bool inResults)
     {
-        addButton.interactable = options.Count < 12;
+        addButton.interactable = options.Count < maxOptions;
         spinButton.interactable = options.Count > 0;
-        wheelTransform.SetSiblingIndex(inResults ? 0 : 1);
+        wheelTransform.GetComponent<CanvasGroup>().alpha = (inResults ? 0.5f : 1);
         resultPanel.SetActive(inResults);
         skipButton.gameObject.SetActive(false);
-        foreach (Button button in optionList.GetComponentsInChildren<Button>()) button.interactable = true;
+        foreach (var listOption in optionList.Options)
+            if (options.Count > 1) listOption.GetComponentInChildren<Button>(true).interactable = true;
     }
 
     private void UpdateWheel(bool updateDefaultNames = true)

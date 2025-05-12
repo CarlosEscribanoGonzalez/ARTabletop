@@ -16,6 +16,7 @@ public class DetailedViewCard : MonoBehaviour
     private ScreenOrientation prevOrientation;
     private ScrollRect scrollRect;
     private DetailedViewCardManager manager;
+    private bool isDragging = false;
     public bool IsDetailedCard => scrollRect == null;
     public CardInfo Info { get; private set; } = null;
 
@@ -50,6 +51,7 @@ public class DetailedViewCard : MonoBehaviour
     {
         if (IsDetailedCard) image.transform.parent = rectTransform.parent;
         else scrollRect.OnBeginDrag((PointerEventData) data);
+        isDragging = true;
     }
 
     public void OnDrag(BaseEventData data)
@@ -80,11 +82,12 @@ public class DetailedViewCard : MonoBehaviour
             StartCoroutine(MoveToHeight(heightTarget, action));
         }
         else scrollRect.OnEndDrag((PointerEventData)data);
+        isDragging = false;
     }
 
     public void OnClick(BaseEventData _)
     {
-        if(!IsDetailedCard) manager.SetDetailedInfo(Info);
+        if(!IsDetailedCard && !isDragging) manager.SetDetailedInfo(Info);
     }
 
     private void AdjustSize()

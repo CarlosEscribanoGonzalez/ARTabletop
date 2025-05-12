@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using System.Linq;
+using System.Collections;
 
 public class WheelOptionList : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class WheelOptionList : MonoBehaviour
     [SerializeField] private Transform contentTransform;
     private Dictionary<WheelOption, GameObject> optionsDictionary = new();
     private WheelManager wheelManager;
+    public List<GameObject> Options { get { return optionsDictionary.Values.ToList(); } }
 
     private void Awake()
     {
@@ -31,5 +34,13 @@ public class WheelOptionList : MonoBehaviour
     {
         wheelManager.RemoveOption(option);
         Destroy(optionsDictionary[option]);
+        if (contentTransform.childCount <= 2) StartCoroutine(CheckRemoveButtonInteractable()); //El objeto no se destruye hasta el final del frame
+        optionsDictionary.Remove(option);
+    }
+
+    IEnumerator CheckRemoveButtonInteractable()
+    {
+        yield return new WaitForEndOfFrame();
+        contentTransform.GetComponentInChildren<Button>().interactable = false;
     }
 }
