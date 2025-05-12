@@ -12,11 +12,12 @@ public class Piece : AGameUnit
         manager = FindFirstObjectByType<PieceGameManager>();
         manager.OnNameChanged += (() => SetName(manager.Names[Index]));
         RequestInfo(manager);
+        if(!GameSettings.Instance.IsOnline) SetName(manager.Names[Index]);
     }
 
     private void OnEnable()
     {
-        manager.RequestNameServerRpc(Index);
+        if(GameSettings.Instance.IsOnline && manager != null) manager.RequestNameServerRpc(Index);
     }
 
     protected override void AdjustModelSize()
@@ -39,7 +40,7 @@ public class Piece : AGameUnit
 
     public void RequestNameChange(string name) //Cuando el input field es desactivado
     {
-        manager.ChangeNameServerRpc(Index, name);
+        if (GameSettings.Instance.IsOnline) manager.ChangeNameServerRpc(Index, name);
         InForceMaintain = false;
     }
 

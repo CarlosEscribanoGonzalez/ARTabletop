@@ -61,7 +61,8 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     public void RequestShuffle()
     {
-        specialCardManager.RequestShuffleServerRpc();
+        if (GameSettings.Instance.IsOnline) specialCardManager.RequestShuffleServerRpc();
+        else specialCardManager.Shuffle();
     }
 
     float prevSizeMult = 0; //Anterior multiplicador del tamaño de la carta entera, almacenado en caso de que se tenga que resetear el tamaño

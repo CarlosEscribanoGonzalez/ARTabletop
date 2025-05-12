@@ -8,13 +8,14 @@ public class GameSettings : NetworkBehaviour
 {
     [SerializeField] private bool extendedTracking = false; //Indica si el tracking extendido está activo para el juego o no
     [SerializeField] private bool autoShuffle = true; //Indica si las cartas especiales se barajan solas cuando se llega al final
+    [SerializeField] private bool isOnlineSession = false;
     public Dictionary<SpecialCardGameManager, Card> SpecialCardsDictionary { get; private set; } = new(); //Diccionario con los managers de las cartas especiales y sus cartas asociadas
     public static GameSettings Instance { get; private set; }
     public bool ExtendedTracking { get { return extendedTracking; } } 
     public bool AutoShuffle { get { return autoShuffle; } } 
     public NetworkVariable<int> RandomSeed { get; private set; } = new(); //Semilla para aleatorizar las cartas de todos los jugadores
     public event System.Action OnSeedSet;
-    public bool RequiresOnline { get { return SpecialCardsDictionary.Count > 0; } private set { } }
+    public bool IsOnline { get { return isOnlineSession; } set { isOnlineSession = value; } }
 
     private void Awake()
     {

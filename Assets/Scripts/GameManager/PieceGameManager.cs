@@ -30,7 +30,7 @@ public class PieceGameManager : NetworkBehaviour, IGameManager
         {
             unit.SetModel(pieces[index]); //Se aplica el modelo
             (unit as Piece).Index = index;
-            RequestNameServerRpc(index);
+            if (GameSettings.Instance.IsOnline) RequestNameServerRpc(index);
             return true;
         }
         return false;

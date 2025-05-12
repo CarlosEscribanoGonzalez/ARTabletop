@@ -12,8 +12,6 @@ using System.Collections;
 
 public class RelayManager : MonoBehaviour
 {
-    [SerializeField] private Button hostButton; 
-    [SerializeField] private Button clientButton;
     [SerializeField] private TextMeshProUGUI joinInputText;
     [SerializeField] private TextMeshProUGUI codeText;
     [SerializeField] private TextMeshProUGUI errorText;
@@ -22,19 +20,9 @@ public class RelayManager : MonoBehaviour
     private void Start()
     {
         lobby = errorText.transform.parent.gameObject;
-        if (GameSettings.Instance.RequiresOnline)
-        {
-            hostButton.onClick.AddListener(CreateRelay);
-            clientButton.onClick.AddListener(() => JoinRelay(joinInputText.text));
-        }
-        else
-        {
-            hostButton.onClick.AddListener(CreateOfflineCode);
-            clientButton.onClick.AddListener(() => JoinOfflineCode(joinInputText.text));
-        }
     }
 
-    async void CreateRelay()
+    public async void CreateRelay()
     {
         try
         {
@@ -51,6 +39,7 @@ public class RelayManager : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartHost();
             lobby.SetActive(false);
+            GameSettings.Instance.IsOnline = true;
         }
         catch (System.Exception e)
         {
@@ -62,10 +51,11 @@ public class RelayManager : MonoBehaviour
         finally { ToggleButtonInteraction(true); }
     }
 
-    async void JoinRelay(string joinCode)
+    public async void JoinRelay()
     {
         try
         {
+            string joinCode = joinInputText.text;
             ToggleButtonInteraction(false);
             errorText.gameObject.SetActive(false);
             if (Application.internetReachability == NetworkReachability.NotReachable)
@@ -79,6 +69,7 @@ public class RelayManager : MonoBehaviour
             NetworkManager.Singleton.StartClient();
             lobby.SetActive(false);
             codeText.text = "Room code: " + joinCode.ToUpper();
+            GameSettings.Instance.IsOnline = true;
         }
         catch(System.Exception e)
         {
@@ -90,22 +81,25 @@ public class RelayManager : MonoBehaviour
         finally { ToggleButtonInteraction(true); }
     }
 
-    private void CreateOfflineCode()
+    public void CreateOfflineCode()
     {
         int randSeed = Random.Range(0, 100000);
         codeText.text = "Room code: " + randSeed;
         GameSettings.Instance.SetSeed(randSeed);
         lobby.SetActive(false);
+        GameSettings.Instance.IsOnline = false;
     }
 
-    private void JoinOfflineCode(string code)
+    public void JoinOfflineCode()
     {
         try
         {
+            string code = joinInputText.text;
             int randSeed = int.Parse(code.Substring(0, code.Length - 1)); //El Input Field le añade siempre un char extra
             codeText.text = "Room code: " + randSeed;
             GameSettings.Instance.SetSeed(randSeed);
             lobby.SetActive(false);
+            GameSettings.Instance.IsOnline = false;
         }
         catch (System.Exception e)
         {
@@ -117,8 +111,7 @@ public class RelayManager : MonoBehaviour
 
     private void ToggleButtonInteraction(bool enable)
     {
-        hostButton.interactable = enable;
-        clientButton.interactable = enable;
+        foreach (var b in GetComponentsInChildren<Button>()) b.interactable = enable;
         joinInputText.GetComponentInParent<TMP_InputField>(true).interactable = enable;
     }
 

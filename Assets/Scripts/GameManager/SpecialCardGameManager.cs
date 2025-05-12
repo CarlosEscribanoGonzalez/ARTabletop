@@ -18,13 +18,13 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     private void Start()
     {
         //Se aleatoriza la información una vez la semilla ha sido establecida
-        GameSettings.Instance.OnSeedSet += () => ShuffleCards(false);
+        GameSettings.Instance.OnSeedSet += () => ApplyShuffle(false);
         currentInfoIndex.OnValueChanged += (int prevIndex, int currentIndex) => ApplyInfo(true); //La info se actualiza cuando el índice cambia
         totalDrags.OnValueChanged += (int prevIndex, int currentIndex) =>
         {
             if (specialCard != null) specialCard.PrevButton.GetComponent<Button>().interactable = currentIndex != 0; //El botón se actualiza
         };
-        randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ShuffleCards();
+        randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ApplyShuffle();
         GetComponentInChildren<TextMeshProUGUI>().text = $"{cardTypeName} cards have been shuffled.";
     }
 
@@ -42,11 +42,17 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
 
     public void UpdateCard(int dir) //Se actualiza el contenido de la carta al ser pulsado el botón de cambio de contenido
     {
-        UpdateIndexServerRpc(dir);
+        if (GameSettings.Instance.IsOnline) UpdateIndexServerRpc(dir);
+        else UpdateIndex(dir);
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void RequestShuffleServerRpc()
+    {
+        Shuffle();
+    }
+
+    public void Shuffle()
     {
         CardInfo prevCardInfo = randomizedInfo[currentInfoIndex.Value];
         int randSeed;
@@ -57,7 +63,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
             rand = new System.Random(randSeed);
             randomizedInfo = cardsInfo.OrderBy(x => rand.Next()).ToArray();
         } while (prevCardInfo == randomizedInfo[0]); //Se garantiza que la nueva carta no sea la misma que la última mostrada
-        randomizerSeed.Value = randSeed; 
+        randomizerSeed.Value = randSeed;
         currentInfoIndex.Value = 0;
         totalDrags.Value = 0;
     }
@@ -65,12 +71,21 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     [ServerRpc(RequireOwnership = false)]
     private void UpdateIndexServerRpc(int dir)
     {
+        UpdateIndex(dir);
+    }
+
+    private void UpdateIndex(int dir)
+    {
         if (totalDrags.Value + dir < 0) return;
         totalDrags.Value += dir;
         //Si ya se han mostrado todas las cartas posibles estas son barajadas y se reinicia el índice
         if (currentInfoIndex.Value + dir >= cardsInfo.Length)
         {
-            if (GameSettings.Instance.AutoShuffle) RequestShuffleServerRpc();
+            if (GameSettings.Instance.AutoShuffle)
+            {
+                if(GameSettings.Instance.IsOnline) RequestShuffleServerRpc();
+                else Shuffle();
+            }
             else currentInfoIndex.Value = 0;
         }
         else if (currentInfoIndex.Value + dir < 0)
@@ -88,7 +103,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         specialCard.SetInfo(randomizedInfo[currentInfoIndex.Value], resetScale);
     }
 
-    private void ShuffleCards(bool displayFeedback = true) //Se baraja igual en todos los clientes al compartir semilla
+    private void ApplyShuffle(bool displayFeedback = true) //Se baraja igual en todos los clientes al compartir semilla
     {
         System.Random rand = new System.Random(randomizerSeed.Value);
         randomizedInfo = cardsInfo.OrderBy(x => rand.Next()).ToArray();
