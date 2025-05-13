@@ -12,6 +12,8 @@ using System.Collections;
 
 public class RelayManager : MonoBehaviour
 {
+    [SerializeField] private Button hostButton;
+    [SerializeField] private Button clientButton;
     [SerializeField] private TextMeshProUGUI joinInputText;
     [SerializeField] private TextMeshProUGUI codeText;
     [SerializeField] private TextMeshProUGUI errorText;
@@ -20,6 +22,24 @@ public class RelayManager : MonoBehaviour
     private void Start()
     {
         lobby = errorText.transform.parent.gameObject;
+        hostButton.onClick.AddListener(CreateRelay);
+        clientButton.onClick.AddListener(JoinRelay);
+    }
+
+    public void OnOnlineToggleChanged(bool online)
+    {
+        hostButton.onClick.RemoveAllListeners();
+        clientButton.onClick.RemoveAllListeners();
+        if (online)
+        {
+            hostButton.onClick.AddListener(CreateRelay);
+            clientButton.onClick.AddListener(JoinRelay);
+        }
+        else
+        {
+            hostButton.onClick.AddListener(CreateOfflineCode);
+            clientButton.onClick.AddListener(JoinOfflineCode);
+        }
     }
 
     public async void CreateRelay()
@@ -111,8 +131,10 @@ public class RelayManager : MonoBehaviour
 
     private void ToggleButtonInteraction(bool enable)
     {
-        foreach (var b in GetComponentsInChildren<Button>()) b.interactable = enable;
-        joinInputText.GetComponentInParent<TMP_InputField>(true).interactable = enable;
+        foreach (var selectable in GetComponentsInChildren<Selectable>())
+        {
+            selectable.interactable = enable;
+        }
     }
 
     IEnumerator DisplayErrorText(string text)
