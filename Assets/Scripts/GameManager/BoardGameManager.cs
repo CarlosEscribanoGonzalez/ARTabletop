@@ -9,7 +9,7 @@ public class BoardGameManager : MonoBehaviour, IGameManager
     //Los tableros pueden ser de tipo modelo o sprite. Los prioritarios son los de tipo tablero
     [SerializeField] private GameObject[] boardModels; //Modelos de los tableros
     [SerializeField] private Sprite[] boardSprites; //Sprites de los tableros
-    [SerializeField] private XRReferenceImageLibrary imageLibrary;
+    [SerializeField] private XRReferenceImageLibrary imageLibrary; //Librería de imágenes AR
     private List<XRReferenceImage> boardImagesList = new(); //Marcadores asociados a los tableros
     private int index = 0;
 

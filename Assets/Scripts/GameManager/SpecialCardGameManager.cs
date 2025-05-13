@@ -22,16 +22,16 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         currentInfoIndex.OnValueChanged += (int prevIndex, int currentIndex) => ApplyInfo(true); //La info se actualiza cuando el índice cambia
         totalDrags.OnValueChanged += (int prevIndex, int currentIndex) =>
         {
-            if (specialCard != null) specialCard.PrevButton.GetComponent<Button>().interactable = currentIndex != 0; //El botón se actualiza
+            if (specialCard != null) specialCard.PrevButton.GetComponent<Button>().interactable = currentIndex != 0; //El botón se actualiza cuando se cambia el contenido
         };
-        randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ApplyShuffle();
+        randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ApplyShuffle(); //Cuando se barajan las cartas se aplican los cambios en todos los clientes
         GetComponentInChildren<TextMeshProUGUI>().text = $"{cardTypeName} cards have been shuffled.";
     }
 
     public bool ProvideInfo(AGameUnit unit) //Se proporciona información sobre la carta a las cartas escaneadas
     {
         specialCard = unit as Card;
-        specialCard.PrevButton.GetComponent<Button>().interactable = totalDrags.Value != 0;
+        specialCard.PrevButton.GetComponent<Button>().interactable = totalDrags.Value != 0; //Se inicializa el estado de PrevButton (totalDrags.OnValueChanged no afecta a la carta si no se ha llamado antes a ProvideInfo)
         if (currentInfoIndex.Value >= 0 && currentInfoIndex.Value < randomizedInfo.Length)
         {
             ApplyInfo(false); //Se aplica la información a la carta
@@ -52,7 +52,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         Shuffle();
     }
 
-    public void Shuffle()
+    public void Shuffle() //Las cartas se barajan a partir de una nueva semilla que se comparte entre todos los clientes
     {
         CardInfo prevCardInfo = randomizedInfo[currentInfoIndex.Value];
         int randSeed;
@@ -77,7 +77,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     private void UpdateIndex(int dir)
     {
         if (totalDrags.Value + dir < 0) return;
-        totalDrags.Value += dir;
+        totalDrags.Value += dir; //totalDrags se actualiza independientemente de lo que pase con currentInfoIndex
         //Si ya se han mostrado todas las cartas posibles estas son barajadas y se reinicia el índice
         if (currentInfoIndex.Value + dir >= cardsInfo.Length)
         {
@@ -91,7 +91,6 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         else if (currentInfoIndex.Value + dir < 0)
         {
             if (!GameSettings.Instance.AutoShuffle) currentInfoIndex.Value = cardsInfo.Length - 1;
-            return;
         }
         else currentInfoIndex.Value += dir;
     }
@@ -111,15 +110,15 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         if(displayFeedback) StartCoroutine(DisplayShuffleFeedback());
     }
 
-    private static SpecialCardGameManager currentManagerDisplaying;
-    IEnumerator DisplayShuffleFeedback()
+    private static SpecialCardGameManager currentManagerDisplaying; //Sólo un SpecialCardManager puede hacer display del feedback a la vez
+    IEnumerator DisplayShuffleFeedback() //Corrutina que enseña en la pantalla de todos los clientes cuando una carta especial ha sido barajada
     {
-        if (currentManagerDisplaying != this) 
+        if (currentManagerDisplaying != this) //Si ya se está desplegando feedback sobre este manager la llamada se ignora
         {
-            while(currentManagerDisplaying != null) yield return new WaitForSeconds(0.3f);
+            while(currentManagerDisplaying != null) yield return new WaitForSeconds(0.3f); //Se espera a que termine el feedback anterior
             currentManagerDisplaying = this;
-            GetComponent<Animator>().SetTrigger("Shuffled");
-            yield return new WaitForSeconds(2.1f);
+            GetComponent<Animator>().SetTrigger("Shuffled"); //Activa la animación
+            yield return new WaitForSeconds(2.1f); //Espera un cooldown para que termine la animación antes de liberar currentManagerDisplaying
             currentManagerDisplaying = null;
         }  
     }

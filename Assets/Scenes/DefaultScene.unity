@@ -471,6 +471,18 @@ PrefabInstance:
       value: Carta 7
       objectReference: {fileID: 0}
     - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: -1138051939, guid: 8aea114e3497dfa44ba8a5b3d4dd3697, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[1].sprite
+      value: 
+      objectReference: {fileID: -1046902471, guid: 3297b6300b0a32b4c8b2a122ee948de7, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[2].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
       propertyPath: cardsInfo.Array.data[0].sizeMult
       value: 0.75
       objectReference: {fileID: 0}

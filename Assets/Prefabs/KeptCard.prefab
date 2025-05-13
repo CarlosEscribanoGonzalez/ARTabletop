@@ -212,7 +212,7 @@ MonoBehaviour:
   image: {fileID: 2478967810805013590}
   textMesh: {fileID: 1967089925766522821}
   interpolationSpeed: 1500
-  swipThreshold: 3
+  swipThreshold: 1.5
   maskVerticalPadding: {x: 0.2, y: 0.066}
   defaultSprite: {fileID: 21300000, guid: 685d8a92c80f8674297697ba62f2075b, type: 3}
 --- !u!1 &9188969412741069377

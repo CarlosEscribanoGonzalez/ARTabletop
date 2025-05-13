@@ -10,30 +10,31 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
     [SerializeField] private TextMeshPro text; //Texto de la carta
     [SerializeField] private GameObject buttonCanvas; //Canvas que contiene el botón de cambio de contenido, para las cartas especiales
     [SerializeField] private Sprite defaultSprite; //Sprite por defecto en caso de que no haya ninguno asociado a la información a mostrar
-    [SerializeField] private float clickThreshold = 1; //Tiempo que se tarda en mantener pulsado para hacer toggle de los botones
+    [SerializeField] private float clickThreshold = 1; //Threshold que diferencia un click normal de "mantener pulsado"
     private SpecialCardGameManager specialCardManager; //Manager encargado de gestionar la carta en caso de que sea especial
-    private SortingGroup[] sortingGroups;
-    private DetailedViewCardManager detailedViewManager;
-    private CardInfo cardInfo;
-    private bool IsSpecial => specialCardManager != null;
+    private SortingGroup[] sortingGroups; //Sorting groups en los hijos de la carta, usados para que siempre se vea bien su contenido
+    private DetailedViewCardManager detailedViewManager; //Manager encargado de la vista detallada cuando se pulsa sobre una carta
+    private CardInfo cardInfo; //CardInfo asociada al objeto, proporcionada por el manager
+    private bool IsSpecial => specialCardManager != null; //Indica si la carta es especial o no
     public GameObject PrevButton { get; private set; } = null; //Botón de volver atrás para las cartas especiales
 
     private void Start()
     {
         ARTrackedImage trackedImg = GetComponentInParent<ARTrackedImage>();
-        desiredTextureSize = new Vector2(640, 896);
+        desiredTextureSize = new Vector2(640, 896); //Tamaño deseado con las dimensiones de una carta de póker
         if (trackedImg.referenceImage.name.ToLower().Contains("special")) //Si es especial se obtiene su manager
         {
             foreach (Transform t in buttonCanvas.transform) if (t.name.ToLower().Contains("prev")) PrevButton = t.gameObject;
-            specialCardManager = GameSettings.Instance.GetSpecialCardManager(trackedImg.referenceImage.name, this);
+            //GameSettings se encarga de asociar cartas especiales a sus managers correspondientes a partir de su marcador
+            specialCardManager = GameSettings.Instance.GetSpecialCardManager(trackedImg.referenceImage.name, this); 
             if (specialCardManager is null) GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();
             else
             {
-                buttonCanvas.SetActive(true); //Si se ha conseguido se activa el botón
-                RequestInfo(specialCardManager);    
+                buttonCanvas.SetActive(true); //Si se ha conseguido se activa el canvas de los botones
+                RequestInfo(specialCardManager); //Se le pide la info al manager
             }
         }
-        else RequestInfo(FindFirstObjectByType<CardGameManager>());
+        else RequestInfo(FindFirstObjectByType<CardGameManager>()); //Si es una carta normal le pide la info directamente al único manager
         sortingGroups = GetComponentsInChildren<SortingGroup>(true);
         detailedViewManager = FindFirstObjectByType<DetailedViewCardManager>();
     }
@@ -42,11 +43,13 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
     {
         for (int i = 0; i < sortingGroups.Length; i++)
         {
+            //Al sumar i garantizamos además que el orden de visualización dentro de la propia cámara se mantiene
+            //pues la jerarquía está organizada de forma que los elementos con mayor sorting order son los que mayor índice tienen en el array
             sortingGroups[i].sortingOrder = 1000 - (int)(Vector3.Distance(this.transform.position, Camera.main.transform.position) * 1000) + i;
         }
     }
 
-    public void SetInfo(CardInfo info, bool resetScale = false)
+    public void SetInfo(CardInfo info, bool resetScale = false) //Asigna la información a la carta y la guarda
     {
         text.text = info.text;
         spriteRend.sprite = info.sprite ?? defaultSprite;
@@ -56,10 +59,10 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     public void ChangeContent(bool returnToPrevious) //Se actualiza el contenido cuando el botón de las cartas especiales es pulsado
     {
-        specialCardManager.UpdateCard(returnToPrevious ? -1 : 1);
+        specialCardManager.UpdateCard(returnToPrevious ? -1 : 1); //La misma función sirve para los botones next y prev
     }
 
-    public void RequestShuffle()
+    public void RequestShuffle() //Llamada al pulsar el botón de shuffle
     {
         if (GameSettings.Instance.IsOnline) specialCardManager.RequestShuffleServerRpc();
         else specialCardManager.Shuffle();
@@ -72,8 +75,8 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
         if (resetScale) //Las cartas especiales necesitan resetear su escala antes de cambiar de contenido
         {
             scaled = false;
-            spriteRend.transform.localScale /= spriteScaleMult;
-            transform.localScale /= prevSizeMult;
+            spriteRend.transform.localScale /= spriteScaleMult; //Se resetea el ajuste de la carta al tamaño máximo
+            transform.localScale /= prevSizeMult; //Se resetea el escalado de la carta entera
         }
         
         if (scaled) return; //Coger la escala original no funciona porque es un número pequeño y en la build cuenta como 0
@@ -83,38 +86,39 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
         transform.localScale *= sizeMult;
         if (IsSpecial) buttonCanvas.transform.localScale = Vector3.one / sizeMult; //El tamaño del botón se mantiene
         //Si la foto no cuenta con textura tendrá el mismo tamaño que el sprite mask que permite su visualización
-        if (spriteRend.sprite.texture is null) spriteScaleMult = 1;
+        if (spriteRend.sprite.texture is null) spriteScaleMult = 1; //Se iguala a 1 para que resetear la escala funcione bien
         //Si cuenta con textura el tamaño del sprite se ajusta para que su contenido se vea completamente
         else AdjustSpriteSize();
     }
 
-    private bool isPressing = false;
-    private float pressStartTime;
-    public void OnPointerDown(PointerEventData data)
+    private bool isPressing = false; //Determina si el usuario está pulsando la carta
+    private float pressStartTime; //Almacena el momento en el que la carta se empezó a pulsar
+    public void OnPointerDown(PointerEventData data) //Cuando la carta es pulsada
     {
-        isPressing = true;
+        isPressing = true; 
         pressStartTime = Time.time;
-        if (IsSpecial) StartCoroutine(ToggleButtonsCoroutine());
+        if (IsSpecial) StartCoroutine(ToggleButtonsCoroutine()); //Comienza la corrutina de toggle de los botones
     }
 
-    public void OnPointerUp(PointerEventData data)
+    public void OnPointerUp(PointerEventData data) //Cuando la carta deja de ser pulsada
     {
         if (!isPressing) return;
         isPressing = false;
-        if (Time.time - pressStartTime > clickThreshold) return;
-        detailedViewManager.SetDetailedInfo(cardInfo);
-        if (IsSpecial) StopAllCoroutines();
+        if (Time.time - pressStartTime > clickThreshold) return; //Se valora si ha recibido un click o si se ha mantenido pulsada
+        detailedViewManager.SetDetailedInfo(cardInfo); //Si sólo ha recibido un click se abre la vista detallada
+        if (IsSpecial) StopAllCoroutines(); //La corrutina se para si sólo ha recibido un click, dejando que continúe y finalice en caso contrario
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerExit(PointerEventData eventData) //Cuando la carta es pulsada pero pierde el foco tras un arrastre
     {
+        //Se cancela la interacción con la carta
         isPressing = false;
         if (IsSpecial) StopAllCoroutines();
     }
 
     IEnumerator ToggleButtonsCoroutine()
     {
-        yield return new WaitForSeconds(clickThreshold + 0.2f);
+        yield return new WaitForSeconds(clickThreshold + 0.1f); //Deja un pequeño margen de tiempo de 0.1f 
         buttonCanvas.SetActive(!buttonCanvas.activeSelf);
     }
 }

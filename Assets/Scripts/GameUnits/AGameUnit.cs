@@ -10,14 +10,15 @@ public class AGameUnit : MonoBehaviour
     protected SpriteRenderer spriteRend; //Renderer de sprites de la unidad
     protected Vector2 desiredTextureSize = new Vector2(64, 64); //Tamaño de la textura deseado
     protected float spriteScaleMult = 0; //Multiplicador del tamaño del sprite para que se ajuste al máximo espacio posible
-    private bool inForceMaintain = false;
+    private bool inForceMaintain = false; //Indica que el objeto debe mantenerse aunque su marcador no esté siendo trackeado
     public bool InForceMaintain { get { return inForceMaintain; }
         set
         {
             inForceMaintain = value;
+            //Si el setter lo pone en falso verifica en ese momento su tracking state y la configuración de Extended Tracking
             ARTrackedImage trackable = GetComponentInParent<ARTrackedImage>();
             if (!inForceMaintain && !GameSettings.Instance.ExtendedTracking && trackable.trackingState != TrackingState.Tracking)
-                trackable.gameObject.SetActive(false);
+                trackable.gameObject.SetActive(false); //Si ya no está trackeado y no hay extended tracking se desactiva
         }
     }
 
@@ -26,16 +27,16 @@ public class AGameUnit : MonoBehaviour
         spriteRend = GetComponentInChildren<SpriteRenderer>();
     }
 
-    protected void RequestInfo(IGameManager manager)
+    protected void RequestInfo(IGameManager manager) //Le pide la información al manager correspondiente
     {
         if (!manager.ProvideInfo(this)) //Si encuentra información se aplica
-            GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator(); //Si no se activa el indicador
+            GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator(); //Si no la encuentra se activa el indicador
     }
 
-    private void OnTriggerEnter(Collider other) //La posición de las fichas se ajusta automáticamente para que estén encima del tablero siempre
+    private void OnTriggerEnter(Collider other) //La posición de los modelos se ajusta automáticamente para que estén encima del tablero siempre
     {
         if (unitCollider == null) return;
-        if (other == unitCollider)
+        else if (other == unitCollider) //Las GameUnits cuentan con un collider que actúa como "base" sobre la que colocar el modelo con unitCollider
         {
             unitModel.transform.localPosition += transform.up * 0.005f;
             //Se desactiva y reactiva el collider para volver a detectar la colisión, en caso de que haya que subir más la unidad
@@ -46,7 +47,6 @@ public class AGameUnit : MonoBehaviour
 
     public virtual void SetModel(GameObject model) //Instancia el modelo y ajusta su tamaño
     {
-        if (unitModel != null) return;
         unitModel = Instantiate(model, this.transform);
         AdjustModelSize();
     }
@@ -62,21 +62,24 @@ public class AGameUnit : MonoBehaviour
         MeshFilter mesh = unitModel.GetComponentInChildren<MeshFilter>();
         if (mesh != null)
         {
-            float scaleFactor = maxSize / mesh.sharedMesh.bounds.size.magnitude;
-            unitModel.transform.localScale = Vector3.one * scaleFactor;
+            float scaleFactor = maxSize / mesh.sharedMesh.bounds.size.magnitude; //Se calcula el factor de escala
+            unitModel.transform.localScale = Vector3.one * scaleFactor; //Todos los objetos así tienen la misma magnitud
             //Se le dan al modelo los componentes necesarios para calcular su posición en Y con OnTriggerEnter
+            //Si no tiene collider se le asigna se pone en trigger
             if (unitModel.GetComponentInChildren<Collider>() == null) unitCollider = mesh.gameObject.AddComponent<BoxCollider>();
             else unitCollider = unitModel.GetComponentInChildren<Collider>();
             unitCollider.isTrigger = true;
+            //Si no tiene rigidbody se le asigna y se pone en kinemático y sin usar gravedad
             if (unitModel.GetComponentInChildren<Rigidbody>() == null) mesh.gameObject.AddComponent<Rigidbody>();
             unitModel.GetComponentInChildren<Rigidbody>().isKinematic = true;
             unitModel.GetComponentInChildren<Rigidbody>().useGravity = false;
         }
     }
 
-    protected virtual void AdjustSpriteSize() 
+    protected virtual void AdjustSpriteSize() //Ajusta el sprite al tamaño deseado
     {
-        if (spriteRend.sprite.texture.width > spriteRend.sprite.texture.height)
+        //Se tiene en cuenta si es más ancho o alto para calcular el factor de escala
+        if (spriteRend.sprite.texture.width > spriteRend.sprite.texture.height) 
             spriteScaleMult = desiredTextureSize.x / spriteRend.sprite.texture.width;
         else spriteScaleMult = desiredTextureSize.y / spriteRend.sprite.texture.height;
         spriteRend.transform.localScale *= spriteScaleMult;

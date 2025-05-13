@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class CardGameManager : MonoBehaviour, IGameManager
 {
     [SerializeField] private CardInfo[] cardsInfo; //Información de las cartas a mostrar
-    [SerializeField] private XRReferenceImageLibrary imageLibrary;
+    [SerializeField] private XRReferenceImageLibrary imageLibrary; //Librería de los markers AR
     private List<XRReferenceImage> cardImagesList = new(); //Marcadores asociados a las cartas normales
     private CardInfo[] randomizedInfo; //Array de información de las cartas. Es cardsInfo pero aleatorio
     private int index = 0;
