@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 
-public class DiceResults : MonoBehaviour
+public class DiceResultsUI : MonoBehaviour
 {
     [SerializeField] private Transform results; //Transform cuyos hijos son todos los resultados
     [SerializeField] private TextMeshProUGUI totalResultText; //Texto que muestra la suma de los resultados
@@ -17,7 +17,7 @@ public class DiceResults : MonoBehaviour
     private void OnEnable()
     {
         //El background de la cámara es traído al frente para que se lean bien los resultados
-        FindFirstObjectByType<DiceCamera>(FindObjectsInactive.Include).ZoomBackground(); 
+        manager.GetComponentInChildren<RNGCamera>(true).ZoomBackground(); 
         totalResult = 0;
         for(int i = 0; i < results.childCount; i++) //Se activan las casillas pertinentes a cada resultado a la vez que estos se van sumando
         {

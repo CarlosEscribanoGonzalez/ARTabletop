@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DiceCamera : MonoBehaviour
+public class RNGCamera : MonoBehaviour
 {
     [SerializeField] private float portraitDistance = 13f; //Posición local en Y cuando Screen está en portrait
     [SerializeField] private float landscapeDistance = 7.75f; //Posicón local en Y cuando Screen está en landscape

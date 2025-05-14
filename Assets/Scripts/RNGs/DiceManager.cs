@@ -45,13 +45,19 @@ public class DiceManager : MonoBehaviour
 
     public void ShowResults()
     {
-        FindFirstObjectByType<DiceResults>(FindObjectsInactive.Include).gameObject.SetActive(true); //Se activa la pantalla de resultados
+        FindFirstObjectByType<DiceResultsUI>(FindObjectsInactive.Include).gameObject.SetActive(true); //Se activa la pantalla de resultados
         skipButton.SetActive(false); //Se desactiva el botón de skip (lo activó el botón de lanzar dados al ser pulsado)
+        Time.timeScale = 1;
     }
 
     public int GetDiceResult(Dice dice) //Devuelve el resultado correspondiente a un dado
     {
         return Results[dices.IndexOf(dice)];
+    }
+
+    public void Skip()
+    {
+        Time.timeScale = 100;
     }
 
     private void GenerateResults() //Se genera un resultado por lanzamiento
