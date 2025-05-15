@@ -42,7 +42,7 @@ public class Coin : MonoBehaviour
         yield return new WaitForSeconds(0.3f); //Un poco de retraso para evitar que por error se muestre el resultado antes de aplicar el movimiento
         do
             yield return new WaitForSeconds(0.1f);
-        while (rb.linearVelocity.magnitude >= 0.025f); //Cada 0.1 segundos se comprueba si ya está prácticamente quieto
+        while (rb.linearVelocity.magnitude >= 0.005f); //Cada 0.1 segundos se comprueba si ya está prácticamente quieto
         StartCoroutine(ShowResult(CalculateResult())); //Cuando está quieta la moneda comunica su resultado
     }
 

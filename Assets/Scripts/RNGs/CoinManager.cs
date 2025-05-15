@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 public class CoinManager : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class CoinManager : MonoBehaviour
                 //Se activan el número de monedas equivalente a numThrows. Las monedas se lanzan solas al ser activadas
                 coins[i].transform.parent.gameObject.SetActive(true);
             }
+            GetComponentInChildren<RNGCamera>().ZoomOutBackground();
         }
         else foreach (Coin c in coins) c.transform.parent.gameObject.SetActive(false);
     }
@@ -54,6 +56,12 @@ public class CoinManager : MonoBehaviour
     public void Skip()
     {
         Time.timeScale = 100;
+    }
+
+    public void ThrowAgain()
+    {
+        foreach (Coin c in coins) c.transform.parent.gameObject.SetActive(false);
+        ToggleCoinThrow(true);
     }
 }
 

@@ -33,6 +33,7 @@ public class DiceManager : MonoBehaviour
                 //Se activan el número de dados equivalente a numThrows. Los dados se lanzan solos al ser activados
                 dices[i].transform.parent.gameObject.SetActive(true); 
             }
+            GetComponentInChildren<RNGCamera>().ZoomOutBackground();
         }
         else foreach (Dice d in dices) d.transform.parent.gameObject.SetActive(false);
     }
@@ -58,6 +59,12 @@ public class DiceManager : MonoBehaviour
     public void Skip()
     {
         Time.timeScale = 100;
+    }
+
+    public void ThrowAgain()
+    {
+        foreach (Dice d in dices) d.transform.parent.gameObject.SetActive(false);
+        ToggleDiceThrow(true);
     }
 
     private void GenerateResults() //Se genera un resultado por lanzamiento

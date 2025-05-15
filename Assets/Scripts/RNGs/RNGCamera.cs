@@ -15,11 +15,6 @@ public class RNGCamera : MonoBehaviour
         camBackground = GetComponentInChildren<Canvas>();
     }
 
-    private void OnEnable()
-    {
-        camBackground.planeDistance = 100; //El background debe de estar detrás de los dados para que su lanzamiento se vea bien
-    }
-
     private void Update()
     {
         //Se configura la altura y orientación de la cámara según la orientación de la pantalla para que siempre se vean todos los dados
@@ -42,5 +37,10 @@ public class RNGCamera : MonoBehaviour
     public void ZoomBackground() //Acerca el canvas con el background. Llamado por la pestaña de resultados al aparecer
     {
         camBackground.planeDistance = 5; //Poniendo el canvas cerca se consigue que los resultados se lean bien, dejando a los dados de fondo
+    }
+
+    public void ZoomOutBackground()
+    {
+        camBackground.planeDistance = 100; //El background debe de estar detrás de los dados/monedas para que su lanzamiento se vea bien
     }
 }
