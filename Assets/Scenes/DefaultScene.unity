@@ -305,6 +305,143 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 213560251871301703, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
   m_PrefabInstance: {fileID: 4648567278007323576}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1533078590
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardTypeName
+      value: SCards2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[0].text
+      value: Carta 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[1].text
+      value: Carta 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[2].text
+      value: 'Carta 3
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[3].text
+      value: 'Carta 4
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[4].text
+      value: 'Carta 5
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[5].text
+      value: 'Carta 6
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[0].sprite
+      value: 
+      objectReference: {fileID: -1138051939, guid: 8aea114e3497dfa44ba8a5b3d4dd3697, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[1].sprite
+      value: 
+      objectReference: {fileID: -1046902471, guid: 3297b6300b0a32b4c8b2a122ee948de7, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[2].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[3].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[4].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[5].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[0].sizeMult
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[1].sizeMult
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4307537570450805772, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386947066074773087, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 932945587
+      objectReference: {fileID: 0}
+    - target: {fileID: 5386947066074773087, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 3336977279
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648222621567045942, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: m_Name
+      value: SpecialCardGameManager (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
 --- !u!1 &1548164443
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,7 +593,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
       propertyPath: cardsInfo.Array.size
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
       propertyPath: cardsInfo.Array.data[0].text
@@ -474,15 +611,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
       propertyPath: cardsInfo.Array.data[3].text
-      value: Carta 5
+      value: 'Carta 4
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
       propertyPath: cardsInfo.Array.data[4].text
-      value: Carta 6
+      value: 'Carta 5
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
       propertyPath: cardsInfo.Array.data[5].text
-      value: Carta 7
+      value: 'Carta 6
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
       propertyPath: cardsInfo.Array.data[0].sprite
@@ -494,6 +637,18 @@ PrefabInstance:
       objectReference: {fileID: -1046902471, guid: 3297b6300b0a32b4c8b2a122ee948de7, type: 3}
     - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
       propertyPath: cardsInfo.Array.data[2].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[3].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[4].sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
+    - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
+      propertyPath: cardsInfo.Array.data[5].sprite
       value: 
       objectReference: {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
     - target: {fileID: 4173649776530081182, guid: 536fa27ab19a38740aac17b048e8d7c4, type: 3}
@@ -1136,11 +1291,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 8f13ceca4d3caf040873afb84fddffca, type: 3}
     - target: {fileID: 1824233986915512816, guid: b9b61e8d312791048b529fc97494ddda, type: 3}
       propertyPath: cardsInfo.Array.data[0].sizeMult
-      value: 1.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1824233986915512816, guid: b9b61e8d312791048b529fc97494ddda, type: 3}
       propertyPath: cardsInfo.Array.data[1].sizeMult
-      value: 0.75
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3073765775576802127, guid: b9b61e8d312791048b529fc97494ddda, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1205,6 +1360,7 @@ SceneRoots:
   - {fileID: 554358837103223935}
   - {fileID: 3790020250790153388}
   - {fileID: 2023802336}
+  - {fileID: 1533078590}
   - {fileID: 1548164444}
   - {fileID: 83368005710018727}
   - {fileID: 8296475736454156121}

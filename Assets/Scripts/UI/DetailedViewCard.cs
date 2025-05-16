@@ -26,7 +26,6 @@ public class DetailedViewCard : MonoBehaviour
         scrollRect = GetComponentInParent<ScrollRect>();
         manager = FindFirstObjectByType<DetailedViewCardManager>();
         prevOrientation = Screen.orientation;
-        AdjustSize();
     }
 
     private void Update()
@@ -47,7 +46,7 @@ public class DetailedViewCard : MonoBehaviour
         image.sprite = info.sprite ?? defaultSprite; //Si no tiene sprite pone el por defecto
         textMesh.text = info.text;
         Info = info; //Se guarda la información
-        if (isDetailedCard) AdjustSize();
+        AdjustSize();
     }
 
     public void OnBeginDrag(BaseEventData data)

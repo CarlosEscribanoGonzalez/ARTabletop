@@ -55,7 +55,7 @@ public class CoinManager : MonoBehaviour
 
     public void Skip()
     {
-        Time.timeScale = 100;
+        Time.timeScale = 25;
     }
 
     public void ThrowAgain()

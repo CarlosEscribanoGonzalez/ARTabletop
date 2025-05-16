@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering;
 using System.Collections.Generic;
+using System.Collections;
 
 public class DetailedViewCardManager : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class DetailedViewCardManager : MonoBehaviour
     {
         if (cardsKept.ContainsKey(info)) return; //Si ya está guardada no hace nada
         cardsKept.Add(info, Instantiate(keptCardPrefab, keptCardsContent)); //Crea una nueva instancia de carta almacenada y su entrada en el diccionario
-        cardsKept[info].GetComponent<DetailedViewCard>().SetInfo(info); //Se le aplica la información necesaria a la carta creada
+        StartCoroutine(SetupKeptInfo(info)); //Hay que esperar hasta el final del frame para que se cree correctamente la carta
         scrollRect.gameObject.SetActive(true); //Si se ha añadido una carta se puede garantizar que al menos hay un elemento en el scroll rect. Este se activa
     }
 
@@ -54,5 +55,12 @@ public class DetailedViewCardManager : MonoBehaviour
             cardsKept.Remove(info); //Se elimina la entrada del diccionario
             if (cardsKept.Count == 0) scrollRect.gameObject.SetActive(false); //Si ya no quedan elementos se oculta el scroll rect
         }
+    }
+
+    IEnumerator SetupKeptInfo(CardInfo info)
+    {
+        yield return new WaitForEndOfFrame();
+        cardsKept[info].SetActive(true);
+        cardsKept[info].GetComponent<DetailedViewCard>().SetInfo(info); //Se le aplica la información necesaria a la carta creada
     }
 }
