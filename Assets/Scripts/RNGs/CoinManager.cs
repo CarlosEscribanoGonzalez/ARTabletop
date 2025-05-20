@@ -19,6 +19,11 @@ public class CoinManager : MonoBehaviour
         coins = GetComponentsInChildren<Coin>(true).ToList();
     }
 
+    private void OnDisable()
+    {
+        Time.timeScale = 1;
+    }
+
     public void ToggleCoinThrow(bool enable) //Activa y desactiva la cámara que apunta a la moneda y se encarga de su lanzamiento
     {
         coinCamera.SetActive(enable);

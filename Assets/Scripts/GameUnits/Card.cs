@@ -9,13 +9,12 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
 {
     [SerializeField] private TextMeshPro text; //Texto de la carta
     [SerializeField] private GameObject buttonCanvas; //Canvas que contiene el botón de cambio de contenido, para las cartas especiales
-    [SerializeField] private Sprite defaultSprite; //Sprite por defecto en caso de que no haya ninguno asociado a la información a mostrar
     [SerializeField] private float clickThreshold = 1; //Threshold que diferencia un click normal de "mantener pulsado"
-    private SpecialCardGameManager specialCardManager; //Manager encargado de gestionar la carta en caso de que sea especial
+    private IGameManager manager; //Manager encargado de gestionar la carta en caso de que sea especial
     private SortingGroup[] sortingGroups; //Sorting groups en los hijos de la carta, usados para que siempre se vea bien su contenido
     private DetailedViewCardManager detailedViewManager; //Manager encargado de la vista detallada cuando se pulsa sobre una carta
     private CardInfo cardInfo; //CardInfo asociada al objeto, proporcionada por el manager
-    private bool IsSpecial => specialCardManager != null; //Indica si la carta es especial o no
+    private bool IsSpecial => manager is SpecialCardGameManager; //Indica si la carta es especial o no
     public GameObject PrevButton { get; private set; } = null; //Botón de volver atrás para las cartas especiales
 
     private void Start()
@@ -26,15 +25,19 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
         {
             foreach (Transform t in buttonCanvas.transform) if (t.name.ToLower().Contains("prev")) PrevButton = t.gameObject;
             //GameSettings se encarga de asociar cartas especiales a sus managers correspondientes a partir de su marcador
-            specialCardManager = GameSettings.Instance.GetSpecialCardManager(trackedImg.referenceImage.name, this); 
-            if (specialCardManager is null) GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();
+            manager = GameSettings.Instance.GetSpecialCardManager(trackedImg.referenceImage.name, this);
+            if (manager is null) GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();
             else
             {
                 buttonCanvas.SetActive(true); //Si se ha conseguido se activa el canvas de los botones
-                RequestInfo(specialCardManager); //Se le pide la info al manager
+                RequestInfo(manager); //Se le pide la info al manager
             }
         }
-        else RequestInfo(FindFirstObjectByType<CardGameManager>()); //Si es una carta normal le pide la info directamente al único manager
+        else
+        {
+            manager = FindFirstObjectByType<CardGameManager>();
+            RequestInfo(manager); //Si es una carta normal le pide la info directamente al único manager
+        }
         sortingGroups = GetComponentsInChildren<SortingGroup>(true);
         detailedViewManager = FindFirstObjectByType<DetailedViewCardManager>();
     }
@@ -52,20 +55,21 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
     public void SetInfo(CardInfo info, bool resetScale = false) //Asigna la información a la carta y la guarda
     {
         text.text = info.text;
-        spriteRend.sprite = info.sprite ?? defaultSprite;
-        SetSize(info.sizeMult, resetScale);
+        if(!IsSpecial) spriteRend.sprite = info.sprite ?? (manager as CardGameManager).DefaultImage;
+        else spriteRend.sprite = info.sprite ?? (manager as SpecialCardGameManager).DefaultImage;
+        SetSize(info.sizeMult == 0 ? 1 : info.sizeMult, resetScale);
         cardInfo = info;
     }
 
     public void ChangeContent(bool returnToPrevious) //Se actualiza el contenido cuando el botón de las cartas especiales es pulsado
     {
-        specialCardManager.UpdateCard(returnToPrevious ? -1 : 1); //La misma función sirve para los botones next y prev
+        (manager as SpecialCardGameManager).UpdateCard(returnToPrevious ? -1 : 1); //La misma función sirve para los botones next y prev
     }
 
     public void RequestShuffle() //Llamada al pulsar el botón de shuffle
     {
-        if (GameSettings.Instance.IsOnline) specialCardManager.RequestShuffleServerRpc();
-        else specialCardManager.Shuffle();
+        if (GameSettings.Instance.IsOnline) (manager as SpecialCardGameManager).RequestShuffleServerRpc();
+        else (manager as SpecialCardGameManager).Shuffle();
     }
 
     float prevSizeMult = 0; //Anterior multiplicador del tamaño de la carta entera, almacenado en caso de que se tenga que resetear el tamaño

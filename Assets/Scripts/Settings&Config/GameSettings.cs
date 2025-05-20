@@ -6,12 +6,10 @@ using UnityEngine.XR.ARFoundation;
 
 public class GameSettings : NetworkBehaviour
 {
-    [SerializeField] private bool extendedTracking = false; //Indica si el tracking extendido está activo para el juego o no
-    [SerializeField] private bool autoShuffle = true; //Indica si las cartas especiales se barajan solas cuando se llega al final
     public static GameSettings Instance { get; private set; }
     public Dictionary<SpecialCardGameManager, Card> SpecialCardsDictionary { get; private set; } = new(); //Diccionario con los managers de las cartas especiales y sus cartas asociadas
-    public bool ExtendedTracking { get { return extendedTracking; } } //De momento sólo configurable desde el editor 
-    public bool AutoShuffle { get { return autoShuffle; } } //De momento sólo configurable desde el editor
+    public bool ExtendedTracking { get; set; } = false; //Indica si el tracking extendido está activo para el juego o no
+    public bool AutoShuffle { get; set; } = true; //Indica si las cartas especiales se barajan solas al agotarse
     public bool IsOnline { get; set; } = false; //Indica si la partida es online u offline
     public NetworkVariable<int> RandomSeed { get; private set; } = new(); //Semilla para aleatorizar las cartas de todos los jugadores
     public event System.Action OnSeedSet; //Evento que se dispara cuando la semilla es recibida

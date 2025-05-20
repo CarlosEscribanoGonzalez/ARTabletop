@@ -7,17 +7,17 @@ using Unity.Netcode;
 
 public class PieceGameManager : NetworkBehaviour, IGameManager
 {
-    [SerializeField] private GameObject[] pieces; //Array de piezas del juego
     [SerializeField] private XRReferenceImageLibrary imageLibrary; //Librería de marcadores AR
     private List<XRReferenceImage> pieceImagesList = new(); //Marcadores asociados a las piezas
     private int index = 0;
+    public GameObject[] Pieces { get; set; } = null; //Array de piezas del juego
     public string[] Names { get; private set; } //Nombres de los jugadores asociados a las piezas
     public event System.Action OnNameChanged;
 
     private void Awake()
     {
         pieceImagesList = imageLibrary.Where(img => img.name.ToLower().Contains("piece")).ToList(); //Se almacenan los marcadores asociados
-        Names = new string[pieces.Length]; //Se inicializa el array de nombres y se le da a cada pieza un nombre génerico por defecto
+        Names = new string[Pieces.Length]; //Se inicializa el array de nombres y se le da a cada pieza un nombre génerico por defecto
         for(int i = 0; i < Names.Length; i++) { Names[i] = "Player " + (i + 1); }
     }
 
@@ -26,9 +26,9 @@ public class PieceGameManager : NetworkBehaviour, IGameManager
     {
         trackable = unit.GetComponentInParent<ARTrackedImage>();
         index = pieceImagesList.IndexOf(trackable.referenceImage); //Se calcula la pieza a enseñar a partir del índice de su marcador
-        if (index >= 0 && index < pieces.Length)
+        if (index >= 0 && index < Pieces.Length)
         {
-            unit.SetModel(pieces[index]); //Se aplica el modelo
+            unit.SetModel(Pieces[index]); //Se aplica el modelo
             (unit as Piece).Index = index; //Se le proporciona el índice del marcador, que corresponde al del array Names
             if (GameSettings.Instance.IsOnline) RequestNameServerRpc(index); //Se pide el nombre almacenado en el servidor al ser escaneado por primera vez
             return true;
