@@ -8,7 +8,6 @@ public class GameOption : MonoBehaviour
     public GameInfo Info { get; set; } = null;
     private Button button;
     
-
     void Start()
     {
         button = GetComponent<Button>();
@@ -20,5 +19,10 @@ public class GameOption : MonoBehaviour
     {
         GameConfigurator.gameInfo = Info;
         SceneManager.LoadScene(1);
+    }
+
+    public void Share()
+    {
+        Info.Share();
     }
 }
