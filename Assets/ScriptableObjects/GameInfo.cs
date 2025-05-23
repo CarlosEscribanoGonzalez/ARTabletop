@@ -45,23 +45,21 @@ public class GameInfo : ScriptableObject
         intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_SEND"));
         intentObject.Call<AndroidJavaObject>("setType", "application/json");
 
-        // Obtener contexto y autoridad de FileProvider
         AndroidJavaObject unityActivity = new AndroidJavaClass("com.unity3d.player.UnityPlayer")
             .GetStatic<AndroidJavaObject>("currentActivity");
-        string authority = unityActivity.Call<string>("getPackageName") + ".fileprovider";
+        string authority = unityActivity.Call<string>("getPackageName") + ".provider";
 
-        // Crear objeto File y Uri usando FileProvider
         AndroidJavaObject fileObject = new AndroidJavaObject("java.io.File", path);
         AndroidJavaClass fileProviderClass = new AndroidJavaClass("androidx.core.content.FileProvider");
         AndroidJavaObject uriObject = fileProviderClass.CallStatic<AndroidJavaObject>(
             "getUriForFile", unityActivity, authority, fileObject);
 
-        // Agregar el URI al intent y permisos
         intentObject.Call<AndroidJavaObject>("putExtra", "android.intent.extra.STREAM", uriObject);
-        intentObject.Call<AndroidJavaObject>("addFlags", 1 << 1); // FLAG_GRANT_READ_URI_PERMISSION
+        intentObject.Call<AndroidJavaObject>("addFlags", 1 << 1); 
 
-        // Iniciar actividad para compartir el archivo
-        unityActivity.Call("startActivity", intentObject);
+        AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>(
+            "createChooser", intentObject, "Compartir JSON");
+        unityActivity.Call("startActivity", chooser);
     }
 
     private string ConvertGameInfoToJSON()
