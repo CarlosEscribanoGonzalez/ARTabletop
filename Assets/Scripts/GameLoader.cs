@@ -1,5 +1,6 @@
 using Serialization;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class GameLoader : MonoBehaviour
@@ -105,12 +106,15 @@ public class GameLoader : MonoBehaviour
     private void LoadGames()
     {
         string rootPath = Application.persistentDataPath;
-        string[] gamesContent = Directory.GetFiles(rootPath, "game_*.json");
-        foreach(string content in gamesContent)
+        DirectoryInfo dirInfo = new DirectoryInfo(rootPath);
+        FileInfo[] gameFiles = dirInfo.GetFiles("game_*.json")
+                                 .OrderBy(f => f.CreationTime)
+                                 .ToArray();
+        foreach (FileInfo file in gameFiles)
         {
             try
             {
-                AddGame(File.ReadAllText(content));
+                AddGame(File.ReadAllText(file.FullName));
             }
             catch (System.Exception e)
             {
