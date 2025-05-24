@@ -1,4 +1,5 @@
-using Newtonsoft.Json;
+using Serialization;
+using System.IO;
 using UnityEngine;
 
 public class GameLoader : MonoBehaviour
@@ -9,18 +10,19 @@ public class GameLoader : MonoBehaviour
     {
         if (instance == null) instance = this;
         else Destroy(this.gameObject);
+        DontDestroyOnLoad(this);
+        LoadGames();
         TryReadNewGame();
     }
 
     public void OnIntentReceived(string uri)
     {
         Debug.Log("Datos recividos con URI: " + uri);
-        AddGame(ReadFileFromUri(uri));
+        SaveGame(ReadFileFromUri(uri));
     }
 
     private void TryReadNewGame()
     {
-        Debug.Log("Intentando leer nuevo juego...");
         try
         {
             AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -59,7 +61,7 @@ public class GameLoader : MonoBehaviour
 
                 if (!string.IsNullOrEmpty(jsonContent))
                 {
-                    AddGame(jsonContent);
+                    SaveGame(jsonContent);
                 }
                 else
                 {
@@ -69,11 +71,11 @@ public class GameLoader : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.Log("Intento de añadir juego fallido: " + e.Message);
+            Debug.LogError("Intento de añadir juego fallido: " + e.Message);
         }
     }
 
-    string ReadFileFromUri(string uriString)
+    private string ReadFileFromUri(string uriString)
     {
         using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
         {
@@ -97,6 +99,40 @@ public class GameLoader : MonoBehaviour
             inputStream.Call("close");
 
             return sb.ToString();
+        }
+    }
+
+    private void LoadGames()
+    {
+        string rootPath = Application.persistentDataPath;
+        string[] gamesContent = Directory.GetFiles(rootPath, "game_*.json");
+        foreach(string content in gamesContent)
+        {
+            try
+            {
+                AddGame(File.ReadAllText(content));
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Error cargando un juego: " + e);
+            }
+        }
+    }
+
+    private void SaveGame(string content)
+    {
+        string gameId = "game_" + JsonUtility.FromJson<GameInfoSerializable>(content).gameName + content.Length % 99;
+        string path = Path.Combine(Application.persistentDataPath, gameId + ".json");
+        if (File.Exists(path)) return;
+        try
+        {
+            File.WriteAllText(path, content);
+            Debug.Log("Juego guardado en: " + path);
+            AddGame(content);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error guardando el juego: " + e);
         }
     }
 
