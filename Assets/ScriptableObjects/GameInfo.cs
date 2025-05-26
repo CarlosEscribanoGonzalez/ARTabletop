@@ -4,6 +4,7 @@ using System;
 using Serialization;
 using System.Linq;
 using System.IO;
+using System.IO.Compression;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/GameInfo")]
 public class GameInfo : ScriptableObject
@@ -37,28 +38,29 @@ public class GameInfo : ScriptableObject
 
     public void Share()
     {
-        string path = Application.persistentDataPath + $"/{gameName}_info.artabletop";
-        File.WriteAllText(path, ConvertGameInfoToJSON());
+        List<string> files = new();
+        files.Add(ConvertGameInfoToJSON());
+        files.AddRange(GetImagePaths());
+
+        string zipPath = CreateZip(gameName, files);
 
         AndroidJavaClass intentClass = new AndroidJavaClass("android.content.Intent");
         AndroidJavaObject intentObject = new AndroidJavaObject("android.content.Intent");
         intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_SEND"));
-        intentObject.Call<AndroidJavaObject>("setType", "application/json");
+        intentObject.Call<AndroidJavaObject>("setType", "application/zip");
 
         AndroidJavaObject unityActivity = new AndroidJavaClass("com.unity3d.player.UnityPlayer")
             .GetStatic<AndroidJavaObject>("currentActivity");
         string authority = unityActivity.Call<string>("getPackageName") + ".provider";
 
-        AndroidJavaObject fileObject = new AndroidJavaObject("java.io.File", path);
         AndroidJavaClass fileProviderClass = new AndroidJavaClass("androidx.core.content.FileProvider");
         AndroidJavaObject uriObject = fileProviderClass.CallStatic<AndroidJavaObject>(
-            "getUriForFile", unityActivity, authority, fileObject);
+            "getUriForFile", unityActivity, authority, new AndroidJavaObject("java.io.File", zipPath));
 
         intentObject.Call<AndroidJavaObject>("putExtra", "android.intent.extra.STREAM", uriObject);
-        intentObject.Call<AndroidJavaObject>("addFlags", 1 << 1); 
+        intentObject.Call<AndroidJavaObject>("addFlags", 1 << 1);
 
-        AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>(
-            "createChooser", intentObject, "Compartir JSON");
+        AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>("createChooser", intentObject, "Compartir Juego");
         unityActivity.Call("startActivity", chooser);
     }
 
@@ -67,7 +69,7 @@ public class GameInfo : ScriptableObject
         var gameInfoSerializable = new GameInfoSerializable
         {
             gameName = this.gameName,
-            gameImageFileName = this.gameImage != null ? this.gameImage.name + ".png" : null,
+            gameImageFileName = this.gameImage != null ? this.gameImage.texture.name : null,
 
             autoShuffle = this.autoShuffle,
             extendedTracking = this.extendedTracking,
@@ -84,8 +86,51 @@ public class GameInfo : ScriptableObject
 
             defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.name + ".png" : null
         };
+        string path = Application.persistentDataPath + $"/{gameName}_info.artabletop";
+        File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true));
+        return path;
+    }
 
-        return JsonUtility.ToJson(gameInfoSerializable, true);
+    private string CreateZip(string zipName, List<string> files)
+    {
+        string zipPath = Application.persistentDataPath + $"/{zipName}.zip";
+
+        if (File.Exists(zipPath))
+            File.Delete(zipPath);
+
+        using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
+        {
+            foreach (string file in files)
+            {
+                archive.CreateEntryFromFile(file, Path.GetFileName(file));
+            }
+        }
+
+        return zipPath;
+    }
+
+    private List<string> GetImagePaths()
+    {
+        List<string> listToReturn = new();
+        listToReturn.Add(GetPathFromSprite(gameImage));
+        return listToReturn;
+    }
+
+    private string GetPathFromSprite(Sprite sprite)
+    {
+        string textureName = sprite.name;
+        string pathPNG = Application.persistentDataPath + $"/{textureName}.png";
+        string pathJPG = Application.persistentDataPath + $"/{textureName}.jpg";
+
+        bool isPNG = File.Exists(pathPNG);
+        string path = isPNG ? pathPNG : pathJPG;
+        if (!File.Exists(path))
+        {
+            Texture2D texture = sprite.texture;
+            byte[] bytes = isPNG ? texture.EncodeToPNG() : texture.EncodeToJPG();
+            File.WriteAllBytes(path, bytes);
+        }
+        return path;
     }
 }
 

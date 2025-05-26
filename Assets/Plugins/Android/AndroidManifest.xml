@@ -15,10 +15,10 @@
 				<category android:name="android.intent.category.BROWSABLE" />
 				<data
 					android:scheme="content"
-					android:mimeType="application/octet-stream" />
+					android:mimeType="application/zip" />
 				<data
 					android:scheme="file"
-					android:pathPattern=".*\\.artabletop" />
+					android:pathPattern=".*\\.zip" />
 			</intent-filter>
 
 			<meta-data android:name="unityplayer.UnityActivity" android:value="true" />
