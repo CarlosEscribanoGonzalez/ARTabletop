@@ -23,7 +23,7 @@ public class GameConfigurator : MonoBehaviour
         //Cards normales:
         cardManager.CardsInfo = gameInfo.cardsInfo.ToArray();
         cardManager.DefaultImage = gameInfo.defaultSprite;
-        //Piezas:
+        /*/Piezas:
         List<GameObject> pieces = new();
         for(int i = 0; i < gameInfo.numPieces; i++)
         {
@@ -34,6 +34,7 @@ public class GameConfigurator : MonoBehaviour
         //Tableros: 
         boardManager.BoardModels = gameInfo.boards3D.ToArray();
         boardManager.BoardSprites = gameInfo.boards2D.ToArray();
+        */
         //SpecialCards:
         SpecialCardGameManager newManager;
         for(int i = 0; i < gameInfo.specialCardsInfo.Count; i++)

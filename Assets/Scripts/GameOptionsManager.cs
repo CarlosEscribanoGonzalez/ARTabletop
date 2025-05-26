@@ -42,6 +42,22 @@ public class GameOptionsManager : MonoBehaviour
             newGameInfo.cardsInfo.Add(cardInfo);
         }
         newGameInfo.defaultSprite = AssignSprite(deserialized.defaultSpriteFileName);
+        //Special cards:
+        foreach(var scard in deserialized.specialCardsInfo)
+        {
+            SpecialCardInfo specialCardInfo = new SpecialCardInfo();
+            specialCardInfo.name = scard.name;
+            foreach (var card in scard.cardsInfo)
+            {
+                CardInfo cardInfo = new CardInfo();
+                cardInfo.text = card.text;
+                cardInfo.sprite = AssignSprite(card.spriteFileName);
+                cardInfo.sizeMult = card.size;
+                specialCardInfo.cardsInfo.Add(cardInfo);
+            }
+            specialCardInfo.defaultSpecialSprite = AssignSprite(scard.defaultSpriteFileName);
+            newGameInfo.specialCardsInfo.Add(specialCardInfo);
+        }
 
         GameOption game = Instantiate(gameOptionPrefab, this.transform).GetComponent<GameOption>();
         game.Info = newGameInfo;

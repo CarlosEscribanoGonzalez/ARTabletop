@@ -34,7 +34,7 @@ public class GameInfo : ScriptableObject
     public List<Sprite> boards2D = new();
 
     [Header("SpecialCards")]
-    public List<SpecialCardInfo> specialCardsInfo;
+    public List<SpecialCardInfo> specialCardsInfo = new();
 
     public void Share()
     {
@@ -84,7 +84,19 @@ public class GameInfo : ScriptableObject
                 text = card.text,
                 size = card.sizeMult
             }).ToList(),
-            defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.texture.name : null
+            defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.texture.name : null,
+            //Special cards:
+            specialCardsInfo = this.specialCardsInfo.Select(card => new SpecialCardInfoSerializable
+            {
+                name = card.name,
+                cardsInfo = card.cardsInfo.Select(c => new CardInfoSerializable
+                {
+                    spriteFileName = c.sprite != null ? c.sprite.texture.name : null,
+                    text = c.text,
+                    size = c.sizeMult
+                }).ToList(),
+                defaultSpriteFileName = card.defaultSpecialSprite != null ? card.defaultSpecialSprite.texture.name : null
+            }).ToList()
         };
         string path = Application.persistentDataPath + $"/{gameName}_info.artabletop";
         File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true));
@@ -164,6 +176,14 @@ namespace Serialization
     }
 
     [Serializable]
+    public class SpecialCardInfoSerializable
+    {
+        public string name;
+        public List<CardInfoSerializable> cardsInfo = new();
+        public string defaultSpriteFileName;
+    }
+
+    [Serializable]
     public class CardInfoSerializable
     {
         public string spriteFileName;
@@ -183,5 +203,6 @@ namespace Serialization
         public bool gameHasCoins;
         public List<CardInfoSerializable> cardsInfo;
         public string defaultSpriteFileName;
+        public List<SpecialCardInfoSerializable> specialCardsInfo;
     }
 }
