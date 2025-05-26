@@ -118,18 +118,20 @@ public class GameInfo : ScriptableObject
 
     private string GetPathFromSprite(Sprite sprite)
     {
-        string textureName = sprite.name;
-        string pathPNG = Application.persistentDataPath + $"/{textureName}.png";
-        string pathJPG = Application.persistentDataPath + $"/{textureName}.jpg";
-
-        bool isPNG = File.Exists(pathPNG);
-        string path = isPNG ? pathPNG : pathJPG;
-        if (!File.Exists(path))
+        string textureName = sprite.texture.name;
+        string path;
+        byte[] bytes;
+        try
         {
-            Texture2D texture = sprite.texture;
-            byte[] bytes = isPNG ? texture.EncodeToPNG() : texture.EncodeToJPG();
-            File.WriteAllBytes(path, bytes);
+            bytes = sprite.texture.EncodeToPNG();
+            path = Application.persistentDataPath + $"/{textureName}.png";
+        } 
+        catch
+        {
+            bytes = sprite.texture.EncodeToJPG();
+            path = Application.persistentDataPath + $"/{textureName}.jpg";
         }
+        File.WriteAllBytes(path, bytes);
         return path;
     }
 }

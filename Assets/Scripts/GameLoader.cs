@@ -15,14 +15,13 @@ public class GameLoader : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(this.gameObject);
         DontDestroyOnLoad(this);
-        LoadGames();
+        LoadSavedGames();
         TryReadNewGame();
     }
 
     public void OnIntentReceived(string uri)
     {
-        Debug.Log("Datos recividos con URI: " + uri);
-        SaveGame(ReadFileFromUri(uri));
+        TryReadNewGame();
     }
 
     private void TryReadNewGame()
@@ -89,12 +88,13 @@ public class GameLoader : MonoBehaviour
                         {
                             Debug.LogError("No se encontró ningún archivo .artabletop dentro del .zip.");
                         }
+                        foreach (var entry in archive.Entries) SaveImage(entry);
                     }
                 }
 
                 if (!string.IsNullOrEmpty(jsonContent))
                 {
-                    SaveGame(jsonContent);
+                    SaveGameInfo(jsonContent);
                 }
                 else
                 {
@@ -108,34 +108,7 @@ public class GameLoader : MonoBehaviour
         }
     }
 
-    private string ReadFileFromUri(string uriString)
-    {
-        using (AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
-        {
-            AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            AndroidJavaObject contentResolver = activity.Call<AndroidJavaObject>("getContentResolver");
-            AndroidJavaObject uri = new AndroidJavaClass("android.net.Uri").CallStatic<AndroidJavaObject>("parse", uriString);
-
-            AndroidJavaObject inputStream = contentResolver.Call<AndroidJavaObject>("openInputStream", uri);
-            AndroidJavaObject inputStreamReader = new AndroidJavaObject("java.io.InputStreamReader", inputStream);
-            AndroidJavaObject bufferedReader = new AndroidJavaObject("java.io.BufferedReader", inputStreamReader);
-
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
-            string line;
-            while ((line = bufferedReader.Call<string>("readLine")) != null)
-            {
-                sb.Append(line);
-            }
-
-            bufferedReader.Call("close");
-            inputStreamReader.Call("close");
-            inputStream.Call("close");
-
-            return sb.ToString();
-        }
-    }
-
-    private void LoadGames()
+    private void LoadSavedGames()
     {
         string rootPath = Application.persistentDataPath;
         DirectoryInfo dirInfo = new DirectoryInfo(rootPath);
@@ -155,7 +128,7 @@ public class GameLoader : MonoBehaviour
         }
     }
 
-    private void SaveGame(string content)
+    private void SaveGameInfo(string content)
     {
         string gameId = "game_" + JsonUtility.FromJson<GameInfoSerializable>(content).gameName + content.Length % 99;
         Debug.Log(gameId);
@@ -170,6 +143,33 @@ public class GameLoader : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError("Error guardando el juego: " + e);
+        }
+    }
+
+    private void SaveImage(ZipArchiveEntry entry)
+    {
+        string entryName = entry.FullName;
+        if (entryName.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
+            entryName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
+            entryName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+        {
+            try
+            {
+                string safeName = Path.GetFileName(entryName);
+                string imagePath = Path.Combine(Application.persistentDataPath, safeName);
+                if (File.Exists(imagePath)) return;
+                using (Stream entryStream = entry.Open())
+                using (FileStream fileStream = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
+                {
+                    entryStream.CopyTo(fileStream);
+                }
+
+                Debug.Log($"Imagen guardada en: {imagePath}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error guardando imagen {entryName}: {ex.Message}");
+            }
         }
     }
 

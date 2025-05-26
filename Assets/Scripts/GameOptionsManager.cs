@@ -1,6 +1,7 @@
 using UnityEngine;
 using Serialization;
 using System.Collections.Generic;
+using System.IO;
 
 public class GameOptionsManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class GameOptionsManager : MonoBehaviour
         //Faltarían todos los archivos, de momento para hacer la prueba sólo se pasan ajustes generales y cartas
         GameInfoSerializable deserialized = JsonUtility.FromJson<GameInfoSerializable>(jsonInfo);
         newGameInfo.gameName = deserialized.gameName;
+        newGameInfo.gameImage = AssignSprite(deserialized.gameImageFileName);
         newGameInfo.autoShuffle = deserialized.autoShuffle;
         newGameInfo.extendedTracking = deserialized.extendedTracking;
         newGameInfo.gameHasDice = deserialized.gameHasDice;
@@ -39,5 +41,27 @@ public class GameOptionsManager : MonoBehaviour
 
         GameOption game = Instantiate(gameOptionPrefab, this.transform).GetComponent<GameOption>();
         game.Info = newGameInfo;
+    }
+
+    string path;
+    byte[] imgData;
+    Texture2D texture;
+    private Sprite AssignSprite(string textureName)
+    {
+        string[] supportedExtensions = { ".png", ".jpg", ".jpeg" };
+        foreach(var ext in supportedExtensions)
+        {
+            path = Path.Combine(Application.persistentDataPath, textureName + ext);
+            if (File.Exists(path))
+            {
+                imgData = File.ReadAllBytes(path);
+                texture = new Texture2D(0, 0); //El tamaño se autoajusta más tarde
+                texture.LoadImage(imgData);
+                return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            }
+        }
+        Debug.LogError($"La textura {textureName} no fue encontrada en {path}");
+        return null;
+
     }
 }
