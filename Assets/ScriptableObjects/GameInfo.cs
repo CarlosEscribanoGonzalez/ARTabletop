@@ -68,23 +68,23 @@ public class GameInfo : ScriptableObject
     {
         var gameInfoSerializable = new GameInfoSerializable
         {
+            //General settings:
             gameName = this.gameName,
             gameImageFileName = this.gameImage != null ? this.gameImage.texture.name : null,
-
+            //RNG section:
             autoShuffle = this.autoShuffle,
-            extendedTracking = this.extendedTracking,
+            extendedTracking = this.extendedTracking, //Quizá moverlo a ajustes locales y no de la partida
             gameHasDice = this.gameHasDice,
             gameHasWheel = this.gameHasWheel,
             gameHasCoins = this.gameHasCoins,
-
+            //Cards:
             cardsInfo = this.cardsInfo.Select(card => new CardInfoSerializable
             {
-                spriteFileName = card.sprite != null ? card.sprite.name + ".png" : null,
+                spriteFileName = card.sprite != null ? card.sprite.texture.name : null,
                 text = card.text,
                 size = card.sizeMult
             }).ToList(),
-
-            defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.name + ".png" : null
+            defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.texture.name : null
         };
         string path = Application.persistentDataPath + $"/{gameName}_info.artabletop";
         File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true));
@@ -112,12 +112,29 @@ public class GameInfo : ScriptableObject
     private List<string> GetImagePaths()
     {
         List<string> listToReturn = new();
-        listToReturn.Add(GetPathFromSprite(gameImage));
+        AddPathIfNotContained(listToReturn, GetPathFromSprite(gameImage));
+        foreach(var cardInfo in cardsInfo)
+        {
+            AddPathIfNotContained(listToReturn, GetPathFromSprite(cardInfo.sprite));
+        }
+        AddPathIfNotContained(listToReturn, GetPathFromSprite(defaultSprite));
+        foreach(var specialCard in specialCardsInfo)
+        {
+            AddPathIfNotContained(listToReturn, GetPathFromSprite(specialCard.defaultSpecialSprite));
+            foreach (var cardInfo in specialCard.cardsInfo) AddPathIfNotContained(listToReturn, GetPathFromSprite(cardInfo.sprite));
+        }
         return listToReturn;
+    }
+
+    private void AddPathIfNotContained(List<string> list, string path)
+    {
+        if (path != string.Empty && !list.Contains(path)) list.Add(path);
+        else Debug.Log("Foto ya añadida para compartir, no incluida");
     }
 
     private string GetPathFromSprite(Sprite sprite)
     {
+        if (sprite is null) return string.Empty;
         string textureName = sprite.texture.name;
         string path;
         byte[] bytes;
@@ -154,6 +171,7 @@ namespace Serialization
         public float size;
     }
 
+    [Serializable]
     public class GameInfoSerializable
     {
         public string gameName;

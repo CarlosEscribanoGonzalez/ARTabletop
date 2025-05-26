@@ -20,24 +20,28 @@ public class GameOptionsManager : MonoBehaviour
     public void AddNewGame(string jsonInfo)
     {
         GameInfo newGameInfo = ScriptableObject.CreateInstance<GameInfo>();
-        
-        //Faltarían todos los archivos, de momento para hacer la prueba sólo se pasan ajustes generales y cartas
+
         GameInfoSerializable deserialized = JsonUtility.FromJson<GameInfoSerializable>(jsonInfo);
+        //General settings:
         newGameInfo.gameName = deserialized.gameName;
         newGameInfo.gameImage = AssignSprite(deserialized.gameImageFileName);
+        //RNG section:
         newGameInfo.autoShuffle = deserialized.autoShuffle;
         newGameInfo.extendedTracking = deserialized.extendedTracking;
         newGameInfo.gameHasDice = deserialized.gameHasDice;
         newGameInfo.gameHasWheel = deserialized.gameHasWheel;
         newGameInfo.gameHasCoins = deserialized.gameHasCoins;
+        //Cards:
         newGameInfo.cardsInfo = new List<CardInfo>();
         foreach (var card in deserialized.cardsInfo)
         {
             CardInfo cardInfo = new CardInfo();
             cardInfo.text = card.text;
+            cardInfo.sprite = AssignSprite(card.spriteFileName);
             cardInfo.sizeMult = card.size;
             newGameInfo.cardsInfo.Add(cardInfo);
         }
+        newGameInfo.defaultSprite = AssignSprite(deserialized.defaultSpriteFileName);
 
         GameOption game = Instantiate(gameOptionPrefab, this.transform).GetComponent<GameOption>();
         game.Info = newGameInfo;
@@ -48,6 +52,7 @@ public class GameOptionsManager : MonoBehaviour
     Texture2D texture;
     private Sprite AssignSprite(string textureName)
     {
+        if (textureName == string.Empty) return null;
         string[] supportedExtensions = { ".png", ".jpg", ".jpeg" };
         foreach(var ext in supportedExtensions)
         {
