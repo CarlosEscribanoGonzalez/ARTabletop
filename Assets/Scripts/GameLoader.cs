@@ -107,7 +107,7 @@ public class GameLoader : MonoBehaviour
     {
         string rootPath = Application.persistentDataPath;
         DirectoryInfo dirInfo = new DirectoryInfo(rootPath);
-        FileInfo[] gameFiles = dirInfo.GetFiles("game_*.json")
+        FileInfo[] gameFiles = dirInfo.GetFiles("game_*.artabletop")
                                  .OrderBy(f => f.CreationTime)
                                  .ToArray();
         foreach (FileInfo file in gameFiles)
@@ -126,7 +126,8 @@ public class GameLoader : MonoBehaviour
     private void SaveGame(string content)
     {
         string gameId = "game_" + JsonUtility.FromJson<GameInfoSerializable>(content).gameName + content.Length % 99;
-        string path = Path.Combine(Application.persistentDataPath, gameId + ".json");
+        Debug.Log(gameId);
+        string path = Path.Combine(Application.persistentDataPath, gameId + ".artabletop");
         if (File.Exists(path)) return;
         try
         {

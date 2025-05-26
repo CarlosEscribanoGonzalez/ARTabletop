@@ -37,7 +37,7 @@ public class GameInfo : ScriptableObject
 
     public void Share()
     {
-        string path = Application.persistentDataPath + $"/{gameName}_info.json";
+        string path = Application.persistentDataPath + $"/{gameName}_info.artabletop";
         File.WriteAllText(path, ConvertGameInfoToJSON());
 
         AndroidJavaClass intentClass = new AndroidJavaClass("android.content.Intent");
