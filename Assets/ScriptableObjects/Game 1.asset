@@ -31,10 +31,10 @@ MonoBehaviour:
   defaultPiece: {fileID: 919132149155446097, guid: 2fa319a20333e204f945d891e9353b81, type: 3}
   pieces:
   - {fileID: 919132149155446097, guid: 49c05e1f97a270a46abaa522d9ac5863, type: 3}
-  boards3D:
-  - {fileID: 4209626209239141091, guid: ed31a9fa38a29f74da00a017630e0aee, type: 3}
+  boards3D: []
   boards2D:
-  - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: -1138051939, guid: 8aea114e3497dfa44ba8a5b3d4dd3697, type: 3}
+  - {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
   specialCardsInfo:
   - name: Special 1
     cardsInfo:

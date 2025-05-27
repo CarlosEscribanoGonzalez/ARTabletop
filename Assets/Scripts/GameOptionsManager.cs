@@ -42,6 +42,11 @@ public class GameOptionsManager : MonoBehaviour
             newGameInfo.cardsInfo.Add(cardInfo);
         }
         newGameInfo.defaultSprite = AssignSprite(deserialized.defaultSpriteFileName);
+        //Boards:
+        foreach(var board2d in deserialized.boardImagesNames)
+        {
+            newGameInfo.boards2D.Add(AssignSprite(board2d));
+        }
         //Special cards:
         foreach(var scard in deserialized.specialCardsInfo)
         {

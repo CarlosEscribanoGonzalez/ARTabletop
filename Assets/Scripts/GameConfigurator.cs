@@ -30,11 +30,11 @@ public class GameConfigurator : MonoBehaviour
             if (i < gameInfo.pieces.Count) pieces.Add(gameInfo.pieces[i]);
             else pieces.Add(gameInfo.defaultPiece);
         }
-        pieceManager.Pieces = pieces.ToArray();
+        pieceManager.Pieces = pieces.ToArray();*/
         //Tableros: 
-        boardManager.BoardModels = gameInfo.boards3D.ToArray();
+        //boardManager.BoardModels = gameInfo.boards3D.ToArray();
+        boardManager.BoardModels = new GameObject[0];
         boardManager.BoardSprites = gameInfo.boards2D.ToArray();
-        */
         //SpecialCards:
         SpecialCardGameManager newManager;
         for(int i = 0; i < gameInfo.specialCardsInfo.Count; i++)

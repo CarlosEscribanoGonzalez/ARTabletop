@@ -85,6 +85,8 @@ public class GameInfo : ScriptableObject
                 size = card.sizeMult
             }).ToList(),
             defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.texture.name : null,
+            //Boards:
+            boardImagesNames = this.boards2D.Select(board => board.texture.name).ToList(),
             //Special cards:
             specialCardsInfo = this.specialCardsInfo.Select(card => new SpecialCardInfoSerializable
             {
@@ -134,6 +136,10 @@ public class GameInfo : ScriptableObject
         {
             AddPathIfNotContained(listToReturn, GetPathFromSprite(specialCard.defaultSpecialSprite));
             foreach (var cardInfo in specialCard.cardsInfo) AddPathIfNotContained(listToReturn, GetPathFromSprite(cardInfo.sprite));
+        }
+        foreach(var board2d in boards2D)
+        {
+            AddPathIfNotContained(listToReturn, GetPathFromSprite(board2d));
         }
         return listToReturn;
     }
@@ -196,13 +202,19 @@ namespace Serialization
     {
         public string gameName;
         public string gameImageFileName;
+
         public bool autoShuffle;
         public bool extendedTracking;
         public bool gameHasDice;
         public bool gameHasWheel;
         public bool gameHasCoins;
+
         public List<CardInfoSerializable> cardsInfo;
         public string defaultSpriteFileName;
+
+        public List<string> boardImagesNames;
+
         public List<SpecialCardInfoSerializable> specialCardsInfo;
+
     }
 }
