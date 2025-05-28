@@ -29,8 +29,21 @@ public class GameLoader : MonoBehaviour
     {
         string gameId = GetCustomGameID(JsonUtility.FromJson<GameInfoSerializable>(File.ReadAllText(jsonPath)));
         string path = Path.Combine(Application.persistentDataPath, gameId + ".artabletop");
-        if (File.Exists(path)) File.Delete(path);
-        else Debug.LogError("No se encontró el juego a borrar");
+        if (File.Exists(path))
+        {
+            Debug.Log($"Juego eliminado de {path}");
+            File.Delete(path);
+        }
+        else Debug.LogError($"No se encontró el juego a borrar en {path}");
+    }
+
+    public void DeleteImage(Sprite s)
+    {
+        string path = Path.Combine(Application.persistentDataPath, s.texture.name + ".png");
+        Debug.Log(File.Exists(path));
+        //if (!File.Exists(path)) path = Path.Combine(Application.persistentDataPath, s.texture.name + ".jpg");
+        //if (!File.Exists(path)) Debug.LogError($"Imagen a borrar en {path} no encontrada.");
+        File.Delete(path);
     }
 
     private void TryReadNewGame()
@@ -124,11 +137,12 @@ public class GameLoader : MonoBehaviour
     {
         string rootPath = Application.persistentDataPath;
         DirectoryInfo dirInfo = new DirectoryInfo(rootPath);
-        FileInfo[] gameFiles = dirInfo.GetFiles("game_*.artabletop")
+        FileInfo[] gameFiles = dirInfo.GetFiles("*.artabletop")
                                  .OrderBy(f => f.CreationTime)
                                  .ToArray();
         foreach (FileInfo file in gameFiles)
         {
+            Debug.Log("CARGANDO UN JUEGO..." + file);
             try
             {
                 AddGame(File.ReadAllText(file.FullName));
@@ -184,10 +198,10 @@ public class GameLoader : MonoBehaviour
         }
     }
 
-    private string GetCustomGameID(GameInfoSerializable jsonContent)
+    public static string GetCustomGameID(GameInfoSerializable jsonContent)
     {
         string name = jsonContent.gameName;
-        int dif = jsonContent.specialCardsInfo.Count * jsonContent.cardsInfo.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre
+        int dif = jsonContent.specialCardsInfo.Count * jsonContent.cardsInfo.Count * jsonContent.boardImagesNames.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre
         return name + "_" + name[0].GetHashCode() + name[name.Length-1].GetHashCode() + "_" + dif;
     }
 

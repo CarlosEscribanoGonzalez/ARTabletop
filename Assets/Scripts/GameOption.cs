@@ -32,6 +32,7 @@ public class GameOption : MonoBehaviour
     public void RemoveGame()
     {
         Info.Delete();
+        FindFirstObjectByType<LayoutManager>().RemoveContent(this.transform);
         Destroy(this.gameObject);
     }
 

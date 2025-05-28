@@ -32,6 +32,11 @@ public class LayoutManager : MonoBehaviour
         content.Add(newContent);
     }
 
+    public void RemoveContent(Transform contentToRemove)
+    {
+        content.Remove(contentToRemove);
+    }
+
     public Transform GetCurrentLayoutTransform()
     {
         if (orientation == ScreenOrientation.LandscapeLeft || orientation == ScreenOrientation.LandscapeRight) return layoutInLandscape;

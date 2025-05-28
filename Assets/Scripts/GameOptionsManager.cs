@@ -7,6 +7,7 @@ public class GameOptionsManager : MonoBehaviour
 {
     [SerializeField] private List<GameInfo> games = new();
     [SerializeField] private GameObject gameOptionPrefab;
+    public List<GameInfo> Games { get { return games; } }
     private LayoutManager layoutManager;
 
     void Awake()
@@ -16,7 +17,7 @@ public class GameOptionsManager : MonoBehaviour
         {
             GameOption game = Instantiate(gameOptionPrefab, layoutManager.GetCurrentLayoutTransform()).GetComponent<GameOption>();
             game.Info = info;
-           layoutManager.AddContent(game.transform);
+            layoutManager.AddContent(game.transform);
         }
     }
 
@@ -70,6 +71,7 @@ public class GameOptionsManager : MonoBehaviour
         GameOption game = Instantiate(gameOptionPrefab, layoutManager.GetCurrentLayoutTransform()).GetComponent<GameOption>();
         game.Info = newGameInfo;
         GetComponent<LayoutManager>().AddContent(game.transform);
+        games.Add(newGameInfo);
     }
 
     string path;

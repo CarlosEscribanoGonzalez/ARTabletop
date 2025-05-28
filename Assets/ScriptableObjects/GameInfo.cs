@@ -38,7 +38,50 @@ public class GameInfo : ScriptableObject
 
     public void Delete()
     {
-        FindFirstObjectByType<GameLoader>().DeleteGameInfo(ConvertGameInfoToJSON());
+        GameLoader gameLoader = FindFirstObjectByType<GameLoader>();
+        gameLoader.DeleteGameInfo(ConvertGameInfoToJSON());
+        return;
+        foreach(Sprite s in GetAllUsedSprites())
+        {
+            Debug.Log("EVALUANDO: " + s.texture.name);
+            bool contained = false;
+            foreach(GameInfo game in FindFirstObjectByType<GameOptionsManager>().Games)
+            {
+                if (game != this)
+                {
+                    List<Sprite> otherGameSprites = game.GetAllUsedSprites();
+                    Debug.Log(game.gameName + "CONTIENE " + s.texture.name + "?: " + otherGameSprites.Contains(s));
+                    if (otherGameSprites.Contains(s))
+                    {
+                        contained = true;
+                        Debug.Log("Imagen no ha podido ser borrada porque es usada por otro juego");
+                        break;
+                    }
+                }
+            }
+            if (!contained) gameLoader.DeleteImage(s);
+        }
+    }
+
+    public List<Sprite> GetAllUsedSprites()
+    {
+        List<Sprite> spriteList = new();
+        AddSpriteToList(spriteList, gameImage);
+        foreach (var c in cardsInfo) AddSpriteToList(spriteList, c.sprite);
+        AddSpriteToList(spriteList, defaultSprite);
+        foreach (var b in boards2D) AddSpriteToList(spriteList, b);
+        foreach (var sc in specialCardsInfo)
+        {
+            AddSpriteToList(spriteList, sc.defaultSpecialSprite);
+            foreach (var c in sc.cardsInfo) AddSpriteToList(spriteList, c.sprite);
+        }
+        return spriteList;
+    }
+
+    public void AddSpriteToList(List<Sprite> spriteList, Sprite sprite)
+    {
+        if (sprite == null || spriteList.Contains(sprite)) return;
+        spriteList.Add(sprite);
     }
 
     public void Share()
@@ -107,7 +150,7 @@ public class GameInfo : ScriptableObject
                 defaultSpriteFileName = card.defaultSpecialSprite != null ? card.defaultSpecialSprite.texture.name : null
             }).ToList()
         };
-        string path = Application.persistentDataPath + $"/{gameName}_info.artabletop";
+        string path = Path.Combine(Application.persistentDataPath, GameLoader.GetCustomGameID(gameInfoSerializable));
         File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true));
         return path;
     }
