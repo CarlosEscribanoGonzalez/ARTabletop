@@ -61,7 +61,6 @@ public class GameLoader : MonoBehaviour
                     using (MemoryStream memoryStream = new MemoryStream())
                     {
                         const int bufferSize = 4096;
-                        byte[] buffer = new byte[bufferSize];
 
                         AndroidJavaObject dataInputStream = new AndroidJavaObject("java.io.DataInputStream", inputStream);
                         while (true)
@@ -70,10 +69,14 @@ public class GameLoader : MonoBehaviour
                             if (available <= 0) break;
 
                             int readSize = Math.Min(bufferSize, available);
-                            byte[] temp = dataInputStream.Call<byte[]>("readNBytes", readSize);
-                            if (temp == null || temp.Length == 0) break;
+                            sbyte[] tempSBytes = dataInputStream.Call<sbyte[]>("readNBytes", readSize);
 
-                            memoryStream.Write(temp, 0, temp.Length);
+                            if (tempSBytes == null || tempSBytes.Length == 0) break;
+
+                            byte[] tempBytes = new byte[tempSBytes.Length];
+                            Buffer.BlockCopy(tempSBytes, 0, tempBytes, 0, tempSBytes.Length);
+
+                            memoryStream.Write(tempBytes, 0, tempBytes.Length);
                         }
 
                         zipBytes = memoryStream.ToArray();
