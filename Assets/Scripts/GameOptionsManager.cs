@@ -86,6 +86,7 @@ public class GameOptionsManager : MonoBehaviour
             {
                 imgData = File.ReadAllBytes(path);
                 texture = new Texture2D(0, 0); //El tamaño se autoajusta más tarde
+                texture.name = textureName;
                 texture.LoadImage(imgData);
                 return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
