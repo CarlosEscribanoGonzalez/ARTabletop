@@ -37,10 +37,10 @@ public class GameLoader : MonoBehaviour
         else Debug.LogError($"No se encontró el juego a borrar en {path}");
     }
 
-    public void DeleteImage(Sprite s)
+    public void DeleteImage(string name)
     {
-        string path = Path.Combine(Application.persistentDataPath, s.texture.name + ".png");
-        Debug.Log(File.Exists(path));
+        string path = Path.Combine(Application.persistentDataPath, name + ".png");
+        Debug.Log("ELIMINANDO IMAGEN: " + name);
         //if (!File.Exists(path)) path = Path.Combine(Application.persistentDataPath, s.texture.name + ".jpg");
         //if (!File.Exists(path)) Debug.LogError($"Imagen a borrar en {path} no encontrada.");
         File.Delete(path);

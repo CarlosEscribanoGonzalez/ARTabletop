@@ -40,48 +40,45 @@ public class GameInfo : ScriptableObject
     {
         GameLoader gameLoader = FindFirstObjectByType<GameLoader>();
         gameLoader.DeleteGameInfo(ConvertGameInfoToJSON());
-        return;
-        foreach(Sprite s in GetAllUsedSprites())
+        foreach(string textureName in GetAllUsedTextures())
         {
-            Debug.Log("EVALUANDO: " + s.texture.name);
             bool contained = false;
             foreach(GameInfo game in FindFirstObjectByType<GameOptionsManager>().Games)
             {
                 if (game != this)
                 {
-                    List<Sprite> otherGameSprites = game.GetAllUsedSprites();
-                    Debug.Log(game.gameName + "CONTIENE " + s.texture.name + "?: " + otherGameSprites.Contains(s));
-                    if (otherGameSprites.Contains(s))
+                    List<string> otherGamesTextures = game.GetAllUsedTextures();
+                    if (otherGamesTextures.Contains(textureName))
                     {
                         contained = true;
-                        Debug.Log("Imagen no ha podido ser borrada porque es usada por otro juego");
+                        Debug.Log("Imagen " + textureName + " no ha podido ser borrada porque es usada por otro juego");
                         break;
                     }
                 }
             }
-            if (!contained) gameLoader.DeleteImage(s);
+            if (!contained) gameLoader.DeleteImage(textureName);
         }
     }
 
-    public List<Sprite> GetAllUsedSprites()
+    public List<string> GetAllUsedTextures()
     {
-        List<Sprite> spriteList = new();
-        AddSpriteToList(spriteList, gameImage);
-        foreach (var c in cardsInfo) AddSpriteToList(spriteList, c.sprite);
-        AddSpriteToList(spriteList, defaultSprite);
-        foreach (var b in boards2D) AddSpriteToList(spriteList, b);
+        List<string> textureNameList = new();
+        AddTextureToList(textureNameList, gameImage);
+        foreach (var c in cardsInfo) AddTextureToList(textureNameList, c.sprite);
+        AddTextureToList(textureNameList, defaultSprite);
+        foreach (var b in boards2D) AddTextureToList(textureNameList, b);
         foreach (var sc in specialCardsInfo)
         {
-            AddSpriteToList(spriteList, sc.defaultSpecialSprite);
-            foreach (var c in sc.cardsInfo) AddSpriteToList(spriteList, c.sprite);
+            AddTextureToList(textureNameList, sc.defaultSpecialSprite);
+            foreach (var c in sc.cardsInfo) AddTextureToList(textureNameList, c.sprite);
         }
-        return spriteList;
+        return textureNameList;
     }
 
-    public void AddSpriteToList(List<Sprite> spriteList, Sprite sprite)
+    public void AddTextureToList(List<string> textureList, Sprite sprite)
     {
-        if (sprite == null || spriteList.Contains(sprite)) return;
-        spriteList.Add(sprite);
+        if (sprite == null || textureList.Contains(sprite.texture.name)) return;
+        textureList.Add(sprite.texture.name);
     }
 
     public void Share()
