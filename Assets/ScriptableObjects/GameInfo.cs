@@ -36,6 +36,11 @@ public class GameInfo : ScriptableObject
     [Header("SpecialCards")]
     public List<SpecialCardInfo> specialCardsInfo = new();
 
+    public void Delete()
+    {
+        FindFirstObjectByType<GameLoader>().DeleteGameInfo(ConvertGameInfoToJSON());
+    }
+
     public void Share()
     {
         List<string> files = new();

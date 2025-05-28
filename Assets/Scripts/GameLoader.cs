@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using Serialization;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,14 @@ public class GameLoader : MonoBehaviour
     public void OnIntentReceived(string uri)
     {
         TryReadNewGame();
+    }
+
+    public void DeleteGameInfo(string jsonPath)
+    {
+        string gameId = GetCustomGameID(JsonUtility.FromJson<GameInfoSerializable>(File.ReadAllText(jsonPath)));
+        string path = Path.Combine(Application.persistentDataPath, gameId + ".artabletop");
+        if (File.Exists(path)) File.Delete(path);
+        else Debug.LogError("No se encontró el juego a borrar");
     }
 
     private void TryReadNewGame()
@@ -130,8 +139,7 @@ public class GameLoader : MonoBehaviour
 
     private void SaveGameInfo(string content)
     {
-        string gameId = "game_" + JsonUtility.FromJson<GameInfoSerializable>(content).gameName + content.Length % 99;
-        Debug.Log(gameId);
+        string gameId = GetCustomGameID(JsonUtility.FromJson<GameInfoSerializable>(content));
         string path = Path.Combine(Application.persistentDataPath, gameId + ".artabletop");
         if (File.Exists(path)) return;
         try
@@ -171,6 +179,13 @@ public class GameLoader : MonoBehaviour
                 Debug.LogError($"Error guardando imagen {entryName}: {ex.Message}");
             }
         }
+    }
+
+    private string GetCustomGameID(GameInfoSerializable jsonContent)
+    {
+        string name = jsonContent.gameName;
+        int dif = jsonContent.specialCardsInfo.Count * jsonContent.cardsInfo.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre
+        return name + "_" + name[0].GetHashCode() + name[name.Length-1].GetHashCode() + "_" + dif;
     }
 
     private void AddGame(string content)
