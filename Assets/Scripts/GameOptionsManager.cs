@@ -7,13 +7,16 @@ public class GameOptionsManager : MonoBehaviour
 {
     [SerializeField] private List<GameInfo> games = new();
     [SerializeField] private GameObject gameOptionPrefab;
+    private LayoutManager layoutManager;
 
     void Awake()
     {
+        layoutManager = GetComponent<LayoutManager>();
         foreach (var info in games)
         {
-            GameOption game = Instantiate(gameOptionPrefab, this.transform).GetComponent<GameOption>();
+            GameOption game = Instantiate(gameOptionPrefab, layoutManager.GetCurrentLayoutTransform()).GetComponent<GameOption>();
             game.Info = info;
+           layoutManager.AddContent(game.transform);
         }
     }
 
@@ -64,8 +67,9 @@ public class GameOptionsManager : MonoBehaviour
             newGameInfo.specialCardsInfo.Add(specialCardInfo);
         }
 
-        GameOption game = Instantiate(gameOptionPrefab, this.transform).GetComponent<GameOption>();
+        GameOption game = Instantiate(gameOptionPrefab, layoutManager.GetCurrentLayoutTransform()).GetComponent<GameOption>();
         game.Info = newGameInfo;
+        GetComponent<LayoutManager>().AddContent(game.transform);
     }
 
     string path;

@@ -33,8 +33,7 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: 49c05e1f97a270a46abaa522d9ac5863, type: 3}
   boards3D:
   - {fileID: 4209626209239141091, guid: ed31a9fa38a29f74da00a017630e0aee, type: 3}
-  boards2D:
-  - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  boards2D: []
   specialCardsInfo:
   - name: Special 2
     cardsInfo:

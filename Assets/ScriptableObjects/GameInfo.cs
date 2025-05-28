@@ -62,6 +62,8 @@ public class GameInfo : ScriptableObject
 
         AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>("createChooser", intentObject, "Compartir Juego");
         unityActivity.Call("startActivity", chooser);
+
+        File.Delete(zipPath); //Hay que borrar el zip para que no ocupe espacio innecesario en memoria
     }
 
     private string ConvertGameInfoToJSON()
