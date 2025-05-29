@@ -17,7 +17,6 @@ public class GameSettings : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
-        Screen.sleepTimeout = SleepTimeout.NeverSleep; //La pantalla se configura para no apagarse sola
         foreach(SpecialCardGameManager manager in FindObjectsByType<SpecialCardGameManager>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID))
         {
             SpecialCardsDictionary.Add(manager, null); //Se crea una entrada para cada manager

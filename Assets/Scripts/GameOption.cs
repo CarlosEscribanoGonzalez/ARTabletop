@@ -19,6 +19,7 @@ public class GameOption : MonoBehaviour
 
     public void OnClick()
     {
+        LoadingScreenManager.ToggleLoadingScreen(true);
         GameConfigurator.gameInfo = Info;
         SceneManager.LoadScene(1);
     }
@@ -38,7 +39,8 @@ public class GameOption : MonoBehaviour
 
     public void Share()
     {
-        Info.Share();
+        LoadingScreenManager.ToggleLoadingScreen(true);
+        Invoke("ShareAfterCooldown", 0.1f);
     }
 
     public void ConfigureAsDefaultGame()
@@ -47,5 +49,10 @@ public class GameOption : MonoBehaviour
         {
             if (button != GetComponent<Button>()) button.gameObject.SetActive(false);
         }
+    }
+
+    private void ShareAfterCooldown()
+    {
+        Info.Share();
     }
 }

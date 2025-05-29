@@ -51,34 +51,13 @@ public class GameInfo : ScriptableObject
                     if (otherGamesTextures.Contains(textureName))
                     {
                         contained = true;
-                        Debug.Log("Imagen " + textureName + " no ha podido ser borrada porque es usada por otro juego");
+                        Debug.Log("Imagen " + textureName + " no ha podido ser eliminada porque es usada por " + game.gameName);
                         break;
                     }
                 }
             }
             if (!contained) gameLoader.DeleteImage(textureName);
         }
-    }
-
-    public List<string> GetAllUsedTextures()
-    {
-        List<string> textureNameList = new();
-        AddTextureToList(textureNameList, gameImage);
-        foreach (var c in cardsInfo) AddTextureToList(textureNameList, c.sprite);
-        AddTextureToList(textureNameList, defaultSprite);
-        foreach (var b in boards2D) AddTextureToList(textureNameList, b);
-        foreach (var sc in specialCardsInfo)
-        {
-            AddTextureToList(textureNameList, sc.defaultSpecialSprite);
-            foreach (var c in sc.cardsInfo) AddTextureToList(textureNameList, c.sprite);
-        }
-        return textureNameList;
-    }
-
-    public void AddTextureToList(List<string> textureList, Sprite sprite)
-    {
-        if (sprite == null || textureList.Contains(sprite.texture.name)) return;
-        textureList.Add(sprite.texture.name);
     }
 
     public void Share()
@@ -108,7 +87,29 @@ public class GameInfo : ScriptableObject
         AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>("createChooser", intentObject, "Compartir Juego");
         unityActivity.Call("startActivity", chooser);
 
+        LoadingScreenManager.ToggleLoadingScreen(false);
         //File.Delete(zipPath); //Hay que borrar el zip para que no ocupe espacio innecesario en memoria
+    }
+
+    private List<string> GetAllUsedTextures()
+    {
+        List<string> textureNameList = new();
+        AddTextureToList(textureNameList, gameImage);
+        foreach (var c in cardsInfo) AddTextureToList(textureNameList, c.sprite);
+        AddTextureToList(textureNameList, defaultSprite);
+        foreach (var b in boards2D) AddTextureToList(textureNameList, b);
+        foreach (var sc in specialCardsInfo)
+        {
+            AddTextureToList(textureNameList, sc.defaultSpecialSprite);
+            foreach (var c in sc.cardsInfo) AddTextureToList(textureNameList, c.sprite);
+        }
+        return textureNameList;
+    }
+
+    private void AddTextureToList(List<string> textureList, Sprite sprite)
+    {
+        if (sprite == null || textureList.Contains(sprite.texture.name)) return;
+        textureList.Add(sprite.texture.name);
     }
 
     private string ConvertGameInfoToJSON()
@@ -215,53 +216,5 @@ public class GameInfo : ScriptableObject
         }
         File.WriteAllBytes(path, bytes);
         return path;
-    }
-}
-
-namespace Serialization
-{
-    [Serializable]
-    public class SpecialCardInfo
-    {
-        public string name;
-        public List<CardInfo> cardsInfo = new();
-        public Sprite defaultSpecialSprite;
-    }
-
-    [Serializable]
-    public class SpecialCardInfoSerializable
-    {
-        public string name;
-        public List<CardInfoSerializable> cardsInfo = new();
-        public string defaultSpriteFileName;
-    }
-
-    [Serializable]
-    public class CardInfoSerializable
-    {
-        public string spriteFileName;
-        public string text;
-        public float size;
-    }
-
-    [Serializable]
-    public class GameInfoSerializable
-    {
-        public string gameName;
-        public string gameImageFileName;
-
-        public bool autoShuffle;
-        public bool extendedTracking;
-        public bool gameHasDice;
-        public bool gameHasWheel;
-        public bool gameHasCoins;
-
-        public List<CardInfoSerializable> cardsInfo;
-        public string defaultSpriteFileName;
-
-        public List<string> boardImagesNames;
-
-        public List<SpecialCardInfoSerializable> specialCardsInfo;
-
     }
 }

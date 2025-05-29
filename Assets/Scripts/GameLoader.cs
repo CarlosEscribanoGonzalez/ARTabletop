@@ -1,7 +1,5 @@
-using Newtonsoft.Json;
 using Serialization;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -13,6 +11,7 @@ public class GameLoader : MonoBehaviour
 
     private void Start()
     {
+        Screen.sleepTimeout = SleepTimeout.NeverSleep; //La pantalla se configura para no apagarse sola
         if (instance == null) instance = this;
         else Destroy(this.gameObject);
         DontDestroyOnLoad(this);
@@ -22,7 +21,8 @@ public class GameLoader : MonoBehaviour
 
     public void OnIntentReceived(string uri)
     {
-        TryReadNewGame();
+        LoadingScreenManager.ToggleLoadingScreen(true);
+        Invoke("TryReadNewGame", 0.2f);
     }
 
     public void DeleteGameInfo(string jsonPath)
@@ -40,10 +40,13 @@ public class GameLoader : MonoBehaviour
     public void DeleteImage(string name)
     {
         string path = Path.Combine(Application.persistentDataPath, name + ".png");
-        Debug.Log("ELIMINANDO IMAGEN: " + name);
-        //if (!File.Exists(path)) path = Path.Combine(Application.persistentDataPath, s.texture.name + ".jpg");
-        //if (!File.Exists(path)) Debug.LogError($"Imagen a borrar en {path} no encontrada.");
-        File.Delete(path);
+        if (!File.Exists(path)) path = Path.Combine(Application.persistentDataPath, name + ".jpg");
+        if (!File.Exists(path)) Debug.LogError($"Imagen a borrar en {path} no encontrada.");
+        else
+        {
+            Debug.Log("Imagen en " + path + " eliminada");
+            File.Delete(path);
+        }
     }
 
     private void TryReadNewGame()
@@ -130,6 +133,10 @@ public class GameLoader : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError("Intento de añadir juego fallido: " + e.Message);
+        }
+        finally
+        {
+            LoadingScreenManager.ToggleLoadingScreen(false);
         }
     }
 
