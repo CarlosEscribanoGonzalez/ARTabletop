@@ -19,6 +19,11 @@ public class DiceManager : MonoBehaviour
         dices = GetComponentsInChildren<Dice>(true).ToList();
     }
 
+    private void OnDisable()
+    {
+        foreach (Dice d in dices) d.transform.parent.gameObject.SetActive(false);
+    }
+
     public void ToggleDiceThrow(bool enable) //Activa y desactiva la cámara que apunta al dado y se encarga de su lanzamiento
     {
         diceCamera.SetActive(enable);

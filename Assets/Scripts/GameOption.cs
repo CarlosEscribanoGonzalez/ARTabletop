@@ -40,4 +40,12 @@ public class GameOption : MonoBehaviour
     {
         Info.Share();
     }
+
+    public void ConfigureAsDefaultGame()
+    {
+        foreach(var button in GetComponentsInChildren<Button>())
+        {
+            if (button != GetComponent<Button>()) button.gameObject.SetActive(false);
+        }
+    }
 }

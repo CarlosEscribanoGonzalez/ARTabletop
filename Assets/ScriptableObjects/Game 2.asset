@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Game 2
   m_EditorClassIdentifier: 
   gameName: Game 2
-  gameImage: {fileID: -1138051939, guid: 8aea114e3497dfa44ba8a5b3d4dd3697, type: 3}
+  gameImage: {fileID: -1046902471, guid: 3297b6300b0a32b4c8b2a122ee948de7, type: 3}
   autoShuffle: 1
   extendedTracking: 0
   gameHasDice: 0

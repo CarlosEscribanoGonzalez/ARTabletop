@@ -17,6 +17,7 @@ public class GameOptionsManager : MonoBehaviour
         {
             GameOption game = Instantiate(gameOptionPrefab, layoutManager.GetCurrentLayoutTransform()).GetComponent<GameOption>();
             game.Info = info;
+            game.ConfigureAsDefaultGame();
             layoutManager.AddContent(game.transform);
         }
     }

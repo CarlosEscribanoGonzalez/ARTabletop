@@ -28,6 +28,8 @@ public class Coin : MonoBehaviour
     {
         transform.localPosition = Vector3.zero;
         transform.rotation = Quaternion.identity * Quaternion.Euler(180 * Random.Range(0,2), 0, 0); //Aleatoriza aun más el resultado
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
         StopAllCoroutines(); //Se paran todas las corrutinas para evitar bugs
     }
 

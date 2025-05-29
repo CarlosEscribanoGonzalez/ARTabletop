@@ -11,15 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 8edddc8edf88f294392d3d0754417fe4
-  - enabled: 1
-    path: Assets/Scenes/DiceScene.unity
-    guid: 0effe552d24f6c44a9a1d785bea2729b
-  - enabled: 1
-    path: Assets/Scenes/WheelScene.unity
-    guid: 40e612ec08e5f38458895dffadcf86d6
-  - enabled: 1
-    path: Assets/Scenes/CoinScene.unity
-    guid: b606af0dc956fa64f93a174ba6bed5e3
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: d2f38ce8417e66440bd4a6f08ce34881, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

@@ -32,10 +32,13 @@ public class Dice : MonoBehaviour
     {
         transform.localPosition = Vector3.zero;
         transform.rotation = Random.rotation; //Aleatoriza aun más el resultado
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
         foreach (var num in numbers) //Se resetean los textos
         {
             num.text = "?";
             num.fontStyle &= ~FontStyles.Underline; //Se quita el subrayado, activado por algunos resultados
+            num.color = num.color + new Color(0, 0, 0, 1); //Se pone de nuevo en opaco el número
         }
         StopAllCoroutines(); //Se paran todas las corrutinas para evitar bugs
     }

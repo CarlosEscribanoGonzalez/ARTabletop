@@ -201,7 +201,8 @@ public class GameLoader : MonoBehaviour
     public static string GetCustomGameID(GameInfoSerializable jsonContent)
     {
         string name = jsonContent.gameName;
-        int dif = jsonContent.specialCardsInfo.Count * jsonContent.cardsInfo.Count * jsonContent.boardImagesNames.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre
+        int dif = jsonContent.specialCardsInfo.Count * jsonContent.cardsInfo.Count + jsonContent.boardImagesNames.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre
+        //Mirar si es una tontería el hash:
         return name + "_" + name[0].GetHashCode() + name[name.Length-1].GetHashCode() + "_" + dif;
     }
 

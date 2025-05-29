@@ -22,6 +22,7 @@ public class CoinManager : MonoBehaviour
     private void OnDisable()
     {
         Time.timeScale = 1;
+        foreach (Coin c in coins) c.transform.parent.gameObject.SetActive(false);
     }
 
     public void ToggleCoinThrow(bool enable) //Activa y desactiva la cámara que apunta a la moneda y se encarga de su lanzamiento
