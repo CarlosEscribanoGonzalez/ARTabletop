@@ -57,8 +57,17 @@ public class LayoutManager : MonoBehaviour
         layoutInLandscape.localScale = Vector3.one;
         foreach (Transform t in content) t.parent = newLayout; //Se cambia el contenido de layout group
         //Se aplican de nuevo las escalas
-        layoutInPortrait.localScale *= portraitSizeMult;
-        layoutInLandscape.localScale *= landscapeSizeMult;
+        if (layoutInPortrait != layoutInLandscape)
+        {
+            layoutInPortrait.localScale *= portraitSizeMult;
+            layoutInLandscape.localScale *= landscapeSizeMult;
+        }
+        else
+        {
+            if (orientation == ScreenOrientation.Portrait || orientation == ScreenOrientation.PortraitUpsideDown)
+                layoutInPortrait.localScale *= portraitSizeMult;
+            else layoutInLandscape.localScale *= landscapeSizeMult;
+        }
         if(objToHidePortrait != null) objToHidePortrait.SetActive(newLayout == layoutInLandscape);
         if(objToHideLandscape != null) objToHideLandscape.SetActive(newLayout == layoutInPortrait);
     }

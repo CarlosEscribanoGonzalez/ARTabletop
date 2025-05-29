@@ -11,8 +11,8 @@ public class InfoButton : MonoBehaviour
     private void Awake()
     {
         title = GetComponentInChildren<TextMeshProUGUI>().text; //Lo que pone en el botón
-        infoPanelCanvasGroup = GameObject.FindWithTag("InfoPanel").GetComponent<CanvasGroup>();
-        infoPanelTexts = infoPanelCanvasGroup.GetComponentsInChildren<TextMeshProUGUI>();
+        infoPanelCanvasGroup = GameObject.FindWithTag("InfoPanel").GetComponentInParent<CanvasGroup>();
+        infoPanelTexts = GameObject.FindWithTag("InfoPanel").GetComponentsInChildren<TextMeshProUGUI>();
     }
 
     public void DisplayInfo()
