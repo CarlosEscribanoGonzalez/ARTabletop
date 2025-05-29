@@ -39,21 +39,20 @@ public class GameInfo : ScriptableObject
     public void Delete()
     {
         GameLoader gameLoader = FindFirstObjectByType<GameLoader>();
+        GameOptionsManager gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
         gameLoader.DeleteGameInfo(ConvertGameInfoToJSON());
+        gameOptionsManager.RemoveGame(this);
         foreach(string textureName in GetAllUsedTextures())
         {
             bool contained = false;
-            foreach(GameInfo game in FindFirstObjectByType<GameOptionsManager>().Games)
+            foreach(GameInfo game in gameOptionsManager.Games)
             {
-                if (game != this)
+                List<string> otherGamesTextures = game.GetAllUsedTextures();
+                if (otherGamesTextures.Contains(textureName))
                 {
-                    List<string> otherGamesTextures = game.GetAllUsedTextures();
-                    if (otherGamesTextures.Contains(textureName))
-                    {
-                        contained = true;
-                        Debug.Log("Imagen " + textureName + " no ha podido ser eliminada porque es usada por " + game.gameName);
-                        break;
-                    }
+                    contained = true;
+                    Debug.Log("Imagen " + textureName + " no ha podido ser eliminada porque es usada por " + game.gameName);
+                    break;
                 }
             }
             if (!contained) gameLoader.DeleteImage(textureName);

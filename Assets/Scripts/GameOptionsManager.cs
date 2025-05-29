@@ -75,6 +75,11 @@ public class GameOptionsManager : MonoBehaviour
         games.Add(newGameInfo);
     }
 
+    public void RemoveGame(GameInfo game)
+    {
+        games.Remove(game);
+    }
+
     string path;
     byte[] imgData;
     Texture2D texture;
