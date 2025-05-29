@@ -14,7 +14,6 @@ public class GameConfigurator : MonoBehaviour
     void Awake()
     {
         //General settings:
-        gameSettings.ExtendedTracking = gameInfo.extendedTracking;
         gameSettings.AutoShuffle = gameInfo.autoShuffle;
         //RNG section:
         rngSection.GameHasDice = gameInfo.gameHasDice;

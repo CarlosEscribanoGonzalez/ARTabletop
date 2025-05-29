@@ -35,7 +35,6 @@ namespace Serialization
         public string gameImageFileName;
 
         public bool autoShuffle;
-        public bool extendedTracking;
         public bool gameHasDice;
         public bool gameHasWheel;
         public bool gameHasCoins;

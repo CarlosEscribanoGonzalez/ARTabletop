@@ -32,7 +32,6 @@ public class GameOptionsManager : MonoBehaviour
         newGameInfo.gameImage = AssignSprite(deserialized.gameImageFileName);
         //RNG section:
         newGameInfo.autoShuffle = deserialized.autoShuffle;
-        newGameInfo.extendedTracking = deserialized.extendedTracking;
         newGameInfo.gameHasDice = deserialized.gameHasDice;
         newGameInfo.gameHasWheel = deserialized.gameHasWheel;
         newGameInfo.gameHasCoins = deserialized.gameHasCoins;

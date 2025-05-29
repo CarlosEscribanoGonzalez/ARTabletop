@@ -8,7 +8,6 @@ public class GameSettings : NetworkBehaviour
 {
     public static GameSettings Instance { get; private set; }
     public Dictionary<SpecialCardGameManager, Card> SpecialCardsDictionary { get; private set; } = new(); //Diccionario con los managers de las cartas especiales y sus cartas asociadas
-    public bool ExtendedTracking { get; set; } = false; //Indica si el tracking extendido está activo para el juego o no
     public bool AutoShuffle { get; set; } = true; //Indica si las cartas especiales se barajan solas al agotarse
     public bool IsOnline { get; set; } = false; //Indica si la partida es online u offline
     public NetworkVariable<int> RandomSeed { get; private set; } = new(); //Semilla para aleatorizar las cartas de todos los jugadores

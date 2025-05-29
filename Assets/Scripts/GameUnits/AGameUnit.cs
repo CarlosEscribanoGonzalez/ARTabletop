@@ -17,7 +17,7 @@ public class AGameUnit : MonoBehaviour
             inForceMaintain = value;
             //Si el setter lo pone en falso verifica en ese momento su tracking state y la configuración de Extended Tracking
             ARTrackedImage trackable = GetComponentInParent<ARTrackedImage>();
-            if (!inForceMaintain && !GameSettings.Instance.ExtendedTracking && trackable.trackingState != TrackingState.Tracking)
+            if (!inForceMaintain && !ExtendedTrackingManager.isXTEnabled && trackable.trackingState != TrackingState.Tracking)
                 trackable.gameObject.SetActive(false); //Si ya no está trackeado y no hay extended tracking se desactiva
         }
     }

@@ -15,7 +15,6 @@ public class GameInfo : ScriptableObject
 
     [Header("General settings: ")]
     public bool autoShuffle = true;
-    public bool extendedTracking = false;
     public bool gameHasDice = true;
     public bool gameHasWheel = true;
     public bool gameHasCoins = true;
@@ -120,7 +119,6 @@ public class GameInfo : ScriptableObject
             gameImageFileName = this.gameImage != null ? this.gameImage.texture.name : null,
             //RNG section:
             autoShuffle = this.autoShuffle,
-            extendedTracking = this.extendedTracking, //Quizá moverlo a ajustes locales y no de la partida
             gameHasDice = this.gameHasDice,
             gameHasWheel = this.gameHasWheel,
             gameHasCoins = this.gameHasCoins,
