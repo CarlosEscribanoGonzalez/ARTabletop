@@ -120,23 +120,24 @@ public class GameLoader : MonoBehaviour
                             using (StreamReader reader = new StreamReader(targetEntry.Open()))
                             {
                                 jsonContent = reader.ReadToEnd();
+                                if (!string.IsNullOrEmpty(jsonContent))
+                                {
+                                    if (!SaveGameInfo(jsonContent)) return;
+                                }
+                                else
+                                {
+                                    Debug.LogError("El archivo está vacío o no se pudo leer.");
+                                    return;
+                                }
                             }
                         }
                         else
                         {
                             Debug.LogError("No se encontró ningún archivo .artabletop dentro del .zip.");
+                            return;
                         }
                         foreach (var entry in archive.Entries) SaveImage(entry);
                     }
-                }
-
-                if (!string.IsNullOrEmpty(jsonContent))
-                {
-                    SaveGameInfo(jsonContent);
-                }
-                else
-                {
-                    Debug.LogError("El archivo está vacío o no se pudo leer.");
                 }
             }
         }
@@ -171,20 +172,26 @@ public class GameLoader : MonoBehaviour
         }
     }
 
-    private void SaveGameInfo(string content)
+    private bool SaveGameInfo(string content)
     {
         string gameId = GetCustomGameID(JsonUtility.FromJson<GameInfoSerializable>(content));
         string path = Path.Combine(Application.persistentDataPath, gameId);
-        if (File.Exists(path)) return;
+        if (File.Exists(path))
+        {
+            Debug.Log("Juego no guardado porque ya se encontraba en el dispositivo");
+            return false;
+        }
         try
         {
             File.WriteAllText(path, content);
             Debug.Log("Juego guardado en: " + path);
             AddGame(content);
+            return true;
         }
         catch (System.Exception e)
         {
             Debug.LogError("Error guardando el juego: " + e);
+            return false;
         }
     }
 
@@ -218,9 +225,9 @@ public class GameLoader : MonoBehaviour
     public static string GetCustomGameID(GameInfoSerializable jsonContent)
     {
         string name = jsonContent.gameName;
-        int dif = jsonContent.specialCardsInfo.Count * jsonContent.cardsInfo.Count + jsonContent.boardImagesNames.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre
-        //Mirar si es una tontería el hash:
-        return name + "_" + name[0].GetHashCode() + name[name.Length-1].GetHashCode() + "_" + dif + ".artabletop";
+        string imageName = jsonContent.gameImageFileName;
+        int dif = jsonContent.specialCardsInfo.Count * jsonContent.cardsInfo.Count + jsonContent.boardImagesNames.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre y la misma imagen
+        return name + "_" + imageName[0].GetHashCode() + imageName[imageName.Length-1].GetHashCode() + "_" + dif + ".artabletop";
     }
 
     private void AddGame(string content)

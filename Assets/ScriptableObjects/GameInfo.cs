@@ -147,7 +147,7 @@ public class GameInfo : ScriptableObject
             }).ToList()
         };
         string path = Path.Combine(Application.persistentDataPath, GameLoader.GetCustomGameID(gameInfoSerializable));
-        File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true));
+        if(!File.Exists(path)) File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true));
         return path;
     }
 
@@ -196,23 +196,23 @@ public class GameInfo : ScriptableObject
         else Debug.Log("Foto ya añadida para compartir, no incluida");
     }
 
-    private string GetPathFromSprite(Sprite sprite)
+    private string GetPathFromSprite(Sprite sprite) //A MIRAR SI SIGUE FUNCIONANDO SIN CODIFICAR, SÓLO OBTENIENDO EL PATH
     {
         if (sprite is null) return string.Empty;
         string textureName = sprite.texture.name;
         string path;
-        byte[] bytes;
+        byte[] bytes = new byte[0];
         try
         {
-            bytes = sprite.texture.EncodeToPNG();
             path = Application.persistentDataPath + $"/{textureName}.png";
+            if (!File.Exists(path)) bytes = sprite.texture.EncodeToPNG();
         } 
         catch
         {
-            bytes = sprite.texture.EncodeToJPG();
             path = Application.persistentDataPath + $"/{textureName}.jpg";
+            if (!File.Exists(path)) bytes = sprite.texture.EncodeToJPG();
         }
-        File.WriteAllBytes(path, bytes);
+        if (!File.Exists(path)) File.WriteAllBytes(path, bytes);
         return path;
     }
 }
