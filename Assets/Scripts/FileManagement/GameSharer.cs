@@ -5,66 +5,65 @@ using System.IO.Compression;
 
 public class GameSharer : MonoBehaviour
 {
-    private static string zipPathToRemove;
+    private static string zipPathToRemove; //Cuando se termina de enviar el zip ha de eliminarse, así que se guarda una referencia a él
 
-    private void OnApplicationFocus(bool hasFocus)
+    private void OnApplicationFocus(bool hasFocus) //Si cuando se vuelve a la app hay un zip que borrar este se borra
     {
         if (hasFocus && !string.IsNullOrEmpty(zipPathToRemove) && File.Exists(zipPathToRemove))
         {
             File.Delete(zipPathToRemove);
+            zipPathToRemove = null;
             Debug.Log("Zip borrado en " + zipPathToRemove);
         }
     }
 
-    public static void Share(GameInfo gameToShare)
+    public static void Share(GameInfo gameToShare) //Hace un zip con los archivos necesarios y lo comparte mediante un intent
     {
-        List<string> files = new();
-        files.Add(gameToShare.ConvertToJson());
-        files.AddRange(GetImagePaths(gameToShare));
+        List<string> files = new(); //Lista de paths
+        files.Add(gameToShare.ConvertToJson()); //Añade el json
+        files.AddRange(GetImagePaths(gameToShare)); //Añade las imágenes
 
-        string zipPath = CreateZip(gameToShare.gameName, files);
-
+        string zipPath = CreateZip(gameToShare.gameName, files); //Crea el zip a partir de los paths
+        //Se configura el intent de enviar .zip:
         AndroidJavaClass intentClass = new AndroidJavaClass("android.content.Intent");
         AndroidJavaObject intentObject = new AndroidJavaObject("android.content.Intent");
         intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_SEND"));
         intentObject.Call<AndroidJavaObject>("setType", "application/zip");
-
+        //Se obtiene la authority del FileProvider:
         AndroidJavaObject unityActivity = new AndroidJavaClass("com.unity3d.player.UnityPlayer")
             .GetStatic<AndroidJavaObject>("currentActivity");
         string authority = unityActivity.Call<string>("getPackageName") + ".provider";
-
+        //Se obtiene la dependencia:
         AndroidJavaClass fileProviderClass = new AndroidJavaClass("androidx.core.content.FileProvider");
         AndroidJavaObject uriObject = fileProviderClass.CallStatic<AndroidJavaObject>(
             "getUriForFile", unityActivity, authority, new AndroidJavaObject("java.io.File", zipPath));
-
+        //Se comparte el juego
         intentObject.Call<AndroidJavaObject>("putExtra", "android.intent.extra.STREAM", uriObject);
         intentObject.Call<AndroidJavaObject>("addFlags", 1 << 1);
-
         AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>("createChooser", intentObject, "Compartir Juego");
         unityActivity.Call("startActivity", chooser);
 
         LoadingScreenManager.ToggleLoadingScreen(false);
     }
 
-    private static string CreateZip(string zipName, List<string> files)
+    private static string CreateZip(string zipName, List<string> files) //Crea un zip con el nombre del juego
     {
         string zipPath = Application.persistentDataPath + $"/{zipName}.zip";
 
-        if (File.Exists(zipPath))
-            File.Delete(zipPath);
+        if (File.Exists(zipPath)) File.Delete(zipPath);//Si ya existe el zip lo borra antes de formarlo de nuevo (por si acaso)
 
-        using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
+        using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Create)) //Se crea el zip
         {
             foreach (string file in files)
             {
-                archive.CreateEntryFromFile(file, Path.GetFileName(file));
+                archive.CreateEntryFromFile(file, Path.GetFileName(file)); //Se crea un entry por cada path
             }
         }
-        zipPathToRemove = zipPath;
+        zipPathToRemove = zipPath; //El zip se configura para ser borrado una vez enviado
         return zipPath;
     }
 
-    private static List<string> GetImagePaths(GameInfo game)
+    private static List<string> GetImagePaths(GameInfo game) //Obtiene el path de todas las imágenes
     {
         List<string> listToReturn = new();
         AddPathIfNotContained(listToReturn, GetPathFromSprite(game.gameImage));
@@ -85,29 +84,29 @@ public class GameSharer : MonoBehaviour
         return listToReturn;
     }
 
-    private static void AddPathIfNotContained(List<string> list, string path)
+    private static void AddPathIfNotContained(List<string> list, string path) //Añade un path a una lista siempre que no esté ya añadido
     {
         if (path != string.Empty && !list.Contains(path)) list.Add(path);
         else Debug.Log("Foto ya añadida para compartir, no incluida");
     }
 
-    private static string GetPathFromSprite(Sprite sprite) //A MIRAR SI SIGUE FUNCIONANDO SIN CODIFICAR, SÓLO OBTENIENDO EL PATH
+    private static string GetPathFromSprite(Sprite sprite) //Obtiene el path de un sprite a partir del nombre de su textura
     {
         if (sprite is null) return string.Empty;
         string textureName = sprite.texture.name;
         string path;
         byte[] bytes = new byte[0];
-        try
+        try //Primero intenta buscar con extensión .png
         {
             path = Application.persistentDataPath + $"/{textureName}.png";
-            if (!File.Exists(path)) bytes = sprite.texture.EncodeToPNG();
+            if (!File.Exists(path)) bytes = sprite.texture.EncodeToPNG(); //Si el path no existe carga su contenido
         }
-        catch
+        catch //Si no, con jpg
         {
             path = Application.persistentDataPath + $"/{textureName}.jpg";
-            if (!File.Exists(path)) bytes = sprite.texture.EncodeToJPG();
+            if (!File.Exists(path)) bytes = sprite.texture.EncodeToJPG(); //Si el path no existe carga su contenido
         }
-        if (!File.Exists(path)) File.WriteAllBytes(path, bytes);
+        if (!File.Exists(path)) File.WriteAllBytes(path, bytes); //Si el path no existe lo crea con el contenido cargado
         return path;
     }
 }

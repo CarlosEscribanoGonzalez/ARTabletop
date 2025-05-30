@@ -33,19 +33,12 @@ public class GameInfo : ScriptableObject
     [Header("SpecialCards")]
     public List<SpecialCardInfo> specialCardsInfo = new();
 
-    public void Delete()
+    public string ConvertToJson() //Convierte el SO a JSON y devuelve su path
     {
-        GameDeleter.DeleteGame(this);
-    }
-
-    public void Share()
-    {
-        GameSharer.Share(this);
-    }
-
-    public string ConvertToJson()
-    {
-        var gameInfoSerializable = new GameInfoSerializable
+        string path = Path.Combine(Application.persistentDataPath, GetCustomID()); //Accede al path a partir del CustomID del juego
+        if (File.Exists(path)) return path; //Si ya existe el path lo devuelve
+        //Si no existe lo crea:
+        var gameInfoSerializable = new GameInfoSerializable //Primero lo convierte a información serializable
         {
             //General settings:
             gameName = this.gameName,
@@ -78,20 +71,18 @@ public class GameInfo : ScriptableObject
                 defaultSpriteFileName = card.defaultSpecialSprite != null ? card.defaultSpecialSprite.texture.name : null
             }).ToList()
         };
-        string path = Path.Combine(Application.persistentDataPath, GetCustomID());
-        if (!File.Exists(path)) File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true));
+        File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true)); //Escribe la información en el path y lo devuelve
         return path;
     }
 
-    public string GetCustomID()
+    public string GetCustomID() //Crea un ID para cada juego, altamente improbable que dos juegos tengan el mismo ID
     {
-        string name = gameName;
-        string imageName = gameImage.texture.name;
+        string imageName = gameImage.texture.name; //Se usa el nombre de su imagen para hacer un hash
         int dif = specialCardsInfo.Count * cardsInfo.Count + boards2D.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre y la misma imagen
-        return name + "_" + imageName[0].GetHashCode() + imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop";
+        return gameName + "_" + imageName[0].GetHashCode() + imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop"; //El custom id del juego se devuelve
     }
 
-    public static GameInfo FromJsonToSO(string json)
+    public static GameInfo FromJsonToSO(string json) //Pasa la información de un JSON a un ScriptableObject
     {
         GameInfo newGameInfo = ScriptableObject.CreateInstance<GameInfo>();
 
@@ -139,22 +130,22 @@ public class GameInfo : ScriptableObject
         return newGameInfo;
     }
 
-    static string path;
-    static byte[] imgData;
-    static Texture2D texture;
-    private static Sprite AssignSprite(string textureName)
+    static string path; //Path de la imagen que se busca
+    static byte[] imgData; //Datos de la imagen
+    static Texture2D texture; //Textura de la imagen
+    private static Sprite AssignSprite(string textureName) //Devuelve un sprite a partir del nombre de su textura para formar el SO
     {
         if (textureName == string.Empty) return null;
         string[] supportedExtensions = { ".png", ".jpg", ".jpeg" };
-        foreach (var ext in supportedExtensions)
+        foreach (var ext in supportedExtensions) //Busca con todas las extensiones compatibles
         {
             path = Path.Combine(Application.persistentDataPath, textureName + ext);
-            if (File.Exists(path))
+            if (File.Exists(path)) //Si existe el path con esa extensión:
             {
-                imgData = File.ReadAllBytes(path);
-                texture = new Texture2D(0, 0); //El tamaño se autoajusta más tarde
-                texture.name = textureName;
-                texture.LoadImage(imgData);
+                imgData = File.ReadAllBytes(path); //Se leen los datos de la imagen
+                texture = new Texture2D(0, 0); //Se crea una nueva textura. El tamaño se autoajusta más tarde
+                texture.name = textureName; //Se le da el mismo nombre a la nueva textura para que tenga el mismo path
+                texture.LoadImage(imgData); //Se carga la imagen, se crea el sprite y se devuelve
                 return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
         }

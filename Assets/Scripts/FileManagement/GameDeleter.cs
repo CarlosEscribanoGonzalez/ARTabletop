@@ -5,31 +5,30 @@ using UnityEngine;
 
 public class GameDeleter : MonoBehaviour
 {
-    public static void DeleteGame(GameInfo gameToDelete)
+    public static void DeleteGameFiles(GameInfo gameToDelete) //Borra los datos de un juego dado su SO
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
-        DeleteGameInfo(gameToDelete);
+        LoadingScreenManager.ToggleLoadingScreen(true); //Feedback al usuario, para que no cierre la app mientras
+        DeleteGameInfo(gameToDelete); //Borra su json
         GameOptionsManager gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
-        gameOptionsManager.RemoveGame(gameToDelete);
-        foreach (string textureName in GetAllUsedTextures(gameToDelete))
+        foreach (string textureName in GetAllUsedTextures(gameToDelete)) //Mira cada foto de las presentes en el juego a borrar
         {
             bool contained = false;
-            foreach (GameInfo game in gameOptionsManager.Games)
+            foreach (GameInfo game in gameOptionsManager.CustomGames) //Mira si dicha foto está presente en el resto de juegos o no
             {
                 List<string> otherGamesTextures = GetAllUsedTextures(gameToDelete);
-                if (otherGamesTextures.Contains(textureName))
+                if (otherGamesTextures.Contains(textureName)) //Si la foto está presente en otro juego se pasa a la siguiente foto y no se elimina
                 {
                     contained = true;
                     Debug.Log("Imagen " + textureName + " no ha podido ser eliminada porque es usada por " + game.gameName);
                     break;
                 }
             }
-            if (!contained) DeleteImage(textureName);
+            if (!contained) DeleteImage(textureName); //Las imágenes no usadas en otros juegos son eliminadas
         }
         LoadingScreenManager.ToggleLoadingScreen(false);
     }
 
-    private static List<string> GetAllUsedTextures(GameInfo game)
+    private static List<string> GetAllUsedTextures(GameInfo game) //Devuelve el nombre de todas las texturas usadas por un juego
     {
         List<string> textureNameList = new();
         AddTextureToList(textureNameList, game.gameImage);
@@ -44,17 +43,17 @@ public class GameDeleter : MonoBehaviour
         return textureNameList;
     }
 
-    private static void AddTextureToList(List<string> textureList, Sprite sprite)
+    private static void AddTextureToList(List<string> textureList, Sprite sprite) //Si la lista no contiene el elemento lo añade
     {
         if (sprite == null || textureList.Contains(sprite.texture.name)) return;
         textureList.Add(sprite.texture.name);
     }
 
-    private static void DeleteGameInfo(GameInfo game)
+    private static void DeleteGameInfo(GameInfo game) //Borra el json de un juego
     {
-        string gameId = game.GetCustomID();
+        string gameId = game.GetCustomID(); //Obtiene su ID diferenciador (es decir, su path único)
         string path = Path.Combine(Application.persistentDataPath, gameId);
-        if (File.Exists(path))
+        if (File.Exists(path)) //Si encuentra el path borra el juego
         {
             Debug.Log($"Juego eliminado de {path}");
             File.Delete(path);
@@ -62,7 +61,7 @@ public class GameDeleter : MonoBehaviour
         else Debug.LogError($"No se encontró el juego a borrar en {path}");
     }
 
-    private static void DeleteImage(string name)
+    private static void DeleteImage(string name) //Dado el nombre de una textura busca su path y la borra
     {
         string path = Path.Combine(Application.persistentDataPath, name + ".png");
         if (!File.Exists(path)) path = Path.Combine(Application.persistentDataPath, name + ".jpg");
