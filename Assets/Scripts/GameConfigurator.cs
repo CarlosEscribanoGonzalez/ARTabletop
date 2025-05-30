@@ -9,19 +9,19 @@ public class GameConfigurator : MonoBehaviour
     [SerializeField] private PieceGameManager pieceManager;
     [SerializeField] private BoardGameManager boardManager;
     [SerializeField] private GameObject specialCardManagerPrefab;
-    public static GameInfo gameInfo;
+    public static GameInfo GameInfo { get; set; } = null;
 
     void Awake()
     {
         //General settings:
-        gameSettings.AutoShuffle = gameInfo.autoShuffle;
+        gameSettings.AutoShuffle = GameInfo.autoShuffle;
         //RNG section:
-        rngSection.GameHasDice = gameInfo.gameHasDice;
-        rngSection.GameHasWheel = gameInfo.gameHasWheel;
-        rngSection.GameHasCoins = gameInfo.gameHasCoins;
+        rngSection.GameHasDice = GameInfo.gameHasDice;
+        rngSection.GameHasWheel = GameInfo.gameHasWheel;
+        rngSection.GameHasCoins = GameInfo.gameHasCoins;
         //Cards normales:
-        cardManager.CardsInfo = gameInfo.cardsInfo.ToArray();
-        cardManager.DefaultImage = gameInfo.defaultSprite;
+        cardManager.CardsInfo = GameInfo.cardsInfo.ToArray();
+        cardManager.DefaultImage = GameInfo.defaultSprite;
         /*/Piezas:
         List<GameObject> pieces = new();
         for(int i = 0; i < gameInfo.numPieces; i++)
@@ -33,15 +33,15 @@ public class GameConfigurator : MonoBehaviour
         //Tableros: 
         //boardManager.BoardModels = gameInfo.boards3D.ToArray();
         boardManager.BoardModels = new GameObject[0];
-        boardManager.BoardSprites = gameInfo.boards2D.ToArray();
+        boardManager.BoardSprites = GameInfo.boards2D.ToArray();
         //SpecialCards:
         SpecialCardGameManager newManager;
-        for(int i = 0; i < gameInfo.specialCardsInfo.Count; i++)
+        for(int i = 0; i < GameInfo.specialCardsInfo.Count; i++)
         {
             newManager = Instantiate(specialCardManagerPrefab).GetComponent<SpecialCardGameManager>();
-            newManager.CardsInfo = gameInfo.specialCardsInfo[i].cardsInfo.ToArray();
-            newManager.DefaultImage = gameInfo.specialCardsInfo[i].defaultSpecialSprite;
-            newManager.CardTypeName = gameInfo.specialCardsInfo[i].name;
+            newManager.CardsInfo = GameInfo.specialCardsInfo[i].cardsInfo.ToArray();
+            newManager.DefaultImage = GameInfo.specialCardsInfo[i].defaultSpecialSprite;
+            newManager.CardTypeName = GameInfo.specialCardsInfo[i].name;
         }
     }
 }

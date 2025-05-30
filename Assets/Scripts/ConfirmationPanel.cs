@@ -13,6 +13,6 @@ public class ConfirmationPanel : MonoBehaviour
 
     public void OnDeleteConfirmed()
     {
-        CurrentOption.RemoveGame();
+        CurrentOption.DeleteGame();
     }
 }

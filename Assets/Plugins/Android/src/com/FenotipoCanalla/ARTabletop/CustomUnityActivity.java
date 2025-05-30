@@ -11,7 +11,7 @@ public class CustomUnityActivity extends UnityPlayerActivity {
         super.onNewIntent(intent);
         setIntent(intent); // Esto es clave
         if (intent.getDataString() != null) {
-            UnityPlayer.UnitySendMessage("GameLoader", "OnIntentReceived", intent.getDataString());
+            UnityPlayer.UnitySendMessage("GameSaver", "OnIntentReceived", intent.getDataString());
         }
     }
 }

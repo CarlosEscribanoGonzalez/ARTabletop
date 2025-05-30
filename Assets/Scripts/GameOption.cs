@@ -20,7 +20,7 @@ public class GameOption : MonoBehaviour
     public void OnClick()
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
-        GameConfigurator.gameInfo = Info;
+        GameConfigurator.GameInfo = Info;
         SceneManager.LoadScene(1);
     }
 
@@ -30,7 +30,7 @@ public class GameOption : MonoBehaviour
         confirmationPanel.gameObject.SetActive(true);
     }
 
-    public void RemoveGame()
+    public void DeleteGame()
     {
         Info.Delete();
         FindFirstObjectByType<LayoutManager>().RemoveContent(this.transform);

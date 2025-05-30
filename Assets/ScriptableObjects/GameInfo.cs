@@ -1,10 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 using Serialization;
 using System.Linq;
 using System.IO;
-using System.IO.Compression;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/GameInfo")]
 public class GameInfo : ScriptableObject
@@ -37,81 +35,15 @@ public class GameInfo : ScriptableObject
 
     public void Delete()
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
-        GameLoader gameLoader = FindFirstObjectByType<GameLoader>();
-        GameOptionsManager gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
-        gameLoader.DeleteGameInfo(ConvertGameInfoToJSON());
-        gameOptionsManager.RemoveGame(this);
-        foreach(string textureName in GetAllUsedTextures())
-        {
-            bool contained = false;
-            foreach(GameInfo game in gameOptionsManager.Games)
-            {
-                List<string> otherGamesTextures = game.GetAllUsedTextures();
-                if (otherGamesTextures.Contains(textureName))
-                {
-                    contained = true;
-                    Debug.Log("Imagen " + textureName + " no ha podido ser eliminada porque es usada por " + game.gameName);
-                    break;
-                }
-            }
-            if (!contained) gameLoader.DeleteImage(textureName);
-        }
-        LoadingScreenManager.ToggleLoadingScreen(false);
+        GameDeleter.DeleteGame(this);
     }
 
     public void Share()
     {
-        List<string> files = new();
-        files.Add(ConvertGameInfoToJSON());
-        files.AddRange(GetImagePaths());
-
-        string zipPath = CreateZip(gameName, files);
-
-        AndroidJavaClass intentClass = new AndroidJavaClass("android.content.Intent");
-        AndroidJavaObject intentObject = new AndroidJavaObject("android.content.Intent");
-        intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_SEND"));
-        intentObject.Call<AndroidJavaObject>("setType", "application/zip");
-
-        AndroidJavaObject unityActivity = new AndroidJavaClass("com.unity3d.player.UnityPlayer")
-            .GetStatic<AndroidJavaObject>("currentActivity");
-        string authority = unityActivity.Call<string>("getPackageName") + ".provider";
-
-        AndroidJavaClass fileProviderClass = new AndroidJavaClass("androidx.core.content.FileProvider");
-        AndroidJavaObject uriObject = fileProviderClass.CallStatic<AndroidJavaObject>(
-            "getUriForFile", unityActivity, authority, new AndroidJavaObject("java.io.File", zipPath));
-
-        intentObject.Call<AndroidJavaObject>("putExtra", "android.intent.extra.STREAM", uriObject);
-        intentObject.Call<AndroidJavaObject>("addFlags", 1 << 1);
-
-        AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>("createChooser", intentObject, "Compartir Juego");
-        unityActivity.Call("startActivity", chooser);
-
-        LoadingScreenManager.ToggleLoadingScreen(false);
+        GameSharer.Share(this);
     }
 
-    private List<string> GetAllUsedTextures()
-    {
-        List<string> textureNameList = new();
-        AddTextureToList(textureNameList, gameImage);
-        foreach (var c in cardsInfo) AddTextureToList(textureNameList, c.sprite);
-        AddTextureToList(textureNameList, defaultSprite);
-        foreach (var b in boards2D) AddTextureToList(textureNameList, b);
-        foreach (var sc in specialCardsInfo)
-        {
-            AddTextureToList(textureNameList, sc.defaultSpecialSprite);
-            foreach (var c in sc.cardsInfo) AddTextureToList(textureNameList, c.sprite);
-        }
-        return textureNameList;
-    }
-
-    private void AddTextureToList(List<string> textureList, Sprite sprite)
-    {
-        if (sprite == null || textureList.Contains(sprite.texture.name)) return;
-        textureList.Add(sprite.texture.name);
-    }
-
-    private string ConvertGameInfoToJSON()
+    public string ConvertToJson()
     {
         var gameInfoSerializable = new GameInfoSerializable
         {
@@ -146,73 +78,87 @@ public class GameInfo : ScriptableObject
                 defaultSpriteFileName = card.defaultSpecialSprite != null ? card.defaultSpecialSprite.texture.name : null
             }).ToList()
         };
-        string path = Path.Combine(Application.persistentDataPath, GameLoader.GetCustomGameID(gameInfoSerializable));
-        if(!File.Exists(path)) File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true));
+        string path = Path.Combine(Application.persistentDataPath, GetCustomID());
+        if (!File.Exists(path)) File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true));
         return path;
     }
 
-    private string CreateZip(string zipName, List<string> files)
+    public string GetCustomID()
     {
-        string zipPath = Application.persistentDataPath + $"/{zipName}.zip";
+        string name = gameName;
+        string imageName = gameImage.texture.name;
+        int dif = specialCardsInfo.Count * cardsInfo.Count + boards2D.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre y la misma imagen
+        return name + "_" + imageName[0].GetHashCode() + imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop";
+    }
 
-        if (File.Exists(zipPath))
-            File.Delete(zipPath);
+    public static GameInfo FromJsonToSO(string json)
+    {
+        GameInfo newGameInfo = ScriptableObject.CreateInstance<GameInfo>();
 
-        using (ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
+        GameInfoSerializable deserialized = JsonUtility.FromJson<GameInfoSerializable>(json);
+        //General settings:
+        newGameInfo.gameName = deserialized.gameName;
+        newGameInfo.gameImage = AssignSprite(deserialized.gameImageFileName);
+        //RNG section:
+        newGameInfo.autoShuffle = deserialized.autoShuffle;
+        newGameInfo.gameHasDice = deserialized.gameHasDice;
+        newGameInfo.gameHasWheel = deserialized.gameHasWheel;
+        newGameInfo.gameHasCoins = deserialized.gameHasCoins;
+        //Cards:
+        newGameInfo.cardsInfo = new List<CardInfo>();
+        foreach (var card in deserialized.cardsInfo)
         {
-            foreach (string file in files)
+            CardInfo cardInfo = new CardInfo();
+            cardInfo.text = card.text;
+            cardInfo.sprite = AssignSprite(card.spriteFileName);
+            cardInfo.sizeMult = card.size;
+            newGameInfo.cardsInfo.Add(cardInfo);
+        }
+        newGameInfo.defaultSprite = AssignSprite(deserialized.defaultSpriteFileName);
+        //Boards:
+        foreach (var board2d in deserialized.boardImagesNames)
+        {
+            newGameInfo.boards2D.Add(AssignSprite(board2d));
+        }
+        //Special cards:
+        foreach (var scard in deserialized.specialCardsInfo)
+        {
+            SpecialCardInfo specialCardInfo = new SpecialCardInfo();
+            specialCardInfo.name = scard.name;
+            foreach (var card in scard.cardsInfo)
             {
-                archive.CreateEntryFromFile(file, Path.GetFileName(file));
+                CardInfo cardInfo = new CardInfo();
+                cardInfo.text = card.text;
+                cardInfo.sprite = AssignSprite(card.spriteFileName);
+                cardInfo.sizeMult = card.size;
+                specialCardInfo.cardsInfo.Add(cardInfo);
+            }
+            specialCardInfo.defaultSpecialSprite = AssignSprite(scard.defaultSpriteFileName);
+            newGameInfo.specialCardsInfo.Add(specialCardInfo);
+        }
+        return newGameInfo;
+    }
+
+    static string path;
+    static byte[] imgData;
+    static Texture2D texture;
+    private static Sprite AssignSprite(string textureName)
+    {
+        if (textureName == string.Empty) return null;
+        string[] supportedExtensions = { ".png", ".jpg", ".jpeg" };
+        foreach (var ext in supportedExtensions)
+        {
+            path = Path.Combine(Application.persistentDataPath, textureName + ext);
+            if (File.Exists(path))
+            {
+                imgData = File.ReadAllBytes(path);
+                texture = new Texture2D(0, 0); //El tamaño se autoajusta más tarde
+                texture.name = textureName;
+                texture.LoadImage(imgData);
+                return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
         }
-        FindFirstObjectByType<GameLoader>().zipPathToRemove = zipPath;
-        return zipPath;
-    }
-
-    private List<string> GetImagePaths()
-    {
-        List<string> listToReturn = new();
-        AddPathIfNotContained(listToReturn, GetPathFromSprite(gameImage));
-        foreach(var cardInfo in cardsInfo)
-        {
-            AddPathIfNotContained(listToReturn, GetPathFromSprite(cardInfo.sprite));
-        }
-        AddPathIfNotContained(listToReturn, GetPathFromSprite(defaultSprite));
-        foreach(var specialCard in specialCardsInfo)
-        {
-            AddPathIfNotContained(listToReturn, GetPathFromSprite(specialCard.defaultSpecialSprite));
-            foreach (var cardInfo in specialCard.cardsInfo) AddPathIfNotContained(listToReturn, GetPathFromSprite(cardInfo.sprite));
-        }
-        foreach(var board2d in boards2D)
-        {
-            AddPathIfNotContained(listToReturn, GetPathFromSprite(board2d));
-        }
-        return listToReturn;
-    }
-
-    private void AddPathIfNotContained(List<string> list, string path)
-    {
-        if (path != string.Empty && !list.Contains(path)) list.Add(path);
-        else Debug.Log("Foto ya añadida para compartir, no incluida");
-    }
-
-    private string GetPathFromSprite(Sprite sprite) //A MIRAR SI SIGUE FUNCIONANDO SIN CODIFICAR, SÓLO OBTENIENDO EL PATH
-    {
-        if (sprite is null) return string.Empty;
-        string textureName = sprite.texture.name;
-        string path;
-        byte[] bytes = new byte[0];
-        try
-        {
-            path = Application.persistentDataPath + $"/{textureName}.png";
-            if (!File.Exists(path)) bytes = sprite.texture.EncodeToPNG();
-        } 
-        catch
-        {
-            path = Application.persistentDataPath + $"/{textureName}.jpg";
-            if (!File.Exists(path)) bytes = sprite.texture.EncodeToJPG();
-        }
-        if (!File.Exists(path)) File.WriteAllBytes(path, bytes);
-        return path;
+        Debug.LogError($"La textura {textureName} no fue encontrada en {path}");
+        return null;
     }
 }
