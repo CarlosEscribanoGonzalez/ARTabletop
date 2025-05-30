@@ -8,6 +8,7 @@ using UnityEngine;
 public class GameLoader : MonoBehaviour
 {
     private static GameLoader instance;
+    public string zipPathToRemove;
 
     private void Start()
     {
@@ -19,6 +20,15 @@ public class GameLoader : MonoBehaviour
         TryReadNewGame();
     }
 
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus && !string.IsNullOrEmpty(zipPathToRemove) && File.Exists(zipPathToRemove))
+        {
+            File.Delete(zipPathToRemove);
+            Debug.Log("Zip borrado en " + zipPathToRemove);
+        }
+    }
+
     public void OnIntentReceived(string uri)
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
@@ -28,7 +38,7 @@ public class GameLoader : MonoBehaviour
     public void DeleteGameInfo(string jsonPath)
     {
         string gameId = GetCustomGameID(JsonUtility.FromJson<GameInfoSerializable>(File.ReadAllText(jsonPath)));
-        string path = Path.Combine(Application.persistentDataPath, gameId + ".artabletop");
+        string path = Path.Combine(Application.persistentDataPath, gameId);
         if (File.Exists(path))
         {
             Debug.Log($"Juego eliminado de {path}");
@@ -66,8 +76,8 @@ public class GameLoader : MonoBehaviour
                 string jsonContent = "";
                 if (scheme == "file")
                 {
-                    string path = uri.Call<string>("getPath");
-                    zipBytes = File.ReadAllBytes(path);
+                    string zipPath = uri.Call<string>("getPath");
+                    zipBytes = File.ReadAllBytes(zipPath);
                 }
                 else if (scheme == "content")
                 {
@@ -149,7 +159,7 @@ public class GameLoader : MonoBehaviour
                                  .ToArray();
         foreach (FileInfo file in gameFiles)
         {
-            Debug.Log("CARGANDO UN JUEGO..." + file);
+            Debug.Log("Cargando un juego..." + file);
             try
             {
                 AddGame(File.ReadAllText(file.FullName));
@@ -164,7 +174,7 @@ public class GameLoader : MonoBehaviour
     private void SaveGameInfo(string content)
     {
         string gameId = GetCustomGameID(JsonUtility.FromJson<GameInfoSerializable>(content));
-        string path = Path.Combine(Application.persistentDataPath, gameId + ".artabletop");
+        string path = Path.Combine(Application.persistentDataPath, gameId);
         if (File.Exists(path)) return;
         try
         {
@@ -210,7 +220,7 @@ public class GameLoader : MonoBehaviour
         string name = jsonContent.gameName;
         int dif = jsonContent.specialCardsInfo.Count * jsonContent.cardsInfo.Count + jsonContent.boardImagesNames.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre
         //Mirar si es una tontería el hash:
-        return name + "_" + name[0].GetHashCode() + name[name.Length-1].GetHashCode() + "_" + dif;
+        return name + "_" + name[0].GetHashCode() + name[name.Length-1].GetHashCode() + "_" + dif + ".artabletop";
     }
 
     private void AddGame(string content)

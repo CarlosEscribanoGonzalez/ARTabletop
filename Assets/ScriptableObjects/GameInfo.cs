@@ -37,6 +37,7 @@ public class GameInfo : ScriptableObject
 
     public void Delete()
     {
+        LoadingScreenManager.ToggleLoadingScreen(true);
         GameLoader gameLoader = FindFirstObjectByType<GameLoader>();
         GameOptionsManager gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
         gameLoader.DeleteGameInfo(ConvertGameInfoToJSON());
@@ -56,6 +57,7 @@ public class GameInfo : ScriptableObject
             }
             if (!contained) gameLoader.DeleteImage(textureName);
         }
+        LoadingScreenManager.ToggleLoadingScreen(false);
     }
 
     public void Share()
@@ -86,7 +88,6 @@ public class GameInfo : ScriptableObject
         unityActivity.Call("startActivity", chooser);
 
         LoadingScreenManager.ToggleLoadingScreen(false);
-        //File.Delete(zipPath); //Hay que borrar el zip para que no ocupe espacio innecesario en memoria
     }
 
     private List<string> GetAllUsedTextures()
@@ -164,7 +165,7 @@ public class GameInfo : ScriptableObject
                 archive.CreateEntryFromFile(file, Path.GetFileName(file));
             }
         }
-
+        FindFirstObjectByType<GameLoader>().zipPathToRemove = zipPath;
         return zipPath;
     }
 
