@@ -33,8 +33,8 @@ public class GameOption : MonoBehaviour
 
     public void DeleteGame() //Llamado cuando en el panel de confirmación se confirma el borrado del juego
     {
-        GameDeleter.DeleteGameFiles(Info); //Se borra toda la información del juego de los archivos locales
         FindFirstObjectByType<GameOptionsManager>().RemoveGame(Info, this.transform); //Se borra la opción de la lista de juegos
+        GameDeleter.DeleteGameFiles(Info); //Se borra toda la información del juego de los archivos locales
         Destroy(this.gameObject); //Se destruye el botón
     }
 

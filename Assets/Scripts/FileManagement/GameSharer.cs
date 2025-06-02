@@ -2,18 +2,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 public class GameSharer : MonoBehaviour
 {
     private static string zipPathToRemove; //Cuando se termina de enviar el zip ha de eliminarse, así que se guarda una referencia a él
+
+    private void Awake()
+    {
+        //En el caso de que el usuario cerrara la app nada más realizar el intent sin volver a ella el zip se queda guardado, así que hay que borrarlo
+        DeleteAllZips(); 
+    }
 
     private void OnApplicationFocus(bool hasFocus) //Si cuando se vuelve a la app hay un zip que borrar este se borra
     {
         if (hasFocus && !string.IsNullOrEmpty(zipPathToRemove) && File.Exists(zipPathToRemove))
         {
             File.Delete(zipPathToRemove);
-            zipPathToRemove = null;
             Debug.Log("Zip borrado en " + zipPathToRemove);
+            zipPathToRemove = null;
         }
     }
 
@@ -108,5 +115,17 @@ public class GameSharer : MonoBehaviour
         }
         if (!File.Exists(path)) File.WriteAllBytes(path, bytes); //Si el path no existe lo crea con el contenido cargado
         return path;
+    }
+
+    private void DeleteAllZips()
+    {
+        string rootPath = Application.persistentDataPath;
+        DirectoryInfo dirInfo = new DirectoryInfo(rootPath);
+        FileInfo[] gameFiles = dirInfo.GetFiles("*.zip").ToArray();
+        foreach (var file in gameFiles)
+        {
+            File.Delete(file.FullName);
+            Debug.Log($"Zip {file.FullName} borrado.");
+        }
     }
 }

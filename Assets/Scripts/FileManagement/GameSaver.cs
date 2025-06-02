@@ -3,10 +3,12 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameSaver : MonoBehaviour
 {
     private static GameSaver Instance; //A diferencia del resto, este perdura entre escenas (se puede cargar un juego durante la escena de juego)
+    private static List<string> addedTextures = new(); //En caso de que añadir un json falle se han de borrar las texturas que se han descargado anteriormente
 
     private void Start()
     {
@@ -70,6 +72,7 @@ public class GameSaver : MonoBehaviour
                     using (MemoryStream zipStream = new MemoryStream(zipBytes))
                     using (ZipArchive archive = new ZipArchive(zipStream, ZipArchiveMode.Read)) //Se lee el zip
                     {
+                        addedTextures.Clear(); //Se limpia la lista de imágenes añadidas anteriormente
                         foreach (var entry in archive.Entries) SaveImage(entry); //Se guardan las imágenes en memoria local
                         //Se busca el json:
                         ZipArchiveEntry targetEntry = archive.Entries.FirstOrDefault(e => e.FullName.EndsWith(".artabletop", StringComparison.OrdinalIgnoreCase));
@@ -84,11 +87,11 @@ public class GameSaver : MonoBehaviour
                                 }
                                 else
                                 {
-                                    Debug.LogError("El archivo está vacío o no se pudo leer.");
+                                    throw new Exception("El archivo está vacío o no se pudo leer.");
                                 }
                             }
                         }
-                        else Debug.LogError("No se encontró ningún archivo .artabletop dentro del .zip.");
+                        else throw new Exception("No se encontró ningún archivo .artabletop dentro del .zip.");
                     }
                 }
             }
@@ -96,6 +99,7 @@ public class GameSaver : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError("Intento de añadir juego fallido: " + e.Message);
+            foreach (string texture in addedTextures) GameDeleter.TryDeleteSingleImage(texture);
         }
         finally
         {
@@ -108,7 +112,11 @@ public class GameSaver : MonoBehaviour
         GameInfo newGameInfo = GameInfo.FromJsonToSO(content); //Crea el SO a partir del json
         string gameId = newGameInfo.GetCustomID(); //Obtiene su CustomID
         string path = Path.Combine(Application.persistentDataPath, gameId); //Obtiene su path
-        if (File.Exists(path)) Debug.Log("Juego no guardado porque ya se encontraba en el dispositivo");
+        if (File.Exists(path))
+        {
+            Debug.Log("Juego no guardado porque ya se encontraba en el dispositivo");
+            return;
+        }
         try //Si el json no existe se almacena
         {
             File.WriteAllText(path, content); //Se guarda su info
@@ -143,6 +151,7 @@ public class GameSaver : MonoBehaviour
                     entryStream.CopyTo(fileStream);
                 }
 
+                addedTextures.Add(Path.GetFileNameWithoutExtension(imagePath));
                 Debug.Log($"Imagen guardada en: {imagePath}");
             }
             catch (Exception ex)

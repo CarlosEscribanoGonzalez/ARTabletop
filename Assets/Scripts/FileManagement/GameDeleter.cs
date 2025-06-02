@@ -5,27 +5,38 @@ using UnityEngine;
 
 public class GameDeleter : MonoBehaviour
 {
+    private static GameOptionsManager gameOptionsManager;
+
+    private void Awake()
+    {
+        gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
+    }
+
     public static void DeleteGameFiles(GameInfo gameToDelete) //Borra los datos de un juego dado su SO
     {
         LoadingScreenManager.ToggleLoadingScreen(true); //Feedback al usuario, para que no cierre la app mientras
         DeleteGameInfo(gameToDelete); //Borra su json
-        GameOptionsManager gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
         foreach (string textureName in GetAllUsedTextures(gameToDelete)) //Mira cada foto de las presentes en el juego a borrar
         {
-            bool contained = false;
-            foreach (GameInfo game in gameOptionsManager.CustomGames) //Mira si dicha foto está presente en el resto de juegos o no
-            {
-                List<string> otherGamesTextures = GetAllUsedTextures(gameToDelete);
-                if (otherGamesTextures.Contains(textureName)) //Si la foto está presente en otro juego se pasa a la siguiente foto y no se elimina
-                {
-                    contained = true;
-                    Debug.Log("Imagen " + textureName + " no ha podido ser eliminada porque es usada por " + game.gameName);
-                    break;
-                }
-            }
-            if (!contained) DeleteImage(textureName); //Las imágenes no usadas en otros juegos son eliminadas
+            TryDeleteSingleImage(textureName);
         }
         LoadingScreenManager.ToggleLoadingScreen(false);
+    }
+
+    public static void TryDeleteSingleImage(string textureName)
+    {
+        bool contained = false;
+        foreach (GameInfo game in gameOptionsManager.CustomGames) //Mira si dicha foto está presente en el resto de juegos o no
+        {
+            List<string> otherGameTextures = GetAllUsedTextures(game);
+            if (otherGameTextures.Contains(textureName)) //Si la foto está presente en otro juego se pasa a la siguiente foto y no se elimina
+            {
+                contained = true;
+                Debug.Log("Imagen " + textureName + " no ha podido ser eliminada porque es usada por " + game.gameName);
+                break;
+            }
+        }
+        if (!contained) DeleteImage(textureName); //Las imágenes no usadas en otros juegos son eliminadas
     }
 
     private static List<string> GetAllUsedTextures(GameInfo game) //Devuelve el nombre de todas las texturas usadas por un juego
