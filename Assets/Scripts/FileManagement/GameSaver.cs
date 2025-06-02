@@ -9,6 +9,7 @@ public class GameSaver : MonoBehaviour
 {
     private static GameSaver Instance; //A diferencia del resto, este perdura entre escenas (se puede cargar un juego durante la escena de juego)
     private static List<string> addedTextures = new(); //En caso de que añadir un json falle se han de borrar las texturas que se han descargado anteriormente
+    private static List<string> addedModels = new(); //Lo mismo pero con los modelos 3D
 
     private void Start()
     {
@@ -74,6 +75,8 @@ public class GameSaver : MonoBehaviour
                     {
                         addedTextures.Clear(); //Se limpia la lista de imágenes añadidas anteriormente
                         foreach (var entry in archive.Entries) SaveImage(entry); //Se guardan las imágenes en memoria local
+                        addedModels.Clear();
+                        foreach (var entry in archive.Entries) SaveModel(entry);
                         //Se busca el json:
                         ZipArchiveEntry targetEntry = archive.Entries.FirstOrDefault(e => e.FullName.EndsWith(".artabletop", StringComparison.OrdinalIgnoreCase));
                         if (targetEntry != null)
@@ -100,6 +103,7 @@ public class GameSaver : MonoBehaviour
         {
             Debug.LogError("Intento de añadir juego fallido: " + e.Message);
             foreach (string texture in addedTextures) GameDeleter.TryDeleteSingleImage(texture);
+            foreach (string model in addedModels) GameDeleter.TryDeleteSingleModel(model);
         }
         finally
         {
@@ -157,6 +161,37 @@ public class GameSaver : MonoBehaviour
             catch (Exception ex)
             {
                 Debug.LogError($"Error guardando imagen {entryName}: {ex.Message}");
+            }
+        }
+    }
+
+    private void SaveModel(ZipArchiveEntry entry)
+    {
+        string entryName = entry.FullName;
+        if (entryName.EndsWith(".glb"))
+        {
+            try
+            {
+                string safeName = Path.GetFileName(entryName);
+                string modelPath = Path.Combine(Application.persistentDataPath, safeName); //Se obtiene el path donde se guardarán
+                if (File.Exists(modelPath)) //Los modelos no se guardan si ya están guardados de antes
+                {
+                    Debug.Log($"Modelo no guardado en: {modelPath} puesto que ya existe");
+                    return;
+                }
+                //Si no, se almacena su información en el path:
+                using (Stream entryStream = entry.Open())
+                using (FileStream fileStream = new FileStream(modelPath, FileMode.Create, FileAccess.Write))
+                {
+                    entryStream.CopyTo(fileStream);
+                }
+
+                addedModels.Add(Path.GetFileNameWithoutExtension(modelPath));
+                Debug.Log($"Modelo guardado en: {modelPath}");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error guardando el modelo {entryName}: {ex.Message}");
             }
         }
     }

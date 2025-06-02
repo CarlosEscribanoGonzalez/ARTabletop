@@ -15,7 +15,6 @@ MonoBehaviour:
   gameName: Game 1
   gameImage: {fileID: -1138051939, guid: 8aea114e3497dfa44ba8a5b3d4dd3697, type: 3}
   autoShuffle: 0
-  extendedTracking: 0
   gameHasDice: 1
   gameHasWheel: 0
   gameHasCoins: 1
@@ -30,7 +29,7 @@ MonoBehaviour:
   numPieces: 2
   defaultPiece: {fileID: 919132149155446097, guid: 2fa319a20333e204f945d891e9353b81, type: 3}
   pieces:
-  - {fileID: 919132149155446097, guid: 49c05e1f97a270a46abaa522d9ac5863, type: 3}
+  - {fileID: 919132149155446097, guid: 2fa319a20333e204f945d891e9353b81, type: 3}
   boards3D: []
   boards2D:
   - {fileID: -1138051939, guid: 8aea114e3497dfa44ba8a5b3d4dd3697, type: 3}

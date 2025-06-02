@@ -1,4 +1,3 @@
-using Serialization;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -20,6 +19,10 @@ public class GameDeleter : MonoBehaviour
         {
             TryDeleteSingleImage(textureName);
         }
+        foreach(string modelName in GetAllUsedModels(gameToDelete))
+        {
+            TryDeleteSingleModel(modelName);
+        }
         LoadingScreenManager.ToggleLoadingScreen(false);
     }
 
@@ -39,6 +42,22 @@ public class GameDeleter : MonoBehaviour
         if (!contained) DeleteImage(textureName); //Las imágenes no usadas en otros juegos son eliminadas
     }
 
+    public static void TryDeleteSingleModel(string modelName)
+    {
+        bool contained = false;
+        foreach (GameInfo game in gameOptionsManager.CustomGames) 
+        {
+            List<string> otherGameModels = GetAllUsedModels(game);
+            if (otherGameModels.Contains(modelName)) 
+            {
+                contained = true;
+                Debug.Log("Modelo " + modelName + " no ha podido ser eliminado porque es usado por " + game.gameName);
+                break;
+            }
+        }
+        if (!contained) DeleteModel(modelName);
+    }
+
     private static List<string> GetAllUsedTextures(GameInfo game) //Devuelve el nombre de todas las texturas usadas por un juego
     {
         List<string> textureNameList = new();
@@ -54,10 +73,24 @@ public class GameDeleter : MonoBehaviour
         return textureNameList;
     }
 
+    private static List<string> GetAllUsedModels(GameInfo game)
+    {
+        List<string> modelNames = new();
+        AddModelToList(modelNames, game.defaultPiece);
+        foreach (var piece in game.pieces) AddModelToList(modelNames, piece);
+        return modelNames;
+    }
+
     private static void AddTextureToList(List<string> textureList, Sprite sprite) //Si la lista no contiene el elemento lo añade
     {
         if (sprite == null || textureList.Contains(sprite.texture.name)) return;
         textureList.Add(sprite.texture.name);
+    }
+
+    private static void AddModelToList(List<string> modelList, GameObject model)
+    {
+        if (model == null || modelList.Contains(model.name)) return;
+        modelList.Add(model.name);
     }
 
     private static void DeleteGameInfo(GameInfo game) //Borra el json de un juego
@@ -80,6 +113,17 @@ public class GameDeleter : MonoBehaviour
         else
         {
             Debug.Log("Imagen en " + path + " eliminada");
+            File.Delete(path);
+        }
+    }
+
+    private static void DeleteModel(string name)
+    {
+        string path = Path.Combine(Application.persistentDataPath, name + ".glb");
+        if (!File.Exists(path)) Debug.LogError($"Modelo a borrar en {path} no encontrado.");
+        else
+        {
+            Debug.Log("Modelo en " + path + " eliminado");
             File.Delete(path);
         }
     }

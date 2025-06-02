@@ -29,6 +29,7 @@ public class GameSharer : MonoBehaviour
         List<string> files = new(); //Lista de paths
         files.Add(gameToShare.ConvertToJson()); //Añade el json
         files.AddRange(GetImagePaths(gameToShare)); //Añade las imágenes
+        files.AddRange(GetModelPaths(gameToShare)); //Añade los modelos
 
         string zipPath = CreateZip(gameToShare.gameName, files); //Crea el zip a partir de los paths
         //Se configura el intent de enviar .zip:
@@ -91,10 +92,18 @@ public class GameSharer : MonoBehaviour
         return listToReturn;
     }
 
+    private static List<string> GetModelPaths(GameInfo game)
+    {
+        List<string> listToReturn = new();
+        AddPathIfNotContained(listToReturn, GetPathFromModel(game.defaultPiece));
+        foreach (var piece in game.pieces) AddPathIfNotContained(listToReturn, GetPathFromModel(piece));
+        return listToReturn;
+    }
+
     private static void AddPathIfNotContained(List<string> list, string path) //Añade un path a una lista siempre que no esté ya añadido
     {
         if (path != string.Empty && !list.Contains(path)) list.Add(path);
-        else Debug.Log("Foto ya añadida para compartir, no incluida");
+        else Debug.Log($"Contenido en {path} ya añadido para compartir, no incluido");
     }
 
     private static string GetPathFromSprite(Sprite sprite) //Obtiene el path de un sprite a partir del nombre de su textura
@@ -114,6 +123,12 @@ public class GameSharer : MonoBehaviour
             if (!File.Exists(path)) bytes = sprite.texture.EncodeToJPG(); //Si el path no existe carga su contenido
         }
         if (!File.Exists(path)) File.WriteAllBytes(path, bytes); //Si el path no existe lo crea con el contenido cargado
+        return path;
+    }
+
+    private static string GetPathFromModel(GameObject model)
+    {
+        string path = Path.Combine(Application.persistentDataPath, model.name + ".glb");
         return path;
     }
 

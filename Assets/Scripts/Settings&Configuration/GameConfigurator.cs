@@ -22,14 +22,14 @@ public class GameConfigurator : MonoBehaviour
         //Cards normales:
         cardManager.CardsInfo = GameInfo.cardsInfo.ToArray();
         cardManager.DefaultImage = GameInfo.defaultSprite;
-        /*/Piezas:
+        //Piezas:
         List<GameObject> pieces = new();
-        for(int i = 0; i < gameInfo.numPieces; i++)
+        for(int i = 0; i < GameInfo.numPieces; i++)
         {
-            if (i < gameInfo.pieces.Count) pieces.Add(gameInfo.pieces[i]);
-            else pieces.Add(gameInfo.defaultPiece);
+            if (i < GameInfo.pieces.Count) pieces.Add(GameInfo.pieces[i]);
+            else pieces.Add(GameInfo.defaultPiece);
         }
-        pieceManager.Pieces = pieces.ToArray();*/
+        pieceManager.Pieces = pieces.ToArray();
         //Tableros: 
         //boardManager.BoardModels = gameInfo.boards3D.ToArray();
         boardManager.BoardModels = new GameObject[0];

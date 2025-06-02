@@ -15,7 +15,6 @@ MonoBehaviour:
   gameName: Game 2
   gameImage: {fileID: -1046902471, guid: 3297b6300b0a32b4c8b2a122ee948de7, type: 3}
   autoShuffle: 1
-  extendedTracking: 0
   gameHasDice: 0
   gameHasWheel: 1
   gameHasCoins: 0
@@ -29,10 +28,8 @@ MonoBehaviour:
   defaultSprite: {fileID: 21300000, guid: 5f670de35e9504647ae9c993d1a463e0, type: 3}
   numPieces: 2
   defaultPiece: {fileID: 919132149155446097, guid: 2fa319a20333e204f945d891e9353b81, type: 3}
-  pieces:
-  - {fileID: 919132149155446097, guid: 49c05e1f97a270a46abaa522d9ac5863, type: 3}
-  boards3D:
-  - {fileID: 4209626209239141091, guid: ed31a9fa38a29f74da00a017630e0aee, type: 3}
+  pieces: []
+  boards3D: []
   boards2D: []
   specialCardsInfo:
   - name: Special 2

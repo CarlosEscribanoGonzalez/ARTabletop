@@ -56,6 +56,9 @@ public class GameInfo : ScriptableObject
                 size = card.sizeMult
             }).ToList(),
             defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.texture.name : null,
+            //Pieces:
+            defaultPieceName = this.defaultPiece.name,
+            piecesNames = this.pieces.Select(piece => piece.name).ToList(),
             //Boards:
             boardImagesNames = this.boards2D.Select(board => board.texture.name).ToList(),
             //Special cards:
@@ -106,6 +109,8 @@ public class GameInfo : ScriptableObject
             newGameInfo.cardsInfo.Add(cardInfo);
         }
         newGameInfo.defaultSprite = AssignSprite(deserialized.defaultSpriteFileName);
+        //Pieces: 
+
         //Boards:
         foreach (var board2d in deserialized.boardImagesNames)
         {
