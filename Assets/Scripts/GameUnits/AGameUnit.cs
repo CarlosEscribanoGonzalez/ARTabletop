@@ -48,6 +48,7 @@ public class AGameUnit : MonoBehaviour
     public virtual void SetModel(GameObject model) //Instancia el modelo y ajusta su tamaño
     {
         unitModel = Instantiate(model, this.transform);
+        unitModel.SetActive(true);
         AdjustModelSize();
     }
 

@@ -42,6 +42,7 @@ namespace Serialization
         public List<CardInfoSerializable> cardsInfo;
         public string defaultSpriteFileName;
 
+        public int numPieces;
         public string defaultPieceName;
         public List<string> piecesNames;
 

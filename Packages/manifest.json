@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.google.external-dependency-manager": "https://github.com/googlesamples/unity-jar-resolver.git?path=upm",
+    "com.siccity.gltfutility": "https://github.com/siccity/gltfutility.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ai.navigation": "2.0.5",
     "com.unity.collab-proxy": "2.5.2",

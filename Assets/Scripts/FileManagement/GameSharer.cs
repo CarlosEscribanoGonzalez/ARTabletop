@@ -103,7 +103,7 @@ public class GameSharer : MonoBehaviour
     private static void AddPathIfNotContained(List<string> list, string path) //Añade un path a una lista siempre que no esté ya añadido
     {
         if (path != string.Empty && !list.Contains(path)) list.Add(path);
-        else Debug.Log($"Contenido en {path} ya añadido para compartir, no incluido");
+        else if(path != string.Empty) Debug.Log($"Contenido en {path} ya añadido para compartir, no incluido");
     }
 
     private static string GetPathFromSprite(Sprite sprite) //Obtiene el path de un sprite a partir del nombre de su textura

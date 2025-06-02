@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Serialization;
 using System.Linq;
 using System.IO;
+using Siccity.GLTFUtility;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/GameInfo")]
 public class GameInfo : ScriptableObject
@@ -57,6 +58,7 @@ public class GameInfo : ScriptableObject
             }).ToList(),
             defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.texture.name : null,
             //Pieces:
+            numPieces = this.numPieces,
             defaultPieceName = this.defaultPiece.name,
             piecesNames = this.pieces.Select(piece => piece.name).ToList(),
             //Boards:
@@ -109,8 +111,10 @@ public class GameInfo : ScriptableObject
             newGameInfo.cardsInfo.Add(cardInfo);
         }
         newGameInfo.defaultSprite = AssignSprite(deserialized.defaultSpriteFileName);
-        //Pieces: 
-
+        //Pieces:
+        newGameInfo.numPieces = deserialized.numPieces;
+        newGameInfo.defaultPiece = AssignModel(deserialized.defaultPieceName);
+        foreach (var piece in deserialized.piecesNames) newGameInfo.pieces.Add(AssignModel(piece));
         //Boards:
         foreach (var board2d in deserialized.boardImagesNames)
         {
@@ -156,5 +160,30 @@ public class GameInfo : ScriptableObject
         }
         Debug.LogError($"La textura {textureName} no fue encontrada en {path}");
         return null;
+    }
+
+    private static GameObject AssignModel(string modelName)
+    {
+        string path = Path.Combine(Application.persistentDataPath, modelName + ".glb");
+        if (!File.Exists(path))
+        {
+            Debug.LogError("Error al asignar modelo: no existe ningún modelo en el path: " + path);
+            return null;
+        }
+        try
+        {
+            GameObject modelInstance = Importer.LoadFromFile(path);
+            modelInstance.SetActive(false);
+            GameObject modelPrefab = GameObject.Instantiate(modelInstance);
+            DestroyImmediate(modelInstance);
+            modelPrefab.hideFlags = HideFlags.HideAndDontSave;
+            modelPrefab.name = modelName;
+            return modelPrefab;
+        }
+        catch(System.Exception e)
+        {
+            Debug.LogError("Error pasando de .glb a GameObject: " + e);
+            return null;
+        }
     }
 }
