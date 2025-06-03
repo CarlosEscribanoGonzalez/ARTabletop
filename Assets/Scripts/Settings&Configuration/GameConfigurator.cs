@@ -31,8 +31,7 @@ public class GameConfigurator : MonoBehaviour
         }
         pieceManager.Pieces = pieces.ToArray();
         //Tableros: 
-        //boardManager.BoardModels = gameInfo.boards3D.ToArray();
-        boardManager.BoardModels = new GameObject[0];
+        boardManager.BoardModels = GameInfo.boards3D.ToArray();
         boardManager.BoardSprites = GameInfo.boards2D.ToArray();
         //SpecialCards:
         SpecialCardGameManager newManager;

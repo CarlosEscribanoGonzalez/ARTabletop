@@ -4,7 +4,6 @@ using Serialization;
 using System.Linq;
 using System.IO;
 using Siccity.GLTFUtility;
-using Serialization;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/GameInfo")]
 public class GameInfo : ScriptableObject
@@ -64,6 +63,7 @@ public class GameInfo : ScriptableObject
             piecesNames = this.pieces.Select(piece => piece.name).ToList(),
             //Boards:
             boardImagesNames = this.boards2D.Select(board => board.texture.name).ToList(),
+            boardModelsNames = this.boards3D.Select(board => board.name).ToList(),
             //Special cards:
             specialCardsInfo = this.specialCardsInfo.Select(card => new SpecialCardInfoSerializable
             {
@@ -110,10 +110,8 @@ public class GameInfo : ScriptableObject
         newGameInfo.defaultPiece = AssignModel(deserialized.defaultPieceName);
         foreach (var piece in deserialized.piecesNames) newGameInfo.pieces.Add(AssignModel(piece));
         //Boards:
-        foreach (var board2d in deserialized.boardImagesNames)
-        {
-            newGameInfo.boards2D.Add(AssignSprite(board2d));
-        }
+        foreach (var board2d in deserialized.boardImagesNames) newGameInfo.boards2D.Add(AssignSprite(board2d));
+        foreach (var board3d in deserialized.boardModelsNames) newGameInfo.boards3D.Add(AssignModel(board3d));
         //Special cards:
         foreach (var scard in deserialized.specialCardsInfo)
         {

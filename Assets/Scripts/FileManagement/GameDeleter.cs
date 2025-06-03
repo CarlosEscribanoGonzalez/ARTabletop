@@ -78,6 +78,7 @@ public class GameDeleter : MonoBehaviour
         List<string> modelNames = new();
         AddModelToList(modelNames, game.defaultPiece);
         foreach (var piece in game.pieces) AddModelToList(modelNames, piece);
+        foreach (var board in game.boards3D) AddModelToList(modelNames, board);
         return modelNames;
     }
 

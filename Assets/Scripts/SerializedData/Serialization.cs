@@ -47,6 +47,7 @@ namespace Serialization
         public List<string> piecesNames;
 
         public List<string> boardImagesNames;
+        public List<string> boardModelsNames;
 
         public List<SpecialCardInfoSerializable> specialCardsInfo;
 

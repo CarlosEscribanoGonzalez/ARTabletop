@@ -119,9 +119,10 @@ public class GameSaver : MonoBehaviour
         try //Si el json no existe se almacena
         {
             addedTextures.Clear(); //Se limpia la lista de imágenes añadidas anteriormente
-            foreach (var entry in archive.Entries) SaveImage(entry); //Se guardan las imágenes en memoria local
+            foreach (var entry in archive.Entries.Where((p) => p.FullName.EndsWith(".png") || p.FullName.EndsWith(".jpg")))
+                SaveImage(entry); //Se guardan las imágenes en memoria local
             addedModels.Clear(); //Lo mismo con los modelos
-            foreach (var entry in archive.Entries) SaveModel(entry);
+            foreach (var entry in archive.Entries.Where((p) => p.FullName.EndsWith(".glb"))) SaveModel(entry);
             File.WriteAllText(path, content); //Se guarda su info
             Debug.Log("Juego guardado en: " + path);
             GameLoader.LoadGame(GameInfo.FromJsonToSO(content)); //Si se está en el menú principal se carga en la lista de juegos
@@ -136,64 +137,55 @@ public class GameSaver : MonoBehaviour
 
     private void SaveImage(ZipArchiveEntry entry) //Guarda las imágenes en local
     {
-        string entryName = entry.FullName; //Primero se comprueba que sea un formato compatible
-        if (entryName.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
-            entryName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
+        try
         {
-            try
+            string safeName = Path.GetFileName(entry.FullName);
+            string imagePath = Path.Combine(Application.persistentDataPath, safeName); //Se obtiene el path donde se guardarán
+            if (File.Exists(imagePath)) //Las imágenes no se guardan si ya están guardadas de antes
             {
-                string safeName = Path.GetFileName(entryName);
-                string imagePath = Path.Combine(Application.persistentDataPath, safeName); //Se obtiene el path donde se guardarán
-                if (File.Exists(imagePath)) //Las imágenes no se guardan si ya están guardadas de antes
-                {
-                    Debug.Log($"Imagen no guardada en: {imagePath} puesto que ya existe");
-                    return;
-                }
-                //Si no, se almacena su información en el path:
-                using (Stream entryStream = entry.Open())
-                using (FileStream fileStream = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
-                {
-                    entryStream.CopyTo(fileStream);
-                }
+                Debug.Log($"Imagen no guardada en: {imagePath} puesto que ya existe");
+                return;
+            }
+            //Si no, se almacena su información en el path:
+            using (Stream entryStream = entry.Open())
+            using (FileStream fileStream = new FileStream(imagePath, FileMode.Create, FileAccess.Write))
+            {
+                entryStream.CopyTo(fileStream);
+            }
 
-                addedTextures.Add(Path.GetFileNameWithoutExtension(imagePath));
-                Debug.Log($"Imagen guardada en: {imagePath}");
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Error guardando imagen {entryName}: {ex.Message}");
-            }
+            addedTextures.Add(Path.GetFileNameWithoutExtension(imagePath));
+            Debug.Log($"Imagen guardada en: {imagePath}");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error guardando imagen {entry.FullName}: {ex.Message}");
         }
     }
 
     private void SaveModel(ZipArchiveEntry entry)
     {
-        string entryName = entry.FullName;
-        if (entryName.EndsWith(".glb"))
+        try
         {
-            try
+            string safeName = Path.GetFileName(entry.FullName);
+            string modelPath = Path.Combine(Application.persistentDataPath, safeName); //Se obtiene el path donde se guardarán
+            if (File.Exists(modelPath)) //Los modelos no se guardan si ya están guardados de antes
             {
-                string safeName = Path.GetFileName(entryName);
-                string modelPath = Path.Combine(Application.persistentDataPath, safeName); //Se obtiene el path donde se guardarán
-                if (File.Exists(modelPath)) //Los modelos no se guardan si ya están guardados de antes
-                {
-                    Debug.Log($"Modelo no guardado en: {modelPath} puesto que ya existe");
-                    return;
-                }
-                //Si no, se almacena su información en el path:
-                using (Stream entryStream = entry.Open())
-                using (FileStream fileStream = new FileStream(modelPath, FileMode.Create, FileAccess.Write))
-                {
-                    entryStream.CopyTo(fileStream);
-                }
+                Debug.Log($"Modelo no guardado en: {modelPath} puesto que ya existe");
+                return;
+            }
+            //Si no, se almacena su información en el path:
+            using (Stream entryStream = entry.Open())
+            using (FileStream fileStream = new FileStream(modelPath, FileMode.Create, FileAccess.Write))
+            {
+                entryStream.CopyTo(fileStream);
+            }
 
-                addedModels.Add(Path.GetFileNameWithoutExtension(modelPath));
-                Debug.Log($"Modelo guardado en: {modelPath}");
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Error guardando el modelo {entryName}: {ex.Message}");
-            }
+            addedModels.Add(Path.GetFileNameWithoutExtension(modelPath));
+            Debug.Log($"Modelo guardado en: {modelPath}");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Error guardando el modelo {entry.FullName}: {ex.Message}");
         }
     }
 }
