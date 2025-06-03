@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Events;
+using System.IO;
 
 public class CardPreviewTool : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class CardPreviewTool : MonoBehaviour
     [SerializeField] private bool isDefaultPreview = false;
     private RectTransform rectTransform;
     private CardBuilder cardBuilder;
+    public UnityEvent onImageSet; 
 
     void Start()
     {
@@ -31,6 +34,7 @@ public class CardPreviewTool : MonoBehaviour
                     Debug.LogError("No se pudo cargar la imagen.");
                     return;
                 }
+                texture.name = Path.GetFileNameWithoutExtension(path);
                 SetImage(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)));
             }
         }, "Select an image");
@@ -40,6 +44,8 @@ public class CardPreviewTool : MonoBehaviour
     {
         image.sprite = sprite;
         AdjustSize();
+        onImageSet?.Invoke();
+        if (cardBuilder == null) return;
         if (!isDefaultPreview) cardBuilder.UpdateCurrentImage(sprite);
         else cardBuilder.DefaultImage = sprite;
     }

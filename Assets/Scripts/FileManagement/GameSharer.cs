@@ -54,6 +54,13 @@ public class GameSharer : MonoBehaviour
         LoadingScreenManager.ToggleLoadingScreen(false);
     }
 
+    public static void CreateGame(GameInfo game)
+    {
+        game.ConvertToJson();
+        GetImagePaths(game);
+        //GetModelPaths(game);
+    }
+
     private static string CreateZip(string zipName, List<string> files) //Crea un zip con el nombre del juego
     {
         string zipPath = Application.persistentDataPath + $"/{zipName}.zip";
