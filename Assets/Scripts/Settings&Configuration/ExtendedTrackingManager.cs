@@ -4,7 +4,7 @@ using UnityEngine.XR.ARSubsystems;
 
 public class ExtendedTrackingManager : MonoBehaviour
 {
-    public static bool IsXTEnabled { get; private set; } = true;
+    public static bool IsXTEnabled { get; set; } = false;
     private ARTrackedImageManager imageManager;
     private ARAnchorManager anchorManager;
 
@@ -12,11 +12,6 @@ public class ExtendedTrackingManager : MonoBehaviour
     {
         imageManager = GetComponent<ARTrackedImageManager>();
         anchorManager = FindFirstObjectByType<ARAnchorManager>();
-    }
-
-    public void SetExtendedTracking(bool enable)
-    {
-        IsXTEnabled = enable;
     }
 
     public void OnTrackedImagesChanged() //Llamada cada vez que un marcador se actualiza
