@@ -28,7 +28,7 @@ public class CardPreviewTool : MonoBehaviour
         {
             if (path != null)
             {
-                Texture2D texture = NativeGallery.LoadImageAtPath(path, 1024);
+                Texture2D texture = NativeGallery.LoadImageAtPath(path, 1024, false);
                 if (texture == null)
                 {
                     Debug.LogError("No se pudo cargar la imagen.");

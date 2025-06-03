@@ -102,7 +102,7 @@ public class GameSharer : MonoBehaviour
     private static List<string> GetModelPaths(GameInfo game)
     {
         List<string> listToReturn = new();
-        AddPathIfNotContained(listToReturn, GetPathFromModel(game.defaultPiece));
+        if(game.defaultPiece != null) AddPathIfNotContained(listToReturn, GetPathFromModel(game.defaultPiece));
         foreach (var piece in game.pieces) AddPathIfNotContained(listToReturn, GetPathFromModel(piece));
         foreach (var board in game.boards3D) AddPathIfNotContained(listToReturn, GetPathFromModel(board));
         return listToReturn;

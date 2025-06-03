@@ -10,7 +10,7 @@ public class ToolManager : MonoBehaviour
 
     private void Awake()
     {
-        gameInfo = new();
+        gameInfo = ScriptableObject.CreateInstance<GameInfo>();
         cardBuilder = GetComponentInChildren<CardBuilder>(true);
         generalSettingsBuilder = GetComponentInChildren<GeneralSettingsBuilder>(true);
         createGameButton.interactable = false;

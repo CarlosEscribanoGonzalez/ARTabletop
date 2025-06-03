@@ -57,7 +57,7 @@ public class GameInfo : ScriptableObject
                 size = card.sizeMult
             }).ToList(),
             defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.texture.name : null,
-            //Pieces:
+            /*/Pieces:
             numPieces = this.numPieces,
             defaultPieceName = this.defaultPiece.name,
             piecesNames = this.pieces.Select(piece => piece.name).ToList(),
@@ -75,7 +75,7 @@ public class GameInfo : ScriptableObject
                     size = c.sizeMult
                 }).ToList(),
                 defaultSpriteFileName = card.defaultSpecialSprite != null ? card.defaultSpecialSprite.texture.name : null
-            }).ToList()
+            }).ToList()*/
         };
         File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true)); //Escribe la información en el path y lo devuelve
         return path;
@@ -107,7 +107,8 @@ public class GameInfo : ScriptableObject
         newGameInfo.defaultSprite = AssignSprite(deserialized.defaultSpriteFileName);
         //Pieces:
         newGameInfo.numPieces = deserialized.numPieces;
-        newGameInfo.defaultPiece = AssignModel(deserialized.defaultPieceName);
+        if(!string.IsNullOrEmpty(deserialized.defaultPieceName)) 
+            newGameInfo.defaultPiece = AssignModel(deserialized.defaultPieceName);
         foreach (var piece in deserialized.piecesNames) newGameInfo.pieces.Add(AssignModel(piece));
         //Boards:
         foreach (var board2d in deserialized.boardImagesNames) newGameInfo.boards2D.Add(AssignSprite(board2d));
