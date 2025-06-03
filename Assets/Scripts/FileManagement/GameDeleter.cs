@@ -14,7 +14,7 @@ public class GameDeleter : MonoBehaviour
     public static void DeleteGameFiles(GameInfo gameToDelete) //Borra los datos de un juego dado su SO
     {
         LoadingScreenManager.ToggleLoadingScreen(true); //Feedback al usuario, para que no cierre la app mientras
-        DeleteGameInfo(gameToDelete); //Borra su json
+        DeleteGameInfo(File.ReadAllText(gameToDelete.ConvertToJson())); //Borra su json
         foreach (string textureName in GetAllUsedTextures(gameToDelete)) //Mira cada foto de las presentes en el juego a borrar
         {
             TryDeleteSingleImage(textureName);
@@ -93,9 +93,9 @@ public class GameDeleter : MonoBehaviour
         modelList.Add(model.name);
     }
 
-    private static void DeleteGameInfo(GameInfo game) //Borra el json de un juego
+    private static void DeleteGameInfo(string jsonContent) //Borra el json de un juego
     {
-        string gameId = game.GetCustomID(); //Obtiene su ID diferenciador (es decir, su path único)
+        string gameId = GameInfo.GetCustomJsonID(jsonContent); //Obtiene su ID diferenciador (es decir, su path único)
         string path = Path.Combine(Application.persistentDataPath, gameId);
         if (File.Exists(path)) //Si encuentra el path borra el juego
         {

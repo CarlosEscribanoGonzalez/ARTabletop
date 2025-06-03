@@ -73,10 +73,6 @@ public class GameSaver : MonoBehaviour
                     using (MemoryStream zipStream = new MemoryStream(zipBytes))
                     using (ZipArchive archive = new ZipArchive(zipStream, ZipArchiveMode.Read)) //Se lee el zip
                     {
-                        addedTextures.Clear(); //Se limpia la lista de imágenes añadidas anteriormente
-                        foreach (var entry in archive.Entries) SaveImage(entry); //Se guardan las imágenes en memoria local
-                        addedModels.Clear();
-                        foreach (var entry in archive.Entries) SaveModel(entry);
                         //Se busca el json:
                         ZipArchiveEntry targetEntry = archive.Entries.FirstOrDefault(e => e.FullName.EndsWith(".artabletop", StringComparison.OrdinalIgnoreCase));
                         if (targetEntry != null)
@@ -86,7 +82,7 @@ public class GameSaver : MonoBehaviour
                                 jsonContent = reader.ReadToEnd();
                                 if (!string.IsNullOrEmpty(jsonContent)) //Si el contenido es legible se guarda en memoria
                                 {
-                                    SaveGameInfo(jsonContent);
+                                    SaveGameInfo(jsonContent, archive);
                                 }
                                 else
                                 {
@@ -111,10 +107,9 @@ public class GameSaver : MonoBehaviour
         }
     }
 
-    private void SaveGameInfo(string content) //Guarda el json en memoria
+    private void SaveGameInfo(string content, ZipArchive archive) //Guarda el json y archivos en memoria
     {
-        GameInfo newGameInfo = GameInfo.FromJsonToSO(content); //Crea el SO a partir del json
-        string gameId = newGameInfo.GetCustomID(); //Obtiene su CustomID
+        string gameId = GameInfo.GetCustomJsonID(content); //Obtiene su CustomID
         string path = Path.Combine(Application.persistentDataPath, gameId); //Obtiene su path
         if (File.Exists(path))
         {
@@ -123,13 +118,19 @@ public class GameSaver : MonoBehaviour
         }
         try //Si el json no existe se almacena
         {
+            addedTextures.Clear(); //Se limpia la lista de imágenes añadidas anteriormente
+            foreach (var entry in archive.Entries) SaveImage(entry); //Se guardan las imágenes en memoria local
+            addedModels.Clear(); //Lo mismo con los modelos
+            foreach (var entry in archive.Entries) SaveModel(entry);
             File.WriteAllText(path, content); //Se guarda su info
             Debug.Log("Juego guardado en: " + path);
-            GameLoader.LoadGame(newGameInfo); //Si se está en el menú principal se carga en la lista de juegos
+            GameLoader.LoadGame(GameInfo.FromJsonToSO(content)); //Si se está en el menú principal se carga en la lista de juegos
         }
         catch (System.Exception e)
         {
             Debug.LogError("Error guardando el juego: " + e);
+            foreach (string texture in addedTextures) GameDeleter.TryDeleteSingleImage(texture);
+            foreach (string model in addedModels) GameDeleter.TryDeleteSingleModel(model);
         }
     }
 

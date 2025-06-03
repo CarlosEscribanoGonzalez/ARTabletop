@@ -4,6 +4,7 @@ using Serialization;
 using System.Linq;
 using System.IO;
 using Siccity.GLTFUtility;
+using Serialization;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/GameInfo")]
 public class GameInfo : ScriptableObject
@@ -36,7 +37,7 @@ public class GameInfo : ScriptableObject
 
     public string ConvertToJson() //Convierte el SO a JSON y devuelve su path
     {
-        string path = Path.Combine(Application.persistentDataPath, GetCustomID()); //Accede al path a partir del CustomID del juego
+        string path = Path.Combine(Application.persistentDataPath, GetOwnJsonID()); //Accede al path a partir del CustomID del juego
         if (File.Exists(path)) return path; //Si ya existe el path lo devuelve
         //Si no existe lo crea:
         var gameInfoSerializable = new GameInfoSerializable //Primero lo convierte a información serializable
@@ -78,13 +79,6 @@ public class GameInfo : ScriptableObject
         };
         File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true)); //Escribe la información en el path y lo devuelve
         return path;
-    }
-
-    public string GetCustomID() //Crea un ID para cada juego, altamente improbable que dos juegos tengan el mismo ID
-    {
-        string imageName = gameImage.texture.name; //Se usa el nombre de su imagen para hacer un hash
-        int dif = specialCardsInfo.Count * cardsInfo.Count + boards2D.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre y la misma imagen
-        return gameName + "_" + imageName[0].GetHashCode() + imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop"; //El custom id del juego se devuelve
     }
 
     public static GameInfo FromJsonToSO(string json) //Pasa la información de un JSON a un ScriptableObject
@@ -139,6 +133,21 @@ public class GameInfo : ScriptableObject
         return newGameInfo;
     }
 
+    public static string GetCustomJsonID(string jsonContent) //Crea un ID para cada juego, altamente improbable que dos juegos tengan el mismo ID
+    {
+        GameInfoSerializable info = JsonUtility.FromJson<GameInfoSerializable>(jsonContent);
+        string imageName = info.gameImageFileName; //Se usa el nombre de su imagen para hacer un hash
+        int dif = info.specialCardsInfo.Count * info.cardsInfo.Count + info.boardImagesNames.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre y la misma imagen
+        return info.gameName + "_" + imageName[0].GetHashCode() + imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop"; //El custom id del juego se devuelve
+    }
+
+    private string GetOwnJsonID()
+    {
+        string imageName = gameImage.texture.name;
+        int dif = specialCardsInfo.Count * cardsInfo.Count + boards2D.Count;
+        return gameName + "_" + imageName[0].GetHashCode() + imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop";
+    }
+
     static string path; //Path de la imagen que se busca
     static byte[] imgData; //Datos de la imagen
     static Texture2D texture; //Textura de la imagen
@@ -172,12 +181,12 @@ public class GameInfo : ScriptableObject
         }
         try
         {
-            GameObject modelInstance = Importer.LoadFromFile(path);
-            modelInstance.SetActive(false);
-            GameObject modelPrefab = GameObject.Instantiate(modelInstance);
-            DestroyImmediate(modelInstance);
-            modelPrefab.hideFlags = HideFlags.HideAndDontSave;
-            modelPrefab.name = modelName;
+            GameObject modelInstance = Importer.LoadFromFile(path); //Se crea el modelo en la escena
+            modelInstance.SetActive(false); //Se desactiva, no se quiere ver ese modelo
+            GameObject modelPrefab = GameObject.Instantiate(modelInstance); //Se crea una copia en memoria
+            DestroyImmediate(modelInstance); //El original se borra porque no interesa
+            modelPrefab.hideFlags = HideFlags.HideAndDontSave; //Se configuran sus hide flags
+            modelPrefab.name = modelName; //Se le pone nombre, importante para luego construir el zip
             return modelPrefab;
         }
         catch(System.Exception e)
