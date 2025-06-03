@@ -28,7 +28,7 @@ public class WheelManager : MonoBehaviour
         for(int i = 0; i < 3; i++) AddOption(); //Tres opciones iniciales por defecto
     }
 
-    private void OnEnable()
+    private void OnDisable()
     {
         SetMenuState(false);
     }
