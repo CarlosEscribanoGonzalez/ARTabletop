@@ -28,6 +28,7 @@ public class PiecePreview : MonoBehaviour
         Destroy(currentPiece);
         previewTransform.localScale = Vector3.one;
         currentPiece = GameObject.Instantiate(piecePrefab, previewTransform);
+        currentPiece.SetActive(true);
         ScalePiece(piecePrefab);
     }
 

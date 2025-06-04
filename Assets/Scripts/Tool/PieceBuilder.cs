@@ -19,6 +19,8 @@ public class PieceBuilder : MonoBehaviour
     public GameObject DefaultPiece => defaultPiece;
     public int TotalPieces => pieces.Count;
 
+    private List<string> paths = new();
+
     private void Awake()
     {
         for (int i = 0; i < numPiecesDropdown.value + 1; i++) pieces.Add(null);
@@ -84,6 +86,33 @@ public class PieceBuilder : MonoBehaviour
         return notNullPieces;
     }
 
+    public void DownloadInfo()
+    {
+        string fileName;
+        string destinationFile;
+        foreach(var path in paths)
+        {
+            if (ModelIsUsed(path))
+            {
+                fileName = Path.GetFileName(path);
+                destinationFile = Path.Combine(Application.persistentDataPath, fileName);
+                File.Copy(path, destinationFile, true);
+                Debug.Log("Modelo " + fileName + " almacenado localmente");
+            }
+        }
+    }
+
+    private bool ModelIsUsed(string path)
+    {
+        string modelName = Path.GetFileNameWithoutExtension(path);
+        if (modelName == defaultPiece.name) return true;
+        foreach(var piece in GetFinalPieces())
+        {
+            if (modelName == piece.name) return true;
+        }
+        return false;
+    }
+
     private void PickPiece(bool isDefaultPiece)
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
@@ -100,6 +129,7 @@ public class PieceBuilder : MonoBehaviour
                     piecePrefab = Instantiate(piece);
                     DestroyImmediate(piece);
                     piecePrefab.hideFlags = HideFlags.HideAndDontSave;
+                    piecePrefab.SetActive(false);
                     piecePrefab.name = Path.GetFileNameWithoutExtension(path);
                     if (isDefaultPiece)
                     {
@@ -109,6 +139,8 @@ public class PieceBuilder : MonoBehaviour
                     else pieces[index] = piecePrefab;
                     preview.SetPiece(pieces[index] ?? defaultPiece);
                     setAsDefaultButton.interactable = pieces[index] != null;
+
+                    if (!paths.Contains(path)) paths.Add(path);
                 }
             }, new string[] { "application/octet-stream" });
         }

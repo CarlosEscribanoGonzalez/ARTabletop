@@ -50,6 +50,7 @@ public class ToolManager : MonoBehaviour
 
     public void CreateGame()
     {
+        pieceBuilder.DownloadInfo();
         GameSharer.CreateGame(gameInfo);
     }
 }

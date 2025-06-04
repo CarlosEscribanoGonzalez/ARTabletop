@@ -11,7 +11,7 @@ public class Settings : MonoBehaviour
     {
         extendedTrackingToggle.isOn = PlayerPrefs.GetInt("ExtendedTracking", 0) == 0 ? false : true;
         ExtendedTrackingManager.IsXTEnabled = extendedTrackingToggle.isOn;
-        nameInputField.SetTextWithoutNotify(PlayerPrefs.GetString("PlayerName", ""));
+        nameInputField.SetTextWithoutNotify(PlayerPrefs.GetString("PlayerName", $"Player{Random.Range(0, 10000)}"));
     }
 
     public void SaveXTConfig(bool isOn)
