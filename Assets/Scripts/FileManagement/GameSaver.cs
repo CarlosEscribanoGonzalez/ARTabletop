@@ -120,7 +120,7 @@ public class GameSaver : MonoBehaviour
         {
             addedTextures.Clear(); //Se limpia la lista de imágenes añadidas anteriormente
             foreach (var entry in archive.Entries.Where((p) => p.FullName.EndsWith(".png") || p.FullName.EndsWith(".jpg")))
-                SaveImage(entry); //Se guardan las imágenes en memoria local
+            SaveImage(entry); //Se guardan las imágenes en memoria local
             addedModels.Clear(); //Lo mismo con los modelos
             foreach (var entry in archive.Entries.Where((p) => p.FullName.EndsWith(".glb"))) SaveModel(entry);
             File.WriteAllText(path, content); //Se guarda su info

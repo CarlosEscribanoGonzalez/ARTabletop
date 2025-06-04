@@ -103,7 +103,7 @@ public class PieceBuilder : MonoBehaviour
         if (index >= pieces.Count)
         {
             index = pieces.Count - 1;
-            preview.SetPiece(pieces[index]);
+            preview.SetPiece(pieces[index] ?? defaultPiece);
         }
         indexText.text = (index + 1).ToString();
     }
@@ -117,16 +117,11 @@ public class PieceBuilder : MonoBehaviour
 
     public void DownloadInfo()
     {
-        string fileName;
-        string destinationFile;
         foreach(var path in importedPaths)
         {
             if (ModelIsUsed(path))
             {
-                fileName = Path.GetFileName(path);
-                destinationFile = Path.Combine(Application.persistentDataPath, fileName);
-                File.Copy(path, destinationFile, true);
-                Debug.Log("Modelo " + fileName + " almacenado localmente");
+                ContentDownloader.DownloadModel(path);
             }
         }
     }

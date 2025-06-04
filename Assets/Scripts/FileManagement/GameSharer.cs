@@ -54,13 +54,6 @@ public class GameSharer : MonoBehaviour
         LoadingScreenManager.ToggleLoadingScreen(false);
     }
 
-    public static void CreateGame(GameInfo game)
-    {
-        game.ConvertToJson();
-        GetImagePaths(game);
-        GetModelPaths(game);
-    }
-
     private static string CreateZip(string zipName, List<string> files) //Crea un zip con el nombre del juego
     {
         string zipPath = Application.persistentDataPath + $"/{zipName}.zip";
@@ -117,21 +110,9 @@ public class GameSharer : MonoBehaviour
     private static string GetPathFromSprite(Sprite sprite) //Obtiene el path de un sprite a partir del nombre de su textura
     {
         if (sprite is null) return string.Empty;
-        string textureName = sprite.texture.name;
-        string path;
-        byte[] bytes = new byte[0];
-        try //Primero intenta buscar con extensión .png
-        {
-            path = Application.persistentDataPath + $"/{textureName}.png";
-            if (!File.Exists(path)) bytes = sprite.texture.EncodeToPNG(); //Si el path no existe carga su contenido
-        }
-        catch //Si no, con jpg
-        {
-            path = Application.persistentDataPath + $"/{textureName}.jpg";
-            if (!File.Exists(path)) bytes = sprite.texture.EncodeToJPG(); //Si el path no existe carga su contenido
-        }
-        if (!File.Exists(path)) File.WriteAllBytes(path, bytes); //Si el path no existe lo crea con el contenido cargado
-        return path;
+        string path = Path.Combine(Application.persistentDataPath, sprite.texture.name);
+        if (File.Exists(path)) return path;
+        else return string.Empty;
     }
 
     private static string GetPathFromModel(GameObject model)

@@ -4,6 +4,7 @@ using Serialization;
 using System.Linq;
 using System.IO;
 using Siccity.GLTFUtility;
+using WebSocketSharp;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/GameInfo")]
 public class GameInfo : ScriptableObject
@@ -153,18 +154,14 @@ public class GameInfo : ScriptableObject
     private static Sprite AssignSprite(string textureName) //Devuelve un sprite a partir del nombre de su textura para formar el SO
     {
         if (textureName == string.Empty) return null;
-        string[] supportedExtensions = { ".png", ".jpg", ".jpeg" };
-        foreach (var ext in supportedExtensions) //Busca con todas las extensiones compatibles
+        path = Path.Combine(Application.persistentDataPath, textureName);
+        if (File.Exists(path)) //Si existe el path con esa extensión:
         {
-            path = Path.Combine(Application.persistentDataPath, textureName + ext);
-            if (File.Exists(path)) //Si existe el path con esa extensión:
-            {
-                imgData = File.ReadAllBytes(path); //Se leen los datos de la imagen
-                texture = new Texture2D(0, 0); //Se crea una nueva textura. El tamaño se autoajusta más tarde
-                texture.name = textureName; //Se le da el mismo nombre a la nueva textura para que tenga el mismo path
-                texture.LoadImage(imgData); //Se carga la imagen, se crea el sprite y se devuelve
-                return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            }
+            imgData = File.ReadAllBytes(path); //Se leen los datos de la imagen
+            texture = new Texture2D(0, 0); //Se crea una nueva textura. El tamaño se autoajusta más tarde
+            texture.name = textureName; //Se le da el mismo nombre a la nueva textura para que tenga el mismo path
+            texture.LoadImage(imgData); //Se carga la imagen, se crea el sprite y se devuelve
+            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
         }
         Debug.LogError($"La textura {textureName} no fue encontrada en {path}");
         return null;

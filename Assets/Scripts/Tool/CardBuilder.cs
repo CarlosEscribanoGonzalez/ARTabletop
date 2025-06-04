@@ -46,7 +46,7 @@ public class CardBuilder : MonoBehaviour
                     Debug.LogError("No se pudo cargar la imagen.");
                     return;
                 }
-                texture.name = Path.GetFileNameWithoutExtension(path);
+                texture.name = Path.GetFileName(path);
                 Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 if (isDefaultImage)
                 {
@@ -93,5 +93,14 @@ public class CardBuilder : MonoBehaviour
             preview.UpdateValues(Cards[index]);
         }
         indexText.text = (index + 1).ToString();
+    }
+
+    public void DownloadInfo()
+    {
+        ContentDownloader.DownloadSprite(defaultImage);
+        foreach(var c in Cards)
+        {
+            ContentDownloader.DownloadSprite(c.sprite);
+        }
     }
 }

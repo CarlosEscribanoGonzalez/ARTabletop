@@ -108,8 +108,8 @@ public class GameDeleter : MonoBehaviour
 
     private static void DeleteImage(string name) //Dado el nombre de una textura busca su path y la borra
     {
-        string path = Path.Combine(Application.persistentDataPath, name + ".png");
-        if (!File.Exists(path)) path = Path.Combine(Application.persistentDataPath, name + ".jpg");
+        if (name.Contains("DefaultImage")) return;
+        string path = Path.Combine(Application.persistentDataPath, name);
         if (!File.Exists(path)) Debug.LogError($"Imagen a borrar en {path} no encontrada.");
         else
         {
@@ -120,6 +120,7 @@ public class GameDeleter : MonoBehaviour
 
     private static void DeleteModel(string name)
     {
+        if (name.Contains("DefaultPiece")) return;
         string path = Path.Combine(Application.persistentDataPath, name + ".glb");
         if (!File.Exists(path)) Debug.LogError($"Modelo a borrar en {path} no encontrado.");
         else

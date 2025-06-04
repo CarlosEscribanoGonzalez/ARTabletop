@@ -37,7 +37,7 @@ public class ToolManager : MonoBehaviour
     public void SetGameName(string name)
     {
         gameInfo.gameName = name;
-        if(!string.IsNullOrEmpty(name)) createGameButton.interactable = gameInfo.gameImage != null;
+        createGameButton.interactable = (gameInfo.gameImage != null && !string.IsNullOrEmpty(name));
     }
 
     public void SetGameImage(Image image)
@@ -50,8 +50,9 @@ public class ToolManager : MonoBehaviour
 
     public void CreateGame()
     {
+        ContentDownloader.DownloadSprite(gameInfo.gameImage);
         pieceBuilder.DownloadInfo();
-        //cardBuilder.DownloadInfo();
-        GameSharer.CreateGame(gameInfo);
+        cardBuilder.DownloadInfo();
+        gameInfo.ConvertToJson();
     }
 }
