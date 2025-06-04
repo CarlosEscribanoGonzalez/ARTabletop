@@ -22,7 +22,7 @@ public class CardPreviewTool : MonoBehaviour
         AdjustSize();
     }
 
-    public void PickImage()
+    public void PickImage() //ALGUNAS COSAS DEBERÍAN IR EN CARDBUILDER, NO AQUÍ, NO TIENE SENTIDO
     {
         NativeGallery.GetImageFromGallery((path) =>
         {

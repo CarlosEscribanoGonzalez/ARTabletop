@@ -58,7 +58,7 @@ public class GameSharer : MonoBehaviour
     {
         game.ConvertToJson();
         GetImagePaths(game);
-        //GetModelPaths(game);
+        GetModelPaths(game);
     }
 
     private static string CreateZip(string zipName, List<string> files) //Crea un zip con el nombre del juego

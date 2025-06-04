@@ -4,15 +4,17 @@ using UnityEngine.UI;
 public class ToolManager : MonoBehaviour
 {
     [SerializeField] private Button createGameButton; 
-    private CardBuilder cardBuilder;
     private GeneralSettingsBuilder generalSettingsBuilder;
+    private CardBuilder cardBuilder;
+    private PieceBuilder pieceBuilder;
     private GameInfo gameInfo;
 
     private void Awake()
     {
         gameInfo = ScriptableObject.CreateInstance<GameInfo>();
-        cardBuilder = GetComponentInChildren<CardBuilder>(true);
         generalSettingsBuilder = GetComponentInChildren<GeneralSettingsBuilder>(true);
+        cardBuilder = GetComponentInChildren<CardBuilder>(true);
+        pieceBuilder = GetComponentInChildren<PieceBuilder>(true);
         createGameButton.interactable = false;
     }
 
@@ -26,6 +28,10 @@ public class ToolManager : MonoBehaviour
         //Cards:
         gameInfo.defaultSprite = cardBuilder.DefaultImage;
         gameInfo.cardsInfo = cardBuilder.Cards;
+        //Pieces:
+        gameInfo.pieces = pieceBuilder.GetFinalPieces();
+        gameInfo.numPieces = pieceBuilder.TotalPieces;
+        gameInfo.defaultPiece = pieceBuilder.DefaultPiece;
     }
 
     public void SetGameName(string name)

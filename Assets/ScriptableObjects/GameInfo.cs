@@ -57,11 +57,11 @@ public class GameInfo : ScriptableObject
                 size = card.sizeMult
             }).ToList(),
             defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.texture.name : null,
-            /*/Pieces:
+            //Pieces:
             numPieces = this.numPieces,
             defaultPieceName = this.defaultPiece.name,
             piecesNames = this.pieces.Select(piece => piece.name).ToList(),
-            //Boards:
+            /*/Boards:
             boardImagesNames = this.boards2D.Select(board => board.texture.name).ToList(),
             boardModelsNames = this.boards3D.Select(board => board.name).ToList(),
             //Special cards:
