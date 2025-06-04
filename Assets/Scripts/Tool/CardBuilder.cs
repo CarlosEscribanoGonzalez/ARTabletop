@@ -1,21 +1,26 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using System.IO;
 
 public class CardBuilder : MonoBehaviour
 {
-    [SerializeField] private CardPreviewTool preview;
+    [SerializeField] private CardPreview preview;
+    [SerializeField] private CardPreview defaultPreview;
     [SerializeField] private Sprite defaultImage;
     [SerializeField] private TMP_Dropdown totalCardsDropdown;
     [SerializeField] private TextMeshProUGUI indexText;
     [SerializeField] private GameObject confirmationPanel;
+    [SerializeField] private TMP_InputField textInputField;
+    [SerializeField] private TMP_InputField sizeInputField;
     public List<CardInfo> Cards { get; set; } = new();
-    public Sprite DefaultImage { get { return defaultImage; } set { defaultImage = value; preview.UpdateValues(Cards[index]); } }
+    public Sprite DefaultImage => defaultImage;
     private int index;
 
     private void Awake()
     {
-        for (int i = 0; i < totalCardsDropdown.value + 1; i++) Cards.Add(new CardInfo());
+        if(totalCardsDropdown != null) 
+            for (int i = 0; i < totalCardsDropdown.value + 1; i++) Cards.Add(new CardInfo());
     }
 
     public void UpdateIndex(int dir)
@@ -25,21 +30,45 @@ public class CardBuilder : MonoBehaviour
         else if (index < 0) index = Cards.Count - 1;
         preview.UpdateValues(Cards[index]);
         indexText.text = (index + 1).ToString();
+        textInputField.SetTextWithoutNotify(Cards[index].text);
+        sizeInputField.SetTextWithoutNotify(Cards[index].sizeMult.ToString());
     }
 
-    public void UpdateCurrentImage(Sprite sprite)
+    public void PickImage(bool isDefaultImage)
     {
-        Cards[index].sprite = sprite;
+        NativeGallery.GetImageFromGallery((path) =>
+        {
+            if (path != null)
+            {
+                Texture2D texture = NativeGallery.LoadImageAtPath(path, 1024, false);
+                if (texture == null)
+                {
+                    Debug.LogError("No se pudo cargar la imagen.");
+                    return;
+                }
+                texture.name = Path.GetFileNameWithoutExtension(path);
+                Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                if (isDefaultImage)
+                {
+                    defaultImage = newSprite;
+                    defaultPreview.SetImage(defaultImage);
+                }
+                else Cards[index].sprite = newSprite;
+                preview?.UpdateValues(Cards[index]);
+            }
+        }, "Select an image");
     }
 
-    public void UpdateCurrentText(string text)
+    public void UpdateText(string text)
     {
         Cards[index].text = text;
+        preview.UpdateValues(Cards[index]);
     }
 
-    public void UpdateCurrentSize(float size)
+    public void UpdateSize(string size)
     {
-        Cards[index].sizeMult = size;
+        Cards[index].sizeMult = float.Parse(size);
+        preview.UpdateValues(Cards[index]);
     }
 
     private int newLength;
