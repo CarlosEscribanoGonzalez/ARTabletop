@@ -17,11 +17,10 @@ public class RelayManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI joinInputText; //Input Field para introducir el código
     [SerializeField] private TextMeshProUGUI codeText; //Indicador del código de la sala en la parte superior izquierda de la pantalla
     [SerializeField] private TextMeshProUGUI errorText; //Texto para los mensajes de error
-    private GameObject lobby; //Objeto que engloba el menú del lobby
+    [SerializeField] private GameObject lobby; //Objeto que engloba el menú del lobby
 
     private void Start()
     {
-        lobby = errorText.transform.parent.gameObject;
         //La opción por defecto es la online
         hostButton.onClick.AddListener(CreateRelay); 
         clientButton.onClick.AddListener(JoinRelay);

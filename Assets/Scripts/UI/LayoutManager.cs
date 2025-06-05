@@ -31,6 +31,7 @@ public class LayoutManager : MonoBehaviour
     public void AddContent(Transform newContent)
     {
         content.Add(newContent);
+        newContent.SetSiblingIndex(content.Count - 1);
     }
 
     public void RemoveContent(Transform contentToRemove)
@@ -57,7 +58,11 @@ public class LayoutManager : MonoBehaviour
         //Se resetea la escala de los layoutGroup para que su cambio de tamaño no afecte al contenido
         layoutInPortrait.localScale = Vector3.one;
         layoutInLandscape.localScale = Vector3.one;
-        foreach (Transform t in content) t.parent = newLayout; //Se cambia el contenido de layout group
+        for(int i = 0; i < content.Count; i++)
+        {
+            content[i].parent = newLayout; //Se cambia el contenido de layout group
+            content[i].SetSiblingIndex(i);
+        }
         //Se aplican de nuevo las escalas
         if (layoutInPortrait != layoutInLandscape)
         {

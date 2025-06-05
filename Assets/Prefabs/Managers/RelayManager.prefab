@@ -1100,6 +1100,7 @@ MonoBehaviour:
   joinInputText: {fileID: 7008099731235046964}
   codeText: {fileID: 2572074920029329189}
   errorText: {fileID: 8966189930710847584}
+  lobby: {fileID: 2305874215618961787}
 --- !u!1 &3966165017532687451
 GameObject:
   m_ObjectHideFlags: 0
