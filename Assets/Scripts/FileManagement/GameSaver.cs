@@ -11,11 +11,15 @@ public class GameSaver : MonoBehaviour
     private static List<string> addedTextures = new(); //En caso de que añadir un json falle se han de borrar las texturas que se han descargado anteriormente
     private static List<string> addedModels = new(); //Lo mismo pero con los modelos 3D
 
-    private void Start()
+    private void Awake()
     {
         if (Instance == null) Instance = this; //Singleton
         else Destroy(this.gameObject);
         DontDestroyOnLoad(this);
+    }
+
+    private void Start()
+    {
         TryReadNewGame(); //Comprueba si la app se abrió con un intent (es decir, leyendo el .zip)
     }
 

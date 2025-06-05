@@ -7,6 +7,7 @@ public class CardPreview : MonoBehaviour
 {
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI cardText;
+    [SerializeField] private bool adjustSize = true;
     private RectTransform rectTransform;
     private CardBuilder cardBuilder;
     public UnityEvent OnImageSet; 
@@ -15,13 +16,13 @@ public class CardPreview : MonoBehaviour
     {
         this.rectTransform = GetComponent<RectTransform>();
         cardBuilder = GetComponentInParent<CardBuilder>();
-        AdjustSize();
+        if(adjustSize) AdjustSize();
     }
 
     public void SetImage(Sprite sprite)
     {
         image.sprite = sprite;
-        AdjustSize();
+        if(adjustSize) AdjustSize();
         OnImageSet?.Invoke();
     }
 

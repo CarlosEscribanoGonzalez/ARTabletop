@@ -56,7 +56,7 @@ public class GameSharer : MonoBehaviour
 
     private static string CreateZip(string zipName, List<string> files) //Crea un zip con el nombre del juego
     {
-        string zipPath = Application.persistentDataPath + $"/{zipName}.zip";
+        string zipPath = Application.persistentDataPath + $"/{zipName.Replace(" ", "")}.zip";
 
         if (File.Exists(zipPath)) File.Delete(zipPath);//Si ya existe el zip lo borra antes de formarlo de nuevo (por si acaso)
 

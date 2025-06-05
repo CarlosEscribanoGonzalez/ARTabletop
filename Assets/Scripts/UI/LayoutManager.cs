@@ -11,7 +11,8 @@ public class LayoutManager : MonoBehaviour
     [SerializeField] private GameObject objToHidePortrait; //Objeto que se oculta en portrait
     [SerializeField] private GameObject objToHideLandscape; //Objeto que se oculta en landscape
     private ScreenOrientation orientation; //Orientación almacenada de la pantalla
-    
+    public System.Action OnLayoutUpdated;
+
     void OnEnable() //Se registra la orientación y se actualiza el layout según ella
     {
         orientation = Screen.orientation; 
@@ -48,6 +49,7 @@ public class LayoutManager : MonoBehaviour
         if (orientation == ScreenOrientation.Portrait || orientation == ScreenOrientation.PortraitUpsideDown)
             ChangeLayout(layoutInPortrait);
         else ChangeLayout(layoutInLandscape);
+        OnLayoutUpdated?.Invoke();
     }
 
     private void ChangeLayout(Transform newLayout) //Cambia el contenido de padre para que se visualice bien dependiendo de la orientación
