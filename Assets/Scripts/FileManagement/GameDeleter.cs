@@ -13,7 +13,6 @@ public class GameDeleter : MonoBehaviour
 
     public static void DeleteGameFiles(GameInfo gameToDelete) //Borra los datos de un juego dado su SO
     {
-        LoadingScreenManager.ToggleLoadingScreen(true); //Feedback al usuario, para que no cierre la app mientras
         DeleteGameInfo(File.ReadAllText(gameToDelete.ConvertToJson())); //Borra su json
         foreach (string textureName in GetAllUsedTextures(gameToDelete)) //Mira cada foto de las presentes en el juego a borrar
         {

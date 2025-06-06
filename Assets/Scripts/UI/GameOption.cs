@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameOption : MonoBehaviour
 {
@@ -33,16 +34,12 @@ public class GameOption : MonoBehaviour
 
     public void DeleteGame() //Llamado cuando en el panel de confirmación se confirma el borrado del juego
     {
-        FindFirstObjectByType<GameOptionsManager>().RemoveGame(Info, this.transform); //Se borra la opción de la lista de juegos
-        GameDeleter.DeleteGameFiles(Info); //Se borra toda la información del juego de los archivos locales
-        Destroy(this.gameObject); //Se destruye el botón
+        StartCoroutine(DeleteCoroutine());
     }
 
     public void Share() //Llamado cuando se pulsa el botón de compartir
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
-        //Se añade un pequeño delay antes de que Android bloquee la app sin la loading screen abierta, lo cual queda raro
-        Invoke("ShareAfterCooldown", 0.2f); 
+        StartCoroutine(ShareCoroutine());
     }
 
     public void ConfigureAsDefaultGame() //Configura el juego como juego base de la app: sin los botones de eliminar y compartir
@@ -53,8 +50,19 @@ public class GameOption : MonoBehaviour
         }
     }
 
-    private void ShareAfterCooldown() //Comparte el juego 
+    IEnumerator ShareCoroutine()
     {
+        LoadingScreenManager.ToggleLoadingScreen(true);
+        yield return null; //Se espera un frame para que la pestaña aparezca
         GameSharer.Share(Info);
+    }
+
+    IEnumerator DeleteCoroutine()
+    {
+        LoadingScreenManager.ToggleLoadingScreen(true);
+        yield return null;
+        FindFirstObjectByType<GameOptionsManager>().RemoveGame(Info, this.transform); //Se borra la opción de la lista de juegos
+        GameDeleter.DeleteGameFiles(Info); //Se borra toda la información del juego de los archivos locales
+        Destroy(this.gameObject); //Se destruye el botón
     }
 }

@@ -34,47 +34,42 @@ public class PieceBuilder : MonoBehaviour
         else if (index < 0) index = pieces.Count - 1;
         preview.SetPiece(pieces[index] ?? defaultPiece);
         indexText.text = (index + 1).ToString();
-        setAsDefaultButton.interactable = pieces[index] != null;
+        setAsDefaultButton.interactable = (pieces[index] != null && !pieces[index].name.Equals(defaultPiece.name));
     }
 
     public void PickPiece(bool isDefaultPiece)
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
-        try
+        GameObject piecePrefab;
+        NativeFilePicker.PickFile((path) =>
         {
-            GameObject piecePrefab;
-            NativeFilePicker.PickFile((path) =>
+            if (path != null)
             {
-                if (path != null)
+                Debug.Log("Archivo seleccionado: " + path);
+                if (!path.EndsWith(".glb"))
                 {
-                    Debug.Log("Archivo seleccionado: " + path);
-                    if (!path.EndsWith(".glb")) throw new System.Exception("archivo no es un .glb");
-                    GameObject piece = Importer.LoadFromFile(path);
-                    piecePrefab = Instantiate(piece);
-                    DestroyImmediate(piece);
-                    piecePrefab.hideFlags = HideFlags.HideAndDontSave;
-                    piecePrefab.SetActive(false);
-                    piecePrefab.name = IDCreator.GetCustomModelID(Path.GetFileNameWithoutExtension(path), piecePrefab);
-                    if (isDefaultPiece)
-                    {
-                        defaultPiece = piecePrefab;
-                        defaultPreview.SetPiece(defaultPiece);
-                    }
-                    else pieces[index] = piecePrefab;
-                    preview.SetPiece(pieces[index] ?? defaultPiece);
-                    setAsDefaultButton.interactable = pieces[index] != null;
-                    if (!importedPaths.ContainsKey(path)) importedPaths.Add(path, piecePrefab.name);
+                    Debug.LogError("No se ha podido cargar un modelo: tipo de archivo incorrecto");
+                    LoadingScreenManager.ToggleLoadingScreen(false);
+                    return;
                 }
-            }, new string[] { "application/octet-stream" });
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError("No se ha podido cargar un modelo: " + e);
-        }
-        finally
-        {
+                GameObject piece = Importer.LoadFromFile(path);
+                piecePrefab = Instantiate(piece);
+                DestroyImmediate(piece);
+                piecePrefab.hideFlags = HideFlags.HideAndDontSave;
+                piecePrefab.SetActive(false);
+                piecePrefab.name = IDCreator.GetCustomModelID(Path.GetFileNameWithoutExtension(path), piecePrefab);
+                if (isDefaultPiece)
+                {
+                    defaultPiece = piecePrefab;
+                    defaultPreview.SetPiece(defaultPiece);
+                }
+                else pieces[index] = piecePrefab;
+                preview.SetPiece(pieces[index] ?? defaultPiece);
+                setAsDefaultButton.interactable = (pieces[index] != null && !pieces[index].name.Equals(defaultPiece.name));
+                if (!importedPaths.ContainsKey(path)) importedPaths.Add(path, piecePrefab.name);
+            }
             LoadingScreenManager.ToggleLoadingScreen(false);
-        }
+        }, new string[] { "application/octet-stream" });
     }
 
     public void SetAsDefault()
