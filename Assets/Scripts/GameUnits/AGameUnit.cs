@@ -38,7 +38,7 @@ public class AGameUnit : MonoBehaviour
         if (unitCollider == null) return;
         else if (other == unitCollider) //Las GameUnits cuentan con un collider que actúa como "base" sobre la que colocar el modelo con unitCollider
         {
-            unitModel.transform.localPosition += transform.up * 0.005f;
+            unitModel.transform.position += unitModel.transform.TransformDirection(Vector3.up) * 0.005f; 
             //Se desactiva y reactiva el collider para volver a detectar la colisión, en caso de que haya que subir más la unidad
             unitCollider.enabled = false;
             unitCollider.enabled = true;
@@ -60,21 +60,27 @@ public class AGameUnit : MonoBehaviour
 
     protected virtual void AdjustModelSize() //Se ajusta el tamaño del modelo para que su magnitud no sea mayor que maxSize
     {
-        MeshFilter mesh = unitModel.GetComponentInChildren<MeshFilter>();
-        if (mesh != null)
+        float scaleFactor = ContentScaler.ScaleModel(unitModel, maxSize);
+        unitModel.transform.localScale = Vector3.one * scaleFactor; //Todos los objetos así tienen la misma magnitud
+        //Se le dan al modelo los componentes necesarios para calcular su posición en Y con OnTriggerEnter
+        //Si no tiene collider se le asigna se pone en trigger
+        if (unitModel.GetComponentInChildren<Collider>() == null)
         {
-            float scaleFactor = maxSize / mesh.sharedMesh.bounds.size.magnitude; //Se calcula el factor de escala
-            unitModel.transform.localScale = Vector3.one * scaleFactor; //Todos los objetos así tienen la misma magnitud
-            //Se le dan al modelo los componentes necesarios para calcular su posición en Y con OnTriggerEnter
-            //Si no tiene collider se le asigna se pone en trigger
-            if (unitModel.GetComponentInChildren<Collider>() == null) unitCollider = mesh.gameObject.AddComponent<BoxCollider>();
-            else unitCollider = unitModel.GetComponentInChildren<Collider>();
-            unitCollider.isTrigger = true;
-            //Si no tiene rigidbody se le asigna y se pone en kinemático y sin usar gravedad
-            if (unitModel.GetComponentInChildren<Rigidbody>() == null) mesh.gameObject.AddComponent<Rigidbody>();
-            unitModel.GetComponentInChildren<Rigidbody>().isKinematic = true;
-            unitModel.GetComponentInChildren<Rigidbody>().useGravity = false;
+            MeshFilter[] meshes = unitModel.GetComponentsInChildren<MeshFilter>();
+            MeshFilter biggestMesh = null;
+            float biggestSize = 0;
+            foreach(var mesh in meshes)
+            {
+                if(mesh.sharedMesh.bounds.size.magnitude > biggestSize)
+                {
+                    biggestMesh = mesh;
+                    biggestSize = mesh.sharedMesh.bounds.size.magnitude;
+                }
+            }
+            unitCollider = biggestMesh.gameObject.AddComponent<BoxCollider>();
         }
+        else unitCollider = unitModel.GetComponentInChildren<Collider>();
+        unitCollider.isTrigger = true;
     }
 
     protected virtual void AdjustSpriteSize() //Ajusta el sprite al tamaño deseado

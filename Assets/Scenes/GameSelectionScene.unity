@@ -1863,6 +1863,10 @@ PrefabInstance:
       propertyPath: infoPanel
       value: 
       objectReference: {fileID: 1804437037}
+    - target: {fileID: 1797359149280428351, guid: 53c628d749d05794992d35598dda3e9b, type: 3}
+      propertyPath: m_OnFocusSelectAll
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2304712214295081598, guid: 53c628d749d05794992d35598dda3e9b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2

@@ -607,7 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7157dd84699b6458b23130fa294440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSize: 0.1
+  maxSize: 0.7
   pieceName: {fileID: 5835391565672995046}
 --- !u!65 &6387022657313947471
 BoxCollider:
@@ -693,7 +693,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.04735}
   m_SizeDelta: {x: 0.6, y: 0.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &4502249105092298797

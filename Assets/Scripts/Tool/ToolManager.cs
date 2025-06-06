@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class ToolManager : MonoBehaviour
 {
@@ -50,6 +51,11 @@ public class ToolManager : MonoBehaviour
 
     public void CreateGame()
     {
+        if (File.Exists(Path.Combine(Application.persistentDataPath, IDCreator.GetCustomJsonID(gameInfo))))
+        {
+            Debug.Log("Archivo con el mismo nombre e imagen ya existe, no se crea nada");
+            return;
+        }
         ContentDownloader.DownloadSprite(gameInfo.gameImage);
         pieceBuilder.DownloadInfo();
         cardBuilder.DownloadInfo();

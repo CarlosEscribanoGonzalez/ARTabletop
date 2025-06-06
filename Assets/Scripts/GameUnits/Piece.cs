@@ -26,13 +26,6 @@ public class Piece : AGameUnit
         base.AdjustModelSize();
         //Además de ajustar el tamaño del modelo se encarga de agregar el componente PieceNameToggler al collider, para que el jugador pueda hacer toggle del nombre pulsando la pieza
         unitCollider.gameObject.AddComponent<PieceNameToggler>();
-        MeshFilter mesh = unitModel.GetComponentInChildren<MeshFilter>();
-        if (mesh != null) //También ajusta la altura del Input Field del nombre para que siempre aparezca a una distancia razonable del modelo
-        {
-            float offsetY = mesh.sharedMesh.bounds.extents.y + mesh.sharedMesh.bounds.size.y; //Altura de un objeto y medio
-            offsetY *= mesh.transform.lossyScale.y; //Se tiene en cuenta la escala
-            pieceName.transform.parent.position += new Vector3(0, offsetY, 0); //Se mueve el canvas a la altura deseada
-        }
     }
 
     public void OnNameEditionEnter(string _) //Cuando el input field es activado 
