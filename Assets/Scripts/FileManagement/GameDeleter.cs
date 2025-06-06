@@ -28,6 +28,7 @@ public class GameDeleter : MonoBehaviour
 
     public static void TryDeleteSingleImage(string textureName)
     {
+        if (textureName.Contains("DefaultImage")) return;
         bool contained = false;
         foreach (GameInfo game in gameOptionsManager.CustomGames) //Mira si dicha foto está presente en el resto de juegos o no
         {
@@ -44,6 +45,7 @@ public class GameDeleter : MonoBehaviour
 
     public static void TryDeleteSingleModel(string modelName)
     {
+        if (modelName.Contains("DefaultPiece")) return;
         bool contained = false;
         foreach (GameInfo game in gameOptionsManager.CustomGames) 
         {
@@ -96,7 +98,7 @@ public class GameDeleter : MonoBehaviour
 
     private static void DeleteGameInfo(string jsonContent) //Borra el json de un juego
     {
-        string gameId = GameInfo.GetCustomJsonID(jsonContent); //Obtiene su ID diferenciador (es decir, su path único)
+        string gameId = IDCreator.GetCustomJsonID(jsonContent); //Obtiene su ID diferenciador (es decir, su path único)
         string path = Path.Combine(Application.persistentDataPath, gameId);
         if (File.Exists(path)) //Si encuentra el path borra el juego
         {
@@ -108,7 +110,6 @@ public class GameDeleter : MonoBehaviour
 
     private static void DeleteImage(string name) //Dado el nombre de una textura busca su path y la borra
     {
-        if (name.Contains("DefaultImage")) return;
         string path = Path.Combine(Application.persistentDataPath, name);
         if (!File.Exists(path)) Debug.LogError($"Imagen a borrar en {path} no encontrada.");
         else
@@ -120,8 +121,7 @@ public class GameDeleter : MonoBehaviour
 
     private static void DeleteModel(string name)
     {
-        if (name.Contains("DefaultPiece")) return;
-        string path = Path.Combine(Application.persistentDataPath, name + ".glb");
+        string path = Path.Combine(Application.persistentDataPath, name);
         if (!File.Exists(path)) Debug.LogError($"Modelo a borrar en {path} no encontrado.");
         else
         {

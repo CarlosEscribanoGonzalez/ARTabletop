@@ -16,7 +16,7 @@ public class PieceBuilder : MonoBehaviour
     [SerializeField] private GameObject confirmationPanel;
     private List<GameObject> pieces = new();
     private int index = 0;
-    private List<string> importedPaths = new();
+    private Dictionary<string, string> importedPaths = new();
     public GameObject DefaultPiece => defaultPiece;
     public int TotalPieces => pieces.Count;
 
@@ -54,7 +54,7 @@ public class PieceBuilder : MonoBehaviour
                     DestroyImmediate(piece);
                     piecePrefab.hideFlags = HideFlags.HideAndDontSave;
                     piecePrefab.SetActive(false);
-                    piecePrefab.name = Path.GetFileNameWithoutExtension(path);
+                    piecePrefab.name = IDCreator.GetCustomModelID(Path.GetFileNameWithoutExtension(path), piecePrefab);
                     if (isDefaultPiece)
                     {
                         defaultPiece = piecePrefab;
@@ -63,7 +63,7 @@ public class PieceBuilder : MonoBehaviour
                     else pieces[index] = piecePrefab;
                     preview.SetPiece(pieces[index] ?? defaultPiece);
                     setAsDefaultButton.interactable = pieces[index] != null;
-                    if (!importedPaths.Contains(path)) importedPaths.Add(path);
+                    if (!importedPaths.ContainsKey(path)) importedPaths.Add(path, piecePrefab.name);
                 }
             }, new string[] { "application/octet-stream" });
         }
@@ -117,18 +117,17 @@ public class PieceBuilder : MonoBehaviour
 
     public void DownloadInfo()
     {
-        foreach(var path in importedPaths)
+        foreach(var path in importedPaths.Keys)
         {
-            if (ModelIsUsed(path))
+            if (ModelIsUsed(importedPaths[path]))
             {
-                ContentDownloader.DownloadModel(path);
+                ContentDownloader.DownloadModel(path, importedPaths[path]);
             }
         }
     }
 
-    private bool ModelIsUsed(string path)
+    private bool ModelIsUsed(string modelName)
     {
-        string modelName = Path.GetFileNameWithoutExtension(path);
         if (modelName == defaultPiece.name) return true;
         foreach(var piece in GetFinalPieces())
         {

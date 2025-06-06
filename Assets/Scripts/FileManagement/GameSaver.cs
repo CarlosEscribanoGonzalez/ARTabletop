@@ -113,7 +113,7 @@ public class GameSaver : MonoBehaviour
 
     private void SaveGameInfo(string content, ZipArchive archive) //Guarda el json y archivos en memoria
     {
-        string gameId = GameInfo.GetCustomJsonID(content); //Obtiene su CustomID
+        string gameId = IDCreator.GetCustomJsonID(content); //Obtiene su CustomID
         string path = Path.Combine(Application.persistentDataPath, gameId); //Obtiene su path
         if (File.Exists(path))
         {

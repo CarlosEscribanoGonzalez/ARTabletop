@@ -37,7 +37,7 @@ public class GameInfo : ScriptableObject
 
     public string ConvertToJson() //Convierte el SO a JSON y devuelve su path
     {
-        string path = Path.Combine(Application.persistentDataPath, GetOwnJsonID()); //Accede al path a partir del CustomID del juego
+        string path = Path.Combine(Application.persistentDataPath, IDCreator.GetCustomJsonID(this)); //Accede al path a partir del CustomID del juego
         if (File.Exists(path)) return path; //Si ya existe el path lo devuelve
         //Si no existe lo crea:
         var gameInfoSerializable = new GameInfoSerializable //Primero lo convierte a información serializable
@@ -133,21 +133,6 @@ public class GameInfo : ScriptableObject
         return newGameInfo;
     }
 
-    public static string GetCustomJsonID(string jsonContent) //Crea un ID para cada juego, altamente improbable que dos juegos tengan el mismo ID
-    {
-        GameInfoSerializable info = JsonUtility.FromJson<GameInfoSerializable>(jsonContent);
-        string imageName = info.gameImageFileName; //Se usa el nombre de su imagen para hacer un hash
-        int dif = info.specialCardsInfo.Count * info.cardsInfo.Count + info.boardImagesNames.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre y la misma imagen
-        return info.gameName + "_" + imageName[0].GetHashCode() + imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop"; //El custom id del juego se devuelve
-    }
-
-    private string GetOwnJsonID()
-    {
-        string imageName = gameImage.texture.name;
-        int dif = specialCardsInfo.Count * cardsInfo.Count + boards2D.Count;
-        return gameName + "_" + imageName[0].GetHashCode() + imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop";
-    }
-
     static string path; //Path de la imagen que se busca
     static byte[] imgData; //Datos de la imagen
     static Texture2D texture; //Textura de la imagen
@@ -169,7 +154,8 @@ public class GameInfo : ScriptableObject
 
     private static GameObject AssignModel(string modelName)
     {
-        string path = Path.Combine(Application.persistentDataPath, modelName + ".glb");
+        if (!modelName.EndsWith(".glb")) modelName += ".glb";
+        string path = Path.Combine(Application.persistentDataPath, modelName);
         if (!File.Exists(path))
         {
             Debug.LogError("Error al asignar modelo: no existe ningún modelo en el path: " + path);

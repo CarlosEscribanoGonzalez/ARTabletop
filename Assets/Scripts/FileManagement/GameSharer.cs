@@ -109,7 +109,7 @@ public class GameSharer : MonoBehaviour
 
     private static string GetPathFromSprite(Sprite sprite) //Obtiene el path de un sprite a partir del nombre de su textura
     {
-        if (sprite is null) return string.Empty;
+        if (sprite is null || sprite.texture.name.Contains("DefaultImage")) return string.Empty;
         string path = Path.Combine(Application.persistentDataPath, sprite.texture.name);
         if (File.Exists(path)) return path;
         else return string.Empty;
@@ -117,7 +117,8 @@ public class GameSharer : MonoBehaviour
 
     private static string GetPathFromModel(GameObject model)
     {
-        string path = Path.Combine(Application.persistentDataPath, model.name + ".glb");
+        if (model == null || model.name.Contains("DefaultPiece")) return string.Empty;
+        string path = Path.Combine(Application.persistentDataPath, model.name);
         return path;
     }
 
