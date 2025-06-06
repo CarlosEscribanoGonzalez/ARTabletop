@@ -9,17 +9,15 @@ public static class IDCreator
     {
         GameInfoSerializable info = JsonUtility.FromJson<GameInfoSerializable>(jsonContent);
         string imageName = info.gameImageFileName; //Se usa el nombre de su imagen para hacer un hash
-        int dif = info.specialCardsInfo.Count + info.cardsInfo.Count + info.boardImagesNames.Count; //Número diferenciador en caso de que tengan dos juegos el mismo nombre y la misma imagen
-        return info.gameName + "_" + imageName[0].GetHashCode() + 
-            imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop"; //El custom id del juego se devuelve
+        imageName = imageName.Substring(0, imageName.Length - 4);
+        return info.gameName + "_" + imageName + ".artabletop"; //El custom id del juego se devuelve
     }
 
     public static string GetCustomJsonID(GameInfo game)
     {
         string imageName = game.gameImage.texture.name;
-        int dif = game.specialCardsInfo.Count + game.cardsInfo.Count + game.boards2D.Count;
-        return game.gameName + "_" + imageName[0].GetHashCode() + 
-            imageName[imageName.Length - 1].GetHashCode() + "_" + dif + ".artabletop";
+        imageName = imageName.Substring(0, imageName.Length - 4);
+        return game.gameName + "_" + imageName + ".artabletop";
     }
 
     public static string GetCustomModelID(string modelName, GameObject model)

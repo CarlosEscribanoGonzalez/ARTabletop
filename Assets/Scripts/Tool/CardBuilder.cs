@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using System.IO;
+using System.Globalization;
 
 public class CardBuilder : MonoBehaviour
 {
@@ -65,9 +66,11 @@ public class CardBuilder : MonoBehaviour
         preview.UpdateValues(Cards[index]);
     }
 
-    public void UpdateSize(string size)
+    public void UpdateSize()
     {
-        Cards[index].sizeMult = float.Parse(size);
+        if (!string.IsNullOrEmpty(sizeInputField.text)) 
+            Cards[index].sizeMult = float.Parse(sizeInputField.text, CultureInfo.InvariantCulture);
+        else Cards[index].sizeMult = 1;
         preview.UpdateValues(Cards[index]);
     }
 
