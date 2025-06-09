@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using System.Linq;
+using Serialization;
 
 public class ToolManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ToolManager : MonoBehaviour
     private CardBuilder cardBuilder;
     private PieceBuilder pieceBuilder;
     private BoardBuilder boardBuilder;
+    private SpecialCardBuilder scardBuilder;
     private GameInfo gameInfo;
 
     private void Awake()
@@ -19,6 +21,7 @@ public class ToolManager : MonoBehaviour
         cardBuilder = GetComponentInChildren<CardBuilder>(true);
         pieceBuilder = GetComponentInChildren<PieceBuilder>(true);
         boardBuilder = GetComponentInChildren<BoardBuilder>(true);
+        scardBuilder = GetComponentInChildren<SpecialCardBuilder>(true);
         createGameButton.interactable = false;
     }
 
@@ -45,6 +48,16 @@ public class ToolManager : MonoBehaviour
         {
             gameInfo.boards3D.Add(model);
         }
+        //Special cards:
+        foreach(var scard in scardBuilder.Content)
+        {
+            SpecialCardInfo newInfo = new();
+            newInfo.defaultSpecialSprite = scard.DefaultImage;
+            newInfo.cardsInfo = scard.Content;
+            newInfo.name = scardBuilder.Names[scardBuilder.Content.IndexOf(scard)];
+            gameInfo.specialCardsInfo.Add(newInfo);
+        }
+        gameInfo.specialCardsInfo.Reverse(); //Por algún motivo no salen en el orden bueno, salen al revés
     }
 
     public void SetGameName(string name)
@@ -69,6 +82,7 @@ public class ToolManager : MonoBehaviour
             return;
         }
         ContentDownloader.DownloadSprite(gameInfo.gameImage);
+        scardBuilder.DownloadInfo();
         boardBuilder.DownloadInfo();
         pieceBuilder.DownloadInfo();
         cardBuilder.DownloadInfo();

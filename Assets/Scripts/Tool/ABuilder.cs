@@ -12,6 +12,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
     protected int index = 0;
     private int newLength;
     public List<T> Content { get; private set; } = new();
+    public int Index { get { return index; } set { index = value; } }
 
     public virtual void UpdateIndex(int dir)
     {
@@ -19,7 +20,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
         if (index >= Content.Count) index = 0;
         else if (index < 0) index = Content.Count - 1;
         indexText.text = (index + 1).ToString();
-        preview.UpdateValues(Content[index] ?? GetDefaultContent());
+        preview?.UpdateValues(Content[index] ?? GetDefaultContent());
     }
 
     public virtual void UpdateLength(int value)

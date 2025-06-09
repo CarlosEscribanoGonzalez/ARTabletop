@@ -12,7 +12,7 @@ public class CardPreview : APreview<CardInfo>
     private CardBuilder cardBuilder;
     public UnityEvent OnImageSet; 
 
-    void Start()
+    void Awake()
     {
         this.rectTransform = GetComponent<RectTransform>();
         cardBuilder = GetComponentInParent<CardBuilder>();
@@ -28,6 +28,7 @@ public class CardPreview : APreview<CardInfo>
 
     public override void UpdateValues(CardInfo info)
     {
+        if (cardBuilder == null) cardBuilder = GetComponentInParent<CardBuilder>(true);
         SetImage(info.sprite ?? cardBuilder.DefaultImage);
         cardText.text = info.text;
     }

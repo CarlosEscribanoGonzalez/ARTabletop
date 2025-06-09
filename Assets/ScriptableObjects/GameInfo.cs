@@ -65,7 +65,7 @@ public class GameInfo : ScriptableObject
             //Boards:
             boardImagesNames = this.boards2D.Select(board => board.texture.name).ToList(),
             boardModelsNames = this.boards3D.Select(board => board.name).ToList(),
-            /*/Special cards:
+            //Special cards:
             specialCardsInfo = this.specialCardsInfo.Select(card => new SpecialCardInfoSerializable
             {
                 name = card.name,
@@ -76,7 +76,7 @@ public class GameInfo : ScriptableObject
                     size = c.sizeMult
                 }).ToList(),
                 defaultSpriteFileName = card.defaultSpecialSprite != null ? card.defaultSpecialSprite.texture.name : null
-            }).ToList()*/
+            }).ToList()
         };
         File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true)); //Escribe la información en el path y lo devuelve
         return path;

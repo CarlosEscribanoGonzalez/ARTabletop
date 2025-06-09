@@ -60,7 +60,6 @@ public class CardBuilder : ABuilder<CardInfo>
         if (!string.IsNullOrEmpty(sizeInputField.text))
             Content[index].sizeMult = float.Parse(sizeInputField.text, CultureInfo.InvariantCulture);
         else Content[index].sizeMult = 1;
-        //preview.UpdateValues(Content[index]); -> No creo que haga falta si sólo actualizamos el size
     }
 
     public override CardInfo GetDefaultContent()
