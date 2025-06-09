@@ -11,10 +11,12 @@ public class BoardPreview : APreview<GameObject>
     [SerializeField] private float verticalOffset;
     private GameObject previewedObject;
     private float targetY;
+    private float startY;
 
     void Start()
     {
-        targetY = previewTransform.localPosition.y + verticalOffset;
+        startY = previewTransform.localPosition.y;
+        targetY = startY + verticalOffset;
         spriteRend.gameObject.SetActive(false);
     }
 
@@ -23,7 +25,11 @@ public class BoardPreview : APreview<GameObject>
         previewTransform.Rotate(0, rotationSpeed * Time.fixedDeltaTime, 0);
         float newY = Mathf.MoveTowards(previewTransform.localPosition.y, targetY, verticalSpeed * Time.fixedDeltaTime);
         previewTransform.localPosition = new Vector3(previewTransform.localPosition.x, newY, previewTransform.localPosition.z);
-        if (Mathf.Abs(previewTransform.localPosition.y - targetY) < 0.05f) targetY *= -1;
+        if (Mathf.Abs(previewTransform.localPosition.y - targetY) < 0.05f)
+        {
+            verticalOffset *= -1;
+            targetY = startY + verticalOffset;
+        }
     }
 
     public override void UpdateValues(GameObject contentToShow)

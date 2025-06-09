@@ -30,6 +30,7 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
         removeButton.interactable = Content.Count != 1;
         addButton.interactable = Content.Count < maxSCards;
         contentDropdown.SetValueWithoutNotify(Content.Count - 1);
+        CheckArrowsVisibility();
     }
 
     public void RemoveSpecialCard()
@@ -44,6 +45,7 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
         removeButton.interactable = Content.Count != 1;
         addButton.interactable = Content.Count < maxSCards;
         contentDropdown.SetValueWithoutNotify(Content.Count - 1);
+        CheckArrowsVisibility();
     }
 
     public override void UpdateIndex(int dir)

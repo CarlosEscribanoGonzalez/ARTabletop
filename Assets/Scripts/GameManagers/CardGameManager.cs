@@ -19,6 +19,7 @@ public class CardGameManager : MonoBehaviour, IGameManager
         GameSettings.Instance.OnSeedSet += () => randomizedInfo = CardsInfo.OrderBy(x => Random.Range(0f, 1f)).ToArray();
         cardImagesList = imageLibrary.Where(img => img.name.ToLower().Contains("card")
                                                     && !img.name.ToLower().Contains("special")).ToList(); //Se almacenan los marcadores de cartas normales
+        foreach(CardInfo card in CardsInfo) if (card.sprite == null) card.sprite = DefaultImage;
     }
 
     ARTrackedImage trackable;

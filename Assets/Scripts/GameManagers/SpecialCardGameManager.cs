@@ -27,6 +27,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         };
         randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ApplyShuffle(); //Cuando se barajan las cartas se aplican los cambios en todos los clientes
         GetComponentInChildren<TextMeshProUGUI>().text = $"{CardTypeName} cards have been shuffled.";
+        foreach (CardInfo card in CardsInfo) if (card.sprite == null) card.sprite = DefaultImage;
     }
 
     public bool ProvideInfo(AGameUnit unit) //Se proporciona información sobre la carta a las cartas escaneadas

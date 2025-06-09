@@ -106,6 +106,7 @@ public class BoardBuilder : ABuilder<GameObject>
         noBoardsText.SetActive(Content.Count == 0);
         indexText.text = (index + 1).ToString();
         contentDropdown.value = Content.Count;
+        CheckArrowsVisibility();
     }
 
     private bool ModelIsUsed(string modelName)

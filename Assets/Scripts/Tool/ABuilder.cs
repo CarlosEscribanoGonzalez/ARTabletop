@@ -8,6 +8,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
     [SerializeField] protected TMP_Dropdown contentDropdown;
     [SerializeField] protected TextMeshProUGUI indexText;
     [SerializeField] private GameObject confirmationPanel;
+    [SerializeField] private GameObject arrows;
     [SerializeField] private bool newContentIsNull = false;
     protected int index = 0;
     private int newLength;
@@ -33,6 +34,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
         }
         else if (Content.Count < newLength)
             while (Content.Count < newLength) Content.Add(newContentIsNull ? default : new T());
+        CheckArrowsVisibility();
     }
 
     public virtual void ConfirmChange()
@@ -45,6 +47,12 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
             preview.UpdateValues(Content[index]);
         }
         indexText.text = (index + 1).ToString();
+        CheckArrowsVisibility();
+    }
+
+    protected void CheckArrowsVisibility()
+    {
+        arrows.SetActive(Content.Count > 1);
     }
 
     public abstract T GetDefaultContent();
