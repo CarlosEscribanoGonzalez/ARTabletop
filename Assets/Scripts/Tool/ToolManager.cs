@@ -28,7 +28,7 @@ public class ToolManager : MonoBehaviour
         gameInfo.gameHasCoins = generalSettingsBuilder.GameHasCoin;
         //Cards:
         gameInfo.defaultSprite = cardBuilder.DefaultImage;
-        gameInfo.cardsInfo = cardBuilder.Cards;
+        gameInfo.cardsInfo = cardBuilder.Content;
         //Pieces:
         gameInfo.pieces = pieceBuilder.GetFinalPieces();
         gameInfo.numPieces = pieceBuilder.TotalPieces;

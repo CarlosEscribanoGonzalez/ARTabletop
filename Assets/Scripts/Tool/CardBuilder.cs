@@ -1,38 +1,27 @@
 using UnityEngine;
 using TMPro;
-using System.Collections.Generic;
 using System.IO;
 using System.Globalization;
 
-public class CardBuilder : MonoBehaviour
+public class CardBuilder : ABuilder<CardInfo>
 {
-    [SerializeField] private CardPreview preview;
     [SerializeField] private CardPreview defaultPreview;
     [SerializeField] private Sprite defaultImage;
-    [SerializeField] private TMP_Dropdown totalCardsDropdown;
-    [SerializeField] private TextMeshProUGUI indexText;
-    [SerializeField] private GameObject confirmationPanel;
     [SerializeField] private TMP_InputField textInputField;
     [SerializeField] private TMP_InputField sizeInputField;
-    public List<CardInfo> Cards { get; set; } = new();
     public Sprite DefaultImage => defaultImage;
-    private int index;
 
     private void Awake()
     {
-        if(totalCardsDropdown != null) 
-            for (int i = 0; i < totalCardsDropdown.value + 1; i++) Cards.Add(new CardInfo());
+        if(contentDropdown != null) 
+            for (int i = 0; i < contentDropdown.value + 1; i++) Content.Add(new CardInfo());
     }
 
-    public void UpdateIndex(int dir)
+    public override void UpdateIndex(int dir)
     {
-        index += dir;
-        if (index >= Cards.Count) index = 0;
-        else if (index < 0) index = Cards.Count - 1;
-        preview.UpdateValues(Cards[index]);
-        indexText.text = (index + 1).ToString();
-        textInputField.SetTextWithoutNotify(Cards[index].text);
-        sizeInputField.SetTextWithoutNotify(Cards[index].sizeMult.ToString());
+        base.UpdateIndex(dir);
+        textInputField.SetTextWithoutNotify(Content[index].text);
+        sizeInputField.SetTextWithoutNotify(Content[index].sizeMult.ToString());
     }
 
     public void PickImage(bool isDefaultImage)
@@ -54,54 +43,37 @@ public class CardBuilder : MonoBehaviour
                     defaultImage = newSprite;
                     defaultPreview.SetImage(defaultImage);
                 }
-                else Cards[index].sprite = newSprite;
-                preview?.UpdateValues(Cards[index]);
+                else Content[index].sprite = newSprite;
+                preview?.UpdateValues(Content[index]);
             }
         }, "Select an image");
     }
 
     public void UpdateText(string text)
     {
-        Cards[index].text = text;
-        preview.UpdateValues(Cards[index]);
+        Content[index].text = text;
+        preview.UpdateValues(Content[index]);
     }
 
     public void UpdateSize()
     {
-        if (!string.IsNullOrEmpty(sizeInputField.text)) 
-            Cards[index].sizeMult = float.Parse(sizeInputField.text, CultureInfo.InvariantCulture);
-        else Cards[index].sizeMult = 1;
-        preview.UpdateValues(Cards[index]);
+        if (!string.IsNullOrEmpty(sizeInputField.text))
+            Content[index].sizeMult = float.Parse(sizeInputField.text, CultureInfo.InvariantCulture);
+        else Content[index].sizeMult = 1;
+        //preview.UpdateValues(Content[index]); -> No creo que haga falta si sólo actualizamos el size
     }
 
-    private int newLength;
-    public void UpdateLength(int value)
+    public override CardInfo GetDefaultContent()
     {
-        newLength = value + 1;
-        if (Cards.Count > newLength)
-        {
-            totalCardsDropdown.SetValueWithoutNotify(Cards.Count - 1); //Se "cancela" el cambio a la espera de la confirmación
-            confirmationPanel.SetActive(true);
-        }
-        else if (Cards.Count < newLength) while (Cards.Count < newLength) Cards.Add(new CardInfo());
+        CardInfo defaultContent = new();
+        defaultContent.sprite = defaultImage;
+        return defaultContent;
     }
 
-    public void ConfirmChange()
-    {
-        Cards.RemoveRange(newLength, Cards.Count - newLength);
-        totalCardsDropdown.SetValueWithoutNotify(newLength - 1);
-        if (index >= Cards.Count)
-        {
-            index = Cards.Count - 1;
-            preview.UpdateValues(Cards[index]);
-        }
-        indexText.text = (index + 1).ToString();
-    }
-
-    public void DownloadInfo()
+    public override void DownloadInfo()
     {
         ContentDownloader.DownloadSprite(defaultImage);
-        foreach(var c in Cards)
+        foreach(var c in Content)
         {
             ContentDownloader.DownloadSprite(c.sprite);
         }

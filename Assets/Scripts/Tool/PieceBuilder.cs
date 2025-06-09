@@ -5,36 +5,26 @@ using TMPro;
 using System.Collections.Generic;
 using System.IO;
 
-public class PieceBuilder : MonoBehaviour
+public class PieceBuilder : ABuilder<GameObject>
 {
     [SerializeField] private Button setAsDefaultButton;
     [SerializeField] private GameObject defaultPiece;
-    [SerializeField] private TMP_Dropdown numPiecesDropdown;
-    [SerializeField] private TextMeshProUGUI indexText;
-    [SerializeField] private PiecePreview preview;
     [SerializeField] private PiecePreview defaultPreview;
-    [SerializeField] private GameObject confirmationPanel;
-    private List<GameObject> pieces = new();
-    private int index = 0;
     private Dictionary<string, string> importedPaths = new();
     public GameObject DefaultPiece => defaultPiece;
-    public int TotalPieces => pieces.Count;
+    public int TotalPieces => Content.Count;
 
     private void Awake()
     {
-        for (int i = 0; i < numPiecesDropdown.value + 1; i++) pieces.Add(null);
-        preview.SetPiece(defaultPiece);
-        defaultPreview.SetPiece(defaultPiece);
+        for (int i = 0; i < contentDropdown.value + 1; i++) Content.Add(null);
+        preview.UpdateValues(defaultPiece);
+        defaultPreview.UpdateValues(defaultPiece);
     }
 
-    public void UpdateIndex(int dir)
+    public override void UpdateIndex(int dir)
     {
-        index += dir;
-        if (index >= pieces.Count) index = 0;
-        else if (index < 0) index = pieces.Count - 1;
-        preview.SetPiece(pieces[index] ?? defaultPiece);
-        indexText.text = (index + 1).ToString();
-        setAsDefaultButton.interactable = (pieces[index] != null && !pieces[index].name.Equals(defaultPiece.name));
+        base.UpdateIndex(dir);
+        setAsDefaultButton.interactable = (Content[index] != null && !Content[index].name.Equals(defaultPiece.name));
     }
 
     public void PickPiece(bool isDefaultPiece)
@@ -61,11 +51,11 @@ public class PieceBuilder : MonoBehaviour
                 if (isDefaultPiece)
                 {
                     defaultPiece = piecePrefab;
-                    defaultPreview.SetPiece(defaultPiece);
+                    defaultPreview.UpdateValues(defaultPiece);
                 }
-                else pieces[index] = piecePrefab;
-                preview.SetPiece(pieces[index] ?? defaultPiece);
-                setAsDefaultButton.interactable = (pieces[index] != null && !pieces[index].name.Equals(defaultPiece.name));
+                else Content[index] = piecePrefab;
+                preview.UpdateValues(Content[index] ?? defaultPiece);
+                setAsDefaultButton.interactable = (Content[index] != null && !Content[index].name.Equals(defaultPiece.name));
                 if (!importedPaths.ContainsKey(path)) importedPaths.Add(path, piecePrefab.name);
             }
             LoadingScreenManager.ToggleLoadingScreen(false);
@@ -74,43 +64,24 @@ public class PieceBuilder : MonoBehaviour
 
     public void SetAsDefault()
     {
-        pieces[index] = null;
-        preview.SetPiece(defaultPiece);
+        Content[index] = null;
+        preview.UpdateValues(defaultPiece);
         setAsDefaultButton.interactable = false;
-    }
-
-    private int newLength;
-    public void UpdateLength(int value)
-    {
-        newLength = value + 1;
-        if (pieces.Count > newLength)
-        {
-            numPiecesDropdown.SetValueWithoutNotify(pieces.Count - 1); //Se "cancela" el cambio a la espera de la confirmación
-            confirmationPanel.SetActive(true);
-        }
-        else if (pieces.Count < newLength) while (pieces.Count < newLength) pieces.Add(null);
-    }
-
-    public void ConfirmChange()
-    {
-        pieces.RemoveRange(newLength, pieces.Count - newLength);
-        numPiecesDropdown.SetValueWithoutNotify(newLength - 1);
-        if (index >= pieces.Count)
-        {
-            index = pieces.Count - 1;
-            preview.SetPiece(pieces[index] ?? defaultPiece);
-        }
-        indexText.text = (index + 1).ToString();
     }
 
     public List<GameObject> GetFinalPieces()
     {
         List<GameObject> notNullPieces = new();
-        foreach (var p in pieces) if (p != null) notNullPieces.Add(p);
+        foreach (var p in Content) if (p != null) notNullPieces.Add(p);
         return notNullPieces;
     }
 
-    public void DownloadInfo()
+    public override GameObject GetDefaultContent()
+    {
+        return DefaultPiece;
+    }
+
+    public override void DownloadInfo()
     {
         foreach(var path in importedPaths.Keys)
         {

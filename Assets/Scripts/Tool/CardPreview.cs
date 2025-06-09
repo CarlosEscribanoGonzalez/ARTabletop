@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Events;
 
-public class CardPreview : MonoBehaviour
+public class CardPreview : APreview<CardInfo>
 {
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI cardText;
@@ -26,7 +26,7 @@ public class CardPreview : MonoBehaviour
         OnImageSet?.Invoke();
     }
 
-    public void UpdateValues(CardInfo info)
+    public override void UpdateValues(CardInfo info)
     {
         SetImage(info.sprite ?? cardBuilder.DefaultImage);
         cardText.text = info.text;

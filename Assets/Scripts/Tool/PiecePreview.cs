@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PiecePreview : MonoBehaviour
+public class PiecePreview : APreview<GameObject>
 {
     [SerializeField] private Transform previewTransform;
     [SerializeField] private float rotationSpeed;
@@ -23,7 +23,7 @@ public class PiecePreview : MonoBehaviour
         if (Mathf.Abs(previewTransform.localPosition.y - targetY) < 0.05f) targetY *= -1;
     }
 
-    public void SetPiece(GameObject piecePrefab)
+    public override void UpdateValues(GameObject piecePrefab)
     {
         Destroy(currentPiece);
         previewTransform.localScale = Vector3.one;
