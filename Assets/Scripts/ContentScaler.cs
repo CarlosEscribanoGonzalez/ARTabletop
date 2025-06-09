@@ -3,6 +3,16 @@ using UnityEngine;
 public static class ContentScaler
 {
     private static MeshFilter[] meshFilters;
+    private static float spriteScaleMult;
+
+    public static float ScaleImage(Texture2D texture, Vector2 desiredTextureSize)
+    {
+        if (texture.width > texture.height)
+            spriteScaleMult = desiredTextureSize.x / texture.width;
+        else spriteScaleMult = desiredTextureSize.y / texture.height;
+        return spriteScaleMult;
+    }
+
     public static float ScaleModel(GameObject model, float targetSize)
     {
         meshFilters = model.GetComponentsInChildren<MeshFilter>();

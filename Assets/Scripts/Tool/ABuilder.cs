@@ -6,7 +6,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
 {
     [SerializeField] protected APreview<T> preview;
     [SerializeField] protected TMP_Dropdown contentDropdown;
-    [SerializeField] private TextMeshProUGUI indexText;
+    [SerializeField] protected TextMeshProUGUI indexText;
     [SerializeField] private GameObject confirmationPanel;
     [SerializeField] private bool newContentIsNull = false;
     protected int index = 0;

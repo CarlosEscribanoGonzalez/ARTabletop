@@ -62,10 +62,10 @@ public class GameInfo : ScriptableObject
             numPieces = this.numPieces,
             defaultPieceName = this.defaultPiece.name,
             piecesNames = this.pieces.Select(piece => piece.name).ToList(),
-            /*/Boards:
+            //Boards:
             boardImagesNames = this.boards2D.Select(board => board.texture.name).ToList(),
             boardModelsNames = this.boards3D.Select(board => board.name).ToList(),
-            //Special cards:
+            /*/Special cards:
             specialCardsInfo = this.specialCardsInfo.Select(card => new SpecialCardInfoSerializable
             {
                 name = card.name,

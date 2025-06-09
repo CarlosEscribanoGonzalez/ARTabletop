@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System.Linq;
 
 public class ToolManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class ToolManager : MonoBehaviour
     private GeneralSettingsBuilder generalSettingsBuilder;
     private CardBuilder cardBuilder;
     private PieceBuilder pieceBuilder;
+    private BoardBuilder boardBuilder;
     private GameInfo gameInfo;
 
     private void Awake()
@@ -16,6 +18,7 @@ public class ToolManager : MonoBehaviour
         generalSettingsBuilder = GetComponentInChildren<GeneralSettingsBuilder>(true);
         cardBuilder = GetComponentInChildren<CardBuilder>(true);
         pieceBuilder = GetComponentInChildren<PieceBuilder>(true);
+        boardBuilder = GetComponentInChildren<BoardBuilder>(true);
         createGameButton.interactable = false;
     }
 
@@ -33,6 +36,15 @@ public class ToolManager : MonoBehaviour
         gameInfo.pieces = pieceBuilder.GetFinalPieces();
         gameInfo.numPieces = pieceBuilder.TotalPieces;
         gameInfo.defaultPiece = pieceBuilder.DefaultPiece;
+        //Boards:
+        foreach(var image in boardBuilder.Content.Where(go => go.GetComponentInChildren<SpriteRenderer>() != null))
+        {
+            gameInfo.boards2D.Add(image.GetComponentInChildren<SpriteRenderer>().sprite);
+        }
+        foreach (var model in boardBuilder.Content.Where(go => go.GetComponentInChildren<SpriteRenderer>() == null))
+        {
+            gameInfo.boards3D.Add(model);
+        }
     }
 
     public void SetGameName(string name)
@@ -57,6 +69,7 @@ public class ToolManager : MonoBehaviour
             return;
         }
         ContentDownloader.DownloadSprite(gameInfo.gameImage);
+        boardBuilder.DownloadInfo();
         pieceBuilder.DownloadInfo();
         cardBuilder.DownloadInfo();
         gameInfo.ConvertToJson();
