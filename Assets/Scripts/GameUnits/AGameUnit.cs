@@ -10,6 +10,8 @@ public class AGameUnit : MonoBehaviour
     protected SpriteRenderer spriteRend; //Renderer de sprites de la unidad
     protected Vector2 desiredTextureSize = new Vector2(50, 50); //Tamaño de la textura deseado
     protected float spriteScaleMult = 0; //Multiplicador del tamaño del sprite para que se ajuste al máximo espacio posible
+    protected float ratio = 1;
+    protected float desiredRatio;
     private bool inForceMaintain = false; //Indica que el objeto debe mantenerse aunque su marcador no esté siendo trackeado
     public bool InForceMaintain { get { return inForceMaintain; }
         set
@@ -83,14 +85,14 @@ public class AGameUnit : MonoBehaviour
         unitCollider.isTrigger = true;
     }
 
-    protected float ratio = 1;
     protected virtual void AdjustSpriteSize() //Ajusta el sprite al tamaño deseado
     {
+        if(desiredRatio == default) desiredRatio = desiredTextureSize.x / desiredTextureSize.y;
+        ratio = (float)spriteRend.sprite.texture.width / (float)spriteRend.sprite.texture.height;
         //Se tiene en cuenta si es más ancho o alto para calcular el factor de escala
-        if (spriteRend.sprite.texture.width > spriteRend.sprite.texture.height) 
+        if (ratio > desiredRatio) 
             spriteScaleMult = desiredTextureSize.x / spriteRend.sprite.texture.width;
         else spriteScaleMult = desiredTextureSize.y / spriteRend.sprite.texture.height;
         spriteRend.transform.localScale *= spriteScaleMult;
-        ratio = (float)spriteRend.sprite.texture.width / (float)spriteRend.sprite.texture.height;
     }
 }

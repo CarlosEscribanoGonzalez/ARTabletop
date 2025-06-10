@@ -11,7 +11,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     private Card specialCard; //Carta especial asociada a este manager
     private NetworkVariable<int> currentInfoIndex = new(0); //Índice de la información mostrada por la carta actualmente
     private NetworkVariable<int> totalDrags = new(0); //Índice de cartas sacadas sin barajar
-    private NetworkVariable<int> randomizerSeed = new(0); //Índice de cartas sacadas sin barajar
+    private NetworkVariable<int> randomizerSeed = new(0); //Semilla con la que se han barajado las cartas especiales
     public CardInfo[] CardsInfo { get; set; } = null; //Array de información de las cartas a mostrar
     public string CardTypeName { get; set; } = "SpecialCard"; //Nombre de las cartas mostradas (Suerte, Caja de Comunidad... por ejemplo)
     public Sprite DefaultImage { get; set; } = null; //Imagen por defecto a mostrar por las cartas de este manager
@@ -106,7 +106,8 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
 
     private void ApplyShuffle(bool displayFeedback = true) //Se baraja igual en todos los clientes al compartir semilla
     {
-        System.Random rand = new System.Random(randomizerSeed.Value);
+        int randomSeed = randomizerSeed.Value != default ? randomizerSeed.Value : Random.Range(0, 100000);
+        System.Random rand = new System.Random(randomSeed);
         randomizedInfo = CardsInfo.OrderBy(x => rand.Next()).ToArray();
         ApplyInfo(true);
         if(displayFeedback) StartCoroutine(DisplayShuffleFeedback());

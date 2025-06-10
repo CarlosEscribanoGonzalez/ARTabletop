@@ -41,8 +41,6 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
         }
         sortingGroups = GetComponentsInChildren<SortingGroup>(true);
         detailedViewManager = FindFirstObjectByType<DetailedViewCardManager>();
-        initTextSize = text.rectTransform.sizeDelta;
-        Debug.Log(initTextSize);
     }
 
     private void Update() //Se fuerza a que se vean por encima siempre las cartas más cercanas a la cámara
