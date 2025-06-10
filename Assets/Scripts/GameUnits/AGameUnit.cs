@@ -83,6 +83,7 @@ public class AGameUnit : MonoBehaviour
         unitCollider.isTrigger = true;
     }
 
+    protected float ratio = 1;
     protected virtual void AdjustSpriteSize() //Ajusta el sprite al tamaño deseado
     {
         //Se tiene en cuenta si es más ancho o alto para calcular el factor de escala
@@ -90,5 +91,6 @@ public class AGameUnit : MonoBehaviour
             spriteScaleMult = desiredTextureSize.x / spriteRend.sprite.texture.width;
         else spriteScaleMult = desiredTextureSize.y / spriteRend.sprite.texture.height;
         spriteRend.transform.localScale *= spriteScaleMult;
+        ratio = (float)spriteRend.sprite.texture.width / (float)spriteRend.sprite.texture.height;
     }
 }

@@ -16,6 +16,7 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
     private CardInfo cardInfo; //CardInfo asociada al objeto, proporcionada por el manager
     private bool IsSpecial => manager is SpecialCardGameManager; //Indica si la carta es especial o no
     public GameObject PrevButton { get; private set; } = null; //Botón de volver atrás para las cartas especiales
+    private Vector2 initTextSize;
 
     private void Start()
     {
@@ -40,6 +41,8 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
         }
         sortingGroups = GetComponentsInChildren<SortingGroup>(true);
         detailedViewManager = FindFirstObjectByType<DetailedViewCardManager>();
+        initTextSize = text.rectTransform.sizeDelta;
+        Debug.Log(initTextSize);
     }
 
     private void Update() //Se fuerza a que se vean por encima siempre las cartas más cercanas a la cámara
@@ -118,6 +121,24 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
         //Se cancela la interacción con la carta
         isPressing = false;
         if (IsSpecial) StopAllCoroutines();
+    }
+
+    protected override void AdjustSpriteSize()
+    {
+        base.AdjustSpriteSize();
+        if (initTextSize == default) initTextSize = text.rectTransform.sizeDelta;
+        float visibleWidth, visibleHeight;
+        if (ratio >= 1f)
+        {
+            visibleWidth = initTextSize.x;
+            visibleHeight = initTextSize.y / (ratio + 0.6f);
+        }
+        else
+        {
+            visibleHeight = initTextSize.y;
+            visibleWidth = initTextSize.x * (ratio + 0.25f);
+        }
+        text.rectTransform.sizeDelta = new Vector2(visibleWidth, visibleHeight);
     }
 
     IEnumerator ToggleButtonsCoroutine()
