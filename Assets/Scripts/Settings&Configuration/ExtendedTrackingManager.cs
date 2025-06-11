@@ -6,12 +6,10 @@ public class ExtendedTrackingManager : MonoBehaviour
 {
     public static bool IsXTEnabled { get; set; } = false;
     private ARTrackedImageManager imageManager;
-    private ARAnchorManager anchorManager;
 
     private void Start()
     {
         imageManager = GetComponent<ARTrackedImageManager>();
-        anchorManager = FindFirstObjectByType<ARAnchorManager>();
     }
 
     public void OnTrackedImagesChanged() //Llamada cada vez que un marcador se actualiza
@@ -21,18 +19,11 @@ public class ExtendedTrackingManager : MonoBehaviour
             if (trackedImage.GetComponentInChildren<AGameUnit>() != null && trackedImage.GetComponentInChildren<AGameUnit>().InForceMaintain)
                 trackedImage.gameObject.SetActive(true); //Si está en ForceMaintian estará siempre activo
             //Si no está en ForceMaintain y el extended tracking está desactivado cuando el marker se pierde de vista el objeto desaparece
-            else if (!IsXTEnabled) trackedImage.gameObject.SetActive(trackedImage.trackingState == TrackingState.Tracking);/*else
-            
+            else if (!IsXTEnabled) trackedImage.gameObject.SetActive(trackedImage.trackingState == TrackingState.Tracking);
+            else
             {
-                if (trackedImage.trackingState != TrackingState.Tracking && !trackedImage.transform.parent.TryGetComponent<ARAnchor>(out _))
-                {
-                    
-                }
-                else if (trackedImage.trackingState == TrackingState.Tracking) 
-                {
-                    
-                }
-            }*/
+
+            }
         }
     }
 }
