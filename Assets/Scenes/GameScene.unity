@@ -1695,8 +1695,75 @@ PrefabInstance:
     - {fileID: 4795638630828503680, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6780718781591681672, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4648567278007323579}
+    - targetCorrespondingSourceObject: {fileID: 6780718781591681672, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4648567278007323578}
   m_SourcePrefab: {fileID: 100100000, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+--- !u!1 &4648567278007323577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6780718781591681672, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+  m_PrefabInstance: {fileID: 4648567278007323576}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4648567278007323578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4648567278007323577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <trackablesChanged>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4648567278007323580}
+        m_TargetAssemblyTypeName: ExtendedTrackingManager, Assembly-CSharp
+        m_MethodName: OnPlaneDetected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_PlanePrefab: {fileID: 0}
+  m_DetectionMode: -1
+--- !u!114 &4648567278007323579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4648567278007323577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 728ad7fae8e460a4ba41265c7308d757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <trackablesChanged>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
+  m_AnchorPrefab: {fileID: 0}
+--- !u!114 &4648567278007323580 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 24658795614474804, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+  m_PrefabInstance: {fileID: 4648567278007323576}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4648567278007323577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abf735239d9eb9c44b427292523354f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7052754044565400284
 PrefabInstance:
   m_ObjectHideFlags: 0
