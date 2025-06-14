@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -13,6 +14,8 @@ public class PlayableUnit : MonoBehaviour
     private ARAnchor anchor;
     private bool attached = false;
     private float scaleFactor = 1;
+    private Quaternion initRotation;
+    private bool inAnchorCooldown = false;
     //Distintas cámaras de distintos dispositivos no tienen la misma calibración,
     //por lo que los objetos han de escalarse dependiendo de la misma para que siempre tengan el mismo tamaño aparente
     public static float ScaleCameraFactor { get; set; } = 1; 
@@ -26,6 +29,7 @@ public class PlayableUnit : MonoBehaviour
         gameUnit = GetComponentInChildren<AGameUnit>(false);
         //Se escala el objeto dependiendo de la calibración de la cámara del dispositivo
         this.transform.localScale *= ScaleCameraFactor;
+        initRotation = gameUnit.transform.localRotation;
     }
 
     public void DisplayNoInfoIndicator() 
@@ -41,7 +45,12 @@ public class PlayableUnit : MonoBehaviour
 
     public void ManageTracking(ARTrackable trackedImage)
     {
-        if ((!ExtendedTrackingManager.IsXTEnabled && !gameUnit.InForceMaintain) || gameUnit == null)
+        if(gameUnit == null)
+        {
+            noInfoIndicator.SetActive(trackedImage.trackingState == TrackingState.Tracking);
+            return;
+        }
+        if (!ExtendedTrackingManager.IsXTEnabled && !gameUnit.InForceMaintain)
         {
             gameUnit.gameObject.SetActive(trackedImage.trackingState == TrackingState.Tracking);
             if(attached) DetachFromAnchor();
@@ -53,35 +62,30 @@ public class PlayableUnit : MonoBehaviour
                 gameUnit.gameObject.SetActive(true);
                 if (attached) DetachFromAnchor();
             }
-            else if (!attached)
+            else if (!attached && !inAnchorCooldown)
             {
-                anchor = AnchorCreator.CreateAnchor(gameUnit.gameObject);
+                anchor = AnchorCreator.Instance.CreateAnchor(gameUnit.gameObject);
                 AttachToAnchor();
+                StartCoroutine(SetAnchorCooldown());
             }
         }
     }
 
     private void AttachToAnchor()
     {
-        if (anchor != null)
-        {
-            Debug.Log("Attaching to anchor...");
-            float initDist = Vector3.Distance(gameUnit.transform.position, Camera.main.transform.position);
-            Debug.Log("INIT POS: " + gameUnit.transform.position);
-            gameUnit.transform.SetParent(anchor.transform);
-            gameUnit.transform.localPosition = Vector3.zero;
-            float finalDist = Vector3.Distance(gameUnit.transform.position, Camera.main.transform.position);
-            scaleFactor = finalDist / initDist;
-            Debug.Log("FINAL POS: " + gameUnit.transform.position);
-            Debug.Log($"Init dist: {initDist}; final dist: {finalDist}; scaleFactor: {scaleFactor}");
-            if (scaleFactor > 0) gameUnit.transform.localScale *= scaleFactor;
-            attached = true;
-            Debug.LogWarning("Anchored lossy scale: " + gameUnit.transform.lossyScale);
-        }
-        else
-        {
-            Debug.LogError("Error: anchor es null");
-        }
+        if(anchor == null) anchor = AnchorCreator.Instance.CreateAnchor(gameUnit.gameObject);
+        Debug.Log("Attaching to anchor...");
+        float initDist = Vector3.Distance(gameUnit.transform.position, Camera.main.transform.position);
+        Debug.Log("INIT POS: " + gameUnit.transform.position);
+        gameUnit.transform.SetParent(anchor.transform);
+        gameUnit.transform.localPosition = Vector3.zero;
+        float finalDist = Vector3.Distance(gameUnit.transform.position, Camera.main.transform.position);
+        scaleFactor = finalDist / initDist;
+        Debug.Log("FINAL POS: " + gameUnit.transform.position);
+        Debug.Log($"Init dist: {initDist}; final dist: {finalDist}; scaleFactor: {scaleFactor}");
+        if (scaleFactor > 0) gameUnit.transform.localScale *= scaleFactor;
+        attached = true;
+        Debug.LogWarning("Anchored lossy scale: " + gameUnit.transform.lossyScale);
     }
 
     private void DetachFromAnchor()
@@ -90,11 +94,18 @@ public class PlayableUnit : MonoBehaviour
         Debug.Log("Detaching from anchor...");
         gameUnit.transform.localScale /= scaleFactor;
         gameUnit.transform.SetParent(this.transform);
-        gameUnit.transform.localPosition = Vector3.zero; //-> Está generando comportamiento raro y no sé por qué
-        //gameUnit.transform.rotation = Quaternion.identity;
+        gameUnit.transform.localPosition = Vector3.zero;
+        gameUnit.transform.localRotation = initRotation;
         attached = false;
         Destroy(anchor.gameObject);
         anchor = null;
         Debug.LogWarning("Unanchored lossy scale: " + gameUnit.transform.lossyScale);
+    }
+
+    IEnumerator SetAnchorCooldown()
+    {
+        inAnchorCooldown = true;
+        yield return new WaitForSeconds(0.5f);
+        inAnchorCooldown = false;
     }
 }

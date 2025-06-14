@@ -4,16 +4,19 @@ using UnityEngine.XR.ARFoundation;
 
 public class AnchorCreator : MonoBehaviour
 {
-    private static ARAnchorManager anchorManager;
-    private static ARPlaneManager planeManager;
+    public static AnchorCreator Instance { get; private set; }
+    private ARAnchorManager anchorManager;
+    private ARPlaneManager planeManager;
 
     private void Start()
     {
+        if (Instance == null) Instance = this;
+        else Destroy(this.gameObject);
         anchorManager = FindFirstObjectByType<ARAnchorManager>();
         planeManager = FindFirstObjectByType<ARPlaneManager>();
     }
 
-    public static ARAnchor CreateAnchor(GameObject gameUnit)
+    public ARAnchor CreateAnchor(GameObject gameUnit)
     {
         ARPlane nearestPlane = null;
         float minDistance = float.MaxValue;

@@ -1,21 +1,35 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 
 public class ExtendedTrackingManager : MonoBehaviour
 {
     private static bool isXTEnabled = false;
     public static bool IsXTEnabled { 
         get { return isXTEnabled; } 
-        set { isXTEnabled = value; 
-            if(FindFirstObjectByType<ARPlaneManager>() != null)
-                FindFirstObjectByType<ARPlaneManager>().enabled = IsXTEnabled; } }
+        set { isXTEnabled = value;
+            if (planeManager != null)
+            {
+                planeManager.enabled = value;
+                if (value) ResetPlanesAndAnchors();
+            } } 
+    }
     private ARTrackedImageManager imageManager;
+    private static ARPlaneManager planeManager;
+    private static ARAnchorManager anchorManager;
 
     private void Start()
     {
         imageManager = GetComponent<ARTrackedImageManager>();
+        planeManager = GetComponent<ARPlaneManager>();
+        anchorManager = GetComponent<ARAnchorManager>();
         FindFirstObjectByType<ARPlaneManager>().enabled = isXTEnabled;
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        Debug.Log("APPLICATION FOCUS: " + focus);
+        if (IsXTEnabled && focus) StartCoroutine(ResetCoroutine());
     }
 
     public void OnTrackedImagesChanged() //Llamada cada vez que un marcador se actualiza
@@ -33,5 +47,20 @@ public class ExtendedTrackingManager : MonoBehaviour
         if (detected) return;
         detected = true;
         Debug.Log("PLANE DETECTED: " + GetComponent<ARPlaneManager>().trackables.count);
+    }
+
+    private static void ResetPlanesAndAnchors()
+    { 
+        foreach (ARPlane p in planeManager.trackables) Destroy(p.gameObject);
+        foreach (ARAnchor a in anchorManager.trackables) Destroy(a.gameObject);
+        FindFirstObjectByType<ARSession>()?.Reset();
+    }
+
+    IEnumerator ResetCoroutine()
+    {
+        IsXTEnabled = false;
+        ResetPlanesAndAnchors();
+        yield return null;
+        IsXTEnabled = true;
     }
 }
