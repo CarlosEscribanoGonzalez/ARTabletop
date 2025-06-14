@@ -8,7 +8,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - NoBoard
   - Water
   - UI
   - Dice
@@ -40,6 +40,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Pieces&Boards
+    uniqueID: 626379667
     locked: 0
   m_RenderingLayers:
   - Default

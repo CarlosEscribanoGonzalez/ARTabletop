@@ -59,7 +59,6 @@ public class AnchorCreator : MonoBehaviour
         Pose newPose = new Pose(newPos, Quaternion.identity);
 
         ARAnchor anchor = anchorManager.AttachAnchor(nearestPlane, newPose);
-        Debug.LogError(Vector3.Distance(nearestPlane.transform.position, anchor.transform.position));
         Debug.Log($"Posición del anchor: {anchor.transform.position}");
         return anchor;
     }

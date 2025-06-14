@@ -51,6 +51,8 @@ public class AGameUnit : MonoBehaviour
     {
         unitModel = Instantiate(model, this.transform);
         unitModel.SetActive(true);
+        foreach (Transform t in unitModel.GetComponentsInChildren<Transform>())
+            t.gameObject.layer = this.gameObject.layer;
         AdjustModelSize();
     }
 

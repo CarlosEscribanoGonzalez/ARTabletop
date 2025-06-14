@@ -1209,6 +1209,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4488030454867585653, guid: 0a759fae62667eb468ea7fbaa696f90f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4621375499659887205, guid: 0a759fae62667eb468ea7fbaa696f90f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5141617608199687036, guid: 0a759fae62667eb468ea7fbaa696f90f, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8732126663304279387, guid: 0a759fae62667eb468ea7fbaa696f90f, type: 3}
       propertyPath: m_Name
       value: Board

@@ -36,12 +36,12 @@ public class PlayableUnit : MonoBehaviour
         piece.SetActive(false);
         board.SetActive(false);
         noInfoIndicator.SetActive(true);
+        gameUnit = null;
     }
 
     public void ManageTracking(ARTrackable trackedImage)
     {
-        if (gameUnit == null) return;
-        if (!ExtendedTrackingManager.IsXTEnabled && !gameUnit.InForceMaintain)
+        if ((!ExtendedTrackingManager.IsXTEnabled && !gameUnit.InForceMaintain) || gameUnit == null)
         {
             gameUnit.gameObject.SetActive(trackedImage.trackingState == TrackingState.Tracking);
             if(attached) DetachFromAnchor();
@@ -53,10 +53,10 @@ public class PlayableUnit : MonoBehaviour
                 gameUnit.gameObject.SetActive(true);
                 if (attached) DetachFromAnchor();
             }
-            else
+            else if (!attached)
             {
-                if (anchor == null) anchor = AnchorCreator.CreateAnchor(gameUnit.gameObject);
-                if(!attached) AttachToAnchor();
+                anchor = AnchorCreator.CreateAnchor(gameUnit.gameObject);
+                AttachToAnchor();
             }
         }
     }
@@ -90,8 +90,11 @@ public class PlayableUnit : MonoBehaviour
         Debug.Log("Detaching from anchor...");
         gameUnit.transform.localScale /= scaleFactor;
         gameUnit.transform.SetParent(this.transform);
-        //gameUnit.transform.localPosition = Vector3.zero; -> Está generando comportamiento raro y no sé por qué
+        gameUnit.transform.localPosition = Vector3.zero; //-> Está generando comportamiento raro y no sé por qué
+        //gameUnit.transform.rotation = Quaternion.identity;
         attached = false;
+        Destroy(anchor.gameObject);
+        anchor = null;
         Debug.LogWarning("Unanchored lossy scale: " + gameUnit.transform.lossyScale);
     }
 }

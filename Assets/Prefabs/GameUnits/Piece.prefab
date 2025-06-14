@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2557041549269419003}
   - component: {fileID: 2338411318422287685}
   - component: {fileID: 3468161905651588466}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: NameToggler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -77,7 +77,7 @@ GameObject:
   m_Component:
   - component: {fileID: 154824600060234861}
   - component: {fileID: 1132671242120609224}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 7092989833286421890}
   - component: {fileID: 5835391565672995046}
   - component: {fileID: 5629565794890594946}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: InputField (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 9157973213217962086}
   - component: {fileID: 1028122081018883531}
   - component: {fileID: 2506436318755561402}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,7 +482,7 @@ GameObject:
   - component: {fileID: 6678072437345986124}
   - component: {fileID: 3666303950484075482}
   - component: {fileID: 2960775891093318996}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Placeholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -639,7 +639,8 @@ GameObject:
   - component: {fileID: 4143214236380382318}
   - component: {fileID: 6387022657313947471}
   - component: {fileID: 2161759353311919903}
-  m_Layer: 0
+  - component: {fileID: 6082449162116895675}
+  m_Layer: 3
   m_Name: Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -725,6 +726,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!210 &6082449162116895675
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8003255669912376228}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 100
+  m_SortAtRoot: 0
 --- !u!1 &8838924009156341425
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,7 +750,7 @@ GameObject:
   - component: {fileID: 4502249105092298797}
   - component: {fileID: 5569099401280378414}
   - component: {fileID: 5415911175838862957}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: NameCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
