@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.XR.ARFoundation;
-using System.Linq;
 
 public class CubeTest : MonoBehaviour, IPointerDownHandler
 {
@@ -9,16 +8,19 @@ public class CubeTest : MonoBehaviour, IPointerDownHandler
     private ARAnchorManager anchorManager;
     private ARPlaneManager planeManager;
     private ARAnchor anchor;
+    private Vector3 initScale;
 
     private void Start()
     {
         anchorManager = FindFirstObjectByType<ARAnchorManager>();
         planeManager = FindFirstObjectByType<ARPlaneManager>();
+        Debug.Log("INICIALIZADO");
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("Se intentará crear un anchor...");
+        Debug.Log($"Parent: {transform.parent}; scale: {transform.localScale}");
         if (planeManager.trackables.count == 0 || anchor != default) return;
         CreateAnchor();
     }
@@ -74,17 +76,19 @@ public class CubeTest : MonoBehaviour, IPointerDownHandler
         {
             float initDist = Vector3.Distance(objectPos, Camera.main.transform.position);
             Debug.Log("ANCHOR CORRECTAMENTE ATTACHED A PLANE");
-            transform.SetParent(anchor.transform, false);
+            Debug.Log(transform.localScale);
+            transform.SetParent(anchor.transform);
             transform.localPosition = Vector3.zero;
+            Debug.Log(transform.localScale);
             float finalDist = Vector3.Distance(transform.position, Camera.main.transform.position);
             float scaleFactor = finalDist / initDist;
-            if(scaleFactor > 0) transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+            if(scaleFactor > 0) transform.localScale *= scaleFactor;
+            Debug.Log(transform.localScale);
         }
         else
         {
             Debug.LogError("ERROR: ANCHOR ES NULL");
         }
-
         Debug.Log($"Posición final del objeto con anchor: {transform.position}");
     }
 
