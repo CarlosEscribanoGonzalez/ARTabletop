@@ -22,7 +22,7 @@ public class BoardBuilder : ABuilder<GameObject>
 
     public void PickImage()
     {
-        NativeGallery.GetImageFromGallery((path) =>
+        ContentLoader.Instance.PickImage((path) =>
         {
             if (path != null)
             {
@@ -42,14 +42,14 @@ public class BoardBuilder : ABuilder<GameObject>
                 preview.UpdateValues(Content[index]);
                 UpdateUI();
             }
-        }, "Select an image");
+        });
     }
 
     public void PickModel()
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
         GameObject boardPrefab;
-        NativeFilePicker.PickFile((path) =>
+        ContentLoader.Instance.PickModel((path) =>
         {
             if (path != null)
             {

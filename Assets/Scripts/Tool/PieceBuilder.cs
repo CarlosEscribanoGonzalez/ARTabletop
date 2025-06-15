@@ -31,7 +31,7 @@ public class PieceBuilder : ABuilder<GameObject>
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
         GameObject piecePrefab;
-        NativeFilePicker.PickFile((path) =>
+        ContentLoader.Instance.PickModel((path) =>
         {
             if (path != null)
             {

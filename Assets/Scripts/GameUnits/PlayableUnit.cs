@@ -62,7 +62,7 @@ public class PlayableUnit : MonoBehaviour
                 gameUnit.gameObject.SetActive(true);
                 if (attached) DetachFromAnchor();
             }
-            else if (!attached && !inAnchorCooldown)
+            else if (!attached && !inAnchorCooldown && ExtendedTrackingManager.ISXTReady)
             {
                 anchor = AnchorCreator.Instance.CreateAnchor(gameUnit.gameObject);
                 AttachToAnchor();

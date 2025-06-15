@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using System.Globalization;
@@ -9,6 +10,7 @@ public class CardBuilder : ABuilder<CardInfo>
     [SerializeField] private Sprite defaultImage;
     [SerializeField] private TMP_InputField textInputField;
     [SerializeField] private TMP_InputField sizeInputField;
+    [SerializeField] private Button setAsDefaultButton;
     public Sprite DefaultImage => defaultImage;
 
     private void Awake()
@@ -22,11 +24,13 @@ public class CardBuilder : ABuilder<CardInfo>
         base.UpdateIndex(dir);
         textInputField.SetTextWithoutNotify(Content[index].text);
         sizeInputField.SetTextWithoutNotify(Content[index].sizeMult.ToString());
+        setAsDefaultButton.interactable = Content[index].sprite != null && 
+                            !Content[index].sprite.texture.name.Equals(defaultImage.texture.name);
     }
 
     public void PickImage(bool isDefaultImage)
     {
-        NativeGallery.GetImageFromGallery((path) =>
+        ContentLoader.Instance.PickImage((path) =>
         {
             if (path != null)
             {
@@ -45,8 +49,17 @@ public class CardBuilder : ABuilder<CardInfo>
                 }
                 else Content[index].sprite = newSprite;
                 preview?.UpdateValues(Content[index]);
+                if(Content.Count > 0) setAsDefaultButton.interactable = Content[index].sprite != null && 
+                                        !Content[index].sprite.texture.name.Equals(defaultImage.texture.name);
             }
-        }, "Select an image");
+        });
+    }
+
+    public void SetAsDefault()
+    {
+        Content[index].sprite = null;
+        preview.UpdateValues(Content[index]);
+        setAsDefaultButton.interactable = false;
     }
 
     public void UpdateText(string text)
@@ -74,7 +87,8 @@ public class CardBuilder : ABuilder<CardInfo>
         ContentDownloader.DownloadSprite(defaultImage);
         foreach(var c in Content)
         {
-            ContentDownloader.DownloadSprite(c.sprite);
+            if(c.sprite != null && !c.sprite.texture.name.Equals(defaultImage.texture.name)) 
+                ContentDownloader.DownloadSprite(c.sprite);
         }
     }
 }

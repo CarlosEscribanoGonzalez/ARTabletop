@@ -5,18 +5,23 @@ using UnityEngine.XR.ARFoundation;
 public class ExtendedTrackingManager : MonoBehaviour
 {
     private static bool isXTEnabled = false;
-    public static bool IsXTEnabled { 
-        get { return isXTEnabled; } 
-        set { isXTEnabled = value;
+    private ARTrackedImageManager imageManager;
+    private static ARPlaneManager planeManager;
+    private static ARAnchorManager anchorManager;
+    public static bool IsXTEnabled
+    {
+        get { return isXTEnabled; }
+        set
+        {
+            isXTEnabled = value;
             if (planeManager != null)
             {
                 planeManager.enabled = value;
                 if (value) ResetPlanesAndAnchors();
-            } } 
+            }
+        }
     }
-    private ARTrackedImageManager imageManager;
-    private static ARPlaneManager planeManager;
-    private static ARAnchorManager anchorManager;
+    public static bool ISXTReady => planeManager.trackables.count > 0;
 
     private void Start()
     {
