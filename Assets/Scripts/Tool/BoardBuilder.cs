@@ -32,7 +32,9 @@ public class BoardBuilder : ABuilder<GameObject>
                     Debug.LogError("No se pudo cargar la imagen.");
                     return;
                 }
-                texture.name = Path.GetFileName(path);
+                if (Path.GetFileName(path).EndsWith(".png") || Path.GetFileName(path).EndsWith(".jpg"))
+                    texture.name = Path.GetFileName(path);
+                else texture.name = Path.GetFileNameWithoutExtension(path) + ".jpg";
                 Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 GameObject newContent = new();
                 SpriteRenderer rend = newContent.AddComponent<SpriteRenderer>();
