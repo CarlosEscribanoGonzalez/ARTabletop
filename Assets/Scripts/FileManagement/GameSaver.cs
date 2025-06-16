@@ -122,14 +122,14 @@ public class GameSaver : MonoBehaviour
         }
         try //Si el json no existe se almacena
         {
-            addedTextures.Clear(); //Se limpia la lista de imágenes añadidas anteriormente
-            foreach (var entry in archive.Entries.Where((p) => p.FullName.EndsWith(".png") || p.FullName.EndsWith(".jpg")))
-            SaveImage(entry); //Se guardan las imágenes en memoria local
-            addedModels.Clear(); //Lo mismo con los modelos
-            foreach (var entry in archive.Entries.Where((p) => p.FullName.EndsWith(".glb"))) SaveModel(entry);
             File.WriteAllText(path, content); //Se guarda su info
             Debug.Log("Juego guardado en: " + path);
-            GameLoader.LoadGame(GameInfo.FromJsonToSO(content)); //Si se está en el menú principal se carga en la lista de juegos
+            addedTextures.Clear(); //Se limpia la lista de imágenes añadidas anteriormente
+            foreach (var entry in archive.Entries.Where((p) => p.FullName.EndsWith(".png") || p.FullName.EndsWith(".jpg")))
+                SaveImage(entry); //Se guardan las imágenes en memoria local
+            addedModels.Clear(); //Lo mismo con los modelos
+            foreach (var entry in archive.Entries.Where((p) => p.FullName.EndsWith(".glb"))) SaveModel(entry);
+            GameLoader.LoadGame(GameInfo.FromJsonToSO(content, true)); //Si se está en el menú principal se carga en la lista de juegos
         }
         catch (System.Exception e)
         {

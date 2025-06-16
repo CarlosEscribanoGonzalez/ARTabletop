@@ -22,6 +22,7 @@ public class BoardBuilder : ABuilder<GameObject>
 
     public void PickImage()
     {
+        LoadingScreenManager.ToggleLoadingScreen(true);
         ContentLoader.Instance.PickImage((path) =>
         {
             if (path != null)
@@ -44,6 +45,7 @@ public class BoardBuilder : ABuilder<GameObject>
                 preview.UpdateValues(Content[index]);
                 UpdateUI();
             }
+            LoadingScreenManager.ToggleLoadingScreen(false);
         });
     }
 

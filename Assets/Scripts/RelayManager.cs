@@ -24,6 +24,33 @@ public class RelayManager : MonoBehaviour
         //La opción por defecto es la online
         hostButton.onClick.AddListener(CreateRelay); 
         clientButton.onClick.AddListener(JoinRelay);
+        SignOutFromPreviousSession();
+    }
+
+    private async void SignOutFromPreviousSession()
+    {
+        try
+        {
+            if (UnityServices.State != ServicesInitializationState.Initialized)
+                await UnityServices.InitializeAsync();
+
+            if (NetworkManager.Singleton != null &&
+                (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsClient))
+            {
+                Debug.Log("Cerrando sesión de red (Netcode)...");
+                NetworkManager.Singleton.Shutdown();
+            }
+
+            if (AuthenticationService.Instance.IsSignedIn)
+            {
+                Debug.Log("Cerrando sesión de usuario...");
+                AuthenticationService.Instance.SignOut();
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("Error al cerrar sesión: " + e.Message);
+        }
     }
 
     public void OnOnlineToggleChanged(bool online) //Llamado cuando el toggle de "partida online" cambia

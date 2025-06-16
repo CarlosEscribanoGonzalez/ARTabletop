@@ -30,6 +30,7 @@ public class CardBuilder : ABuilder<CardInfo>
 
     public void PickImage(bool isDefaultImage)
     {
+        LoadingScreenManager.ToggleLoadingScreen(true);
         ContentLoader.Instance.PickImage((path) =>
         {
             if (path != null)
@@ -54,6 +55,7 @@ public class CardBuilder : ABuilder<CardInfo>
                 if(Content.Count > 0) setAsDefaultButton.interactable = Content[index].sprite != null && 
                                         !Content[index].sprite.texture.name.Equals(defaultImage.texture.name);
             }
+            LoadingScreenManager.ToggleLoadingScreen(false);
         });
     }
 

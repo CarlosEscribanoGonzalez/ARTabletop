@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.IO;
 
 public class GameConfigurator : MonoBehaviour
 {
@@ -9,38 +10,41 @@ public class GameConfigurator : MonoBehaviour
     [SerializeField] private PieceGameManager pieceManager;
     [SerializeField] private BoardGameManager boardManager;
     [SerializeField] private GameObject specialCardManagerPrefab;
-    public static GameInfo GameInfo { get; set; } = null;
+    public static GameInfo EssentialInfo { get; set; } = null; //Información esencial: únicamente nombre y foto
+    private GameInfo completeInfo; //Información completa
 
     void Awake()
     {
+        if (EssentialInfo.isDefault) completeInfo = EssentialInfo;
+        else completeInfo = GameInfo.GetFullInfo(EssentialInfo);
         //General settings:
-        gameSettings.AutoShuffle = GameInfo.autoShuffle;
+        gameSettings.AutoShuffle = completeInfo.autoShuffle;
         //RNG section:
-        rngSection.GameHasDice = GameInfo.gameHasDice;
-        rngSection.GameHasWheel = GameInfo.gameHasWheel;
-        rngSection.GameHasCoins = GameInfo.gameHasCoins;
+        rngSection.GameHasDice = completeInfo.gameHasDice;
+        rngSection.GameHasWheel = completeInfo.gameHasWheel;
+        rngSection.GameHasCoins = completeInfo.gameHasCoins;
         //Cards normales:
-        cardManager.CardsInfo = GameInfo.cardsInfo.ToArray();
-        cardManager.DefaultImage = GameInfo.defaultSprite;
+        cardManager.CardsInfo = completeInfo.cardsInfo.ToArray();
+        cardManager.DefaultImage = completeInfo.defaultSprite;
         //Piezas:
         List<GameObject> pieces = new();
-        for(int i = 0; i < GameInfo.numPieces; i++)
+        for(int i = 0; i < completeInfo.numPieces; i++)
         {
-            if (i < GameInfo.pieces.Count) pieces.Add(GameInfo.pieces[i]);
-            else pieces.Add(GameInfo.defaultPiece);
+            if (i < completeInfo.pieces.Count) pieces.Add(completeInfo.pieces[i]);
+            else pieces.Add(completeInfo.defaultPiece);
         }
         pieceManager.Pieces = pieces.ToArray();
         //Tableros: 
-        boardManager.BoardModels = GameInfo.boards3D.ToArray();
-        boardManager.BoardSprites = GameInfo.boards2D.ToArray();
+        boardManager.BoardModels = completeInfo.boards3D.ToArray();
+        boardManager.BoardSprites = completeInfo.boards2D.ToArray();
         //SpecialCards:
         SpecialCardGameManager newManager;
-        for(int i = 0; i < GameInfo.specialCardsInfo.Count; i++)
+        for(int i = 0; i < completeInfo.specialCardsInfo.Count; i++)
         {
             newManager = Instantiate(specialCardManagerPrefab).GetComponent<SpecialCardGameManager>();
-            newManager.CardsInfo = GameInfo.specialCardsInfo[i].cardsInfo.ToArray();
-            newManager.DefaultImage = GameInfo.specialCardsInfo[i].defaultSpecialSprite;
-            newManager.CardTypeName = GameInfo.specialCardsInfo[i].name;
+            newManager.CardsInfo = completeInfo.specialCardsInfo[i].cardsInfo.ToArray();
+            newManager.DefaultImage = completeInfo.specialCardsInfo[i].defaultSpecialSprite;
+            newManager.CardTypeName = completeInfo.specialCardsInfo[i].name;
         }
     }
 }

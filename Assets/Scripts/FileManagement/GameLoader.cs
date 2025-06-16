@@ -32,7 +32,7 @@ public class GameLoader : MonoBehaviour
             Debug.Log("Cargando un juego..." + file);
             try
             {
-                loadedGame = GameInfo.FromJsonToSO(File.ReadAllText(file.FullName)); //Deserializa la info y la convierte en SO
+                loadedGame = GameInfo.FromJsonToSO(File.ReadAllText(file.FullName), true); //Deserializa la info y la convierte en SO
                 LoadGame(loadedGame); //Carga el juego a partir del SO
             }
             catch (System.Exception e)

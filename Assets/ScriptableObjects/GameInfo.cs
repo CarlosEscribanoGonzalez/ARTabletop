@@ -12,6 +12,7 @@ public class GameInfo : ScriptableObject
     [Header("Game info: ")]
     public string gameName;
     public Sprite gameImage;
+    public bool isDefault = false;
 
     [Header("General settings: ")]
     public bool autoShuffle = true;
@@ -82,7 +83,7 @@ public class GameInfo : ScriptableObject
         return path;
     }
 
-    public static GameInfo FromJsonToSO(string json) //Pasa la información de un JSON a un ScriptableObject
+    public static GameInfo FromJsonToSO(string json, bool provideOnlyEssential = false) //Pasa la información de un JSON a un ScriptableObject
     {
         GameInfo newGameInfo = ScriptableObject.CreateInstance<GameInfo>();
 
@@ -90,6 +91,8 @@ public class GameInfo : ScriptableObject
         //General settings:
         newGameInfo.gameName = deserialized.gameName;
         newGameInfo.gameImage = AssignSprite(deserialized.gameImageFileName);
+        newGameInfo.isDefault = false;
+        if (provideOnlyEssential) return newGameInfo;
         //RNG section:
         newGameInfo.autoShuffle = deserialized.autoShuffle;
         newGameInfo.gameHasDice = deserialized.gameHasDice;
@@ -131,6 +134,12 @@ public class GameInfo : ScriptableObject
             newGameInfo.specialCardsInfo.Add(specialCardInfo);
         }
         return newGameInfo;
+    }
+
+    public static GameInfo GetFullInfo(GameInfo essentialInfo) //Para aquellos casos en los que sólo se tiene la información esencial
+    {
+        string jsonPath = essentialInfo.ConvertToJson(); //Sacamos el path al json, que al ser formado por el nombre y la imagen es accesible únicamente con la info esencial
+        return GameInfo.FromJsonToSO(File.ReadAllText(jsonPath)); //Ahora sí obtenemos toda la info del json
     }
 
     static string path; //Path de la imagen que se busca

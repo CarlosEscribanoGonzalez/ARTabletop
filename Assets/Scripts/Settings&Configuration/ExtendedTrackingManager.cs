@@ -21,11 +21,11 @@ public class ExtendedTrackingManager : MonoBehaviour
             if (planeManager != null)
             {
                 planeManager.enabled = value;
+                msgCanvas.enabled = value;
+                dofVolume.enabled = value;
                 if (value)
                 {
                     ResetPlanesAndAnchors();
-                    msgCanvas.enabled = true;
-                    dofVolume.enabled = true;
                     detected = false;
                     FindFirstObjectByType<Settings>().GetComponent<Canvas>().enabled = false;
                 }
@@ -40,6 +40,7 @@ public class ExtendedTrackingManager : MonoBehaviour
         planeManager = GetComponent<ARPlaneManager>();
         anchorManager = GetComponent<ARAnchorManager>();
         FindFirstObjectByType<ARPlaneManager>().enabled = isXTEnabled;
+        rngButtonsCanvas.enabled = !isXTEnabled;
         msgCanvas = GetComponentInChildren<Canvas>();
         dofVolume = GetComponentInChildren<Volume>();
         IsXTEnabled = isXTEnabled;
