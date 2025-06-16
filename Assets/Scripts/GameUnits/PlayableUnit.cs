@@ -57,15 +57,20 @@ public class PlayableUnit : MonoBehaviour
         }
         else
         {
+            if(ExtendedTrackingManager.IsXTEnabled && !ExtendedTrackingManager.ISXTReady)
+            {
+                gameUnit.gameObject.SetActive(false);
+                return;
+            }
             if (trackedImage.trackingState == TrackingState.Tracking)
             {
                 gameUnit.gameObject.SetActive(true);
                 if (attached) DetachFromAnchor();
             }
-            else if (!attached && !inAnchorCooldown && ExtendedTrackingManager.ISXTReady)
+            else if (gameUnit.gameObject.activeSelf && !attached && !inAnchorCooldown && ExtendedTrackingManager.ISXTReady)
             {
                 anchor = AnchorCreator.Instance.CreateAnchor(gameUnit.gameObject);
-                AttachToAnchor();
+                AttachToAnchor(); 
                 StartCoroutine(SetAnchorCooldown());
             }
         }

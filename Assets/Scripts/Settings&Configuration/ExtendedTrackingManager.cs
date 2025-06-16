@@ -1,13 +1,17 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.XR.ARFoundation;
 
 public class ExtendedTrackingManager : MonoBehaviour
 {
+    [SerializeField] private Canvas rngButtonsCanvas;
     private static bool isXTEnabled = false;
     private ARTrackedImageManager imageManager;
     private static ARPlaneManager planeManager;
     private static ARAnchorManager anchorManager;
+    private static Canvas msgCanvas;
+    private static Volume dofVolume;
     public static bool IsXTEnabled
     {
         get { return isXTEnabled; }
@@ -17,7 +21,14 @@ public class ExtendedTrackingManager : MonoBehaviour
             if (planeManager != null)
             {
                 planeManager.enabled = value;
-                if (value) ResetPlanesAndAnchors();
+                if (value)
+                {
+                    ResetPlanesAndAnchors();
+                    msgCanvas.enabled = true;
+                    dofVolume.enabled = true;
+                    detected = false;
+                    FindFirstObjectByType<Settings>().GetComponent<Canvas>().enabled = false;
+                }
             }
         }
     }
@@ -29,6 +40,9 @@ public class ExtendedTrackingManager : MonoBehaviour
         planeManager = GetComponent<ARPlaneManager>();
         anchorManager = GetComponent<ARAnchorManager>();
         FindFirstObjectByType<ARPlaneManager>().enabled = isXTEnabled;
+        msgCanvas = GetComponentInChildren<Canvas>();
+        dofVolume = GetComponentInChildren<Volume>();
+        IsXTEnabled = isXTEnabled;
     }
 
     private void OnApplicationFocus(bool focus)
@@ -46,19 +60,23 @@ public class ExtendedTrackingManager : MonoBehaviour
         }
     }
 
-    private bool detected = false;
+    private static bool detected = false;
     public void OnPlaneDetected()
     {
-        if (detected) return;
+        if (detected || planeManager.trackables.count == 0) return;
+        msgCanvas.enabled = false;
+        dofVolume.enabled = false;
+        rngButtonsCanvas.enabled = true;
         detected = true;
         Debug.Log("PLANE DETECTED: " + GetComponent<ARPlaneManager>().trackables.count);
     }
 
     private static void ResetPlanesAndAnchors()
-    { 
+    {
+        int initPlanes = planeManager.trackables.count;
         foreach (ARPlane p in planeManager.trackables) Destroy(p.gameObject);
         foreach (ARAnchor a in anchorManager.trackables) Destroy(a.gameObject);
-        FindFirstObjectByType<ARSession>()?.Reset();
+        if(initPlanes > 0) FindFirstObjectByType<ARSession>()?.Reset();
     }
 
     IEnumerator ResetCoroutine()
