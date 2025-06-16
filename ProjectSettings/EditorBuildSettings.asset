@@ -14,9 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ToolScene.unity
     guid: 05be7875f4621d0499ee01a16b628ba5
-  - enabled: 1
-    path: Assets/Scenes/ARAnchorTest.unity
-    guid: 1c3dd2fc3b53eac42a53f98490ab3a1d
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: d2f38ce8417e66440bd4a6f08ce34881, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

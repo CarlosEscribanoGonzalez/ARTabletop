@@ -1,9 +1,9 @@
+#if UNITY_EDITOR
 using UnityEngine;
 using TMPro;
 using UnityEngine.Rendering;
 using UnityEditor;
 using System.IO;
-using NUnit.Framework.Constraints;
 using System.Collections.Generic;
 
 [ExecuteInEditMode]
@@ -178,3 +178,4 @@ public class MarkerCreatorEditor : Editor
         if (GUILayout.Button("SAVE MARKER")) creator.Capture();
     }
 }
+#endif
