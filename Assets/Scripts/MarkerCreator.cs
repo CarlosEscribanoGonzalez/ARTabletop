@@ -78,7 +78,8 @@ public class MarkerCreator : MonoBehaviour
         cam.targetTexture = null;
         RenderTexture.active = null;
         DestroyImmediate(rt);
-        string folderPath = Path.Combine(Application.dataPath, folderName);
+        string folderPath = Path.Combine(Application.dataPath, "Markers");
+        folderPath = Path.Combine(folderPath, folderName);
         Directory.CreateDirectory(folderPath);
         string filename = $"marker_{markerType}{number}.png";
         string fullPath = Path.Combine(folderPath, filename);

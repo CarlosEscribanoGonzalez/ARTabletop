@@ -12,17 +12,167 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e99b96a1c2ab7114fa1cdc809a181ab4, type: 3}
   m_Name: Game 1
   m_EditorClassIdentifier: 
-  gameName: Game 1
-  gameImage: {fileID: -1138051939, guid: 8aea114e3497dfa44ba8a5b3d4dd3697, type: 3}
-  autoShuffle: 0
+  gameName: Prueba marcadores
+  gameImage: {fileID: 21300000, guid: 375c6975a39870647a033a070cab580b, type: 3}
+  isDefault: 1
+  autoShuffle: 1
   gameHasDice: 1
-  gameHasWheel: 0
+  gameHasWheel: 1
   gameHasCoins: 1
   cardsInfo:
-  - sprite: {fileID: 21300000, guid: 6e84ac808d0394344a900ec40da145e2, type: 3}
-    text: 1.1
+  - sprite: {fileID: 0}
+    text: 1
     sizeMult: 1
-  defaultSprite: {fileID: 21300000, guid: 5f670de35e9504647ae9c993d1a463e0, type: 3}
+  - sprite: {fileID: 0}
+    text: 2
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 3
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 4
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 5
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 6
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 7
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 8
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 9
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 10
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 11
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 12
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 13
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 14
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 15
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 16
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 17
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 18
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 19
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 20
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 21
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 22
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 23
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 24
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 25
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 26
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 27
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 28
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 29
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: '30
+
+'
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 31
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 32
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 33
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 34
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 35
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 36
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 37
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 38
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 39
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 40
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 41
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 42
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 43
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 44
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 45
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 46
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 47
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 48
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 49
+    sizeMult: 1
+  - sprite: {fileID: 0}
+    text: 50
+    sizeMult: 1
+  defaultSprite: {fileID: 21300000, guid: a918fb94ed6526c4f9ca3b853470116c, type: 3}
   numPieces: 2
   defaultPiece: {fileID: 919132149155446097, guid: 2fa319a20333e204f945d891e9353b81, type: 3}
   pieces:

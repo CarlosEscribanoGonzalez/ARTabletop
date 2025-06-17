@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 848409ee8ba454f42a5ddff137688a27, type: 3}
+  m_Name: CardLibrary_old
+  m_EditorClassIdentifier: 
+  m_GuidLow: 5611807910468478819
+  m_GuidHigh: 18309096002353843389
+  m_DataStore:
+    m_Storage: []
+  m_Images:
+  - m_SerializedGuid:
+      m_GuidLow: 5430998860138580472
+      m_GuidHigh: 17625627715999725492
+    m_SerializedTextureGuid:
+      m_GuidLow: 5932494417986807271
+      m_GuidHigh: 9200927719903535355
+    m_Size: {x: 0.616, y: 0.86467993}
+    m_SpecifySize: 1
+    m_Name: Card01
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5693817692097410191
+      m_GuidHigh: 15915102858953558439
+    m_SerializedTextureGuid:
+      m_GuidLow: 11769270483763941070
+      m_GuidHigh: 14704312521128931114
+    m_Size: {x: 0.616, y: 0.87}
+    m_SpecifySize: 1
+    m_Name: Card02
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4853858116875348295
+      m_GuidHigh: 14385642074007101857
+    m_SerializedTextureGuid:
+      m_GuidLow: 12611289779038047946
+      m_GuidHigh: 14627653449193321224
+    m_Size: {x: 0.616, y: 0.87487376}
+    m_SpecifySize: 1
+    m_Name: Card03
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5681187581886249530
+      m_GuidHigh: 15955291556048981638
+    m_SerializedTextureGuid:
+      m_GuidLow: 316481869466504675
+      m_GuidHigh: 16168948307224815994
+    m_Size: {x: 0.616, y: 0.86765337}
+    m_SpecifySize: 1
+    m_Name: Board01
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5108721683452354793
+      m_GuidHigh: 9970826311522737326
+    m_SerializedTextureGuid:
+      m_GuidLow: 10769410212016766719
+      m_GuidHigh: 11020031071659153306
+    m_Size: {x: 0.616, y: 0.87366205}
+    m_SpecifySize: 1
+    m_Name: Board02
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4800671193265579440
+      m_GuidHigh: 14444129400229468834
+    m_SerializedTextureGuid:
+      m_GuidLow: 13484976781974539860
+      m_GuidHigh: 6208580909170016377
+    m_Size: {x: 0.616, y: 0.8706473}
+    m_SpecifySize: 1
+    m_Name: Board03
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5527417798665061779
+      m_GuidHigh: 4683741143614315439
+    m_SerializedTextureGuid:
+      m_GuidLow: 6747659832106407613
+      m_GuidHigh: 10192817587747761881
+    m_Size: {x: 0.616, y: 0.85646164}
+    m_SpecifySize: 1
+    m_Name: Piece01
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4855805478863276729
+      m_GuidHigh: 5394800272787325320
+    m_SerializedTextureGuid:
+      m_GuidLow: 2568319253108442784
+      m_GuidHigh: 4788611141730527178
+    m_Size: {x: 0.616, y: 0.86349624}
+    m_SpecifySize: 1
+    m_Name: Piece02
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4867886615109079621
+      m_GuidHigh: 12781977651375811764
+    m_SerializedTextureGuid:
+      m_GuidLow: 10544232626435404033
+      m_GuidHigh: 15181362758351858537
+    m_Size: {x: 0.616, y: 0.85996455}
+    m_SpecifySize: 1
+    m_Name: Piece03
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4825512046059193344
+      m_GuidHigh: 2134151208148529087
+    m_SerializedTextureGuid:
+      m_GuidLow: 541835674831328199
+      m_GuidHigh: 16760149070682467864
+    m_Size: {x: 0.616, y: 0.8754809}
+    m_SpecifySize: 1
+    m_Name: SpecialCard01
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4723016160504624020
+      m_GuidHigh: 11742247042435774614
+    m_SerializedTextureGuid:
+      m_GuidLow: 13219405719117612124
+      m_GuidHigh: 2561071932124041019
+    m_Size: {x: 0.616, y: 0.86586684}
+    m_SpecifySize: 1
+    m_Name: SpecialCard02
+    m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 4977369334051282929
+      m_GuidHigh: 5834432783899155381
+    m_SerializedTextureGuid:
+      m_GuidLow: 2806871650896606279
+      m_GuidHigh: 9140310581778970699
+    m_Size: {x: 0.616, y: 0.86467993}
+    m_SpecifySize: 1
+    m_Name: SpecialCard03
+    m_Texture: {fileID: 0}

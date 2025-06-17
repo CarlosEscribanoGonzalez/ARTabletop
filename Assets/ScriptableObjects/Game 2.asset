@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameName: Game 2
   gameImage: {fileID: -1046902471, guid: 3297b6300b0a32b4c8b2a122ee948de7, type: 3}
+  isDefault: 1
   autoShuffle: 1
   gameHasDice: 0
   gameHasWheel: 1
