@@ -41,7 +41,7 @@ public class GameSettings : NetworkBehaviour
 
     public SpecialCardGameManager GetSpecialCardManager(string markerName, Card card) //Asigna el manager a las cartas especiales que lo pidan, basándose en el nombre de su marcador
     {
-        int index = int.Parse(markerName.Substring(markerName.Length - 1)) - 1; //El índice del marcador es el último char de su nombre
+        int index = int.Parse(markerName.Substring(markerName.Length - 2)) - 1; //El índice del marcador es el último char de su nombre
         if (index >= 0 && index < SpecialCardsDictionary.Count)
         {
             var manager = SpecialCardsDictionary.ElementAt(index).Key; //Obtiene el manager asociado al índice y lo devuelve tras asociarlo a la carta

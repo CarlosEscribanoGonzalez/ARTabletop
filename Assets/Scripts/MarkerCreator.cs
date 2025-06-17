@@ -9,6 +9,7 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class MarkerCreator : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer centreBackground;
     [SerializeField] private TextMeshPro typeText;
     [SerializeField] private TextMeshPro numberText;
     [SerializeField] private GameObject backgroundParent;
@@ -17,7 +18,6 @@ public class MarkerCreator : MonoBehaviour
     [SerializeField] private string markerType;
     [SerializeField] private string number;
     [SerializeField] private string abbreviation;
-    [SerializeField] private Color centralTextsColor = Color.white;
     [Header("Saving configuration: ")]
     [SerializeField] private string folderName = "GeneratedMarkers";
     [SerializeField] private Vector2 imageDimensions = new Vector2(1000, 1400);
@@ -37,9 +37,13 @@ public class MarkerCreator : MonoBehaviour
     {
         typeText.text = markerType;
         numberText.text = number;
-        typeText.color = centralTextsColor;
-        numberText.color = centralTextsColor;
-        foreach(SpriteRenderer rend in backgroundSprites)
+        centreBackground.color = new Color(Random.value, Random.value, Random.value, 1);
+        do
+        {
+            typeText.color = new Color(Random.value, Random.value, Random.value, 1);
+        } while (IsSimilar(typeText.color, centreBackground.color, 0.3f));
+        numberText.color = typeText.color;
+        foreach (SpriteRenderer rend in backgroundSprites)
             rend.color = new Color(Random.value, Random.value, Random.value, 1);
         foreach(TextMeshProUGUI textMesh in texts)
         {
