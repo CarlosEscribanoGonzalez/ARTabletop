@@ -178,9 +178,11 @@ MonoBehaviour:
   pieces: []
   boards3D:
   - {fileID: 4209626209239141091, guid: ed31a9fa38a29f74da00a017630e0aee, type: 3}
+  - {fileID: 4209626209239141091, guid: ed31a9fa38a29f74da00a017630e0aee, type: 3}
   boards2D:
   - {fileID: -1138051939, guid: 8aea114e3497dfa44ba8a5b3d4dd3697, type: 3}
   - {fileID: 21300000, guid: 21ce744702e526f44bf8adf30be8d87e, type: 3}
+  - {fileID: 21300000, guid: eb0e1f00f2e3dce449053c087fe721c7, type: 3}
   specialCardsInfo:
   - name: Special 1
     cardsInfo:
