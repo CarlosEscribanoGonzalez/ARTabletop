@@ -783,7 +783,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 6225115335193392249
       m_GuidHigh: 1825301174856250920
-    m_Size: {x: 1.848, y: 1.848}
+    m_Size: {x: 0.8624, y: 0.8624}
     m_SpecifySize: 1
     m_Name: Board01
     m_Texture: {fileID: 0}
@@ -793,7 +793,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 7283714308700285874
       m_GuidHigh: 3600738721955678024
-    m_Size: {x: 1.848, y: 1.848}
+    m_Size: {x: 0.8624, y: 0.8624}
     m_SpecifySize: 1
     m_Name: Board02
     m_Texture: {fileID: 0}
@@ -803,7 +803,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 9206605435635641260
       m_GuidHigh: 5771795199385887145
-    m_Size: {x: 1.848, y: 1.848}
+    m_Size: {x: 0.8624, y: 0.8624}
     m_SpecifySize: 1
     m_Name: Board03
     m_Texture: {fileID: 0}
@@ -813,7 +813,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 3343076169775934015
       m_GuidHigh: 4742817566554217243
-    m_Size: {x: 1.848, y: 1.848}
+    m_Size: {x: 0.8624, y: 0.8624}
     m_SpecifySize: 1
     m_Name: Board04
     m_Texture: {fileID: 0}
@@ -823,7 +823,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 235483653914878131
       m_GuidHigh: 6927891063608902394
-    m_Size: {x: 1.848, y: 1.848}
+    m_Size: {x: 0.8624, y: 0.8624}
     m_SpecifySize: 1
     m_Name: Board05
     m_Texture: {fileID: 0}

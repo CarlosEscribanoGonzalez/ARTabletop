@@ -48,7 +48,7 @@ public class GameSharer : MonoBehaviour
         //Se comparte el juego
         intentObject.Call<AndroidJavaObject>("putExtra", "android.intent.extra.STREAM", uriObject);
         intentObject.Call<AndroidJavaObject>("addFlags", 1 << 1);
-        AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>("createChooser", intentObject, "Compartir Juego");
+        AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>("createChooser", intentObject, "Share game");
         unityActivity.Call("startActivity", chooser);
 
         LoadingScreenManager.ToggleLoadingScreen(false);
