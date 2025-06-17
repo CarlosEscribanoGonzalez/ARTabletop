@@ -117,7 +117,7 @@ MonoBehaviour:
       m_GuidHigh: 16760149070682467864
     m_Size: {x: 0.616, y: 0.8754809}
     m_SpecifySize: 1
-    m_Name: SpecialCard01
+    m_Name: DynamicCard01
     m_Texture: {fileID: 0}
   - m_SerializedGuid:
       m_GuidLow: 4723016160504624020
@@ -127,7 +127,7 @@ MonoBehaviour:
       m_GuidHigh: 2561071932124041019
     m_Size: {x: 0.616, y: 0.86586684}
     m_SpecifySize: 1
-    m_Name: SpecialCard02
+    m_Name: DynamicCard02
     m_Texture: {fileID: 0}
   - m_SerializedGuid:
       m_GuidLow: 4977369334051282929
@@ -137,5 +137,5 @@ MonoBehaviour:
       m_GuidHigh: 9140310581778970699
     m_Size: {x: 0.616, y: 0.86467993}
     m_SpecifySize: 1
-    m_Name: SpecialCard03
+    m_Name: DynamicCard03
     m_Texture: {fileID: 0}

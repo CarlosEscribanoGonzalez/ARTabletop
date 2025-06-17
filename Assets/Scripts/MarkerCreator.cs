@@ -82,6 +82,7 @@ public class MarkerCreator : MonoBehaviour
         folderPath = Path.Combine(folderPath, folderName);
         Directory.CreateDirectory(folderPath);
         string filename = $"marker_{markerType}{number}.png";
+        filename = filename.Replace(" ", "");
         string fullPath = Path.Combine(folderPath, filename);
         File.WriteAllBytes(fullPath, texture.EncodeToPNG());
         Debug.Log("IMAGEN CORRECTAMENTE GUARDADA EN " + fullPath);

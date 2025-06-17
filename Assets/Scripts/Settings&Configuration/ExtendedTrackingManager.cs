@@ -48,7 +48,6 @@ public class ExtendedTrackingManager : MonoBehaviour
 
     private void OnApplicationFocus(bool focus)
     {
-        Debug.Log("APPLICATION FOCUS: " + focus);
         if (IsXTEnabled && focus) StartCoroutine(ResetCoroutine());
     }
 

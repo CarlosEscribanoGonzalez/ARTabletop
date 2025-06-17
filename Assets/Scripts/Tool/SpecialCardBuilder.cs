@@ -22,8 +22,13 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
     {
         GameObject builder = Instantiate(cardBuilderPrefab, cardBuildersParent);
         Content.Add(builder.GetComponent<CardBuilder>());
-        Names.Add("SCards " + Content.Count);
-        for(int i = 0; i < Names.Count; i++) if (Names[i].StartsWith("SCards ")) Names[i] = "SCards 0" + (i + 1);
+        Names.Add("DCards " + Content.Count);
+        for (int i = 0; i < Names.Count; i++)
+            if (Names[i].StartsWith("DCards "))
+            {
+                if (i + 1 < 10) Names[i] = "DCards 0" + (i + 1);
+                else Names[i] = "DCards " + (i + 1);
+            }
         Content[index].gameObject.SetActive(false);
         index = Content.Count - 1;
         UpdateIndex(0);

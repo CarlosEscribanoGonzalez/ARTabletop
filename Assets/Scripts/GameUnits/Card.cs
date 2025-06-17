@@ -22,7 +22,7 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
     {
         ARTrackedImage trackedImg = GetComponentInParent<ARTrackedImage>();
         desiredTextureSize = new Vector2(640, 896); //Tamaño deseado con las dimensiones de una carta de póker
-        if (trackedImg.referenceImage.name.ToLower().Contains("special")) //Si es especial se obtiene su manager
+        if (trackedImg.referenceImage.name.ToLower().Contains("dynamic")) //Si es especial se obtiene su manager
         {
             foreach (Transform t in buttonCanvas.transform) if (t.name.ToLower().Contains("prev")) PrevButton = t.gameObject;
             //GameSettings se encarga de asociar cartas especiales a sus managers correspondientes a partir de su marcador
@@ -31,7 +31,8 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
             else
             {
                 buttonCanvas.SetActive(true); //Si se ha conseguido se activa el canvas de los botones
-                RequestInfo(manager); //Se le pide la info al manager
+                buttonCanvas.GetComponent<Canvas>().worldCamera = GameObject.FindWithTag("SecondCam").GetComponent<Camera>();
+                RequestInfo(manager); //Se le pide la info al manager 
             }
         }
         else

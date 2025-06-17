@@ -13,6 +13,7 @@ public class Piece : AGameUnit
         manager.OnNameChanged += (() => SetName(manager.Names[Index]));
         RequestInfo(manager); //Al ser escaneada por primera vez la pieza le pide la información al manager
         if(!GameSettings.Instance.IsOnline) SetName(manager.Names[Index]); //Si la partida es offline directamente se pone el nombre por defecto
+        pieceName.GetComponentInParent<Canvas>().worldCamera = GameObject.FindWithTag("SecondCam").GetComponent<Camera>();
     }
 
     private void OnEnable()

@@ -16,9 +16,10 @@ public class GameSettings : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
-        foreach(SpecialCardGameManager manager in FindObjectsByType<SpecialCardGameManager>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID))
+        SpecialCardGameManager[] scardGameManagers = FindObjectsByType<SpecialCardGameManager>(FindObjectsInactive.Include, FindObjectsSortMode.InstanceID);
+        for (int i = scardGameManagers.Length - 1; i >= 0; i--) //Se invierte el orden porque me lo estaba dando al revés
         {
-            SpecialCardsDictionary.Add(manager, null); //Se crea una entrada para cada manager
+            SpecialCardsDictionary.Add(scardGameManagers[i], null); //Se crea una entrada para cada manager
         }
     }
 
