@@ -31,7 +31,8 @@ public class GameDeleter : MonoBehaviour
         bool contained = false;
         foreach (GameInfo game in gameOptionsManager.CustomGames) //Mira si dicha foto está presente en el resto de juegos o no
         {
-            List<string> otherGameTextures = GetAllUsedTextures(game);
+            GameInfo gameFullInfo = GameInfo.GetFullInfo(game);
+            List<string> otherGameTextures = GetAllUsedTextures(gameFullInfo);
             if (otherGameTextures.Contains(textureName)) //Si la foto está presente en otro juego se pasa a la siguiente foto y no se elimina
             {
                 contained = true;
@@ -48,7 +49,8 @@ public class GameDeleter : MonoBehaviour
         bool contained = false;
         foreach (GameInfo game in gameOptionsManager.CustomGames) 
         {
-            List<string> otherGameModels = GetAllUsedModels(game);
+            GameInfo gameFullInfo = GameInfo.GetFullInfo(game);
+            List<string> otherGameModels = GetAllUsedModels(gameFullInfo);
             if (otherGameModels.Contains(modelName)) 
             {
                 contained = true;
