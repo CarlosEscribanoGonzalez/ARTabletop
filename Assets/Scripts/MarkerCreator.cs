@@ -5,6 +5,8 @@ using UnityEngine.Rendering;
 using UnityEditor;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Debug = UnityEngine.Debug;
 
 [ExecuteInEditMode]
 public class MarkerCreator : MonoBehaviour
@@ -18,16 +20,19 @@ public class MarkerCreator : MonoBehaviour
     [SerializeField] private string markerType;
     [SerializeField] private string number;
     [SerializeField] private string abbreviation;
+    [SerializeField] private Vector2 centreOffset;
     [Header("Saving configuration: ")]
     [SerializeField] private string folderName = "GeneratedMarkers";
     [SerializeField] private Vector2 imageDimensions = new Vector2(1000, 1400);
     [SerializeField] private float backgroundRemoveTolerance = 0.7f;
+    private Transform centreTransform;
     private TextMeshProUGUI[] texts;
     private SpriteRenderer[] backgroundSprites;
     private Camera cam;
 
     private void OnEnable()
     {
+        centreTransform = typeText.transform.parent;
         texts = textsParent.GetComponentsInChildren<TextMeshProUGUI>();
         backgroundSprites = backgroundParent.GetComponentsInChildren<SpriteRenderer>();
         cam = Camera.main;
@@ -43,6 +48,7 @@ public class MarkerCreator : MonoBehaviour
             typeText.color = new Color(Random.value, Random.value, Random.value, 1);
         } while (IsSimilar(typeText.color, centreBackground.color, 0.3f));
         numberText.color = typeText.color;
+        centreTransform.localPosition = new Vector3(Random.Range(-centreOffset.x, centreOffset.x), 0, Random.Range(-centreOffset.y, centreOffset.y));
         foreach (SpriteRenderer rend in backgroundSprites)
             rend.color = new Color(Random.value, Random.value, Random.value, 1);
         foreach(TextMeshProUGUI textMesh in texts)
@@ -90,6 +96,17 @@ public class MarkerCreator : MonoBehaviour
         string fullPath = Path.Combine(folderPath, filename);
         File.WriteAllBytes(fullPath, texture.EncodeToPNG());
         Debug.Log("IMAGEN CORRECTAMENTE GUARDADA EN " + fullPath);
+        ConfigurePPIs(fullPath);
+    }
+
+    public void CreateAndSaveStack(int num)
+    {
+        number = "0";
+        for(int i = 0; i < num; i++)
+        {
+            GetNextOrPrevMarker(1);
+            Capture();
+        }
     }
 
     private Color[] EliminateBackground(Texture2D texture)
@@ -165,15 +182,45 @@ public class MarkerCreator : MonoBehaviour
                Mathf.Abs(a.g - b.g) < tolerance &&
                Mathf.Abs(a.b - b.b) < tolerance;
     }
+
+    private void ConfigurePPIs(string imagePath)
+    {
+        string pythonExe = "python"; 
+        string scriptPath = Path.Combine(Application.dataPath, $"Scripts/Python/PPI_Setter.py");
+
+        ProcessStartInfo start = new ProcessStartInfo();
+        start.FileName = pythonExe;
+        start.Arguments = $"\"{scriptPath}\" \"{imagePath}\"";
+        start.UseShellExecute = false;
+        start.RedirectStandardOutput = true;
+        start.RedirectStandardError = true;
+        start.CreateNoWindow = true;
+
+        using (Process process = Process.Start(start))
+        {
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+            process.WaitForExit();
+
+            Debug.Log("Python Output: " + output);
+            if (!string.IsNullOrEmpty(error))
+            {
+                Debug.LogError("Python Error: " + error);
+            }
+        }
+    }
 }
 
 [CustomEditor(typeof(MarkerCreator))]
 public class MarkerCreatorEditor : Editor
 {
+    private int numMarkersToPrint = 0;
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
         MarkerCreator creator = (MarkerCreator)target;
+        GUILayout.Space(30);
+        EditorGUILayout.LabelField("Manual creation: ", EditorStyles.boldLabel);
         GUILayout.Space(10);
         if (GUILayout.Button("UPDATE ALL VALUES")) creator.CreateMarker();
         GUILayout.Space(10);
@@ -182,6 +229,12 @@ public class MarkerCreatorEditor : Editor
         if (GUILayout.Button("GET PREV MARKER")) creator.GetNextOrPrevMarker(-1);
         GUILayout.Space(10);
         if (GUILayout.Button("SAVE MARKER")) creator.Capture();
+        GUILayout.Space(30);
+        EditorGUILayout.LabelField("Automatic creation: ", EditorStyles.boldLabel);
+        GUILayout.Space(10);
+        numMarkersToPrint = EditorGUILayout.IntField("STACK COUNT: ", numMarkersToPrint);
+        GUILayout.Space(10);
+        if (GUILayout.Button("CREATE AND SAVE STACK")) creator.CreateAndSaveStack(numMarkersToPrint);
     }
 }
 #endif
