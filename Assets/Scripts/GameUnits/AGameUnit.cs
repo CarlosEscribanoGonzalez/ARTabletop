@@ -35,18 +35,6 @@ public class AGameUnit : MonoBehaviour
             GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator(); //Si no la encuentra se activa el indicador
     }
 
-    private void OnTriggerEnter(Collider other) //La posición de los modelos se ajusta automáticamente para que estén encima del tablero siempre
-    {
-        if (unitCollider == null) return;
-        else if (other == unitCollider) //Las GameUnits cuentan con un collider que actúa como "base" sobre la que colocar el modelo con unitCollider
-        {
-            unitModel.transform.position += unitModel.transform.TransformDirection(Vector3.up) * 0.005f; 
-            //Se desactiva y reactiva el collider para volver a detectar la colisión, en caso de que haya que subir más la unidad
-            unitCollider.enabled = false;
-            unitCollider.enabled = true;
-        }
-    }
-
     public virtual void SetModel(GameObject model) //Instancia el modelo y ajusta su tamaño
     {
         unitModel = Instantiate(model, this.transform);
