@@ -34,6 +34,7 @@ public class GameConfigurator : MonoBehaviour
             else pieces.Add(completeInfo.defaultPiece);
         }
         pieceManager.Pieces = pieces.ToArray();
+        pieceManager.DefaultPiece = completeInfo.defaultPiece;
         //Tableros: 
         boardManager.BoardModels = completeInfo.boards3D.ToArray();
         boardManager.BoardSprites = completeInfo.boards2D.ToArray();

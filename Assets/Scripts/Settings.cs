@@ -5,12 +5,16 @@ using TMPro;
 public class Settings : MonoBehaviour
 {
     [SerializeField] private Toggle extendedTrackingToggle;
+    [SerializeField] private Toggle randomColorToggle;
     [SerializeField] private TMP_InputField nameInputField;
+    public bool IsRandomColorEnabled => randomColorToggle.isOn;
+    public System.EventHandler<bool> OnColorSettingChanged;
 
     void Start()
     {
         extendedTrackingToggle.isOn = PlayerPrefs.GetInt("ExtendedTracking", 0) == 0 ? false : true;
         ExtendedTrackingManager.IsXTEnabled = extendedTrackingToggle.isOn;
+        randomColorToggle.isOn = PlayerPrefs.GetInt("ColorSetting", 0) == 0 ? false : true;
         nameInputField.SetTextWithoutNotify(PlayerPrefs.GetString("PlayerName", $"Player{Random.Range(0, 10000)}"));
         PlayerPrefs.SetString("PlayerName", nameInputField.text);
     }
@@ -24,5 +28,11 @@ public class Settings : MonoBehaviour
     public void SetPlayerName(string name)
     {
         PlayerPrefs.SetString("PlayerName", name);
+    }
+
+    public void ToggleColorSetting(bool isOn)
+    {
+        PlayerPrefs.SetInt("ColorSetting", isOn ? 1 : 0);
+        OnColorSettingChanged?.Invoke(this, isOn);
     }
 }

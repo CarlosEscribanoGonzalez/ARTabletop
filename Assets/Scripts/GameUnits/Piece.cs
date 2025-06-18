@@ -5,6 +5,7 @@ public class Piece : AGameUnit
 {
     [SerializeField] private TMP_InputField pieceName; //Input Field editable que muestra el nombre del jugador de la pieza
     private PieceGameManager manager; //Manager de las piezas
+    private Color randomColor; //Color aleatorio en caso de que las default pieces estén configuradas para la distinción de colores
     public int Index { get; set; } = -1; //Índice de la pieza, usado por el manager.
 
     private void Start()
@@ -14,6 +15,7 @@ public class Piece : AGameUnit
         RequestInfo(manager); //Al ser escaneada por primera vez la pieza le pide la información al manager
         if(!GameSettings.Instance.IsOnline) SetName(manager.Names[Index]); //Si la partida es offline directamente se pone el nombre por defecto
         pieceName.GetComponentInParent<Canvas>().worldCamera = GameObject.FindWithTag("SecondCam").GetComponent<Camera>();
+        FindFirstObjectByType<Settings>().OnColorSettingChanged += ManageColorDifferentiation;
     }
 
     private void OnEnable()
@@ -27,6 +29,10 @@ public class Piece : AGameUnit
         base.AdjustModelSize();
         //Además de ajustar el tamaño del modelo se encarga de agregar el componente PieceNameToggler al collider, para que el jugador pueda hacer toggle del nombre pulsando la pieza
         unitCollider.gameObject.AddComponent<PieceNameToggler>();
+        int randomSeed = (int)(Random.value * Index * 9973);
+        System.Random rand = new System.Random(randomSeed);
+        randomColor = new Color((float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble(), 1);
+        ManageColorDifferentiation(null, FindFirstObjectByType<Settings>().IsRandomColorEnabled);
     }
 
     public void OnNameEditionEnter(string _) //Cuando el input field es activado 
@@ -48,5 +54,17 @@ public class Piece : AGameUnit
     private void SetName(string name) //Actualiza el valor del InputField para mostrar un nuevo nombre
     {
         pieceName.SetTextWithoutNotify(name); 
+    }
+
+    private void ManageColorDifferentiation(object s, bool activateRandomColor)
+    {
+        if (manager.Pieces[Index] != manager.DefaultPiece) return;
+        Color c;
+        if (activateRandomColor) c = randomColor;
+        else c = Color.white;
+        foreach (Renderer rend in unitModel.GetComponentsInChildren<Renderer>())
+        {
+            foreach (Material mat in rend.materials) mat.color = c;
+        }
     }
 }

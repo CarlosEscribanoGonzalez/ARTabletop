@@ -27,6 +27,7 @@ public class PlayableUnit : MonoBehaviour
         else if (trackable.referenceImage.name.ToLower().Contains("piece")) gameUnit = piece.GetComponent<Piece>();
         else if (trackable.referenceImage.name.ToLower().Contains("board")) gameUnit = board.GetComponent<Board>();
         this.transform.localScale *= ScaleCameraFactor; //Se escala el objeto dependiendo de la calibración de la cámara del dispositivo
+        if (gameUnit == null) return;
         initRotation = gameUnit.transform.localRotation; //Se obtiene la rotación inicial para hacer bien el detach (XT)
         StartCoroutine(EnableVisualizationWhenTracked()); //El objeto se verá una vez esté bien posicionado por el tracking
     }
