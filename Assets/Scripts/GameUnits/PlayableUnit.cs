@@ -22,14 +22,13 @@ public class PlayableUnit : MonoBehaviour
 
     private void Start() //Se activa la game unit asociada al marcador, aún sin información
     {
-        trackable = GetComponent<ARTrackedImage>(); //Se detecta el tipo de marcador del objeto y se activa su contenido correspondiente
-        card.SetActive(trackable.referenceImage.name.ToLower().Contains("card"));
-        piece.SetActive(trackable.referenceImage.name.ToLower().Contains("piece"));
-        board.SetActive(trackable.referenceImage.name.ToLower().Contains("board"));
-        gameUnit = GetComponentInChildren<AGameUnit>(false);
-        //Se escala el objeto dependiendo de la calibración de la cámara del dispositivo
-        this.transform.localScale *= ScaleCameraFactor;
-        initRotation = gameUnit.transform.localRotation;
+        trackable = GetComponent<ARTrackedImage>(); //Se detecta el tipo de marcador del objeto
+        if (trackable.referenceImage.name.ToLower().Contains("card")) gameUnit = card.GetComponent<Card>();
+        else if (trackable.referenceImage.name.ToLower().Contains("piece")) gameUnit = piece.GetComponent<Piece>();
+        else if (trackable.referenceImage.name.ToLower().Contains("board")) gameUnit = board.GetComponent<Board>();
+        this.transform.localScale *= ScaleCameraFactor; //Se escala el objeto dependiendo de la calibración de la cámara del dispositivo
+        initRotation = gameUnit.transform.localRotation; //Se obtiene la rotación inicial para hacer bien el detach (XT)
+        StartCoroutine(EnableVisualizationWhenTracked()); //El objeto se verá una vez esté bien posicionado por el tracking
     }
 
     public void DisplayNoInfoIndicator() 
@@ -112,5 +111,11 @@ public class PlayableUnit : MonoBehaviour
         inAnchorCooldown = true;
         yield return new WaitForSeconds(0.5f);
         inAnchorCooldown = false;
+    }
+
+    IEnumerator EnableVisualizationWhenTracked()
+    {
+        while (trackable.trackingState != TrackingState.Tracking) yield return null;
+        gameUnit.gameObject.SetActive(true);
     }
 }
