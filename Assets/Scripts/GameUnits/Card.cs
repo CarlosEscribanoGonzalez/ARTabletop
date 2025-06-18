@@ -30,7 +30,8 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
             if (manager is null) GetComponentInParent<PlayableUnit>().DisplayNoInfoIndicator();
             else
             {
-                buttonCanvas.SetActive(true); //Si se ha conseguido se activa el canvas de los botones
+                //Los botones únicamente estarán activos si hay más de un contenido a mostrar. Si no, se tratará como una carta normal
+                buttonCanvas.SetActive((manager as SpecialCardGameManager).CardsInfo.Length > 1); //Si se ha conseguido se activa el canvas de los botones
                 buttonCanvas.GetComponent<Canvas>().worldCamera = GameObject.FindWithTag("SecondCam").GetComponent<Camera>();
                 RequestInfo(manager); //Se le pide la info al manager 
             }
