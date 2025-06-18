@@ -27,8 +27,6 @@ public class PlayableUnit : MonoBehaviour
         else if (trackable.referenceImage.name.ToLower().Contains("piece")) gameUnit = piece.GetComponent<Piece>();
         else if (trackable.referenceImage.name.ToLower().Contains("board")) gameUnit = board.GetComponent<Board>();
         //this.transform.localScale *= ScaleCameraFactor; //Se escala el objeto dependiendo de la calibración de la cámara del dispositivo
-        if (gameUnit == null) return;
-        Destroy(noInfoIndicator);
         initRotation = gameUnit.transform.localRotation; //Se obtiene la rotación inicial para hacer bien el detach (XT)
         StartCoroutine(EnableVisualizationWhenTracked()); //El objeto se verá una vez esté bien posicionado por el tracking
     }
@@ -40,7 +38,8 @@ public class PlayableUnit : MonoBehaviour
         card.SetActive(false);
         piece.SetActive(false);
         board.SetActive(false);
-        noInfoIndicator.SetActive(true);
+        noInfoIndicator.SetActive(true); //Hay un bug en algunos móviles que lo hace visible por la cara
+        foreach (Transform t in noInfoIndicator.GetComponentsInChildren<Transform>(true)) t.gameObject.SetActive(true);
         gameUnit = null;
     }
 
@@ -118,6 +117,6 @@ public class PlayableUnit : MonoBehaviour
     IEnumerator EnableVisualizationWhenTracked()
     {
         while (trackable.trackingState != TrackingState.Tracking) yield return null;
-        gameUnit.gameObject.SetActive(true);
+        if(gameUnit != null) gameUnit.gameObject.SetActive(true);
     }
 }

@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using Unity.Netcode;
+using System.Linq;
 
 public class GameConfigurator : MonoBehaviour
 {
@@ -39,27 +41,17 @@ public class GameConfigurator : MonoBehaviour
         boardManager.BoardModels = completeInfo.boards3D.ToArray();
         boardManager.BoardSprites = completeInfo.boards2D.ToArray();
         //SpecialCards:
-        if (!completeInfo.isDefault) //Por algún motivo los juegos base me están dando el orden de scards al revés
+        SpecialCardGameManager[] managers = FindObjectsByType<SpecialCardGameManager>(FindObjectsSortMode.InstanceID);
+        if (!completeInfo.isDefault) completeInfo.specialCardsInfo.Reverse();
+        for(int i = 0; i < managers.Length; i++) 
         {
-            for (int i = 0; i < completeInfo.specialCardsInfo.Count; i++)
+            if (i < completeInfo.specialCardsInfo.Count)
             {
-                CreateSpecialCardManager(i);
+                managers[i].CardsInfo = completeInfo.specialCardsInfo[i].cardsInfo.ToArray();
+                managers[i].DefaultImage = completeInfo.specialCardsInfo[i].defaultSpecialSprite;
+                managers[i].CardTypeName = completeInfo.specialCardsInfo[i].name;
             }
+            else managers[i].gameObject.SetActive(false);
         }
-        else
-        {
-            for (int i = completeInfo.specialCardsInfo.Count - 1; i >= 0; i--)
-            {
-                CreateSpecialCardManager(i);
-            }
-        }
-    }
-
-    private void CreateSpecialCardManager(int index)
-    {
-        SpecialCardGameManager newManager = Instantiate(specialCardManagerPrefab).GetComponent<SpecialCardGameManager>();
-        newManager.CardsInfo = completeInfo.specialCardsInfo[index].cardsInfo.ToArray();
-        newManager.DefaultImage = completeInfo.specialCardsInfo[index].defaultSpecialSprite;
-        newManager.CardTypeName = completeInfo.specialCardsInfo[index].name;
     }
 }
