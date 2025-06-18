@@ -15,8 +15,16 @@ public class BoardBuilder : ABuilder<GameObject>
     public void DeleteBoard()
     {
         Content.RemoveAt(index);
-        if (index >= Content.Count) index = Content.Count - 1;
-        preview.UpdateValues(Content[index]);
+        if (Content.Count > 0)
+        {
+            if (index >= Content.Count) index = Content.Count - 1;
+            preview.UpdateValues(Content[index]);
+        }
+        else
+        {
+            index = -1;
+            preview.UpdateValues(null);
+        }
         UpdateUI();
     }
 

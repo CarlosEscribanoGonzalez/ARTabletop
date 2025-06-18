@@ -35,6 +35,11 @@ public class BoardPreview : APreview<GameObject>
     public override void UpdateValues(GameObject contentToShow)
     {
         if(previewedObject != null) Destroy(previewedObject);
+        if (contentToShow == null)
+        {
+            spriteRend.gameObject.SetActive(false);
+            return;
+        }
         SpriteRenderer rend = contentToShow.GetComponentInChildren<SpriteRenderer>();
         spriteRend.gameObject.SetActive(rend != null);
         if (rend == null)
