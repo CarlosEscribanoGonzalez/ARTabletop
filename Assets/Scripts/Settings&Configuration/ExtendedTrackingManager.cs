@@ -13,7 +13,6 @@ public class ExtendedTrackingManager : MonoBehaviour
     private static ARPlaneManager planeManager;
     private static ARAnchorManager anchorManager;
     private static Canvas msgCanvas;
-    private static Volume dofVolume;
     private Dictionary<Canvas, bool> allCanvasStates = new();
     public static bool IsXTEnabled
     {
@@ -25,7 +24,6 @@ public class ExtendedTrackingManager : MonoBehaviour
             {
                 planeManager.enabled = value;
                 msgCanvas.enabled = value;
-                //dofVolume.enabled = value;
                 if (value)
                 {
                     ResetPlanesAndAnchors();
@@ -45,13 +43,12 @@ public class ExtendedTrackingManager : MonoBehaviour
         FindFirstObjectByType<ARPlaneManager>().enabled = isXTEnabled;
         rngButtonsCanvas.enabled = true;
         msgCanvas = GetComponentInChildren<Canvas>();
-        dofVolume = GetComponentInChildren<Volume>();
         IsXTEnabled = isXTEnabled;
         foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
             if (canvas == msgCanvas) continue;
             allCanvasStates.Add(canvas, canvas.enabled);
-            canvas.enabled = false;
+            if(IsXTEnabled) canvas.enabled = false;
         }
     }
 
@@ -78,7 +75,6 @@ public class ExtendedTrackingManager : MonoBehaviour
             canvas.enabled = allCanvasStates[canvas];
         }
         msgCanvas.enabled = false;
-        dofVolume.enabled = false;
         detected = true;
         Debug.Log("PLANE DETECTED: " + GetComponent<ARPlaneManager>().trackables.count);
     }
