@@ -25,6 +25,7 @@ public class MarkerCreator : MonoBehaviour
     [SerializeField] private string folderName = "GeneratedMarkers";
     [SerializeField] private Vector2 imageDimensions = new Vector2(1000, 1400);
     [SerializeField] private float backgroundRemoveTolerance = 0.7f;
+    [SerializeField] private int ppi = 305;
     private Transform centreTransform;
     private TextMeshProUGUI[] texts;
     private SpriteRenderer[] backgroundSprites;
@@ -190,7 +191,7 @@ public class MarkerCreator : MonoBehaviour
 
         ProcessStartInfo start = new ProcessStartInfo();
         start.FileName = pythonExe;
-        start.Arguments = $"\"{scriptPath}\" \"{imagePath}\"";
+        start.Arguments = $"\"{scriptPath}\" \"{imagePath}\" \"{ppi}\"";
         start.UseShellExecute = false;
         start.RedirectStandardOutput = true;
         start.RedirectStandardError = true;
