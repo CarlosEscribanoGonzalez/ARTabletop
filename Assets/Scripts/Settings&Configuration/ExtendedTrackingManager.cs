@@ -13,7 +13,7 @@ public class ExtendedTrackingManager : MonoBehaviour
     private static ARPlaneManager planeManager;
     private static ARAnchorManager anchorManager;
     private static Canvas msgCanvas;
-    private Dictionary<Canvas, bool> allCanvasStates = new();
+    private static Dictionary<Canvas, bool> allCanvasStates = new();
     public static bool IsXTEnabled
     {
         get { return isXTEnabled; }
@@ -81,6 +81,11 @@ public class ExtendedTrackingManager : MonoBehaviour
 
     private static void ResetPlanesAndAnchors()
     {
+        foreach (var canvas in allCanvasStates.Keys.ToList())
+        {
+            allCanvasStates[canvas] = canvas.enabled;
+            canvas.enabled = false;
+        }
         int initPlanes = planeManager.trackables.count;
         foreach (ARPlane p in planeManager.trackables) if(p != null) Destroy(p.gameObject);
         foreach (ARAnchor a in anchorManager.trackables) if(a != null) Destroy(a.gameObject);
@@ -89,11 +94,6 @@ public class ExtendedTrackingManager : MonoBehaviour
 
     IEnumerator ResetCoroutine()
     {
-        foreach(var canvas in allCanvasStates.Keys.ToList())
-        {
-            allCanvasStates[canvas] = canvas.enabled;
-            canvas.enabled = false;
-        }
         IsXTEnabled = false;
         ResetPlanesAndAnchors();
         yield return null;
