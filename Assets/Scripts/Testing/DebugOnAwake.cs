@@ -1,10 +1,17 @@
+using System.Collections;
 using UnityEngine;
-using UnityEngine.XR.ARFoundation;
 
 public class DebugOnAwake : MonoBehaviour
 {
     void Awake()
     {
-        Debug.Log(transform.parent.GetComponent<ARTrackedImage>().referenceImage.name);
+        StartCoroutine(SayTime());
+    }
+
+    IEnumerator SayTime()
+    {
+        float startTime = Time.time;
+        yield return new WaitForSeconds(5);
+        Debug.Log($"Tiempo transcurrido: {Time.time - startTime}s");
     }
 }

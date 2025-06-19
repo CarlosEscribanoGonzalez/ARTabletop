@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.XR.ARFoundation;
@@ -12,6 +14,7 @@ public class ExtendedTrackingManager : MonoBehaviour
     private static ARAnchorManager anchorManager;
     private static Canvas msgCanvas;
     private static Volume dofVolume;
+    private Dictionary<Canvas, bool> allCanvasStates = new();
     public static bool IsXTEnabled
     {
         get { return isXTEnabled; }
@@ -22,7 +25,7 @@ public class ExtendedTrackingManager : MonoBehaviour
             {
                 planeManager.enabled = value;
                 msgCanvas.enabled = value;
-                dofVolume.enabled = value;
+                //dofVolume.enabled = value;
                 if (value)
                 {
                     ResetPlanesAndAnchors();
@@ -40,15 +43,21 @@ public class ExtendedTrackingManager : MonoBehaviour
         planeManager = GetComponent<ARPlaneManager>();
         anchorManager = GetComponent<ARAnchorManager>();
         FindFirstObjectByType<ARPlaneManager>().enabled = isXTEnabled;
-        rngButtonsCanvas.enabled = !isXTEnabled;
+        rngButtonsCanvas.enabled = true;
         msgCanvas = GetComponentInChildren<Canvas>();
         dofVolume = GetComponentInChildren<Volume>();
         IsXTEnabled = isXTEnabled;
+        foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (canvas == msgCanvas) continue;
+            allCanvasStates.Add(canvas, canvas.enabled);
+            canvas.enabled = false;
+        }
     }
 
-    private void OnApplicationFocus(bool focus)
+    private void OnApplicationPause(bool pauseStatus)
     {
-        if (IsXTEnabled && focus) StartCoroutine(ResetCoroutine());
+        if (!pauseStatus && IsXTEnabled) StartCoroutine(ResetCoroutine()); 
     }
 
     public void OnTrackedImagesChanged() //Llamada cada vez que un marcador se actualiza
@@ -64,9 +73,12 @@ public class ExtendedTrackingManager : MonoBehaviour
     public void OnPlaneDetected()
     {
         if (detected || planeManager.trackables.count == 0) return;
+        foreach (var canvas in allCanvasStates.Keys)
+        {
+            canvas.enabled = allCanvasStates[canvas];
+        }
         msgCanvas.enabled = false;
         dofVolume.enabled = false;
-        rngButtonsCanvas.enabled = true;
         detected = true;
         Debug.Log("PLANE DETECTED: " + GetComponent<ARPlaneManager>().trackables.count);
     }
@@ -74,13 +86,18 @@ public class ExtendedTrackingManager : MonoBehaviour
     private static void ResetPlanesAndAnchors()
     {
         int initPlanes = planeManager.trackables.count;
-        foreach (ARPlane p in planeManager.trackables) Destroy(p.gameObject);
-        foreach (ARAnchor a in anchorManager.trackables) Destroy(a.gameObject);
+        foreach (ARPlane p in planeManager.trackables) if(p != null) Destroy(p.gameObject);
+        foreach (ARAnchor a in anchorManager.trackables) if(a != null) Destroy(a.gameObject);
         if(initPlanes > 0) FindFirstObjectByType<ARSession>()?.Reset();
     }
 
     IEnumerator ResetCoroutine()
     {
+        foreach(var canvas in allCanvasStates.Keys.ToList())
+        {
+            allCanvasStates[canvas] = canvas.enabled;
+            canvas.enabled = false;
+        }
         IsXTEnabled = false;
         ResetPlanesAndAnchors();
         yield return null;
