@@ -26,7 +26,7 @@ public class GameSaver : MonoBehaviour
     public void OnIntentReceived(string uri) //Recibe un intent una vez la app ya está abierta
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
-        Invoke("TryReadNewGame", 0.5f); //Pequeño retraso para que dé tiempo a que salga la pantalla de carga antes de que Android bloquee la app
+        Invoke("TryReadNewGame", 0.3f); //Pequeño retraso para que dé tiempo a que salga la pantalla de carga antes de que Android bloquee la app
     }
 
     private void TryReadNewGame()

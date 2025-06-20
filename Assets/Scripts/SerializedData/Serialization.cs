@@ -15,7 +15,7 @@ namespace Serialization
     [Serializable]
     public class SpecialCardInfoSerializable
     {
-        public string name;
+        public string specialCardName;
         public List<CardInfoSerializable> cardsInfo = new();
         public string defaultSpriteFileName;
     }

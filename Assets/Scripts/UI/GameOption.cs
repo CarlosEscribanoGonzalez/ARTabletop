@@ -60,7 +60,7 @@ public class GameOption : MonoBehaviour
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
         yield return null; //Se espera un frame para que la pestaña aparezca
-        GameSharer.Share(GameInfo.GetFullInfo(Info));
+        GameSharer.Share(Info);
     }
 
     IEnumerator DeleteCoroutine()
@@ -68,7 +68,8 @@ public class GameOption : MonoBehaviour
         LoadingScreenManager.ToggleLoadingScreen(true);
         yield return null;
         FindFirstObjectByType<GameOptionsManager>().RemoveGame(Info, this.transform); //Se borra la opción de la lista de juegos
-        GameDeleter.DeleteGameFiles(GameInfo.GetFullInfo(Info)); //Se borra toda la información del juego de los archivos locales
+        //En este caso, como el borrado sólo utiliza la información serializada no hace falta hacer GetFullInfo
+        GameDeleter.DeleteGameFiles(Info); //Se borra toda la información del juego de los archivos locales
         Destroy(this.gameObject); //Se destruye el botón
     }
 

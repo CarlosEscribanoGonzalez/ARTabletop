@@ -68,7 +68,7 @@ public class GameInfo : ScriptableObject
             //Special cards:
             specialCardsInfo = this.specialCardsInfo.Select(card => new SpecialCardInfoSerializable
             {
-                name = card.name,
+                specialCardName = card.name,
                 cardsInfo = card.cardsInfo.Select(c => new CardInfoSerializable
                 {
                     spriteFileName = c.sprite != null ? c.sprite.texture.name : null,
@@ -120,7 +120,7 @@ public class GameInfo : ScriptableObject
         foreach (var scard in deserialized.specialCardsInfo)
         {
             SpecialCardInfo specialCardInfo = new SpecialCardInfo();
-            specialCardInfo.name = scard.name;
+            specialCardInfo.name = scard.specialCardName;
             foreach (var card in scard.cardsInfo)
             {
                 CardInfo cardInfo = new CardInfo();
@@ -138,7 +138,7 @@ public class GameInfo : ScriptableObject
     public static GameInfo GetFullInfo(GameInfo essentialInfo) //Para aquellos casos en los que sólo se tiene la información esencial
     {
         string jsonPath = essentialInfo.ConvertToJson(); //Sacamos el path al json, que al ser formado por el nombre y la imagen es accesible únicamente con la info esencial
-        return GameInfo.FromJsonToSO(File.ReadAllText(jsonPath)); //Ahora sí obtenemos toda la info del json
+        return FromJsonToSO(File.ReadAllText(jsonPath)); //Ahora sí obtenemos toda la info del json
     }
 
     static string path; //Path de la imagen que se busca

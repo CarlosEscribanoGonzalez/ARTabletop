@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Serialization;
 
 public class GameDeleter : MonoBehaviour
 {
@@ -13,12 +14,14 @@ public class GameDeleter : MonoBehaviour
 
     public static void DeleteGameFiles(GameInfo gameToDelete) //Borra los datos de un juego dado su SO
     {
+        string json = File.ReadAllText(gameToDelete.ConvertToJson());
+        GameInfoSerializable serializedGameInfo = JsonUtility.FromJson<GameInfoSerializable>(json);
         DeleteGameInfo(File.ReadAllText(gameToDelete.ConvertToJson())); //Borra su json
-        foreach (string textureName in GetAllUsedTextures(gameToDelete)) //Mira cada foto de las presentes en el juego a borrar
+        foreach (string textureName in GetAllUsedTextures(serializedGameInfo)) //Mira cada foto de las presentes en el juego a borrar
         {
             TryDeleteSingleImage(textureName);
         }
-        foreach(string modelName in GetAllUsedModels(gameToDelete))
+        foreach(string modelName in GetAllUsedModels(serializedGameInfo))
         {
             TryDeleteSingleModel(modelName);
         }
@@ -31,8 +34,9 @@ public class GameDeleter : MonoBehaviour
         bool contained = false;
         foreach (GameInfo game in gameOptionsManager.CustomGames) //Mira si dicha foto está presente en el resto de juegos o no
         {
-            GameInfo gameFullInfo = GameInfo.GetFullInfo(game);
-            List<string> otherGameTextures = GetAllUsedTextures(gameFullInfo);
+            string json = File.ReadAllText(game.ConvertToJson());
+            GameInfoSerializable serializedGameInfo = JsonUtility.FromJson<GameInfoSerializable>(json); 
+            List<string> otherGameTextures = GetAllUsedTextures(serializedGameInfo);
             if (otherGameTextures.Contains(textureName)) //Si la foto está presente en otro juego se pasa a la siguiente foto y no se elimina
             {
                 contained = true;
@@ -49,8 +53,9 @@ public class GameDeleter : MonoBehaviour
         bool contained = false;
         foreach (GameInfo game in gameOptionsManager.CustomGames) 
         {
-            GameInfo gameFullInfo = GameInfo.GetFullInfo(game);
-            List<string> otherGameModels = GetAllUsedModels(gameFullInfo);
+            string json = File.ReadAllText(game.ConvertToJson());
+            GameInfoSerializable serializedGameInfo = JsonUtility.FromJson<GameInfoSerializable>(json); 
+            List<string> otherGameModels = GetAllUsedModels(serializedGameInfo);
             if (otherGameModels.Contains(modelName)) 
             {
                 contained = true;
@@ -61,40 +66,34 @@ public class GameDeleter : MonoBehaviour
         if (!contained) DeleteModel(modelName);
     }
 
-    private static List<string> GetAllUsedTextures(GameInfo game) //Devuelve el nombre de todas las texturas usadas por un juego
+    private static List<string> GetAllUsedTextures(GameInfoSerializable game) //Devuelve el nombre de todas las texturas usadas por un juego
     {
         List<string> textureNameList = new();
-        AddTextureToList(textureNameList, game.gameImage);
-        foreach (var c in game.cardsInfo) AddTextureToList(textureNameList, c.sprite);
-        AddTextureToList(textureNameList, game.defaultSprite);
-        foreach (var b in game.boards2D) AddTextureToList(textureNameList, b);
+        AddPathToList(textureNameList, game.gameImageFileName);
+        foreach (var c in game.cardsInfo) AddPathToList(textureNameList, c.spriteFileName);
+        AddPathToList(textureNameList, game.defaultSpriteFileName);
+        foreach (var b in game.boardImagesNames) AddPathToList(textureNameList, b);
         foreach (var sc in game.specialCardsInfo)
         {
-            AddTextureToList(textureNameList, sc.defaultSpecialSprite);
-            foreach (var c in sc.cardsInfo) AddTextureToList(textureNameList, c.sprite);
+            AddPathToList(textureNameList, sc.defaultSpriteFileName);
+            foreach (var c in sc.cardsInfo) AddPathToList(textureNameList, c.spriteFileName);
         }
         return textureNameList;
     }
 
-    private static List<string> GetAllUsedModels(GameInfo game)
+    private static List<string> GetAllUsedModels(GameInfoSerializable game)
     {
         List<string> modelNames = new();
-        AddModelToList(modelNames, game.defaultPiece);
-        foreach (var piece in game.pieces) AddModelToList(modelNames, piece);
-        foreach (var board in game.boards3D) AddModelToList(modelNames, board);
+        AddPathToList(modelNames, game.defaultPieceName);
+        foreach (var piece in game.piecesNames) AddPathToList(modelNames, piece);
+        foreach (var board in game.boardModelsNames) AddPathToList(modelNames, board);
         return modelNames;
     }
 
-    private static void AddTextureToList(List<string> textureList, Sprite sprite) //Si la lista no contiene el elemento lo añade
+    private static void AddPathToList(List<string> list, string path)
     {
-        if (sprite == null || textureList.Contains(sprite.texture.name)) return;
-        textureList.Add(sprite.texture.name);
-    }
-
-    private static void AddModelToList(List<string> modelList, GameObject model)
-    {
-        if (model == null || modelList.Contains(model.name)) return;
-        modelList.Add(model.name);
+        if (string.IsNullOrEmpty(path)) return;
+        if (!list.Contains(path)) list.Add(path);
     }
 
     private static void DeleteGameInfo(string jsonContent) //Borra el json de un juego
