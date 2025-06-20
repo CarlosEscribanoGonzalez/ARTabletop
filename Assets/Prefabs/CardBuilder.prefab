@@ -3934,6 +3934,7 @@ MonoBehaviour:
   image: {fileID: 5362683925189401243}
   cardText: {fileID: 5833438953717888458}
   adjustSize: 1
+  rectTransform: {fileID: 799599365687066152}
   OnImageSet:
     m_PersistentCalls:
       m_Calls: []
@@ -5027,6 +5028,7 @@ MonoBehaviour:
   image: {fileID: 393326576743479254}
   cardText: {fileID: 6708786996846265432}
   adjustSize: 1
+  rectTransform: {fileID: 4195944893967549565}
   OnImageSet:
     m_PersistentCalls:
       m_Calls: []

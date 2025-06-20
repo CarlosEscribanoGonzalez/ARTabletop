@@ -15,27 +15,29 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
 
     private void Awake()
     {
-        AddSpecialCard();
+        if (ToolManager.GameToEdit != null && ToolManager.GameToEdit.specialCardsInfo.Count > 0) return;
+        GenerateSpecialCard();
     }
 
-    public void AddSpecialCard()
+    public override void SetInitInfo(GameInfo gameInfo)
     {
-        GameObject builder = Instantiate(cardBuilderPrefab, cardBuildersParent);
-        Content.Add(builder.GetComponent<CardBuilder>());
-        Names.Add("DCards " + Content.Count);
-        for (int i = 0; i < Names.Count; i++)
-            if (Names[i].StartsWith("DCards "))
-            {
-                if (i + 1 < 10) Names[i] = "DCards 0" + (i + 1);
-                else Names[i] = "DCards " + (i + 1);
-            }
-        Content[index].gameObject.SetActive(false);
-        index = Content.Count - 1;
+        if (gameInfo.specialCardsInfo.Count == 0) return;
+        contentDropdown.SetValueWithoutNotify(gameInfo.specialCardsInfo.Count - 1);
+        for(int i = gameInfo.specialCardsInfo.Count - 1; i >= 0; i--) //Si no los da al revés
+        {
+            var scardInfo = gameInfo.specialCardsInfo[i];
+            CardBuilder newCardBuilder = GenerateSpecialCard(scardInfo.name);
+            newCardBuilder.ConfigureBuilder(scardInfo.cardsInfo, scardInfo.defaultSpecialSprite);
+            newCardBuilder.gameObject.SetActive(false);
+        }
+        index = 0;
         UpdateIndex(0);
-        removeButton.interactable = Content.Count != 1;
-        addButton.interactable = Content.Count < maxSCards;
-        contentDropdown.SetValueWithoutNotify(Content.Count - 1);
-        CheckArrowsVisibility();
+        UpdateUI();
+    }
+
+    public void AddSpecialCard() //Llamado desde el botón
+    {
+        GenerateSpecialCard(); //Devuelve un CardBuilder, así que se tiene que dividir en dos funciones para que se llame bien desde el botón
     }
 
     public void RemoveSpecialCard()
@@ -47,10 +49,7 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
         UpdateIndex(0);
         Destroy(objToRemove);
         Content[index].UpdateIndex(0);
-        removeButton.interactable = Content.Count != 1;
-        addButton.interactable = Content.Count < maxSCards;
-        contentDropdown.SetValueWithoutNotify(Content.Count - 1);
-        CheckArrowsVisibility();
+        UpdateUI();
     }
 
     public override void UpdateIndex(int dir)
@@ -77,5 +76,32 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
     public override CardBuilder GetDefaultContent()
     {
         return new CardBuilder();
+    }
+
+    private void UpdateUI()
+    {
+        removeButton.interactable = Content.Count != 1;
+        addButton.interactable = Content.Count < maxSCards;
+        contentDropdown.SetValueWithoutNotify(Content.Count - 1);
+        CheckArrowsVisibility();
+        nameInputField.SetTextWithoutNotify(Names[index]);
+    }
+
+    private CardBuilder GenerateSpecialCard(string name = "")
+    {
+        GameObject builder = Instantiate(cardBuilderPrefab, cardBuildersParent);
+        Content.Add(builder.GetComponent<CardBuilder>());
+        Names.Add(name != string.Empty ? name : "DCards " + Content.Count);
+        for (int i = 0; i < Names.Count; i++)
+            if (Names[i].StartsWith("DCards "))
+            {
+                if (i + 1 < 10) Names[i] = "DCards 0" + (i + 1);
+                else Names[i] = "DCards " + (i + 1);
+            }
+        Content[index].gameObject.SetActive(false);
+        index = Content.Count - 1;
+        UpdateIndex(0);
+        UpdateUI();
+        return builder.GetComponent<CardBuilder>();
     }
 }

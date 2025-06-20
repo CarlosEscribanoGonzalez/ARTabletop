@@ -37,6 +37,11 @@ public class GameOption : MonoBehaviour
         StartCoroutine(DeleteCoroutine());
     }
 
+    public void EditGame()
+    {
+        StartCoroutine(EditCoroutine());
+    }
+
     public void Share() //Llamado cuando se pulsa el botón de compartir
     {
         StartCoroutine(ShareCoroutine());
@@ -65,5 +70,13 @@ public class GameOption : MonoBehaviour
         FindFirstObjectByType<GameOptionsManager>().RemoveGame(Info, this.transform); //Se borra la opción de la lista de juegos
         GameDeleter.DeleteGameFiles(GameInfo.GetFullInfo(Info)); //Se borra toda la información del juego de los archivos locales
         Destroy(this.gameObject); //Se destruye el botón
+    }
+
+    IEnumerator EditCoroutine()
+    {
+        LoadingScreenManager.ToggleLoadingScreen(true);
+        yield return null;
+        ToolManager.GameToEdit = GameInfo.GetFullInfo(Info);
+        SceneManager.LoadScene(2);
     }
 }

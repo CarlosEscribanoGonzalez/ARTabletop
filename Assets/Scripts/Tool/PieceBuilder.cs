@@ -16,9 +16,21 @@ public class PieceBuilder : ABuilder<GameObject>
 
     private void Awake()
     {
+        if (ToolManager.GameToEdit != null && ToolManager.GameToEdit.numPieces > 0) return;
         for (int i = 0; i < contentDropdown.value + 1; i++) Content.Add(null);
         preview.UpdateValues(defaultPiece);
         defaultPreview.UpdateValues(defaultPiece);
+    }
+
+    public override void SetInitInfo(GameInfo gameInfo)
+    {
+        if (gameInfo.numPieces == 0) return;
+        contentDropdown.SetValueWithoutNotify(gameInfo.numPieces - 1);
+        Content = gameInfo.pieces;
+        for (int i = 0; i < gameInfo.numPieces; i++) if (i >= Content.Count) Content.Add(null);
+        defaultPiece = gameInfo.defaultPiece;
+        defaultPreview.UpdateValues(defaultPiece);
+        UpdateIndex(0);
     }
 
     public override void UpdateIndex(int dir)

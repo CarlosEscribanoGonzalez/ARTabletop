@@ -12,4 +12,12 @@ public class GeneralSettingsBuilder : MonoBehaviour
     public bool GameHasDice => diceToggle.isOn;
     public bool GameHasWheel => wheelToggle.isOn;
     public bool GameHasCoin => coinToggle.isOn;
+
+    public void SetInitInfo(GameInfo gameInfo)
+    {
+        autoShuffleToggle.isOn = gameInfo.autoShuffle;
+        diceToggle.isOn = gameInfo.gameHasDice;
+        wheelToggle.isOn = gameInfo.gameHasWheel;
+        coinToggle.isOn = gameInfo.gameHasCoins;
+    }
 }

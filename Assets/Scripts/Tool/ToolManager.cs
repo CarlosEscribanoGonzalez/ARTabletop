@@ -3,18 +3,22 @@ using UnityEngine.UI;
 using System.IO;
 using System.Linq;
 using Serialization;
+using TMPro;
 
 public class ToolManager : MonoBehaviour
 {
-    [SerializeField] private Button createGameButton; 
+    [SerializeField] private Button createGameButton;
+    [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private Image gameImage;
     private GeneralSettingsBuilder generalSettingsBuilder;
     private CardBuilder cardBuilder;
     private PieceBuilder pieceBuilder;
     private BoardBuilder boardBuilder;
     private SpecialCardBuilder scardBuilder;
     private GameInfo gameInfo;
+    public static GameInfo GameToEdit { get; set; }
 
-    private void Awake()
+    private void Start()
     {
         gameInfo = ScriptableObject.CreateInstance<GameInfo>();
         generalSettingsBuilder = GetComponentInChildren<GeneralSettingsBuilder>(true);
@@ -22,7 +26,24 @@ public class ToolManager : MonoBehaviour
         pieceBuilder = GetComponentInChildren<PieceBuilder>(true);
         boardBuilder = GetComponentInChildren<BoardBuilder>(true);
         scardBuilder = GetComponentInChildren<SpecialCardBuilder>(true);
-        createGameButton.interactable = false;
+        if(GameToEdit != null)
+        {
+            generalSettingsBuilder.SetInitInfo(GameToEdit);
+            cardBuilder.SetInitInfo(GameToEdit);
+            pieceBuilder.SetInitInfo(GameToEdit);
+            boardBuilder.SetInitInfo(GameToEdit);
+            scardBuilder.SetInitInfo(GameToEdit);
+            nameInputField.SetTextWithoutNotify(GameToEdit.gameName);
+            SetGameName(nameInputField.text);
+            gameImage.sprite = GameToEdit.gameImage;
+            SetGameImage(gameImage);
+        }
+        else createGameButton.interactable = false;
+    }
+
+    private void OnDisable()
+    {
+        GameToEdit = null;
     }
 
     public void ConfigureGame()

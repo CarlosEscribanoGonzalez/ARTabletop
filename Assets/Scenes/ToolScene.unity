@@ -9130,6 +9130,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   createGameButton: {fileID: 2098862082}
+  nameInputField: {fileID: 297988033}
+  gameImage: {fileID: 835521033}
 --- !u!1 &920144565
 GameObject:
   m_ObjectHideFlags: 0
@@ -17249,6 +17251,7 @@ MonoBehaviour:
   image: {fileID: 835521033}
   cardText: {fileID: 0}
   adjustSize: 0
+  rectTransform: {fileID: 1837351129}
   OnImageSet:
     m_PersistentCalls:
       m_Calls:

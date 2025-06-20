@@ -4,7 +4,6 @@ using Serialization;
 using System.Linq;
 using System.IO;
 using Siccity.GLTFUtility;
-using WebSocketSharp;
 
 [CreateAssetMenu(menuName = "ScriptableObjects/GameInfo")]
 public class GameInfo : ScriptableObject

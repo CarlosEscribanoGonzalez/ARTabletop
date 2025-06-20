@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.IO;
 using System.Globalization;
+using System.Collections.Generic;
 
 public class CardBuilder : ABuilder<CardInfo>
 {
@@ -15,12 +16,30 @@ public class CardBuilder : ABuilder<CardInfo>
 
     private void Awake()
     {
-        if(contentDropdown != null) 
+        if ((ToolManager.GameToEdit != null && ToolManager.GameToEdit.cardsInfo.Count > 0) || Content.Count > 0) 
+            return;
+        if (contentDropdown != null) 
             for (int i = 0; i < contentDropdown.value + 1; i++) Content.Add(new CardInfo());
+    }
+
+    public override void SetInitInfo(GameInfo gameInfo)
+    {
+        if (gameInfo.cardsInfo.Count == 0) return;
+        ConfigureBuilder(gameInfo.cardsInfo, gameInfo.defaultSprite); //Para no escribir dos veces el mismo código
+    }
+
+    public void ConfigureBuilder(List<CardInfo> cardsInfo, Sprite defaultImage) //Hace falta esta función para que scards builder pueda configurar sus cartas
+    {
+        Content = cardsInfo;
+        this.defaultImage = defaultImage;
+        defaultPreview.SetImage(defaultImage);
+        contentDropdown.SetValueWithoutNotify(Content.Count - 1);
+        UpdateIndex(0);
     }
 
     public override void UpdateIndex(int dir)
     {
+        if (Content.Count == 0) return;
         base.UpdateIndex(dir);
         textInputField.SetTextWithoutNotify(Content[index].text);
         sizeInputField.SetTextWithoutNotify(Content[index].sizeMult.ToString());

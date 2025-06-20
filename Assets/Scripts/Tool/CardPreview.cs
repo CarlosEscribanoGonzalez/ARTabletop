@@ -8,13 +8,12 @@ public class CardPreview : APreview<CardInfo>
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI cardText;
     [SerializeField] private bool adjustSize = true;
-    private RectTransform rectTransform;
+    [SerializeField] private RectTransform rectTransform;
     private CardBuilder cardBuilder;
     public UnityEvent OnImageSet; 
 
     void Awake()
     {
-        this.rectTransform = GetComponent<RectTransform>();
         cardBuilder = GetComponentInParent<CardBuilder>();
         if(adjustSize) AdjustSize();
     }

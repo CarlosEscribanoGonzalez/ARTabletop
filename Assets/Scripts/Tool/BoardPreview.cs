@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class BoardPreview : APreview<GameObject>
@@ -18,6 +19,7 @@ public class BoardPreview : APreview<GameObject>
         startY = previewTransform.localPosition.y;
         targetY = startY + verticalOffset;
         spriteRend.gameObject.SetActive(false);
+        StartCoroutine(ReinitSpriteRend()); //A veces se queda pillado al comienzo y no se ve el renderer
     }
 
     void FixedUpdate()
@@ -55,5 +57,12 @@ public class BoardPreview : APreview<GameObject>
             float scaleFactor = ContentScaler.ScaleImage(spriteRend.sprite.texture, new Vector2(targetTextureSize, targetTextureSize));
             previewTransform.localScale = Vector3.one * scaleFactor;
         }
+    }
+
+    IEnumerator ReinitSpriteRend()
+    {
+        yield return null;
+        spriteRend.gameObject.SetActive(false);
+        spriteRend.gameObject.SetActive(true);
     }
 }

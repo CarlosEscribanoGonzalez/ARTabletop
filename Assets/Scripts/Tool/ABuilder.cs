@@ -12,11 +12,14 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
     [SerializeField] private bool newContentIsNull = false;
     protected int index = 0;
     private int newLength;
-    public List<T> Content { get; private set; } = new();
+    public List<T> Content { get; set; } = new();
     public int Index { get { return index; } set { index = value; } }
+
+    public abstract void SetInitInfo(GameInfo gameInfo);
 
     public virtual void UpdateIndex(int dir)
     {
+        if (Content.Count == 0) return;
         index += dir;
         if (index >= Content.Count) index = 0;
         else if (index < 0) index = Content.Count - 1;

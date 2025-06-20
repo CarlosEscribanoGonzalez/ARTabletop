@@ -12,6 +12,26 @@ public class BoardBuilder : ABuilder<GameObject>
     [SerializeField] private GameObject noBoardsText;
     private Dictionary<string, string> importedPaths = new();
 
+    public override void SetInitInfo(GameInfo gameInfo)
+    {
+        int numBoards = gameInfo.boards2D.Count + gameInfo.boards3D.Count;
+        if (numBoards == 0) return;
+        contentDropdown.SetValueWithoutNotify(numBoards);
+        foreach (var board2d in gameInfo.boards2D)
+        {
+            GameObject newContent = new();
+            SpriteRenderer rend = newContent.AddComponent<SpriteRenderer>();
+            rend.sprite = board2d;
+            Content.Add(newContent);
+        }
+        foreach (var board3d in gameInfo.boards3D)
+        {
+            Content.Add(board3d);
+        }
+        UpdateIndex(0);
+        UpdateUI();
+    }
+
     public void DeleteBoard()
     {
         Content.RemoveAt(index);
