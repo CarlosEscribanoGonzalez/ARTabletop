@@ -11,8 +11,9 @@ public class MarkerProvider : MonoBehaviour
     {
         string fileName = documentName + "." + extension;
         string filePath = Path.Combine(Application.persistentDataPath, fileName);
-        if (File.Exists(filePath)) ShareDocument(filePath);
-        else StartCoroutine(GetMarkersPath(fileName));
+        //if (File.Exists(filePath)) ShareDocument(filePath);
+        //else StartCoroutine(GetMarkersPath(fileName));
+        StartCoroutine(GetMarkersPath(fileName));
     }
 
     IEnumerator GetMarkersPath(string fileName)

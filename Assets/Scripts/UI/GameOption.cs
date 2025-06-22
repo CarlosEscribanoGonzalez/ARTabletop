@@ -77,7 +77,7 @@ public class GameOption : MonoBehaviour
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
         yield return null;
-        ToolManager.GameToEdit = GameInfo.GetFullInfo(Info);
+        ToolManager.GameToEdit = Info;
         SceneManager.LoadScene(2);
     }
 }

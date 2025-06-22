@@ -28,6 +28,7 @@ public class ToolManager : MonoBehaviour
         scardBuilder = GetComponentInChildren<SpecialCardBuilder>(true);
         if(GameToEdit != null)
         {
+            GameToEdit = GameInfo.GetFullInfo(GameToEdit);
             generalSettingsBuilder.SetInitInfo(GameToEdit);
             cardBuilder.SetInitInfo(GameToEdit);
             pieceBuilder.SetInitInfo(GameToEdit);

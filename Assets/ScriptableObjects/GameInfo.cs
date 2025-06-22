@@ -144,26 +144,32 @@ public class GameInfo : ScriptableObject
     static string path; //Path de la imagen que se busca
     static byte[] imgData; //Datos de la imagen
     static Texture2D texture; //Textura de la imagen
+    static Dictionary<string, Sprite> createdSprites = new();
     private static Sprite AssignSprite(string textureName) //Devuelve un sprite a partir del nombre de su textura para formar el SO
     {
         if (textureName == string.Empty) return null;
         path = Path.Combine(Application.persistentDataPath, textureName);
+        if (createdSprites.ContainsKey(path)) return createdSprites[path];
         if (File.Exists(path)) //Si existe el path con esa extensión:
         {
             imgData = File.ReadAllBytes(path); //Se leen los datos de la imagen
             texture = new Texture2D(0, 0); //Se crea una nueva textura. El tamaño se autoajusta más tarde
             texture.name = textureName; //Se le da el mismo nombre a la nueva textura para que tenga el mismo path
             texture.LoadImage(imgData); //Se carga la imagen, se crea el sprite y se devuelve
-            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            Sprite s = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            createdSprites.Add(path, s);
+            return s;
         }
         Debug.LogError($"La textura {textureName} no fue encontrada en {path}");
         return null;
     }
 
+    static Dictionary<string, GameObject> createdModels = new();
     private static GameObject AssignModel(string modelName)
     {
         if (!modelName.EndsWith(".glb")) modelName += ".glb";
         string path = Path.Combine(Application.persistentDataPath, modelName);
+        if (createdModels.ContainsKey(path)) return createdModels[path];
         if (!File.Exists(path))
         {
             Debug.LogError("Error al asignar modelo: no existe ningún modelo en el path: " + path);
@@ -177,6 +183,7 @@ public class GameInfo : ScriptableObject
             DestroyImmediate(modelInstance); //El original se borra porque no interesa
             modelPrefab.hideFlags = HideFlags.HideAndDontSave; //Se configuran sus hide flags
             modelPrefab.name = modelName; //Se le pone nombre, importante para luego construir el zip
+            createdModels.Add(path, modelPrefab);
             return modelPrefab;
         }
         catch(System.Exception e)
