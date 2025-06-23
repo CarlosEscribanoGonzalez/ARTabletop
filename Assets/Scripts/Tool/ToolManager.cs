@@ -96,18 +96,25 @@ public class ToolManager : MonoBehaviour
         createGameButton.interactable = !string.IsNullOrEmpty(gameInfo.gameName);
     }
 
-    public void CreateGame()
+    public void TryCreateGame()
     {
         if (File.Exists(Path.Combine(Application.persistentDataPath, IDCreator.GetCustomJsonID(gameInfo))))
         {
-            Debug.Log("Archivo con el mismo nombre e imagen ya existe, no se crea nada");
+            Debug.Log("Archivo con el mismo nombre e imagen ya existe, se pide replace confirmation...");
+            ReplaceConfirmation.Instance.RequestConfirmation(gameInfo);
             return;
         }
+        CreateGame();
+    }
+
+    public void CreateGame()
+    {
         ContentDownloader.DownloadSprite(gameInfo.gameImage);
         scardBuilder.DownloadInfo();
         boardBuilder.DownloadInfo();
         pieceBuilder.DownloadInfo();
         cardBuilder.DownloadInfo();
         gameInfo.ConvertToJson();
+        GetComponentInChildren<ButtonSceneLoader>().ChangeScene(0);
     }
 }

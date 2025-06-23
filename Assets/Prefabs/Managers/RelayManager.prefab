@@ -1669,7 +1669,6 @@ MonoBehaviour:
   - {fileID: 5969106657082341045}
   - {fileID: 5646017052426429547}
   - {fileID: 808186190570203024}
-  - {fileID: 0}
   portraitSizeMult: 1
   landscapeSizeMult: 0.7
   objToHidePortrait: {fileID: 0}

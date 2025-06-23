@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class GameSaver : MonoBehaviour
 {
-    private static GameSaver Instance; //A diferencia del resto, este perdura entre escenas (se puede cargar un juego durante la escena de juego)
+    public static GameSaver Instance { get; private set; } //A diferencia del resto, este perdura entre escenas (se puede cargar un juego durante la escena de juego)
     private static List<string> addedTextures = new(); //En caso de que añadir un json falle se han de borrar las texturas que se han descargado anteriormente
     private static List<string> addedModels = new(); //Lo mismo pero con los modelos 3D
 
@@ -112,13 +112,15 @@ public class GameSaver : MonoBehaviour
         }
     }
 
-    private void SaveGameInfo(string content, ZipArchive archive) //Guarda el json y archivos en memoria
+    public void SaveGameInfo(string content, ZipArchive archive) //Guarda el json y archivos en memoria
     {
         string gameId = IDCreator.GetCustomJsonID(content); //Obtiene su CustomID
         string path = Path.Combine(Application.persistentDataPath, gameId); //Obtiene su path
         if (File.Exists(path))
         {
-            Debug.Log("Juego no guardado porque ya se encontraba en el dispositivo");
+            Debug.Log("Juego ya se encuentra en el dispositivo: pidiendo confirmación de replace...");
+            ZipArchive ar = archive;
+            ReplaceConfirmation.Instance.RequestConfirmation(content, ar);
             return;
         }
         try //Si el json no existe se almacena

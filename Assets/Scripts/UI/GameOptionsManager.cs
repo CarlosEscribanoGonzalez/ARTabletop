@@ -6,7 +6,7 @@ using System.Collections;
 public class GameOptionsManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameOptionPrefab; //Prefab de opciones de los juegos
-    public List<GameInfo> CustomGames { get; private set; } = new(); //Lista de juegos añadidos (es decir, los juegos extra, no los base)
+    public static List<GameInfo> CustomGames { get; private set; } = new(); //Lista de juegos añadidos (es decir, los juegos extra, no los base)
     private LayoutManager layoutManager; //Layout Manager para que se vea bien en portrait y landscape
 
     void Awake()

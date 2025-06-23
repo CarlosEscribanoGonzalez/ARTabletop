@@ -5,13 +5,6 @@ using Serialization;
 
 public class GameDeleter : MonoBehaviour
 {
-    private static GameOptionsManager gameOptionsManager;
-
-    private void Awake()
-    {
-        gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
-    }
-
     public static void DeleteGameFiles(GameInfo gameToDelete) //Borra los datos de un juego dado su SO
     {
         string json = File.ReadAllText(gameToDelete.ConvertToJson());
@@ -32,7 +25,7 @@ public class GameDeleter : MonoBehaviour
     {
         if (textureName.Contains("DefaultImage")) return;
         bool contained = false;
-        foreach (GameInfo game in gameOptionsManager.CustomGames) //Mira si dicha foto está presente en el resto de juegos o no
+        foreach (GameInfo game in GameOptionsManager.CustomGames) //Mira si dicha foto está presente en el resto de juegos o no
         {
             string json = File.ReadAllText(game.ConvertToJson());
             GameInfoSerializable serializedGameInfo = JsonUtility.FromJson<GameInfoSerializable>(json); 
@@ -51,7 +44,7 @@ public class GameDeleter : MonoBehaviour
     {
         if (modelName.Contains("DefaultPiece")) return;
         bool contained = false;
-        foreach (GameInfo game in gameOptionsManager.CustomGames) 
+        foreach (GameInfo game in GameOptionsManager.CustomGames) 
         {
             string json = File.ReadAllText(game.ConvertToJson());
             GameInfoSerializable serializedGameInfo = JsonUtility.FromJson<GameInfoSerializable>(json); 
