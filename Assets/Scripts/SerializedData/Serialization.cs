@@ -32,6 +32,7 @@ namespace Serialization
     public class GameInfoSerializable
     {
         public string author;
+        public string rules;
 
         public string gameName;
         public string gameImageFileName;

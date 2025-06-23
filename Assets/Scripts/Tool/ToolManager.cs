@@ -10,6 +10,8 @@ public class ToolManager : MonoBehaviour
     [SerializeField] private Button createGameButton;
     [SerializeField] private TMP_InputField nameInputField;
     [SerializeField] private Image gameImage;
+    [SerializeField] private TMP_InputField rulesText;
+    [SerializeField] private GameObject noRulesMsg;
     private GeneralSettingsBuilder generalSettingsBuilder;
     private CardBuilder cardBuilder;
     private PieceBuilder pieceBuilder;
@@ -29,6 +31,8 @@ public class ToolManager : MonoBehaviour
         if(GameToEdit != null)
         {
             GameToEdit = GameInfo.GetFullInfo(GameToEdit);
+            rulesText.text = GameToEdit.rules;
+            rulesText.onValueChanged.Invoke(rulesText.text);
             generalSettingsBuilder.SetInitInfo(GameToEdit);
             cardBuilder.SetInitInfo(GameToEdit);
             pieceBuilder.SetInitInfo(GameToEdit);
@@ -85,10 +89,16 @@ public class ToolManager : MonoBehaviour
         gameInfo.specialCardsInfo.Reverse(); //Por algún motivo no salen en el orden bueno, salen al revés
     }
 
+    public void SetRules(string rules)
+    {
+        gameInfo.rules = rules;
+        noRulesMsg.SetActive(gameInfo.rules.Length == 0);
+    }
+
     public void SetGameName(string name)
     {
-        gameInfo.gameName = name;
-        createGameButton.interactable = (gameInfo.gameImage != null && !string.IsNullOrEmpty(name));
+        gameInfo.gameName = name.Trim();
+        createGameButton.interactable = (gameInfo.gameImage != null && !string.IsNullOrEmpty(gameInfo.gameName));
     }
 
     public void SetGameImage(Image image)

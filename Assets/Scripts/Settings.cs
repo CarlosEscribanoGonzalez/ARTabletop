@@ -7,6 +7,7 @@ public class Settings : MonoBehaviour
     [SerializeField] private Toggle extendedTrackingToggle;
     [SerializeField] private Toggle randomColorToggle;
     [SerializeField] private TMP_InputField nameInputField;
+    [SerializeField] private TextMeshProUGUI rulesText;
     public bool IsRandomColorEnabled => randomColorToggle.isOn;
     public System.EventHandler<bool> OnColorSettingChanged;
 
@@ -34,5 +35,10 @@ public class Settings : MonoBehaviour
     {
         PlayerPrefs.SetInt("ColorSetting", isOn ? 1 : 0);
         OnColorSettingChanged?.Invoke(this, isOn);
+    }
+
+    public void SetRules(string rules)
+    {
+        rulesText.text = rules != string.Empty ? rules : "Sorry! The author of this game didn't add the rules.";
     }
 }

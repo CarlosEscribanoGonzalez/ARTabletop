@@ -17,7 +17,9 @@ public static class IDCreator
     {
         string imageName = game.gameImage.texture.name;
         imageName = imageName.Substring(0, imageName.Length - 4);
-        return game.gameName + "_" + imageName + ".artabletop";
+        string id = game.gameName + "_" + imageName + ".artabletop";
+        id = id.Trim().ToLower();
+        return id;
     }
 
     public static string GetCustomModelID(string modelName, GameObject model)

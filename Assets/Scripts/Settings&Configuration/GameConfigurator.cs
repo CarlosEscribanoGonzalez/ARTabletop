@@ -16,7 +16,7 @@ public class GameConfigurator : MonoBehaviour
     {
         if (EssentialInfo.isDefault) completeInfo = EssentialInfo;
         else completeInfo = GameInfo.GetFullInfo(EssentialInfo);
-        Debug.Log(completeInfo.author);
+        FindFirstObjectByType<Settings>().SetRules(completeInfo.rules);
         //General settings:
         gameSettings.AutoShuffle = completeInfo.autoShuffle;
         //RNG section:
