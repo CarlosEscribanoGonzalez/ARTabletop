@@ -38,6 +38,7 @@ public class GameLoader : MonoBehaviour
             catch (System.Exception e)
             {
                 Debug.LogError("Error cargando un juego: " + e);
+                FeedbackManager.Instance.DisplayMessage("Unexpected error: some games couldn't be loaded.");
             }
         }
     }

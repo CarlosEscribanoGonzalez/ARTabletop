@@ -27,34 +27,41 @@
 
         public static void Share(GameInfo gameToShare) //Hace un zip con los archivos necesarios y lo comparte mediante un intent
         {
-            List<string> files = new(); //Lista de paths
-            string jsonPath = gameToShare.ConvertToJson();
-            files.Add(jsonPath); //Añade el json
-            GameInfoSerializable serializedGameInfo = JsonUtility.FromJson<GameInfoSerializable>(File.ReadAllText(jsonPath));
-            files.AddRange(GetImagePaths(serializedGameInfo)); //Añade las imágenes
-            files.AddRange(GetModelPaths(serializedGameInfo)); //Añade los modelos
+            try
+            {
+                List<string> files = new(); //Lista de paths
+                string jsonPath = gameToShare.ConvertToJson();
+                files.Add(jsonPath); //Añade el json
+                GameInfoSerializable serializedGameInfo = JsonUtility.FromJson<GameInfoSerializable>(File.ReadAllText(jsonPath));
+                files.AddRange(GetImagePaths(serializedGameInfo)); //Añade las imágenes
+                files.AddRange(GetModelPaths(serializedGameInfo)); //Añade los modelos
 
-            string zipPath = CreateZip(gameToShare.gameName, files); //Crea el zip a partir de los paths
-            //Se configura el intent de enviar .zip:
-            AndroidJavaClass intentClass = new AndroidJavaClass("android.content.Intent");
-            AndroidJavaObject intentObject = new AndroidJavaObject("android.content.Intent");
-            intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_SEND"));
-            intentObject.Call<AndroidJavaObject>("setType", "application/zip");
-            //Se obtiene la authority del FileProvider:
-            AndroidJavaObject unityActivity = new AndroidJavaClass("com.unity3d.player.UnityPlayer")
-                .GetStatic<AndroidJavaObject>("currentActivity");
-            string authority = unityActivity.Call<string>("getPackageName") + ".provider";
-            //Se obtiene la dependencia:
-            AndroidJavaClass fileProviderClass = new AndroidJavaClass("androidx.core.content.FileProvider");
-            AndroidJavaObject uriObject = fileProviderClass.CallStatic<AndroidJavaObject>(
-                "getUriForFile", unityActivity, authority, new AndroidJavaObject("java.io.File", zipPath));
-            //Se comparte el juego
-            intentObject.Call<AndroidJavaObject>("putExtra", "android.intent.extra.STREAM", uriObject);
-            intentObject.Call<AndroidJavaObject>("addFlags", 1 << 1);
-            AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>("createChooser", intentObject, "Share game");
-            unityActivity.Call("startActivity", chooser);
-
-            LoadingScreenManager.ToggleLoadingScreen(false);
+                string zipPath = CreateZip(gameToShare.gameName, files); //Crea el zip a partir de los paths
+                //Se configura el intent de enviar .zip:
+                AndroidJavaClass intentClass = new AndroidJavaClass("android.content.Intent");
+                AndroidJavaObject intentObject = new AndroidJavaObject("android.content.Intent");
+                intentObject.Call<AndroidJavaObject>("setAction", intentClass.GetStatic<string>("ACTION_SEND"));
+                intentObject.Call<AndroidJavaObject>("setType", "application/zip");
+                //Se obtiene la authority del FileProvider:
+                AndroidJavaObject unityActivity = new AndroidJavaClass("com.unity3d.player.UnityPlayer")
+                    .GetStatic<AndroidJavaObject>("currentActivity");
+                string authority = unityActivity.Call<string>("getPackageName") + ".provider";
+                //Se obtiene la dependencia:
+                AndroidJavaClass fileProviderClass = new AndroidJavaClass("androidx.core.content.FileProvider");
+                AndroidJavaObject uriObject = fileProviderClass.CallStatic<AndroidJavaObject>(
+                    "getUriForFile", unityActivity, authority, new AndroidJavaObject("java.io.File", zipPath));
+                //Se comparte el juego
+                intentObject.Call<AndroidJavaObject>("putExtra", "android.intent.extra.STREAM", uriObject);
+                intentObject.Call<AndroidJavaObject>("addFlags", 1 << 1);
+                AndroidJavaObject chooser = intentClass.CallStatic<AndroidJavaObject>("createChooser", intentObject, "Share game");
+                unityActivity.Call("startActivity", chooser);
+                LoadingScreenManager.ToggleLoadingScreen(false);
+            }
+            catch(System.Exception _)
+            {
+                LoadingScreenManager.ToggleLoadingScreen(false);
+                FeedbackManager.Instance.DisplayMessage("Unexpected error: game couldn't be shared. Please, try again.");
+            }
         }
 
         private static string CreateZip(string zipName, List<string> files) //Crea un zip con el nombre del juego

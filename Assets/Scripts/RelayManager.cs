@@ -16,7 +16,6 @@ public class RelayManager : MonoBehaviour
     [SerializeField] private Button clientButton; //Botón de unirse a partida
     [SerializeField] private TextMeshProUGUI joinInputText; //Input Field para introducir el código
     [SerializeField] private TextMeshProUGUI codeText; //Indicador del código de la sala en la parte superior izquierda de la pantalla
-    [SerializeField] private TextMeshProUGUI errorText; //Texto para los mensajes de error
     [SerializeField] private GameObject lobby; //Objeto que engloba el menú del lobby
 
     private void Start()
@@ -75,7 +74,6 @@ public class RelayManager : MonoBehaviour
         try //Intenta crear una sesión con el relay de Unity
         {
             ToggleButtonInteraction(false); //Se desactivan todos los componentes interactuables para evitar errores
-            errorText.gameObject.SetActive(false); //Se desactiva el mensaje de error si es que estaba activado
             if (Application.internetReachability == NetworkReachability.NotReachable) //Si no hay conexión a internet se lanza una excepción
                 throw new System.Exception("No Internet connection.");
             await UnityServices.InitializeAsync();
@@ -94,7 +92,7 @@ public class RelayManager : MonoBehaviour
             Debug.LogError("Session couldn't be created: " + e);
             AuthenticationService.Instance.SignOut();
             StopAllCoroutines(); //Si había una corrutina de enseñar error activa esta se para
-            StartCoroutine(DisplayErrorText("We couldn't create the game session. Please, check your Internet connection and try again."));
+            FeedbackManager.Instance.DisplayMessage("Game session couldn't be created. Please, check your Internet connection and try again.");
         }
         finally { ToggleButtonInteraction(true); } //En cualquier caso se reactiva la interacción con los elementos del lobby
     }
@@ -105,7 +103,6 @@ public class RelayManager : MonoBehaviour
         {
             string joinCode = joinInputText.text; //Se obtiene el valor del input field
             ToggleButtonInteraction(false); //Se desactivan todos los componentes interactuables para evitar errores
-            errorText.gameObject.SetActive(false); //Se desactiva el mensaje de error si es que estaba activado
             if (Application.internetReachability == NetworkReachability.NotReachable) //Lo mismo que al crear la partida
                 throw new System.Exception("No Internet connection.");
             await UnityServices.InitializeAsync();
@@ -119,12 +116,20 @@ public class RelayManager : MonoBehaviour
             codeText.text = "Room code: " + joinCode.ToUpper(); //Se activa el texto con el código para que se pueda unir gente
             GameSettings.Instance.IsOnline = true; //Se configura la partida como online
         }
-        catch(System.Exception e) //Si falla al unirse se hace sign out y se imprime un mensaje de error
+        catch (RelayServiceException e)
+        {
+            AuthenticationService.Instance.SignOut();
+            StopAllCoroutines();
+            if (e.Message.ToLower().Contains("allocation is full"))
+                FeedbackManager.Instance.DisplayMessage("This game session is full. Please try a different code.", Color.white);
+            else FeedbackManager.Instance.DisplayMessage("A game session with the provided code couldn't be found. Please, check the join code and try again.");
+        }
+        catch (System.Exception e) //Si falla al unirse se hace sign out y se imprime un mensaje de error
         {
             Debug.LogError("Invalid code: " + e);
             AuthenticationService.Instance.SignOut();
             StopAllCoroutines();
-            StartCoroutine(DisplayErrorText("We couldn't find a game session with the provided code. Please, check the code and your Internet connection."));
+            FeedbackManager.Instance.DisplayMessage("Game session couldn't be found. Please, check your Internet connection and try again.");
         }
         finally { ToggleButtonInteraction(true); } //En cualquier caso se reactiva la interacción con los elementos del lobby
     }
@@ -153,7 +158,7 @@ public class RelayManager : MonoBehaviour
         {
             Debug.LogError("Invalid code: " + e);
             StopAllCoroutines();
-            StartCoroutine(DisplayErrorText("Invalid code. Please, try using numbers only."));
+            FeedbackManager.Instance.DisplayMessage("Invalid code. Please, use numbers only.");
         }
     }
 
@@ -163,13 +168,5 @@ public class RelayManager : MonoBehaviour
         {
             selectable.interactable = enable;
         }
-    }
-
-    IEnumerator DisplayErrorText(string text) //Despliega un mensaje de error durante 5 segundos
-    {
-        errorText.text = text;
-        errorText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(5);
-        errorText.gameObject.SetActive(false);
     }
 }

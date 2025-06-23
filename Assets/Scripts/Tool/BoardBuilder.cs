@@ -58,6 +58,7 @@ public class BoardBuilder : ABuilder<GameObject>
                 Texture2D texture = NativeGallery.LoadImageAtPath(path, 1024, false);
                 if (texture == null)
                 {
+                    FeedbackManager.Instance.DisplayMessage("Unexpected error: image couldn't be loaded. Please, try again.");
                     Debug.LogError("No se pudo cargar la imagen.");
                     return;
                 }
@@ -88,6 +89,7 @@ public class BoardBuilder : ABuilder<GameObject>
                 Debug.Log("Archivo seleccionado: " + path);
                 if (!path.EndsWith(".glb"))
                 {
+                    FeedbackManager.Instance.DisplayMessage("Invalid file selected. Please choose a .glb file.", Color.white);
                     Debug.LogError("No se ha podido cargar un modelo: tipo de archivo incorrecto");
                     LoadingScreenManager.ToggleLoadingScreen(false);
                     return;

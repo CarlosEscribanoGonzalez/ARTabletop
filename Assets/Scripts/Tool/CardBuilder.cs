@@ -57,6 +57,7 @@ public class CardBuilder : ABuilder<CardInfo>
                 Texture2D texture = NativeGallery.LoadImageAtPath(path, 1024, false);
                 if (texture == null)
                 {
+                    FeedbackManager.Instance.DisplayMessage("Unexpected error: image couldn't be loaded. Please, try again.");
                     Debug.LogError("No se pudo cargar la imagen.");
                     return;
                 }

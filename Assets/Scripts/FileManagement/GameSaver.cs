@@ -104,6 +104,7 @@ public class GameSaver : MonoBehaviour
             Debug.LogError("Intento de añadir juego fallido: " + e.Message);
             foreach (string texture in addedTextures) GameDeleter.TryDeleteSingleImage(texture);
             foreach (string model in addedModels) GameDeleter.TryDeleteSingleModel(model);
+            FeedbackManager.Instance.DisplayMessage("File couldn't be readed. Please, make sure it is a valid .zip.", Color.white);
         }
         finally
         {
@@ -136,6 +137,7 @@ public class GameSaver : MonoBehaviour
             Debug.LogError("Error guardando el juego: " + e);
             foreach (string texture in addedTextures) GameDeleter.TryDeleteSingleImage(texture);
             foreach (string model in addedModels) GameDeleter.TryDeleteSingleModel(model);
+            FeedbackManager.Instance.DisplayMessage("Unexpected error: game couldn't be saved. Please, try again.");
         }
     }
 
@@ -163,6 +165,7 @@ public class GameSaver : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogError($"Error guardando imagen {entry.FullName}: {ex.Message}");
+            FeedbackManager.Instance.DisplayMessage("Unexpected error: some images couldn't be saved correctly.");
         }
     }
 
@@ -190,6 +193,7 @@ public class GameSaver : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogError($"Error guardando el modelo {entry.FullName}: {ex.Message}");
+            FeedbackManager.Instance.DisplayMessage("Unexpected error: some models couldn't be saved correctly.");
         }
     }
 }

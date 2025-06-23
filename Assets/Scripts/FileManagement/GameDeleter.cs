@@ -105,7 +105,11 @@ public class GameDeleter : MonoBehaviour
             Debug.Log($"Juego eliminado de {path}");
             File.Delete(path);
         }
-        else Debug.LogError($"No se encontró el juego a borrar en {path}");
+        else
+        {
+            FeedbackManager.Instance.DisplayMessage("Unexpected error: game to delete couldn't be found.");
+            Debug.LogError($"No se encontró el juego a borrar en {path}");
+        }
     }
 
     private static void DeleteImage(string name) //Dado el nombre de una textura busca su path y la borra
