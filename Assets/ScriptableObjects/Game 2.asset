@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e99b96a1c2ab7114fa1cdc809a181ab4, type: 3}
   m_Name: Game 2
   m_EditorClassIdentifier: 
+  author: ARTabletop
   gameName: Game 2
   gameImage: {fileID: -1046902471, guid: 3297b6300b0a32b4c8b2a122ee948de7, type: 3}
   isDefault: 1

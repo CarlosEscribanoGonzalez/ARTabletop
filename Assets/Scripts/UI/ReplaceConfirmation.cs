@@ -48,7 +48,7 @@ public class ReplaceConfirmation : MonoBehaviour
         if (content != null)
         {
             GameSaver.Instance.OnIntentReceived("Replace");
-            if (SceneManager.GetActiveScene().buildIndex == 0) SceneManager.LoadScene(0);
+            if (SceneManager.GetActiveScene().buildIndex == 0) SceneManager.LoadScene(0); //Se recarga la escena para que los botones aparezcan bien
         }
         else FindFirstObjectByType<ToolManager>().CreateGame();
     }

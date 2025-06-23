@@ -31,6 +31,8 @@ namespace Serialization
     [Serializable]
     public class GameInfoSerializable
     {
+        public string author;
+
         public string gameName;
         public string gameImageFileName;
 

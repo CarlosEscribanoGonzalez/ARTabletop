@@ -8,6 +8,9 @@ using Siccity.GLTFUtility;
 [CreateAssetMenu(menuName = "ScriptableObjects/GameInfo")]
 public class GameInfo : ScriptableObject
 {
+    [Header("Meta data: ")]
+    public string author;
+
     [Header("Game info: ")]
     public string gameName;
     public Sprite gameImage;
@@ -42,6 +45,7 @@ public class GameInfo : ScriptableObject
         //Si no existe lo crea:
         var gameInfoSerializable = new GameInfoSerializable //Primero lo convierte a información serializable
         {
+            author = this.author,
             //General settings:
             gameName = this.gameName,
             gameImageFileName = this.gameImage != null ? this.gameImage.texture.name : null,
@@ -88,6 +92,7 @@ public class GameInfo : ScriptableObject
 
         GameInfoSerializable deserialized = JsonUtility.FromJson<GameInfoSerializable>(json);
         //General settings:
+        newGameInfo.author = deserialized.author;
         newGameInfo.gameName = deserialized.gameName;
         newGameInfo.gameImage = AssignSprite(deserialized.gameImageFileName);
         newGameInfo.isDefault = false;

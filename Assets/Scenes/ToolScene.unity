@@ -2034,7 +2034,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Are you sure you want to exit?
 
-    Game''s information will be deleted.'
+    All your changes will be lost.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8197ae678a8188547af86c0d0b2f1957, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8197ae678a8188547af86c0d0b2f1957, type: 2}

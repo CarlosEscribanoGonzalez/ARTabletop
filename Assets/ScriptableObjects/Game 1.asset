@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e99b96a1c2ab7114fa1cdc809a181ab4, type: 3}
   m_Name: Game 1
   m_EditorClassIdentifier: 
+  author: ARTabletop
   gameName: Prueba marcadores
   gameImage: {fileID: 21300000, guid: 375c6975a39870647a033a070cab580b, type: 3}
   isDefault: 1

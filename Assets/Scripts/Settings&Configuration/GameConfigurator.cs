@@ -1,8 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.IO;
-using Unity.Netcode;
-using System.Linq;
 
 public class GameConfigurator : MonoBehaviour
 {
@@ -19,6 +16,7 @@ public class GameConfigurator : MonoBehaviour
     {
         if (EssentialInfo.isDefault) completeInfo = EssentialInfo;
         else completeInfo = GameInfo.GetFullInfo(EssentialInfo);
+        Debug.Log(completeInfo.author);
         //General settings:
         gameSettings.AutoShuffle = completeInfo.autoShuffle;
         //RNG section:
