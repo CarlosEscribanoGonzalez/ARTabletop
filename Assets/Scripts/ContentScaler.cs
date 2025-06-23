@@ -15,7 +15,14 @@ public static class ContentScaler
 
     public static float ScaleModel(GameObject model, float targetSize)
     {
-        meshFilters = model.GetComponentsInChildren<MeshFilter>();
+        //Para la forma en la que se calcula el factor importa mucho la orientación del modelo, 
+        //así que se trabaja con una instancia en su lugar en vez de con el modelo original
+        GameObject instance = GameObject.Instantiate(model, model.transform.parent); 
+        foreach (var rend in instance.GetComponentsInChildren<Renderer>()) rend.enabled = false;
+        instance.transform.SetParent(null);
+        instance.transform.position = Vector3.zero;
+        instance.transform.rotation = Quaternion.identity;
+        meshFilters = instance.GetComponentsInChildren<MeshFilter>();
         if (meshFilters.Length == 0) return 1;
 
         Bounds combinedBounds = meshFilters[0].sharedMesh.bounds;
@@ -31,6 +38,7 @@ public static class ContentScaler
 
         float sizeMagnitude = combinedBounds.size.magnitude;
         float scaleFactor = targetSize / sizeMagnitude;
+        GameObject.Destroy(instance);
         return scaleFactor;
     }
 
