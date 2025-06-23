@@ -2551,6 +2551,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XR Origin
       objectReference: {fileID: 0}
+    - target: {fileID: 8219992142427640263, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+      propertyPath: m_text
+      value: Please, scan the play area to set up extended tracking.
+      objectReference: {fileID: 0}
     - target: {fileID: 8355327089218356659, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
       propertyPath: near clip plane
       value: 0.01
