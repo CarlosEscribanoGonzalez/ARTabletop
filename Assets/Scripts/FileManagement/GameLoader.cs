@@ -9,6 +9,7 @@ public class GameLoader : MonoBehaviour
     public void OnEnable()
     {
         GameOptionsManager gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
+        GameOptionsManager.CustomGames.Clear();
         foreach (GameInfo game in baseGames) gameOptionsManager.AddGame(game, true); //Añade los juegos base al menú principal
         LoadSavedGames(); //Carga los juegos guardados en memoria
     }

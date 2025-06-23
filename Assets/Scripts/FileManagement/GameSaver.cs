@@ -26,6 +26,7 @@ public class GameSaver : MonoBehaviour
     public void OnIntentReceived(string uri) //Recibe un intent una vez la app ya está abierta
     {
         LoadingScreenManager.ToggleLoadingScreen(true);
+        Debug.Log("HOLALÑDJAÑFK");
         Invoke("TryReadNewGame", 0.3f); //Pequeño retraso para que dé tiempo a que salga la pantalla de carga antes de que Android bloquee la app
     }
 
@@ -119,8 +120,7 @@ public class GameSaver : MonoBehaviour
         if (File.Exists(path))
         {
             Debug.Log("Juego ya se encuentra en el dispositivo: pidiendo confirmación de replace...");
-            ZipArchive ar = archive;
-            ReplaceConfirmation.Instance.RequestConfirmation(content, ar);
+            ReplaceConfirmation.Instance.RequestConfirmation(content);
             return;
         }
         try //Si el json no existe se almacena
