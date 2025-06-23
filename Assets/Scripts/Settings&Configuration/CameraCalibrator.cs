@@ -33,7 +33,7 @@ public class CameraCalibrator : MonoBehaviour
             float fovFactor = Mathf.Tan(Mathf.Deg2Rad * 60 / 2f) /
                            Mathf.Tan(Mathf.Deg2Rad * currentFoV / 2f);
             FindFirstObjectByType<XROrigin>().transform.localScale = Vector3.one * fovFactor;
-            PlayableUnit.ScaleCameraFactor = 1 / fovFactor;
+            PlayableUnit.ScaleCameraFactor = 1 / fovFactor + (1 - fovFactor)/3;
             arCameraManager.frameReceived -= OnCameraFrameReceived;
             secondCam.projectionMatrix = projection;
         }
