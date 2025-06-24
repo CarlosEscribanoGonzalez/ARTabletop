@@ -23,8 +23,7 @@ public class GameOptionsManager : MonoBehaviour
         //Añade el contenido al Layout Manager para que sea escalable
         layoutManager.AddContent(game.transform);
         //Configuraciones finales dependiendo de si es un juego base o no (los base se configuran como tal, los que no se añaden a la lista)
-        if (isDefaultGame) game.ConfigureAsDefaultGame();
-        else CustomGames.Add(newGameInfo);
+        if (!isDefaultGame) CustomGames.Add(newGameInfo);
         StartCoroutine(ResetScrollViews());
     }
 
