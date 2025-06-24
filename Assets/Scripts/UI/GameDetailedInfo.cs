@@ -8,6 +8,7 @@ public class GameDetailedInfo : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI author;
+    [SerializeField] private TextMeshProUGUI lastEditor;
     [SerializeField] private TextMeshProUGUI rules;
     [SerializeField] private Button gameImage;
     [SerializeField] private GameObject extraButtons;
@@ -30,6 +31,7 @@ public class GameDetailedInfo : MonoBehaviour
         this.info = info;
         title.text = info.gameName;
         author.text = $"By: {info.author}";
+        lastEditor.text = info.lastEditor.Length > 0 ? $"Last edited by: {info.lastEditor}" : "";
         rules.text = info.rules != string.Empty ? info.rules : "Sorry! The author of this game didn't add the rules.";
         gameImage.image.sprite = info.gameImage;
         this.gameOption = gameOption;

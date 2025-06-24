@@ -10,6 +10,7 @@ public class GameInfo : ScriptableObject
 {
     [Header("Meta data: ")]
     public string author;
+    public string lastEditor;
     public string rules;
 
     [Header("Game info: ")]
@@ -47,6 +48,7 @@ public class GameInfo : ScriptableObject
         var gameInfoSerializable = new GameInfoSerializable //Primero lo convierte a información serializable
         {
             author = this.author,
+            lastEditor = this.lastEditor,
             rules = this.rules,
             //General settings:
             gameName = this.gameName,
@@ -95,6 +97,7 @@ public class GameInfo : ScriptableObject
         GameInfoSerializable deserialized = JsonUtility.FromJson<GameInfoSerializable>(json);
         //General settings:
         newGameInfo.author = deserialized.author;
+        newGameInfo.lastEditor = deserialized.lastEditor;
         newGameInfo.rules = deserialized.rules;
         newGameInfo.gameName = deserialized.gameName;
         newGameInfo.gameImage = AssignSprite(deserialized.gameImageFileName);

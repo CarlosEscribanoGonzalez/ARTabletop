@@ -54,8 +54,17 @@ public class ToolManager : MonoBehaviour
     public void ConfigureGame()
     {
         //Meta data:
-        gameInfo.author = PlayerPrefs.GetString("PlayerName");
-        if (gameInfo.author.Contains("Player")) gameInfo.author = "Unknown";
+        if(GameToEdit == null)
+        {
+            gameInfo.author = PlayerPrefs.GetString("PlayerName");
+            if (gameInfo.author.Contains("Player_")) gameInfo.author = "Unknown";
+        }
+        else
+        {
+            gameInfo.author = GameToEdit.author;
+            gameInfo.lastEditor = PlayerPrefs.GetString("PlayerName");
+            if (gameInfo.lastEditor.Contains("Player_")) gameInfo.lastEditor = "Unknown";
+        }
         //General settings:
         gameInfo.autoShuffle = generalSettingsBuilder.AutoShuffle;
         gameInfo.gameHasDice = generalSettingsBuilder.GameHasDice;

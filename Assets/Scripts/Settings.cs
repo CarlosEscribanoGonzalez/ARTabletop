@@ -16,8 +16,8 @@ public class Settings : MonoBehaviour
         extendedTrackingToggle.isOn = PlayerPrefs.GetInt("ExtendedTracking", 0) == 0 ? false : true;
         ExtendedTrackingManager.IsXTEnabled = extendedTrackingToggle.isOn;
         randomColorToggle.isOn = PlayerPrefs.GetInt("ColorSetting", 0) == 0 ? false : true;
-        nameInputField.SetTextWithoutNotify(PlayerPrefs.GetString("PlayerName", $"Player{Random.Range(0, 10000)}"));
-        PlayerPrefs.SetString("PlayerName", nameInputField.text);
+        nameInputField.SetTextWithoutNotify(PlayerPrefs.GetString("PlayerName", ""));
+        if(string.IsNullOrEmpty(nameInputField.text)) SetRandomName();
     }
 
     public void SaveXTConfig(bool isOn)
@@ -28,7 +28,9 @@ public class Settings : MonoBehaviour
 
     public void SetPlayerName(string name)
     {
-        PlayerPrefs.SetString("PlayerName", name);
+        PlayerPrefs.SetString("PlayerName", name.Trim());
+        nameInputField.SetTextWithoutNotify(name.Trim());
+        if (name.Trim().Length == 0) SetRandomName();
     }
 
     public void ToggleColorSetting(bool isOn)
@@ -40,5 +42,11 @@ public class Settings : MonoBehaviour
     public void SetRules(string rules)
     {
         rulesText.text = rules != string.Empty ? rules : "Sorry! The author of this game didn't add the rules.";
+    }
+
+    private void SetRandomName()
+    {
+        nameInputField.SetTextWithoutNotify($"Player_{Random.Range(0, 10000)}");
+        PlayerPrefs.SetString("PlayerName", nameInputField.text);
     }
 }
