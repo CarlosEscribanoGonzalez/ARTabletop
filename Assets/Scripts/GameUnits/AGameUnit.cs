@@ -77,7 +77,7 @@ public class AGameUnit : MonoBehaviour
 
     protected virtual void AdjustSpriteSize() //Ajusta el sprite al tamaño deseado
     {
-        spriteScaleMult = ContentScaler.ScaleImage(spriteRend.sprite.texture, desiredTextureSize);
+        spriteScaleMult = ContentScaler.ScaleSprite(spriteRend.sprite.texture, desiredTextureSize);
         spriteRend.transform.localScale *= spriteScaleMult;
     }
 }

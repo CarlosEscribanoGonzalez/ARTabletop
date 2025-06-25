@@ -54,7 +54,7 @@ public class BoardPreview : APreview<GameObject>
         else
         {
             spriteRend.sprite = rend.sprite;
-            float scaleFactor = ContentScaler.ScaleImage(spriteRend.sprite.texture, new Vector2(targetTextureSize, targetTextureSize));
+            float scaleFactor = ContentScaler.ScaleSprite(spriteRend.sprite.texture, new Vector2(targetTextureSize, targetTextureSize));
             previewTransform.localScale = Vector3.one * scaleFactor;
         }
     }

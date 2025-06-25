@@ -4,13 +4,29 @@ public static class ContentScaler
 {
     private static MeshFilter[] meshFilters;
     private static float spriteScaleMult;
+    private static Vector2 imageScaleMult;
 
-    public static float ScaleImage(Texture2D texture, Vector2 desiredTextureSize)
+    public static float ScaleSprite(Texture2D texture, Vector2 desiredTextureSize)
     {
         if (texture.width > texture.height)
             spriteScaleMult = desiredTextureSize.x / texture.width;
         else spriteScaleMult = desiredTextureSize.y / texture.height;
+        while (texture.width * spriteScaleMult > desiredTextureSize.x || texture.height * spriteScaleMult > desiredTextureSize.y)
+            spriteScaleMult *= 0.95f;
         return spriteScaleMult;
+    }
+
+    public static Vector2 ScaleImage(Texture texture, Rect desiredRect)
+    {
+        float ratio = (float)texture.width / texture.height; //Se obtiene el aspect ratio de la imagen
+        //La imagen se escala teniendo en cuenta cuál de sus dos dimensiones, width o height, es más grande, manteniendo el ratio
+        if (texture.width < texture.height) //Si es más alta se ajusta a lo ancho
+            imageScaleMult = new Vector2(desiredRect.size.x, desiredRect.size.x / ratio);
+        else imageScaleMult = new Vector2(desiredRect.size.y * ratio, desiredRect.size.y); //Si no, a lo alto
+        //Si la imagen aun así se sale del mask se hace progresivamente más pequeña hasta que no lo haga
+        while (imageScaleMult.x > desiredRect.size.x || imageScaleMult.y > desiredRect.size.y)
+            imageScaleMult *= 0.95f;
+        return imageScaleMult;
     }
 
     public static float ScaleModel(GameObject model, float targetSize)

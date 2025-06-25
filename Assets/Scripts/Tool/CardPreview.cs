@@ -34,13 +34,6 @@ public class CardPreview : APreview<CardInfo>
 
     private void AdjustSize()
     {
-        float ratio = (float)image.sprite.texture.width / image.sprite.texture.height; //Se obtiene el aspect ratio de la imagen
-        //La imagen se escala teniendo en cuenta cuál de sus dos dimensiones, width o height, es más grande, manteniendo el ratio
-        if (image.sprite.texture.width < image.sprite.texture.height) //Si es más alta se ajusta a lo ancho
-            image.rectTransform.sizeDelta = new Vector2(rectTransform.rect.size.x, rectTransform.rect.size.x / ratio);
-        else image.rectTransform.sizeDelta = new Vector2(rectTransform.rect.size.y * ratio, rectTransform.rect.size.y); //Si no, a lo alto
-        //Si la imagen aun así se sale del mask se hace progresivamente más pequeña hasta que no lo haga
-        while (image.rectTransform.sizeDelta.x > rectTransform.rect.size.x || image.rectTransform.sizeDelta.y > rectTransform.rect.size.y)
-            image.rectTransform.sizeDelta *= 0.95f;
+        image.rectTransform.sizeDelta = ContentScaler.ScaleImage(image.sprite.texture, rectTransform.rect);
     }
 }
