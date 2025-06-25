@@ -43,6 +43,5 @@ public class GameLoader : MonoBehaviour
                 FeedbackManager.Instance.DisplayMessage("Unexpected error: some games couldn't be loaded.");
             }
         }
-        LoadingScreenManager.ToggleLoadingScreen(false);
     }
 }

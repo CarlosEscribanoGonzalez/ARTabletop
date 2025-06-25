@@ -44,6 +44,7 @@ public class ExtendedTrackingManager : MonoBehaviour
         rngButtonsCanvas.enabled = true;
         msgCanvas = GetComponentInChildren<Canvas>();
         IsXTEnabled = isXTEnabled;
+        allCanvasStates.Clear();
         foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None))
         {
             if (canvas == msgCanvas) continue;
@@ -66,17 +67,29 @@ public class ExtendedTrackingManager : MonoBehaviour
         }
     }
 
+    public void OnConfigCanceled()
+    {
+        IsXTEnabled = false;
+        RestoreCanvas();
+        FindFirstObjectByType<Settings>().SetXTToggle(false);
+    }
+
     private static bool detected = false;
     public void OnPlaneDetected()
     {
         if (detected || planeManager.trackables.count == 0) return;
+        RestoreCanvas();
+        msgCanvas.enabled = false;
+        detected = true;
+        Debug.Log("PLANE DETECTED: " + GetComponent<ARPlaneManager>().trackables.count);
+    }
+
+    private static void RestoreCanvas()
+    {
         foreach (var canvas in allCanvasStates.Keys)
         {
             canvas.enabled = allCanvasStates[canvas];
         }
-        msgCanvas.enabled = false;
-        detected = true;
-        Debug.Log("PLANE DETECTED: " + GetComponent<ARPlaneManager>().trackables.count);
     }
 
     private static void ResetPlanesAndAnchors()

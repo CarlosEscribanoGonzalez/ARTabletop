@@ -26,6 +26,11 @@ public class Settings : MonoBehaviour
         ExtendedTrackingManager.IsXTEnabled = isOn;
     }
 
+    public void SetXTToggle(bool state)
+    {
+        extendedTrackingToggle.isOn = state;
+    }
+
     public void SetPlayerName(string name)
     {
         PlayerPrefs.SetString("PlayerName", name.Trim());

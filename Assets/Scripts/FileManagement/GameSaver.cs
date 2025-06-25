@@ -109,6 +109,7 @@ public class GameSaver : MonoBehaviour
         }
         finally
         {
+            LoadingScreenManager.Blocked = false;
             LoadingScreenManager.ToggleLoadingScreen(false);
         }
     }
