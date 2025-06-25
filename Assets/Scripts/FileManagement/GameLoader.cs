@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using System.Collections;
 
 public class GameLoader : MonoBehaviour
 {
@@ -42,5 +43,6 @@ public class GameLoader : MonoBehaviour
                 FeedbackManager.Instance.DisplayMessage("Unexpected error: some games couldn't be loaded.");
             }
         }
+        LoadingScreenManager.ToggleLoadingScreen(false);
     }
 }
