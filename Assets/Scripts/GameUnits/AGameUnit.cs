@@ -77,12 +77,7 @@ public class AGameUnit : MonoBehaviour
 
     protected virtual void AdjustSpriteSize() //Ajusta el sprite al tamaño deseado
     {
-        if(desiredRatio == default) desiredRatio = desiredTextureSize.x / desiredTextureSize.y;
-        ratio = (float)spriteRend.sprite.texture.width / (float)spriteRend.sprite.texture.height;
-        //Se tiene en cuenta si es más ancho o alto para calcular el factor de escala
-        if (ratio > desiredRatio) 
-            spriteScaleMult = desiredTextureSize.x / spriteRend.sprite.texture.width;
-        else spriteScaleMult = desiredTextureSize.y / spriteRend.sprite.texture.height;
+        spriteScaleMult = ContentScaler.ScaleImage(spriteRend.sprite.texture, desiredTextureSize);
         spriteRend.transform.localScale *= spriteScaleMult;
     }
 }
