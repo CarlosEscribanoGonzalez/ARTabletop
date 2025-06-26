@@ -10,8 +10,6 @@ public class AGameUnit : MonoBehaviour
     protected SpriteRenderer spriteRend; //Renderer de sprites de la unidad
     protected Vector2 desiredTextureSize = new Vector2(50, 50); //Tamaño de la textura deseado
     protected float spriteScaleMult = 0; //Multiplicador del tamaño del sprite para que se ajuste al máximo espacio posible
-    protected float ratio = 1;
-    protected float desiredRatio;
     private bool inForceMaintain = false; //Indica que el objeto debe mantenerse aunque su marcador no esté siendo trackeado
     public bool InForceMaintain { get { return inForceMaintain; }
         set

@@ -127,18 +127,11 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
     {
         base.AdjustSpriteSize();
         if (initTextSize == default) initTextSize = text.rectTransform.sizeDelta;
-        float visibleWidth, visibleHeight;
-        if (ratio >= 1f)
-        {
-            visibleWidth = initTextSize.x;
-            visibleHeight = initTextSize.y / (ratio + 0.6f);
-        }
-        else
-        {
-            visibleHeight = initTextSize.y;
-            visibleWidth = initTextSize.x * (ratio + 0.25f);
-        }
-        text.rectTransform.sizeDelta = new Vector2(visibleWidth, visibleHeight);
+        float ratio = (float)spriteRend.sprite.texture.height / spriteRend.sprite.texture.width;
+        //Se escala el texo dependiendo de si se está ajustando horizontalmente o verticalmente
+        if (desiredTextureSize.x - spriteRend.sprite.texture.width <= desiredTextureSize.y - spriteRend.sprite.texture.height)
+            text.rectTransform.sizeDelta = new Vector2(initTextSize.x, initTextSize.x * ratio); //Ajuste horizontal
+        else text.rectTransform.sizeDelta = new Vector2(initTextSize.y / ratio, initTextSize.y); //Vertical
     }
 
     IEnumerator ToggleButtonsCoroutine()
