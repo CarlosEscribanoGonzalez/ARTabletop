@@ -3965,7 +3965,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseGames:
   - {fileID: 11400000, guid: 8849e64480e18e845ab0482d667bae0d, type: 2}
-  - {fileID: 11400000, guid: c8e9700bcf0225248bba7ec9e786e84a, type: 2}
+  - {fileID: 11400000, guid: 0a3226bf66e69c74888ec158332bb578, type: 2}
 --- !u!4 &574736544
 Transform:
   m_ObjectHideFlags: 0
