@@ -57,7 +57,7 @@ public class PlayableUnit : MonoBehaviour
         }
         else
         {
-            if(ExtendedTrackingManager.IsXTEnabled && !ExtendedTrackingManager.ISXTReady)
+            if(ExtendedTrackingManager.IsXTEnabled && !ExtendedTrackingManager.IsXTReady)
             {
                 gameUnit.gameObject.SetActive(false);
                 return;
@@ -67,7 +67,7 @@ public class PlayableUnit : MonoBehaviour
                 gameUnit.gameObject.SetActive(true);
                 if (attached) DetachFromAnchor();
             }
-            else if (gameUnit.gameObject.activeSelf && !attached && !inAnchorCooldown && ExtendedTrackingManager.ISXTReady)
+            else if (gameUnit.gameObject.activeSelf && !attached && !inAnchorCooldown && ExtendedTrackingManager.IsXTReady)
             {
                 anchor = AnchorCreator.Instance.CreateAnchor(gameUnit.gameObject);
                 AttachToAnchor(); 

@@ -33,7 +33,7 @@ public class ExtendedTrackingManager : MonoBehaviour
             }
         }
     }
-    public static bool ISXTReady => planeManager.trackables.count > 0;
+    public static bool IsXTReady => planeManager.trackables.count > 0;
 
     private void Start()
     {
@@ -55,7 +55,7 @@ public class ExtendedTrackingManager : MonoBehaviour
 
     private void OnApplicationPause(bool pauseStatus)
     {
-        if (!pauseStatus && IsXTEnabled) StartCoroutine(ResetCoroutine()); 
+        if (!pauseStatus && IsXTEnabled && IsXTReady) StartCoroutine(ResetCoroutine()); 
     }
 
     public void OnTrackedImagesChanged() //Llamada cada vez que un marcador se actualiza
@@ -98,17 +98,18 @@ public class ExtendedTrackingManager : MonoBehaviour
         foreach (ARPlane p in planeManager.trackables) if(p != null) Destroy(p.gameObject);
         foreach (ARAnchor a in anchorManager.trackables) if(a != null) Destroy(a.gameObject);
         if(initPlanes > 0) FindFirstObjectByType<ARSession>()?.Reset();
+        if (allCanvasStates.Count == 0) return;
+        foreach (var canvas in allCanvasStates.Keys.ToList())
+        {
+            allCanvasStates[canvas] = canvas.enabled;
+            canvas.enabled = false;
+        }
     }
 
     IEnumerator ResetCoroutine()
     {
         IsXTEnabled = false;
         ResetPlanesAndAnchors();
-        foreach (var canvas in allCanvasStates.Keys.ToList())
-        {
-            allCanvasStates[canvas] = canvas.enabled;
-            canvas.enabled = false;
-        }
         yield return null;
         IsXTEnabled = true;
     }

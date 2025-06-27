@@ -104,9 +104,9 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         specialCard.SetInfo(randomizedInfo[currentInfoIndex.Value], resetScale);
     }
 
-    private void ApplyShuffle(bool displayFeedback = true) //Se baraja igual en todos los clientes al compartir semilla
+    private void ApplyShuffle(bool isFirstTime = true) //Se baraja igual en todos los clientes al compartir semilla
     {
-        if (GameSettings.Instance.AutoShuffle)
+        if (GameSettings.Instance.AutoShuffle || isFirstTime)
         {
             int randomSeed = randomizerSeed.Value != default ? randomizerSeed.Value : Random.Range(0, 100000);
             System.Random rand = new System.Random(randomSeed);
@@ -114,7 +114,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         }
         else randomizedInfo = CardsInfo;
         ApplyInfo(true);
-        if(displayFeedback) StartCoroutine(DisplayShuffleFeedback());
+        if(isFirstTime) StartCoroutine(DisplayShuffleFeedback());
     }
 
     private static SpecialCardGameManager currentManagerDisplaying; //Sólo un SpecialCardManager puede hacer display del feedback a la vez
