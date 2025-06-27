@@ -19,8 +19,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     private void Start()
     {
         //Se aleatoriza la información una vez la semilla ha sido establecida
-        if (GameSettings.Instance.AutoShuffle) GameSettings.Instance.OnSeedSet += () => ApplyShuffle(false);
-        else randomizedInfo = CardsInfo;
+        GameSettings.Instance.OnSeedSet += () => ApplyShuffle(false);
         currentInfoIndex.OnValueChanged += (int prevIndex, int currentIndex) => ApplyInfo(true); //La info se actualiza cuando el índice cambia
         totalDrags.OnValueChanged += (int prevIndex, int currentIndex) =>
         {
@@ -107,9 +106,13 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
 
     private void ApplyShuffle(bool displayFeedback = true) //Se baraja igual en todos los clientes al compartir semilla
     {
-        int randomSeed = randomizerSeed.Value != default ? randomizerSeed.Value : Random.Range(0, 100000);
-        System.Random rand = new System.Random(randomSeed);
-        randomizedInfo = CardsInfo.OrderBy(x => rand.Next()).ToArray();
+        if (GameSettings.Instance.AutoShuffle)
+        {
+            int randomSeed = randomizerSeed.Value != default ? randomizerSeed.Value : Random.Range(0, 100000);
+            System.Random rand = new System.Random(randomSeed);
+            randomizedInfo = CardsInfo.OrderBy(x => rand.Next()).ToArray();
+        }
+        else randomizedInfo = CardsInfo;
         ApplyInfo(true);
         if(displayFeedback) StartCoroutine(DisplayShuffleFeedback());
     }

@@ -2228,6 +2228,10 @@ PrefabInstance:
       value: Settings
       objectReference: {fileID: 0}
     - target: {fileID: 9108034150292063042, guid: 53c628d749d05794992d35598dda3e9b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108034150292063042, guid: 53c628d749d05794992d35598dda3e9b, type: 3}
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
@@ -2885,6 +2889,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: DetailedViewCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1646466931854565541, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646466931854565541, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503792515399965530, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5714294729152827660, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -1440
+      objectReference: {fileID: 0}
+    - target: {fileID: 6220719769346824359, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6220719769346824359, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6220719769346824359, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7757299965451789141, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2964,6 +2996,10 @@ PrefabInstance:
     - target: {fileID: 7757299965451789141, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8196930645591552088, guid: 81638ab7e1f458a49ac34710191473e2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

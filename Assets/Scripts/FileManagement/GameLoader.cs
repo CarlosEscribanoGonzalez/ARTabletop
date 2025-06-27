@@ -1,7 +1,6 @@
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using System.Collections;
 
 public class GameLoader : MonoBehaviour
 {

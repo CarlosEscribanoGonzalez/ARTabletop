@@ -136,7 +136,7 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
 
     IEnumerator ToggleButtonsCoroutine()
     {
-        yield return new WaitForSeconds(clickThreshold + 0.1f); //Deja un pequeño margen de tiempo de 0.1f 
+        yield return new WaitForSeconds(clickThreshold); //Deja un pequeño margen de tiempo de 0.1f 
         buttonCanvas.SetActive(!buttonCanvas.activeSelf);
     }
 }
