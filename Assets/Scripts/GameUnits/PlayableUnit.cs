@@ -39,7 +39,16 @@ public class PlayableUnit : MonoBehaviour
         piece.SetActive(false);
         board.SetActive(false);
         noInfoIndicator.SetActive(true); //Hay un bug en algunos móviles que lo hace visible por la cara
-        foreach (Transform t in noInfoIndicator.GetComponentsInChildren<Transform>(true)) t.gameObject.SetActive(true);
+        foreach (Transform t in noInfoIndicator.GetComponentsInChildren<Transform>(true))
+        {
+            if (t.GetComponent<SpriteMask>())
+            {
+                if (t.name.Contains("board")) 
+                    t.gameObject.SetActive(trackable.referenceImage.name.ToLower().Contains("board"));
+                else t.gameObject.SetActive(!trackable.referenceImage.name.ToLower().Contains("board"));
+            }
+            else t.gameObject.SetActive(true);
+        }
         gameUnit = null;
     }
 
