@@ -18,8 +18,12 @@ public class CardBuilder : ABuilder<CardInfo>
     {
         if (Content.Count > 0) return;
         if (contentDropdown != null)
-        {
-            for (int i = 0; i < contentDropdown.value + 1; i++) Content.Add(new CardInfo());
+        {            
+            for (int i = 0; i < maxLength; i++)
+            {
+                if(i < initLength) Content.Add(new CardInfo());
+            }
+            contentDropdown.SetValueWithoutNotify(initLength - 1);
             setAsDefaultButton.interactable = false;
         }
     }

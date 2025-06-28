@@ -7,6 +7,9 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
     [SerializeField] protected APreview<T> preview;
     [SerializeField] protected TMP_Dropdown contentDropdown;
     [SerializeField] protected TextMeshProUGUI indexText;
+    [SerializeField] protected int initLength = 4;
+    [SerializeField] protected int maxLength = 16;
+    [SerializeField] protected bool addZero = false;
     [SerializeField] private GameObject confirmationPanel;
     [SerializeField] private GameObject arrows;
     [SerializeField] private bool newContentIsNull = false;
@@ -14,6 +17,15 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
     private int newLength;
     public List<T> Content { get; set; } = new();
     public int Index { get { return index; } set { index = value; } }
+
+    protected virtual void Awake()
+    {
+        contentDropdown.ClearOptions();
+        List<string> options = new();
+        if (addZero) options.Add("0");
+        for (int i = 0; i < maxLength; i++) options.Add((i + 1).ToString());
+        contentDropdown.AddOptions(options);
+    }
 
     public abstract void SetInitInfo(GameInfo gameInfo);
 

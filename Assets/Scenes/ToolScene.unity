@@ -3411,6 +3411,9 @@ MonoBehaviour:
   preview: {fileID: 0}
   contentDropdown: {fileID: 1747364391}
   indexText: {fileID: 1283057990}
+  initLength: 1
+  maxLength: 10
+  addZero: 0
   confirmationPanel: {fileID: 63198809}
   arrows: {fileID: 367808660}
   newContentIsNull: 0
@@ -9246,6 +9249,9 @@ MonoBehaviour:
   preview: {fileID: 559534619}
   contentDropdown: {fileID: 1916789004}
   indexText: {fileID: 1407159373}
+  initLength: 4
+  maxLength: 16
+  addZero: 0
   confirmationPanel: {fileID: 1279889879}
   arrows: {fileID: 2086913915}
   newContentIsNull: 1
@@ -18195,6 +18201,9 @@ MonoBehaviour:
   preview: {fileID: 0}
   contentDropdown: {fileID: 0}
   indexText: {fileID: 0}
+  initLength: 4
+  maxLength: 16
+  addZero: 0
   confirmationPanel: {fileID: 0}
   arrows: {fileID: 0}
   newContentIsNull: 0
@@ -20716,6 +20725,9 @@ MonoBehaviour:
   preview: {fileID: 1608645024}
   contentDropdown: {fileID: 1027058269}
   indexText: {fileID: 2070499390}
+  initLength: 0
+  maxLength: 5
+  addZero: 1
   confirmationPanel: {fileID: 2135933927}
   arrows: {fileID: 1380666478}
   newContentIsNull: 1
@@ -22220,6 +22232,10 @@ PrefabInstance:
     - target: {fileID: 6822961997034320447, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8466496873488688695, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
+      propertyPath: maxLength
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

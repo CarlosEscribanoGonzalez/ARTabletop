@@ -13,8 +13,9 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
     [SerializeField] private Button removeButton;
     public List<string> Names { get; } = new();
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (ToolManager.GameToEdit != null && ToolManager.GameToEdit.specialCardsInfo.Count > 0) return;
         GenerateSpecialCard();
     }
