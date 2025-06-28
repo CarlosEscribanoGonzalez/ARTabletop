@@ -46,8 +46,8 @@ public class GameSettings : NetworkBehaviour
         {
             var manager = SpecialCardsDictionary.ElementAt(index).Key; //Obtiene el manager asociado al índice y lo devuelve tras asociarlo a la carta
             SpecialCardsDictionary[manager] = card;
-            return manager;
+            if(manager.CardsInfo != null) return manager;
         }
-        else return null;
+        return null;
     }
 }

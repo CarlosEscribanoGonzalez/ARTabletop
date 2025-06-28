@@ -30,18 +30,7 @@ public class ToolManager : MonoBehaviour
         scardBuilder = GetComponentInChildren<SpecialCardBuilder>(true);
         if(GameToEdit != null)
         {
-            GameToEdit = GameInfo.GetFullInfo(GameToEdit);
-            rulesText.text = GameToEdit.rules;
-            rulesText.onValueChanged.Invoke(rulesText.text);
-            generalSettingsBuilder.SetInitInfo(GameToEdit);
-            cardBuilder.SetInitInfo(GameToEdit);
-            pieceBuilder.SetInitInfo(GameToEdit);
-            boardBuilder.SetInitInfo(GameToEdit);
-            scardBuilder.SetInitInfo(GameToEdit);
-            nameInputField.SetTextWithoutNotify(GameToEdit.gameName);
-            SetGameName(nameInputField.text);
-            gameImage.sprite = GameToEdit.gameImage;
-            SetGameImage(gameImage);
+            OpenGame();
         }
         else createGameButton.interactable = false;
     }
@@ -138,5 +127,21 @@ public class ToolManager : MonoBehaviour
         cardBuilder.DownloadInfo();
         gameInfo.ConvertToJson();
         GetComponentInChildren<ButtonSceneLoader>().ChangeScene(0);
+    }
+
+    private void OpenGame()
+    {
+        GameToEdit = GameInfo.GetFullInfo(GameToEdit);
+        rulesText.text = GameToEdit.rules;
+        rulesText.onValueChanged.Invoke(rulesText.text);
+        generalSettingsBuilder.SetInitInfo(GameToEdit);
+        cardBuilder.SetInitInfo(GameToEdit);
+        pieceBuilder.SetInitInfo(GameToEdit);
+        boardBuilder.SetInitInfo(GameToEdit);
+        scardBuilder.SetInitInfo(GameToEdit);
+        nameInputField.SetTextWithoutNotify(GameToEdit.gameName);
+        SetGameName(nameInputField.text);
+        gameImage.sprite = GameToEdit.gameImage;
+        SetGameImage(gameImage);
     }
 }

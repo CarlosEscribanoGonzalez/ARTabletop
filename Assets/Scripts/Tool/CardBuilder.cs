@@ -14,26 +14,30 @@ public class CardBuilder : ABuilder<CardInfo>
     [SerializeField] private Button setAsDefaultButton;
     public Sprite DefaultImage => defaultImage;
 
-    private void Awake()
+    private void OnEnable()
     {
-        if ((ToolManager.GameToEdit != null && ToolManager.GameToEdit.cardsInfo.Count > 0) || Content.Count > 0) 
-            return;
-        if (contentDropdown != null) 
+        if (Content.Count > 0) return;
+        if (contentDropdown != null)
+        {
             for (int i = 0; i < contentDropdown.value + 1; i++) Content.Add(new CardInfo());
+            setAsDefaultButton.interactable = false;
+        }
     }
 
     public override void SetInitInfo(GameInfo gameInfo)
     {
-        if (gameInfo.cardsInfo.Count == 0) return;
         ConfigureBuilder(gameInfo.cardsInfo, gameInfo.defaultSprite); //Para no escribir dos veces el mismo código
     }
 
     public void ConfigureBuilder(List<CardInfo> cardsInfo, Sprite defaultImage) //Hace falta esta función para que scards builder pueda configurar sus cartas
     {
-        Content = cardsInfo;
+        if (cardsInfo.Count > 0)
+        {
+            Content = cardsInfo;
+            contentDropdown.SetValueWithoutNotify(Content.Count - 1);
+        }
         this.defaultImage = defaultImage;
         defaultPreview.SetImage(defaultImage);
-        contentDropdown.SetValueWithoutNotify(Content.Count - 1);
         UpdateIndex(0);
     }
 
