@@ -36,7 +36,6 @@ public class PieceBuilder : ABuilder<GameObject>
         defaultPiece = gameInfo.defaultPiece;
         defaultPreview.UpdateValues(defaultPiece);
         UpdateIndex(0);
-        contentDropdown.SetValueWithoutNotify(Content.Count - 1);
     }
 
     public override void UpdateIndex(int dir)

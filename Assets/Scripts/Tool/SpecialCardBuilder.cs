@@ -23,7 +23,6 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
     public override void SetInitInfo(GameInfo gameInfo)
     {
         if (gameInfo.specialCardsInfo.Count == 0) return;
-        contentDropdown.SetValueWithoutNotify(gameInfo.specialCardsInfo.Count - 1);
         for(int i = gameInfo.specialCardsInfo.Count - 1; i >= 0; i--) //Si no los da al revés
         {
             var scardInfo = gameInfo.specialCardsInfo[i];

@@ -16,7 +16,6 @@ public class BoardBuilder : ABuilder<GameObject>
     {
         int numBoards = gameInfo.boards2D.Count + gameInfo.boards3D.Count;
         if (numBoards == 0) return;
-        contentDropdown.SetValueWithoutNotify(numBoards);
         foreach (var board2d in gameInfo.boards2D)
         {
             GameObject newContent = new();

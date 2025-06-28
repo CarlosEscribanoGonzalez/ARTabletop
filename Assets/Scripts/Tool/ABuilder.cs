@@ -20,11 +20,14 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
 
     protected virtual void Awake()
     {
+        if (contentDropdown == null) return;
+        int initialValue = contentDropdown.value; //SetInitInfo se ejecuta antes que el Awake, así que puede haber alterado el value antes de estar el dropdown configurado
         contentDropdown.ClearOptions();
         List<string> options = new();
         if (addZero) options.Add("0");
         for (int i = 0; i < maxLength; i++) options.Add((i + 1).ToString());
         contentDropdown.AddOptions(options);
+        contentDropdown.SetValueWithoutNotify(initialValue);
     }
 
     public abstract void SetInitInfo(GameInfo gameInfo);

@@ -28,10 +28,7 @@ public class ToolManager : MonoBehaviour
         pieceBuilder = GetComponentInChildren<PieceBuilder>(true);
         boardBuilder = GetComponentInChildren<BoardBuilder>(true);
         scardBuilder = GetComponentInChildren<SpecialCardBuilder>(true);
-        if(GameToEdit != null)
-        {
-            OpenGame();
-        }
+        if(GameToEdit != null) OpenGame();
         else createGameButton.interactable = false;
     }
 
