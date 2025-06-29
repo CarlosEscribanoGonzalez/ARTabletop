@@ -36,7 +36,7 @@ public class RNGCamera : MonoBehaviour
 
     public void ZoomBackground() //Acerca el canvas con el background. Llamado por la pestaña de resultados al aparecer
     {
-        camBackground.planeDistance = 5; //Poniendo el canvas cerca se consigue que los resultados se lean bien, dejando a los dados de fondo
+        camBackground.planeDistance = 2; //Poniendo el canvas cerca se consigue que los resultados se lean bien, dejando a los dados de fondo
     }
 
     public void ZoomOutBackground()
