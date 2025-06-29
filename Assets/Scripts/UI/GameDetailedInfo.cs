@@ -21,11 +21,6 @@ public class GameDetailedInfo : MonoBehaviour
         confirmationPanel = FindFirstObjectByType<ConfirmationPanel>(FindObjectsInactive.Include);
     }
 
-    private void OnEnable() //Configura el juego como juego base de la app: sin los botones de eliminar y compartir
-    {
-        extraButtons.SetActive(!info.isDefault);
-    }
-
     public void SetInfo(GameInfo info, GameOption gameOption)
     {
         this.info = info;
@@ -36,6 +31,7 @@ public class GameDetailedInfo : MonoBehaviour
         rules.text = info.rules != string.Empty ? info.rules : "Sorry! The author of this game didn't add the rules.";
         gameImage.image.sprite = info.gameImage;
         this.gameOption = gameOption;
+        extraButtons.SetActive(!info.isDefault);
     }
 
     public void Play()

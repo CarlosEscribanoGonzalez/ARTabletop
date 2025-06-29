@@ -21,6 +21,7 @@ public class MarkerCreator : MonoBehaviour
     [SerializeField] private string number;
     [SerializeField] private string abbreviation;
     [SerializeField] private Vector2 centreOffset;
+    [SerializeField] private bool maintainColor = false;
     [Header("Saving configuration: ")]
     [SerializeField] private string folderName = "GeneratedMarkers";
     [SerializeField] private Vector2 imageDimensions = new Vector2(1000, 1400);
@@ -43,18 +44,21 @@ public class MarkerCreator : MonoBehaviour
     {
         typeText.text = markerType;
         numberText.text = number;
-        centreBackground.color = new Color(Random.value, Random.value, Random.value, 1);
-        do
-        {
-            typeText.color = new Color(Random.value, Random.value, Random.value, 1);
-        } while (IsSimilar(typeText.color, centreBackground.color, 0.3f));
-        numberText.color = typeText.color;
         centreTransform.localPosition = new Vector3(Random.Range(-centreOffset.x, centreOffset.x), 0, Random.Range(-centreOffset.y, centreOffset.y));
-        foreach (SpriteRenderer rend in backgroundSprites)
-            rend.color = new Color(Random.value, Random.value, Random.value, 1);
+        if (!maintainColor)
+        {
+            centreBackground.color = new Color(Random.value, Random.value, Random.value, 1);
+            do
+            {
+                typeText.color = new Color(Random.value, Random.value, Random.value, 1);
+            } while (IsSimilar(typeText.color, centreBackground.color, 0.3f));
+            numberText.color = typeText.color;
+            foreach (SpriteRenderer rend in backgroundSprites)
+                rend.color = new Color(Random.value, Random.value, Random.value, 1);
+        }
         foreach(TextMeshProUGUI textMesh in texts)
         {
-            textMesh.color = new Color(Random.value, Random.value, Random.value, 1);
+            if(!maintainColor) textMesh.color = new Color(Random.value, Random.value, Random.value, 1);
             textMesh.fontStyle = FontStyles.Normal;
             if(Random.value > 0.5f) textMesh.fontStyle |= FontStyles.Italic;
             if(Random.value > 0.5f) textMesh.fontStyle |= FontStyles.Bold;
