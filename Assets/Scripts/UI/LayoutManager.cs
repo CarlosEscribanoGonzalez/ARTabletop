@@ -10,17 +10,21 @@ public class LayoutManager : MonoBehaviour
     [SerializeField] private float landscapeSizeMult = 1; //Multiplicador de tamaño del contenido cuando está en landscape
     [SerializeField] private GameObject objToHidePortrait; //Objeto que se oculta en portrait
     [SerializeField] private GameObject objToHideLandscape; //Objeto que se oculta en landscape
+    private Canvas canvas;
     private ScreenOrientation orientation; //Orientación almacenada de la pantalla
     public System.Action OnLayoutUpdated;
 
     void OnEnable() //Se registra la orientación y se actualiza el layout según ella
     {
+        canvas = GetComponentInParent<Canvas>();
+        if (!canvas.enabled) return;
         orientation = Screen.orientation; 
         UpdateLayout();
     }
 
     void Update() //Cuando el dispositivo gira se actualizan orientation y el layout
     {
+        if (!canvas.enabled) return;
         if(orientation != Screen.orientation)
         {
             orientation = Screen.orientation;
