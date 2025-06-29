@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEngine.UI;
 
 public class LayoutManager : MonoBehaviour
 {
@@ -18,7 +20,8 @@ public class LayoutManager : MonoBehaviour
     {
         canvas = GetComponentInParent<Canvas>();
         if (!canvas.enabled) return;
-        orientation = Screen.orientation; 
+        orientation = Screen.orientation;
+        StartCoroutine(ResetScrollViews());
         UpdateLayout();
     }
 
@@ -55,6 +58,7 @@ public class LayoutManager : MonoBehaviour
             ChangeLayout(layoutInPortrait);
         else ChangeLayout(layoutInLandscape);
         OnLayoutUpdated?.Invoke();
+        StartCoroutine(ResetScrollViews());
     }
 
     private void ChangeLayout(Transform newLayout) //Cambia el contenido de padre para que se visualice bien dependiendo de la orientación
@@ -81,5 +85,20 @@ public class LayoutManager : MonoBehaviour
         }
         if(objToHidePortrait != null) objToHidePortrait.SetActive(newLayout == layoutInLandscape);
         if(objToHideLandscape != null) objToHideLandscape.SetActive(newLayout == layoutInPortrait);
+    }
+
+    IEnumerator ResetScrollViews()
+    {
+        yield return null;
+        foreach (var scroll in GetComponentsInChildren<ScrollRect>(true))
+        {
+            if (scroll.horizontal) yield return null;
+            float prevElasticity = scroll.elasticity;
+            scroll.elasticity = 0;
+            scroll.verticalNormalizedPosition = 1;
+            scroll.horizontalNormalizedPosition = 0;
+            yield return null;
+            scroll.elasticity = prevElasticity;
+        }
     }
 }

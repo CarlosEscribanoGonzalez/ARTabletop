@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Collections;
 
 public class GameOptionsManager : MonoBehaviour
 {
@@ -12,7 +10,6 @@ public class GameOptionsManager : MonoBehaviour
     void Awake()
     {
         layoutManager = GetComponent<LayoutManager>();
-        layoutManager.OnLayoutUpdated += (() => StartCoroutine(ResetScrollViews()));
     }
 
     public void AddGame(GameInfo newGameInfo, bool isDefaultGame = false) //Añade un juego a la lista
@@ -24,27 +21,11 @@ public class GameOptionsManager : MonoBehaviour
         layoutManager.AddContent(game.transform);
         //Configuraciones finales dependiendo de si es un juego base o no (los base se configuran como tal, los que no se añaden a la lista)
         if (!isDefaultGame) CustomGames.Add(newGameInfo);
-        StartCoroutine(ResetScrollViews());
     }
 
     public void RemoveGame(GameInfo game, Transform buttonTransform) //Borra un juego de la lista
     {
         CustomGames.Remove(game);
         layoutManager.RemoveContent(buttonTransform); //Tiene que eliminarlo del layoutManager para que no salga error al girar el dispositivo
-    }
-
-    IEnumerator ResetScrollViews()
-    {
-        yield return null;
-        foreach (var scroll in GetComponentsInChildren<ScrollRect>(true))
-        {
-            if (scroll.horizontal) yield return null;
-            float prevElasticity = scroll.elasticity;
-            scroll.elasticity = 0;
-            scroll.verticalNormalizedPosition = 1;
-            scroll.horizontalNormalizedPosition = 0;
-            yield return null;
-            scroll.elasticity = prevElasticity;
-        }
     }
 }
