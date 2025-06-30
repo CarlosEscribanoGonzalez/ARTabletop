@@ -31,6 +31,7 @@ public class ReplaceConfirmation : MonoBehaviour
 
     public void ReplaceGame()
     {
+        LoadingScreenManager.ToggleLoadingScreen(true, true, "Replacing game...");
         string gameID = IDCreator.GetCustomJsonID(gameToReplace);
         GameInfo originalGame = null;
         foreach(GameInfo game in GameOptionsManager.CustomGames)
@@ -48,9 +49,12 @@ public class ReplaceConfirmation : MonoBehaviour
         if (content != null)
         {
             GameSaver.Instance.OnIntentReceived("Replace");
-            LoadingScreenManager.ToggleLoadingScreen(true, true);
             if (SceneManager.GetActiveScene().buildIndex == 0) SceneManager.LoadScene(0); //Se recarga la escena para que los botones aparezcan bien
         }
-        else FindFirstObjectByType<ToolManager>().CreateGame();
+        else
+        {
+            LoadingScreenManager.UnlockBySceneChange = true;
+            FindFirstObjectByType<ToolManager>().CreateGame();
+        }
     }
 }

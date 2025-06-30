@@ -36,7 +36,7 @@ public class GameDetailedInfo : MonoBehaviour
 
     public void Play()
     {
-        LoadingScreenManager.ToggleLoadingScreen(true); //Pestaña de cargando para que no se raye el usuario
+        LoadingScreenManager.ToggleLoadingScreen(true, false, "Configuring game session..."); //Pestaña de cargando para que no se raye el usuario
         GameConfigurator.EssentialInfo = info; //Se pasa la info del juego al Game Configurator para que se configure
         SceneManager.LoadScene(1);
     }
@@ -64,25 +64,25 @@ public class GameDetailedInfo : MonoBehaviour
 
     IEnumerator ShareCoroutine()
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
+        LoadingScreenManager.ToggleLoadingScreen(true, false, "Creating zip...");
         yield return null; //Se espera un frame para que la pestaña aparezca
         GameSharer.Share(info);
     }
 
     IEnumerator DeleteCoroutine()
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
+        LoadingScreenManager.ToggleLoadingScreen(true, false, "Deleting game...");
         yield return null;
         FindFirstObjectByType<GameOptionsManager>().RemoveGame(info, gameOption.transform); //Se borra la opción de la lista de juegos
         //En este caso, como el borrado sólo utiliza la información serializada no hace falta hacer GetFullInfo
         GameDeleter.DeleteGameFiles(info); //Se borra toda la información del juego de los archivos locales
         Destroy(gameOption.gameObject); //Se destruye el botón
-        this.gameObject.SetActive(false);
+        GetComponent<Canvas>().enabled = false;
     }
 
     IEnumerator EditCoroutine()
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
+        LoadingScreenManager.ToggleLoadingScreen(true, false, "Configuring game creator...");
         yield return null;
         ToolManager.GameToEdit = info;
         SceneManager.LoadScene(2);

@@ -46,7 +46,7 @@ public class PieceBuilder : ABuilder<GameObject>
 
     public void PickPiece(bool isDefaultPiece)
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
+        LoadingScreenManager.ToggleLoadingScreen(true, false, "Importing model...");
         GameObject piecePrefab;
         ContentLoader.Instance.PickModel((path) =>
         {

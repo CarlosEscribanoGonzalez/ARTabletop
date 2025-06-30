@@ -57,7 +57,7 @@ public class CardBuilder : ABuilder<CardInfo>
 
     public void PickImage(bool isDefaultImage)
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
+        LoadingScreenManager.ToggleLoadingScreen(true, false, "Importing image...");
         ContentLoader.Instance.PickImage((path) =>
         {
             if (path != null)

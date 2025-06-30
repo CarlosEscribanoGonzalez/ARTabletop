@@ -49,7 +49,7 @@ public class BoardBuilder : ABuilder<GameObject>
 
     public void PickImage()
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
+        LoadingScreenManager.ToggleLoadingScreen(true, false, "Importing image...");
         ContentLoader.Instance.PickImage((path) =>
         {
             if (path != null)
@@ -79,7 +79,7 @@ public class BoardBuilder : ABuilder<GameObject>
 
     public void PickModel()
     {
-        LoadingScreenManager.ToggleLoadingScreen(true);
+        LoadingScreenManager.ToggleLoadingScreen(true, false, "Importing model...");
         GameObject boardPrefab;
         ContentLoader.Instance.PickModel((path) =>
         {
