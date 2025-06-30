@@ -981,7 +981,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1078664226}
   m_HandleRect: {fileID: 1078664225}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3594,6 +3594,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3281444069707334466, guid: cf3ddef9438f6e0478249a428068bdd3, type: 3}
+      propertyPath: m_text
+      value: 'Disclaimer text
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 3784897559603226495, guid: cf3ddef9438f6e0478249a428068bdd3, type: 3}
       propertyPath: m_Name
       value: DeleteConfirmation
@@ -4179,8 +4185,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 126880857}
   m_HandleRect: {fileID: 126880856}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0.5
+  m_Size: 0.85564685
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11649,6 +11655,11 @@ PrefabInstance:
     - target: {fileID: 973825598916926329, guid: cf3ddef9438f6e0478249a428068bdd3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3281444069707334466, guid: cf3ddef9438f6e0478249a428068bdd3, type: 3}
+      propertyPath: m_text
+      value: A game with the same name and cover already exists. Do you want to replace
+        it?
       objectReference: {fileID: 0}
     - target: {fileID: 3784897559603226495, guid: cf3ddef9438f6e0478249a428068bdd3, type: 3}
       propertyPath: m_Name
