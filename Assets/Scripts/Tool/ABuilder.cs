@@ -10,7 +10,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
     [SerializeField] protected int initLength = 4;
     [SerializeField] protected int maxLength = 16;
     [SerializeField] protected bool addZero = false;
-    [SerializeField] private GameObject confirmationPanel;
+    [SerializeField] private Canvas confirmationPanel;
     [SerializeField] private GameObject arrows;
     [SerializeField] private bool newContentIsNull = false;
     protected int index = 0;
@@ -48,7 +48,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
         if (Content.Count > newLength)
         {
             contentDropdown.SetValueWithoutNotify(Content.Count - 1); //Se "cancela" el cambio a la espera de la confirmación
-            confirmationPanel.SetActive(true);
+            confirmationPanel.enabled = true;
         }
         else if (Content.Count < newLength)
             while (Content.Count < newLength) Content.Add(newContentIsNull ? default : new T());
