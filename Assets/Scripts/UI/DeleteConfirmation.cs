@@ -1,15 +1,17 @@
 using UnityEngine;
 using TMPro;
 
-public class ConfirmationPanel : MonoBehaviour
+public class DeleteConfirmation : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI disclaimerText; //Texto de aviso cuando un juego va a ser eliminado
-    public GameInfo Info { get; set; } = null; //Botón del juego que se quiere borrar
-
-    private void OnEnable()
-    {
-        disclaimerText.text = $"Are you sure you want to delete {Info.gameName}?";
-    }
+    private GameInfo info;
+    public GameInfo Info { get { return info; } 
+        set 
+        {
+            info = value;
+            disclaimerText.text = $"Are you sure you want to delete '{info.gameName}'?";
+        } 
+    } 
 
     public void OnDeleteConfirmed()
     {

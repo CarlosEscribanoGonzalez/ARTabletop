@@ -12,13 +12,13 @@ public class GameDetailedInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rules;
     [SerializeField] private Button gameImage;
     [SerializeField] private GameObject extraButtons;
-    private ConfirmationPanel confirmationPanel; //Panel de confirmación de borrado de juego
+    private DeleteConfirmation confirmationPanel; //Panel de confirmación de borrado de juego
     private GameInfo info;
     private GameOption gameOption;
 
     private void Awake()
     {
-        confirmationPanel = FindFirstObjectByType<ConfirmationPanel>(FindObjectsInactive.Include);
+        confirmationPanel = FindFirstObjectByType<DeleteConfirmation>(FindObjectsInactive.Include);
     }
 
     public void SetInfo(GameInfo info, GameOption gameOption)
@@ -44,7 +44,7 @@ public class GameDetailedInfo : MonoBehaviour
     public void OnRemoveButtonPressed() //Llamado cuando el botón de borrado se pulsa
     {
         confirmationPanel.Info = info; //Configura el panel de confirmación y lo activa
-        confirmationPanel.gameObject.SetActive(true);
+        confirmationPanel.GetComponent<Canvas>().enabled = true;
     }
 
     public void DeleteGame() //Llamado cuando en el panel de confirmación se confirma el borrado del juego
@@ -77,7 +77,7 @@ public class GameDetailedInfo : MonoBehaviour
         //En este caso, como el borrado sólo utiliza la información serializada no hace falta hacer GetFullInfo
         GameDeleter.DeleteGameFiles(info); //Se borra toda la información del juego de los archivos locales
         Destroy(gameOption.gameObject); //Se destruye el botón
-        GetComponent<Canvas>().enabled = false;
+        foreach (var c in transform.parent.GetComponentsInChildren<Canvas>(true)) c.enabled = false; //Hay 2 confirmation panels, uno portrait y otro layout
     }
 
     IEnumerator EditCoroutine()

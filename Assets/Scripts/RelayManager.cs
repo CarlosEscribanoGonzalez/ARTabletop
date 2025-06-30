@@ -157,7 +157,7 @@ public class RelayManager : MonoBehaviour
         {
             Debug.LogError("Invalid code: " + e);
             StopAllCoroutines();
-            FeedbackManager.Instance.DisplayMessage("Invalid code. Please, use numbers only.");
+            FeedbackManager.Instance.DisplayMessage("Invalid offline code. Please, use numbers only.");
         }
     }
 

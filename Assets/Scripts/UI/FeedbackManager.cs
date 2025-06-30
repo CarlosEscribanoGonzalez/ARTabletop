@@ -5,7 +5,7 @@ using System.Collections;
 public class FeedbackManager : MonoBehaviour
 {
     [SerializeField] private float fadeOutSpeed = 1;
-    [SerializeField] private float stayTime = 3; //Tiempo que se queda enseñando el mensaje
+    [SerializeField] private float stayTime = 5; //Tiempo que se queda enseñando el mensaje
     private TextMeshProUGUI textMesh;
     private CanvasGroup canvasGroup;
     private WaitForSeconds waitTime;

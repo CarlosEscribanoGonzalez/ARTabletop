@@ -88,7 +88,7 @@ public class BoardBuilder : ABuilder<GameObject>
                 Debug.Log("Archivo seleccionado: " + path);
                 if (!path.EndsWith(".glb"))
                 {
-                    FeedbackManager.Instance.DisplayMessage("Invalid file selected. Please choose a .glb file.", Color.white);
+                    FeedbackManager.Instance.DisplayMessage("Invalid file selected. Please choose a file with .glb extension.", Color.white);
                     Debug.LogError("No se ha podido cargar un modelo: tipo de archivo incorrecto");
                     LoadingScreenManager.ToggleLoadingScreen(false);
                     return;
