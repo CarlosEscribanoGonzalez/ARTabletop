@@ -27,7 +27,7 @@ public class GameDetailedInfo : MonoBehaviour
         title.text = info.gameName;
         author.text = $"By: {info.author}";
         if(!info.author.Equals(info.lastEditor))
-            lastEditor.text = info.lastEditor.Length > 0 ? $"Last edited by: {info.lastEditor}" : "";
+            lastEditor.text = info.lastEditor.Length > 0 ? $"Last editor: {info.lastEditor}" : "";
         rules.text = info.rules != string.Empty ? info.rules : "Sorry! The author of this game didn't add the rules.";
         gameImage.image.sprite = info.gameImage;
         this.gameOption = gameOption;

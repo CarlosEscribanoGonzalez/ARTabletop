@@ -19,7 +19,7 @@ public class LayoutManager : MonoBehaviour
     void OnEnable() //Se registra la orientación y se actualiza el layout según ella
     {
         canvas = GetComponentInParent<Canvas>();
-        if (!canvas.enabled) return;
+        if (canvas != null && !canvas.enabled) return;
         orientation = Screen.orientation;
         StartCoroutine(ResetScrollViews());
         UpdateLayout();
@@ -27,7 +27,7 @@ public class LayoutManager : MonoBehaviour
 
     void Update() //Cuando el dispositivo gira se actualizan orientation y el layout
     {
-        if (!canvas.enabled) return;
+        if (canvas != null && !canvas.enabled) return;
         if(orientation != Screen.orientation)
         {
             orientation = Screen.orientation;
