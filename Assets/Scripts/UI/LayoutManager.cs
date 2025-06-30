@@ -48,7 +48,8 @@ public class LayoutManager : MonoBehaviour
 
     public Transform GetCurrentLayoutTransform()
     {
-        if (orientation == ScreenOrientation.LandscapeLeft || orientation == ScreenOrientation.LandscapeRight) return layoutInLandscape;
+        if (orientation == ScreenOrientation.LandscapeLeft || orientation == ScreenOrientation.LandscapeRight) 
+            return layoutInLandscape;
         else return layoutInPortrait;
     }
 
@@ -83,8 +84,8 @@ public class LayoutManager : MonoBehaviour
                 layoutInPortrait.localScale *= portraitSizeMult;
             else layoutInLandscape.localScale *= landscapeSizeMult;
         }
-        if(objToHidePortrait != null) objToHidePortrait.SetActive(newLayout == layoutInLandscape);
-        if(objToHideLandscape != null) objToHideLandscape.SetActive(newLayout == layoutInPortrait);
+        if (objToHidePortrait != null) objToHidePortrait.SetActive(newLayout == layoutInLandscape);
+        if (objToHideLandscape != null) objToHideLandscape.SetActive(newLayout == layoutInPortrait);
     }
 
     IEnumerator ResetScrollViews()
