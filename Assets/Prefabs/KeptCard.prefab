@@ -214,7 +214,7 @@ MonoBehaviour:
   interpolationSpeed: 1500
   swipThreshold: 1.5
   maskVerticalPadding: {x: 0.2, y: 0.066}
-  defaultSprite: {fileID: 21300000, guid: a918fb94ed6526c4f9ca3b853470116c, type: 3}
+  defaultSprite: {fileID: 21300000, guid: 71c46d09b230a6947930489a8943cb7a, type: 3}
   isDetailedCard: 0
 --- !u!1 &9188969412741069377
 GameObject:

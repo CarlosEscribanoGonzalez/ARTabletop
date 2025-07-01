@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class DefaultContentInstaller : MonoBehaviour
 {
     [SerializeField] private string[] contentNames;
+    [SerializeField] private bool forceDownload;
 
     void Start()
     {
@@ -16,6 +17,8 @@ public class DefaultContentInstaller : MonoBehaviour
     {
         string sourcePath = Path.Combine(Application.streamingAssetsPath, filename);
         string destinationPath = Path.Combine(Application.persistentDataPath, filename);
+
+        if (forceDownload && File.Exists(destinationPath)) File.Delete(destinationPath);
 
         if (!File.Exists(destinationPath))
         {

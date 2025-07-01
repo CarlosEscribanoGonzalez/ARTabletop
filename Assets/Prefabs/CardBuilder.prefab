@@ -277,7 +277,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a918fb94ed6526c4f9ca3b853470116c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 71c46d09b230a6947930489a8943cb7a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3441,7 +3441,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a918fb94ed6526c4f9ca3b853470116c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 71c46d09b230a6947930489a8943cb7a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3720,7 +3720,7 @@ MonoBehaviour:
   addContentButton: {fileID: 801708020789830840}
   removeContentButton: {fileID: 7627065607057311324}
   defaultPreview: {fileID: 3241586053839684125}
-  defaultImage: {fileID: 21300000, guid: a918fb94ed6526c4f9ca3b853470116c, type: 3}
+  defaultImage: {fileID: 21300000, guid: 71c46d09b230a6947930489a8943cb7a, type: 3}
   textInputField: {fileID: 4387459285288940984}
   sizeInputField: {fileID: 2963209149127369235}
   setAsDefaultButton: {fileID: 6173339418072271615}
