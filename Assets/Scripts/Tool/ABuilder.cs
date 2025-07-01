@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 
@@ -13,6 +14,8 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
     [SerializeField] private Canvas confirmationPanel;
     [SerializeField] private GameObject arrows;
     [SerializeField] private bool newContentIsNull = false;
+    [SerializeField] private Button addContentButton;
+    [SerializeField] private Button removeContentButton;
     protected int index = 0;
     private int newLength;
     public List<T> Content { get; set; } = new();
@@ -29,8 +32,6 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
         contentDropdown.AddOptions(options);
         contentDropdown.SetValueWithoutNotify(initialValue);
     }
-
-    public abstract void SetInitInfo(GameInfo gameInfo);
 
     public virtual void UpdateIndex(int dir)
     {
@@ -53,6 +54,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
         else if (Content.Count < newLength)
             while (Content.Count < newLength) Content.Add(newContentIsNull ? default : new T());
         CheckArrowsVisibility();
+        CheckContentButtons();
     }
 
     public virtual void ConfirmChange()
@@ -62,16 +64,42 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
         if (index >= Content.Count)
         {
             index = Content.Count - 1;
-            preview.UpdateValues(Content[index]);
+            UpdateIndex(0);
         }
-        indexText.text = (index + 1).ToString();
         CheckArrowsVisibility();
+        CheckContentButtons();
+    }
+
+    public virtual void AddContent()
+    {
+        Content.Add(newContentIsNull ? default : new T());
+        contentDropdown.SetValueWithoutNotify(Content.Count - 1);
+        Index = Content.Count - 1;
+        UpdateIndex(0);
+        CheckContentButtons();
+    }
+
+    public virtual void RemoveContent()
+    {
+        Content.RemoveAt(Index);
+        contentDropdown.SetValueWithoutNotify(Content.Count - 1);
+        if (Index == Content.Count) Index--;
+        UpdateIndex(0);
+        CheckContentButtons();
     }
 
     protected void CheckArrowsVisibility()
     {
         arrows.SetActive(Content.Count > 1);
     }
+
+    private void CheckContentButtons()
+    {
+        removeContentButton.interactable = Content.Count > 1;
+        addContentButton.interactable = Content.Count < maxLength;
+    }
+
+    public abstract void SetInitInfo(GameInfo gameInfo);
 
     public abstract T GetDefaultContent();
 
