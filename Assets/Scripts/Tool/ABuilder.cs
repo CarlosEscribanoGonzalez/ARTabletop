@@ -53,7 +53,6 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
         }
         else if (Content.Count < newLength)
             while (Content.Count < newLength) Content.Add(newContentIsNull ? default : new T());
-        CheckArrowsVisibility();
         CheckContentButtons();
     }
 
@@ -66,7 +65,6 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
             index = Content.Count - 1;
             UpdateIndex(0);
         }
-        CheckArrowsVisibility();
         CheckContentButtons();
     }
 
@@ -97,6 +95,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
     {
         removeContentButton.interactable = Content.Count > 1;
         addContentButton.interactable = Content.Count < maxLength;
+        CheckArrowsVisibility();
     }
 
     public abstract void SetInitInfo(GameInfo gameInfo);
