@@ -397,38 +397,32 @@ PlayerSettings:
       m_SubKind: App Store
   - m_BuildTarget: Android
     m_Icons:
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 192
       m_Height: 192
       m_Kind: 1
       m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 144
       m_Height: 144
       m_Kind: 1
       m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 96
       m_Height: 96
       m_Kind: 1
       m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 72
       m_Height: 72
       m_Kind: 1
       m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 48
       m_Height: 48
       m_Kind: 1
       m_SubKind: 
-    - m_Textures:
-      - {fileID: 0}
+    - m_Textures: []
       m_Width: 36
       m_Height: 36
       m_Kind: 1
@@ -463,7 +457,9 @@ PlayerSettings:
       m_Height: 36
       m_Kind: 0
       m_SubKind: 
-    - m_Textures: []
+    - m_Textures:
+      - {fileID: 2800000, guid: 53f1d7050991fc545ad099a8b574e461, type: 3}
+      - {fileID: 2800000, guid: d200dc1151f27eb4eaf93466add97af2, type: 3}
       m_Width: 432
       m_Height: 432
       m_Kind: 2
