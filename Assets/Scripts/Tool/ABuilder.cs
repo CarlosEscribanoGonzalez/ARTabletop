@@ -11,13 +11,13 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
     [SerializeField] protected int initLength = 4;
     [SerializeField] protected int maxLength = 16;
     [SerializeField] protected bool addZero = false;
-    [SerializeField] private Canvas confirmationPanel;
+    [SerializeField] protected Canvas confirmationPanel;
     [SerializeField] private GameObject arrows;
     [SerializeField] private bool newContentIsNull = false;
     [SerializeField] private Button addContentButton;
     [SerializeField] private Button removeContentButton;
     protected int index = 0;
-    private int newLength;
+    private int newLength; //Length a la que se quiere poner el contenido desde el dropdown
     public List<T> Content { get; set; } = new();
     public int Index { get { return index; } set { index = value; } }
 

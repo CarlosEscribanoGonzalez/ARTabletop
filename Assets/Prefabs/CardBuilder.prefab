@@ -3712,7 +3712,7 @@ MonoBehaviour:
   contentDropdown: {fileID: 1271510244622945763}
   indexText: {fileID: 5668818886471200267}
   initLength: 10
-  maxLength: 200
+  maxLength: 100
   addZero: 0
   confirmationPanel: {fileID: 0}
   arrows: {fileID: 8079060460843345800}

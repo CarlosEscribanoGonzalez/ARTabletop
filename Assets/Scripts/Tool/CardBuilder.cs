@@ -16,6 +16,7 @@ public class CardBuilder : ABuilder<CardInfo>
 
     private void OnEnable()
     {
+        if (confirmationPanel == null) CreateConfirmationPanel(); //Si es el builder de un SCard no tiene confirmation panel para él
         if (Content.Count > 0) return;
         if (contentDropdown != null)
         {            
@@ -122,5 +123,14 @@ public class CardBuilder : ABuilder<CardInfo>
             if(c.sprite != null && !c.sprite.texture.name.Equals(defaultImage.texture.name)) 
                 ContentDownloader.DownloadSprite(c.sprite);
         }
+    }
+
+    private void CreateConfirmationPanel()
+    {
+        confirmationPanel = Instantiate(GameObject.FindWithTag("CardConfirmationPanel")).GetComponent<Canvas>();
+        Button confirmButton = confirmationPanel.transform.Find("Background/YesButton").GetComponent<Button>();
+        confirmButton.onClick.RemoveAllListeners();
+        confirmButton.onClick.AddListener(() => confirmationPanel.enabled = false);
+        confirmButton.onClick.AddListener(() => ConfirmChange());
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class DeleteConfirmation : MonoBehaviour
@@ -11,7 +12,7 @@ public class DeleteConfirmation : MonoBehaviour
             info = value;
             disclaimerText.text = $"Are you sure you want to delete '{info.gameName}'?";
         } 
-    } 
+    }
 
     public void OnDeleteConfirmed()
     {

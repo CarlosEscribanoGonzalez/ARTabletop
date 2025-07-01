@@ -65,7 +65,20 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
     public void SetName(string name)
     {
         while (name.EndsWith(" ")) name.Remove(name.Length - 2);
-        Names[index] = name;
+        if (name == string.Empty)
+        {
+            Names[index] = "DCards " + Content.Count;
+            for (int i = 0; i < Names.Count; i++)
+            {
+                if (Names[i].StartsWith("DCards "))
+                {
+                    if (i + 1 < 10) Names[i] = "DCards 0" + (i + 1);
+                    else Names[i] = "DCards " + (i + 1);
+                }
+            }
+            nameInputField.SetTextWithoutNotify(Names[index]);
+        }
+        else Names[index] = name;
     }
 
     public override void DownloadInfo()
@@ -93,11 +106,13 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
         Content.Add(builder.GetComponent<CardBuilder>());
         Names.Add(name != string.Empty ? name : "DCards " + Content.Count);
         for (int i = 0; i < Names.Count; i++)
+        {
             if (Names[i].StartsWith("DCards "))
             {
                 if (i + 1 < 10) Names[i] = "DCards 0" + (i + 1);
                 else Names[i] = "DCards " + (i + 1);
             }
+        }
         Content[index].gameObject.SetActive(false);
         index = Content.Count - 1;
         UpdateIndex(0);
