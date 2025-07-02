@@ -16,13 +16,17 @@ public class LayoutManager : MonoBehaviour
     private ScreenOrientation orientation; //Orientación almacenada de la pantalla
     public System.Action OnLayoutUpdated;
 
+    private void Awake()
+    {
+        StartCoroutine(ResetScrollViews());
+    }
+
     void OnEnable() //Se registra la orientación y se actualiza el layout según ella
     {
         canvas = GetComponentInParent<Canvas>();
         if (canvas != null && !canvas.enabled) return;
         orientation = Screen.orientation;
-        StartCoroutine(ResetScrollViews());
-        UpdateLayout();
+        UpdateLayout(false);
     }
 
     void Update() //Cuando el dispositivo gira se actualizan orientation y el layout
@@ -53,13 +57,13 @@ public class LayoutManager : MonoBehaviour
         else return layoutInPortrait;
     }
 
-    private void UpdateLayout() //Actualiza el layout dependiendo de la orientación de la pantalla
+    private void UpdateLayout(bool resetScrollViews = true) //Actualiza el layout dependiendo de la orientación de la pantalla
     {
         if (orientation == ScreenOrientation.Portrait || orientation == ScreenOrientation.PortraitUpsideDown)
             ChangeLayout(layoutInPortrait);
         else ChangeLayout(layoutInLandscape);
         OnLayoutUpdated?.Invoke();
-        StartCoroutine(ResetScrollViews());
+        if(resetScrollViews) StartCoroutine(ResetScrollViews());
     }
 
     private void ChangeLayout(Transform newLayout) //Cambia el contenido de padre para que se visualice bien dependiendo de la orientación

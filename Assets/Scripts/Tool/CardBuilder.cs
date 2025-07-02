@@ -4,6 +4,7 @@ using TMPro;
 using System.IO;
 using System.Globalization;
 using System.Collections.Generic;
+using System.Collections;
 
 public class CardBuilder : ABuilder<CardInfo>
 {
@@ -125,6 +126,11 @@ public class CardBuilder : ABuilder<CardInfo>
         }
     }
 
+    public void TextEditingCooldown()
+    {
+        StartCoroutine(TextCooldownCoroutine());
+    }
+
     private void CreateConfirmationPanel()
     {
         confirmationPanel = Instantiate(GameObject.FindWithTag("CardConfirmationPanel")).GetComponent<Canvas>();
@@ -132,5 +138,12 @@ public class CardBuilder : ABuilder<CardInfo>
         confirmButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(() => confirmationPanel.enabled = false);
         confirmButton.onClick.AddListener(() => ConfirmChange());
+    }
+
+    IEnumerator TextCooldownCoroutine()
+    {
+        textInputField.interactable = false;
+        yield return new WaitForSeconds(0.3f);
+        textInputField.interactable = true;
     }
 }
