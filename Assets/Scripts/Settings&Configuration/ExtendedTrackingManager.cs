@@ -13,6 +13,7 @@ public class ExtendedTrackingManager : MonoBehaviour
     private static ARAnchorManager anchorManager;
     private static Canvas msgCanvas;
     private static Dictionary<Canvas, bool> allCanvasStates = new();
+    private static Dictionary<GameObject, bool> allCamsStates = new(); //Cámaras rng del dado y la moneda
     public static bool IsXTEnabled
     {
         get { return isXTEnabled; }
@@ -27,7 +28,6 @@ public class ExtendedTrackingManager : MonoBehaviour
                 {
                     ResetPlanesAndAnchors();
                     detected = false;
-                    FindFirstObjectByType<Settings>().GetComponent<Canvas>().enabled = false;
                 }
             }
         }
@@ -49,6 +49,11 @@ public class ExtendedTrackingManager : MonoBehaviour
             if (canvas == msgCanvas) continue;
             allCanvasStates.Add(canvas, canvas.enabled);
             if(IsXTEnabled) canvas.enabled = false;
+        }
+        allCamsStates.Clear();
+        foreach(var rngCam in FindObjectsByType<RNGCamera>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            allCamsStates.Add(rngCam.gameObject, rngCam.gameObject.activeSelf);
         }
     }
 
@@ -89,6 +94,10 @@ public class ExtendedTrackingManager : MonoBehaviour
         {
             canvas.enabled = allCanvasStates[canvas];
         }
+        foreach(var cam in allCamsStates.Keys)
+        {
+            cam.SetActive(allCamsStates[cam]);
+        }
     }
 
     private static void ResetPlanesAndAnchors()
@@ -104,6 +113,11 @@ public class ExtendedTrackingManager : MonoBehaviour
         {
             allCanvasStates[canvas] = canvas.enabled;
             canvas.enabled = false;
+        }
+        foreach(var cam in allCamsStates.Keys.ToList())
+        {
+            allCamsStates[cam] = cam.activeSelf;
+            cam.SetActive(false);
         }
     }
 

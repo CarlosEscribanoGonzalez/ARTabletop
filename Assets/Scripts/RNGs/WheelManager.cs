@@ -18,6 +18,7 @@ public class WheelManager : MonoBehaviour
     [SerializeField] private float spinDuration = 5; //Duración del giro
     [SerializeField] private Vector2 spinDegreesMinMax = new Vector2(1080, 3240); //Mínimo y máximo de giro para el lanzamiento
     [SerializeField] private int maxOptions = 12; //Número máximo de opciones
+    private CanvasGroup wheelCanvasGroup; //Canvas group de la rueda y la flecha
     private List<WheelOption> options = new(); //Lista con todas las opciones
     private float endRotation = 0; //Rotación final de la ruleta, calculada cuando esta se lanza
 
@@ -25,6 +26,7 @@ public class WheelManager : MonoBehaviour
     {
         listManager = FindFirstObjectByType<WheelListManager>(FindObjectsInactive.Include);
         removeWinnerToggle = GetComponentInChildren<Toggle>(true);
+        wheelCanvasGroup = GetComponentInChildren<CanvasGroup>(true);
         for(int i = 0; i < 3; i++) AddOption(); //Tres opciones iniciales por defecto
     }
 
@@ -54,7 +56,7 @@ public class WheelManager : MonoBehaviour
         foreach (var listOption in listManager.Options)
                 listOption.GetComponentInChildren<Button>().interactable = false; //Se bloquean los botones de eliminar opciones
         StartCoroutine(Spin(Random.Range(spinDegreesMinMax[0], spinDegreesMinMax[1]), spinDuration)); //Comienza la corrutina de giro
-        wheelTransform.GetComponent<CanvasGroup>().alpha = 1; //La rueda se vuelve completamente visible
+        if(wheelCanvasGroup) wheelCanvasGroup.alpha = 1; //La rueda se vuelve completamente visible
     }
 
     public void SkipAnimation() //Finaliza la animación de girar, cuando se pulsa el botón de skip
@@ -68,7 +70,7 @@ public class WheelManager : MonoBehaviour
     {
         addButton.interactable = options.Count < maxOptions; //El botón de añadir se activa si el máximo de opciones no se ha alcanzado
         spinButton.interactable = options.Count > 0; //El botón de girar se activa si hay opciones disponibles
-        wheelTransform.GetComponent<CanvasGroup>().alpha = (inResults ? 0.5f : 1); //Si está en resultados, la ruleta se vuelve semitransparente
+        if (wheelCanvasGroup) wheelCanvasGroup.alpha = (inResults ? 0.5f : 1); //Si está en resultados, la ruleta se vuelve semitransparente
         resultPanel.SetActive(inResults); //Se activa o desactiva el panel con el resultado
         skipButton.gameObject.SetActive(false); //Se desactiva el botón de skip en todos los casos (se activa sólo al pulsar el botón de girar)
         foreach (var listOption in listManager.Options)
