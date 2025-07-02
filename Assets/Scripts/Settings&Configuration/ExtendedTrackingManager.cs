@@ -97,7 +97,9 @@ public class ExtendedTrackingManager : MonoBehaviour
         foreach (ARPlane p in planeManager.trackables) if(p != null) Destroy(p.gameObject);
         foreach (ARAnchor a in anchorManager.trackables) if(a != null) Destroy(a.gameObject);
         if(initPlanes > 0) FindFirstObjectByType<ARSession>()?.Reset();
-        if (allCanvasStates.Count == 0) return;
+        //Si todos los canvas están apagados significa que ResetPlanesAndAnchors ya fue llamado, así que su estado previo no se reescribe
+        if (allCanvasStates.Keys.Where((c) => c.enabled == false).Count() == allCanvasStates.Keys.Count) 
+            return;
         foreach (var canvas in allCanvasStates.Keys.ToList())
         {
             allCanvasStates[canvas] = canvas.enabled;

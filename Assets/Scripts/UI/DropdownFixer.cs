@@ -23,7 +23,6 @@ public class DropdownFixer : MonoBehaviour
 
     private void OnDeployed(PointerEventData _)
     {
-        Debug.Log("Deployed");
         list = transform.Find("Dropdown List");
         if (list.transform.localPosition.y <= 0) return;
         RectTransform rt = list.GetComponent<RectTransform>();
