@@ -26,7 +26,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
             if (specialCard != null) specialCard.PrevButton.GetComponent<Button>().interactable = currentIndex != 0; //El botón se actualiza cuando se cambia el contenido
         };
         randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ApplyShuffle(); //Cuando se barajan las cartas se aplican los cambios en todos los clientes
-        GetComponentInChildren<TextMeshProUGUI>().text = $"{CardTypeName} cards have been shuffled.";
+        GetComponentInChildren<TextMeshProUGUI>().text = $"Dynamic cards '{CardTypeName}' have been shuffled.";
         foreach (CardInfo card in CardsInfo) if (card.sprite == null) card.sprite = DefaultImage;
     }
 
@@ -125,7 +125,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
             while(currentManagerDisplaying != null) yield return new WaitForSeconds(0.3f); //Se espera a que termine el feedback anterior
             currentManagerDisplaying = this;
             GetComponent<Animator>().SetTrigger("Shuffled"); //Activa la animación
-            yield return new WaitForSeconds(2.1f); //Espera un cooldown para que termine la animación antes de liberar currentManagerDisplaying
+            yield return new WaitForSeconds(4.1f); //Espera un cooldown para que termine la animación antes de liberar currentManagerDisplaying
             currentManagerDisplaying = null;
         }  
     }

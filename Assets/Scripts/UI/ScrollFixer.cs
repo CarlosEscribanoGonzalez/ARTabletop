@@ -12,6 +12,7 @@ public class ScrollFixer : MonoBehaviour
     [SerializeField] private TMP_InputField inputField; //Input field sobre el que se sitúa el ScrollFixer
     private ScrollRect scrollRect; //Scroll rect sobre el que hacer scroll
     private CanvasGroup canvasGroup; //Canvas group dle ScrollFixer
+    private bool scrolling = false;
 
     void Start()
     {
@@ -24,6 +25,7 @@ public class ScrollFixer : MonoBehaviour
     {
         PointerEventData pointerData = (PointerEventData)data;
         scrollRect.OnBeginDrag(pointerData);
+        scrolling = true;
     }
 
     public void Scroll(BaseEventData data) //Propaga el arrastre al scrollRect
@@ -36,10 +38,12 @@ public class ScrollFixer : MonoBehaviour
     {
         PointerEventData pointerData = (PointerEventData)data;
         scrollRect.OnEndDrag(pointerData);
+        scrolling = false;
     }
 
     public void OpenKeyBoard(BaseEventData data) //Cuando se clica sobre el scrollFixer se llama a esta función
     {
+        if (scrolling) return;
         ExecuteEvents.Execute(inputField.gameObject, data, ExecuteEvents.pointerDownHandler); //Se activa manualmente el Input Field
         canvasGroup.blocksRaycasts = false; //El ScrollFixer deja de bloquear raycast para permitir que el usuario clicke directamente sobre el Input Field para editar el texto
     }
