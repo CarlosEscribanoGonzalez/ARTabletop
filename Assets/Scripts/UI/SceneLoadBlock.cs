@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Collections;
 
-public class TestScript : MonoBehaviour
+public class SceneLoadBlock : MonoBehaviour
 {
     void Awake()
     {
@@ -25,3 +25,4 @@ public class TestScript : MonoBehaviour
         Destroy(this.gameObject);
     }
 }
+

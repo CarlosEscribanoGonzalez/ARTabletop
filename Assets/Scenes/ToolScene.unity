@@ -11747,7 +11747,7 @@ MonoBehaviour:
   m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_OnFocusSelectAll: 0
   m_ResetOnDeActivation: 0
-  m_KeepTextSelectionVisible: 1
+  m_KeepTextSelectionVisible: 0
   m_RestoreOriginalTextOnEscape: 0
   m_isRichTextEditingAllowed: 0
   m_LineLimit: 0
@@ -17029,7 +17029,6 @@ MonoBehaviour:
   defaultImage: {fileID: 0}
   textInputField: {fileID: 0}
   sizeInputField: {fileID: 0}
-  setAsDefaultButton: {fileID: 0}
 --- !u!1 &1817633012
 GameObject:
   m_ObjectHideFlags: 0

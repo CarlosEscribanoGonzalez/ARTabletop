@@ -3735,7 +3735,6 @@ MonoBehaviour:
   defaultImage: {fileID: 21300000, guid: 71c46d09b230a6947930489a8943cb7a, type: 3}
   textInputField: {fileID: 4387459285288940984}
   sizeInputField: {fileID: 2963209149127369235}
-  setAsDefaultButton: {fileID: 6173339418072271615}
 --- !u!1 &6761899293911392771
 GameObject:
   m_ObjectHideFlags: 0
@@ -4189,7 +4188,7 @@ GameObject:
   - component: {fileID: 405677381171341296}
   - component: {fileID: 6173339418072271615}
   m_Layer: 5
-  m_Name: SetAsDefault
+  m_Name: Reset
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4298,7 +4297,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8466496873488688695}
         m_TargetAssemblyTypeName: CardBuilder, Assembly-CSharp
-        m_MethodName: SetAsDefault
+        m_MethodName: ResetCard
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
