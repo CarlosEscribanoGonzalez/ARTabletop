@@ -11,7 +11,7 @@ public class GameInfo : ScriptableObject
     [Header("Meta data: ")]
     public string author;
     public string lastEditor;
-    public string rules;
+    [TextArea] public string rules;
 
     [Header("Game info: ")]
     public string gameName;

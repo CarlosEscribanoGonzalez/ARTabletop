@@ -11,12 +11,13 @@ public class ScrollFixer : MonoBehaviour
     //permite la edición del input field cuando es clicado
     [SerializeField] private TMP_InputField inputField; //Input field sobre el que se sitúa el ScrollFixer
     private ScrollRect scrollRect; //Scroll rect sobre el que hacer scroll
-    private CanvasGroup canvasGroup; //Canvas group dle ScrollFixer
+    private CanvasGroup canvasGroup; //Canvas group del ScrollFixer
     private bool scrolling = false;
 
     void Start()
     {
         scrollRect = GetComponentInParent<ScrollRect>();
+        if (!scrollRect) scrollRect = transform.parent.GetComponentInChildren<ScrollRect>();
         canvasGroup = GetComponent<CanvasGroup>();
         inputField.onDeselect.AddListener((_) => OnFieldDeselected());
     }

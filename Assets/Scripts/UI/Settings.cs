@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Settings : MonoBehaviour
 {
@@ -16,8 +17,11 @@ public class Settings : MonoBehaviour
         extendedTrackingToggle.isOn = PlayerPrefs.GetInt("ExtendedTracking", 0) == 0 ? false : true;
         ExtendedTrackingManager.IsXTEnabled = extendedTrackingToggle.isOn;
         randomColorToggle.isOn = PlayerPrefs.GetInt("ColorSetting", 0) == 0 ? false : true;
+        //En el menú principal se deja en blanco el inputfield para que el jugador sepa que tiene que meter su nombre
+        if (string.IsNullOrEmpty(PlayerPrefs.GetString("PlayerName", ""))) SetRandomName();
+        if (SceneManager.GetActiveScene().buildIndex == 0 && PlayerPrefs.GetString("PlayerName").StartsWith("Player_"))
+            return;
         nameInputField.SetTextWithoutNotify(PlayerPrefs.GetString("PlayerName", ""));
-        if(string.IsNullOrEmpty(nameInputField.text)) SetRandomName();
     }
 
     public void SaveXTConfig(bool isOn)
@@ -51,7 +55,6 @@ public class Settings : MonoBehaviour
 
     private void SetRandomName()
     {
-        nameInputField.SetTextWithoutNotify($"Player_{Random.Range(0, 10000)}");
-        PlayerPrefs.SetString("PlayerName", nameInputField.text);
+        PlayerPrefs.SetString("PlayerName", $"Player_{Random.Range(0, 10000)}");
     }
 }

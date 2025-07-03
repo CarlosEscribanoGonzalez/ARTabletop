@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   author: ARTabletop
   lastEditor: 
-  rules: 
-  gameName: Autoshuffle
+  rules: "Reglas medianamente largas a continuaci\xF3n: \na\nd\naf\nda\nsd \n\n\n\nd
+    d\naf\nd\nafda\nf \nda\nf \nad \n\ns\nfad\nf\ndf\naf\n \ndf\n \ndaf \nf\n a\n"
+  gameName: Long rules
   gameImage: {fileID: 21300000, guid: 3b2feae9eab263c45b7921937daa984d, type: 3}
   isDefault: 1
   autoShuffle: 1

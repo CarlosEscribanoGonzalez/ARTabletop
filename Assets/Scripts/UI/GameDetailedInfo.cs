@@ -23,6 +23,7 @@ public class GameDetailedInfo : MonoBehaviour
 
     public void SetInfo(GameInfo info, GameOption gameOption)
     {
+        GetComponentInChildren<ScrollRect>().verticalNormalizedPosition = 1;
         this.info = info;
         title.text = info.gameName;
         author.text = $"By: {info.author}";

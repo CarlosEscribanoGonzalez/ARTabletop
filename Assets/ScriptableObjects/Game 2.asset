@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   author: ARTabletop
   lastEditor: 
-  rules: 
-  gameName: No autoshuffle
+  rules: "Estas reglas son realmente peque\xF1as, as\xED que deber\xEDan aparecer
+    sin el scrollbar a la derecha y ajustarse bien."
+  gameName: Short rules
   gameImage: {fileID: 21300000, guid: 3b2feae9eab263c45b7921937daa984d, type: 3}
   isDefault: 1
   autoShuffle: 0
-  gameHasDice: 1
+  gameHasDice: 0
   gameHasWheel: 1
   gameHasCoins: 1
   cardsInfo:

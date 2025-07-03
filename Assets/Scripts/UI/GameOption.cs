@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class GameOption : MonoBehaviour
 {
@@ -19,10 +20,16 @@ public class GameOption : MonoBehaviour
 
     public void OnClick() //Cuando es pulsado se carga la escena del juego 
     {
-        foreach(var detailedInfo in detailedInfoPanels)
+        foreach (var detailedInfo in detailedInfoPanels)
         {
-            detailedInfo.SetInfo(Info, this);
-            detailedInfo.GetComponent<Canvas>().enabled = true;
+            StartCoroutine(DisplayGameInfo(detailedInfo));
         }
+    }
+
+    IEnumerator DisplayGameInfo(GameDetailedInfo detailedInfo)
+    {
+        detailedInfo.SetInfo(Info, this);
+        yield return null;
+        detailedInfo.GetComponent<Canvas>().enabled = true;
     }
 }
