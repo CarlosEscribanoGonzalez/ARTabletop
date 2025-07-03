@@ -5,10 +5,10 @@ using UnityEngine.XR.ARSubsystems;
 public class AGameUnit : MonoBehaviour
 {
     [SerializeField] private float maxSize = 0.2f; //Tamaño máximo que puede tener la GameUnit
+    [SerializeField] protected Vector2 desiredTextureSize = new Vector2(50, 50); //Tamaño de la textura deseado
     protected GameObject unitModel; //Modelo de la unidad
     protected Collider unitCollider; //Collider de la unidad
     protected SpriteRenderer spriteRend; //Renderer de sprites de la unidad
-    protected Vector2 desiredTextureSize = new Vector2(50, 50); //Tamaño de la textura deseado
     protected float spriteScaleMult = 0; //Multiplicador del tamaño del sprite para que se ajuste al máximo espacio posible
     private bool inForceMaintain = false; //Indica que el objeto debe mantenerse aunque su marcador no esté siendo trackeado
     public bool InForceMaintain { get { return inForceMaintain; }

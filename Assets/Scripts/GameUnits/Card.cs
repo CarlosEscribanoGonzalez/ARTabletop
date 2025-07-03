@@ -21,7 +21,6 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
     private void Start()
     {
         ARTrackedImage trackedImg = GetComponentInParent<ARTrackedImage>();
-        desiredTextureSize = new Vector2(640, 896); //Tamaño deseado con las dimensiones de una carta de póker
         if (trackedImg.referenceImage.name.ToLower().Contains("dynamic")) //Si es especial se obtiene su manager
         {
             foreach (Transform t in buttonCanvas.transform) if (t.name.ToLower().Contains("prev")) PrevButton = t.gameObject;

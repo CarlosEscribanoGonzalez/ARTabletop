@@ -1094,6 +1094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSize: 0.2
+  desiredTextureSize: {x: 640, y: 896}
   text: {fileID: 4443347288727445220}
   buttonCanvas: {fileID: 7984248322305880616}
   clickThreshold: 0.3

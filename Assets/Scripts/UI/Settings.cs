@@ -8,7 +8,7 @@ public class Settings : MonoBehaviour
     [SerializeField] private Toggle extendedTrackingToggle;
     [SerializeField] private Toggle randomColorToggle;
     [SerializeField] private TMP_InputField nameInputField;
-    [SerializeField] private TextMeshProUGUI rulesText;
+    [SerializeField] private TextMeshProUGUI[] rulesTexts;
     public bool IsRandomColorEnabled => randomColorToggle.isOn;
     public System.EventHandler<bool> OnColorSettingChanged;
 
@@ -50,7 +50,13 @@ public class Settings : MonoBehaviour
 
     public void SetRules(string rules)
     {
-        rulesText.text = rules != string.Empty ? rules : "Sorry! The author of this game didn't add the rules.";
+        foreach(var t in rulesTexts)
+            t.text = rules != string.Empty ? rules : "Sorry! The author of this game didn't add the rules.";
+    }
+
+    public void CloseApp()
+    {
+        Application.Quit();
     }
 
     private void SetRandomName()
