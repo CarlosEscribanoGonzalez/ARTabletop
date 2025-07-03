@@ -178,6 +178,7 @@ public class GameInfo : ScriptableObject
     static Dictionary<string, GameObject> createdModels = new();
     private static GameObject AssignModel(string modelName)
     {
+        if (modelName.Equals("DefaultPice.glb")) return DefaultContentInstaller.Instance.DefaultPiece;
         if (!modelName.EndsWith(".glb")) modelName += ".glb";
         string path = Path.Combine(Application.persistentDataPath, modelName);
         if (createdModels.ContainsKey(path)) return createdModels[path];

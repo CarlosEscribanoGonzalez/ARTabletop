@@ -8190,7 +8190,7 @@ MonoBehaviour:
   addContentButton: {fileID: 1192285357}
   removeContentButton: {fileID: 937164520}
   setAsDefaultButton: {fileID: 1069162405}
-  defaultPiece: {fileID: 919132149155446097, guid: cd1b3ff48870c934499001c34d7997d5, type: 3}
+  defaultPiece: {fileID: 6124771115731589714, guid: fa69989f735702e41a96c340002b018a, type: 3}
   defaultPreview: {fileID: 1670633324}
 --- !u!1 &860864035
 GameObject:

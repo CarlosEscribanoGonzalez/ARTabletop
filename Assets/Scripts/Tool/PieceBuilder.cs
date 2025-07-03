@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Siccity.GLTFUtility;
-using TMPro;
 using System.Collections.Generic;
 using System.IO;
 
@@ -33,7 +32,7 @@ public class PieceBuilder : ABuilder<GameObject>
         contentDropdown.SetValueWithoutNotify(gameInfo.numPieces - 1);
         Content = gameInfo.pieces;
         for (int i = 0; i < gameInfo.numPieces; i++) if (i >= Content.Count) Content.Add(null);
-        defaultPiece = gameInfo.defaultPiece;
+        if(!gameInfo.defaultPiece.name.Equals("DefaultPiece.glb")) defaultPiece = gameInfo.defaultPiece;
         defaultPreview.UpdateValues(defaultPiece);
         UpdateIndex(0);
     }

@@ -5,8 +5,18 @@ using UnityEngine.Networking;
 
 public class DefaultContentInstaller : MonoBehaviour
 {
+    [SerializeField] private GameObject defaultPiece;
     [SerializeField] private string[] contentNames;
     [SerializeField] private bool forceDownload;
+    public GameObject DefaultPiece => defaultPiece;
+    public static DefaultContentInstaller Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance = null) Instance = this;
+        else Destroy(this.gameObject);
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     void Start()
     {

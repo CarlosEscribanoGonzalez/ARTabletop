@@ -1,11 +1,13 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class Piece : AGameUnit
 {
     [SerializeField] private TMP_InputField pieceName; //Input Field editable que muestra el nombre del jugador de la pieza
     private PieceGameManager manager; //Manager de las piezas
     private Color randomColor; //Color aleatorio en caso de que las default pieces estén configuradas para la distinción de colores
+    private Dictionary<Material, Color> originalColors = new();
     public int Index { get; set; } = -1; //Índice de la pieza, usado por el manager.
 
     private void Start()
@@ -60,12 +62,13 @@ public class Piece : AGameUnit
     private void ManageColorDifferentiation(object s, bool activateRandomColor)
     {
         if (manager.Pieces[Index] != manager.DefaultPiece) return;
-        Color c;
-        if (activateRandomColor) c = randomColor;
-        else c = Color.white;
         foreach (Renderer rend in unitModel.GetComponentsInChildren<Renderer>())
         {
-            foreach (Material mat in rend.materials) mat.color = c;
+            foreach (Material mat in rend.materials)
+            {
+                if (!originalColors.ContainsKey(mat)) originalColors.Add(mat, mat.color);
+                mat.color = activateRandomColor ? randomColor : originalColors[mat];
+            }
         }
     }
 }

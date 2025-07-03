@@ -178,8 +178,11 @@ MonoBehaviour:
     sizeMult: 1
   defaultSprite: {fileID: 21300000, guid: a918fb94ed6526c4f9ca3b853470116c, type: 3}
   numPieces: 16
-  defaultPiece: {fileID: 919132149155446097, guid: 2fa319a20333e204f945d891e9353b81, type: 3}
-  pieces: []
+  defaultPiece: {fileID: 919132149155446097, guid: cd1b3ff48870c934499001c34d7997d5, type: 3}
+  pieces:
+  - {fileID: 4209626209239141091, guid: ed31a9fa38a29f74da00a017630e0aee, type: 3}
+  - {fileID: 6124771115731589714, guid: fa69989f735702e41a96c340002b018a, type: 3}
+  - {fileID: 6124771115731589714, guid: fa69989f735702e41a96c340002b018a, type: 3}
   boards3D:
   - {fileID: 4209626209239141091, guid: ed31a9fa38a29f74da00a017630e0aee, type: 3}
   - {fileID: 4209626209239141091, guid: ed31a9fa38a29f74da00a017630e0aee, type: 3}

@@ -38,6 +38,7 @@ public static class ContentScaler
         instance.transform.SetParent(null);
         instance.transform.position = Vector3.zero;
         instance.transform.rotation = Quaternion.identity;
+        instance.transform.localScale = Vector3.one;
         meshFilters = instance.GetComponentsInChildren<MeshFilter>();
         if (meshFilters.Length == 0) return 1;
 

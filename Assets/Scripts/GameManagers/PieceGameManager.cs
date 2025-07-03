@@ -11,7 +11,7 @@ public class PieceGameManager : NetworkBehaviour, IGameManager
     private List<XRReferenceImage> pieceImagesList = new(); //Marcadores asociados a las piezas
     private int index = 0;
     public GameObject[] Pieces { get; set; } = null; //Array de piezas del juego
-    public GameObject DefaultPiece { get; set; } = null; //Array de piezas del juego
+    public GameObject DefaultPiece { get; set; } = null; //Pieza por defecto
     public string[] Names { get; private set; } //Nombres de los jugadores asociados a las piezas
     public event System.Action OnNameChanged;
 

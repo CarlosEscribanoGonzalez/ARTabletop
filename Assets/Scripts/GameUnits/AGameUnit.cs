@@ -36,6 +36,7 @@ public class AGameUnit : MonoBehaviour
     public virtual void SetModel(GameObject model) //Instancia el modelo y ajusta su tamaño
     {
         unitModel = Instantiate(model, this.transform);
+        unitModel.transform.localPosition = Vector3.zero;
         unitModel.SetActive(true);
         foreach (Transform t in unitModel.GetComponentsInChildren<Transform>())
             t.gameObject.layer = this.gameObject.layer;
