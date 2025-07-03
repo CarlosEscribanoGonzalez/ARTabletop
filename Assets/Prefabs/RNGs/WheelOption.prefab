@@ -85,6 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2060553049115809966}
   - component: {fileID: 5590761037245283388}
+  - component: {fileID: 1860234880592849491}
   m_Layer: 5
   m_Name: WheelOption
   m_TagString: Untagged
@@ -125,6 +126,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7519a054c631c874eb36d3ad0936110c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!225 &1860234880592849491
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2367497105475289517}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &4777702191061036383
 GameObject:
   m_ObjectHideFlags: 0

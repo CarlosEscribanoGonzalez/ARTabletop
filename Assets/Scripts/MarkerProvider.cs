@@ -7,17 +7,20 @@ public class MarkerProvider : MonoBehaviour
 {
     [SerializeField] private string documentName = "ARTabletop_OfficialMarkers";
 
+    public void OnApplicationFocus(bool focus)
+    {
+        if(focus) LoadingScreenManager.ToggleLoadingScreen(false);
+    }
+
     public void GetMarkers(string extension)
     {
         string fileName = documentName + "." + extension;
-        string filePath = Path.Combine(Application.persistentDataPath, fileName);
-        //if (File.Exists(filePath)) ShareDocument(filePath);
-        //else StartCoroutine(GetMarkersPath(fileName));
         StartCoroutine(GetMarkersPath(fileName));
     }
 
     IEnumerator GetMarkersPath(string fileName)
     {
+        LoadingScreenManager.ToggleLoadingScreen(true, false, "Preparing document...");
         string sourcePath = Path.Combine(Application.streamingAssetsPath, fileName);
         string destinationPath = Path.Combine(Application.persistentDataPath, fileName);
         UnityWebRequest request = UnityWebRequest.Get(sourcePath);

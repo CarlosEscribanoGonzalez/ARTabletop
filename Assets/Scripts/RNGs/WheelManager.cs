@@ -21,6 +21,7 @@ public class WheelManager : MonoBehaviour
     private CanvasGroup wheelCanvasGroup; //Canvas group de la rueda y la flecha
     private List<WheelOption> options = new(); //Lista con todas las opciones
     private float endRotation = 0; //Rotación final de la ruleta, calculada cuando esta se lanza
+    private bool rotating = false;
 
     private void Start()
     {
@@ -33,6 +34,7 @@ public class WheelManager : MonoBehaviour
     private void OnDisable()
     {
         SetMenuState(false);
+        rotating = false;
     }
 
     public void AddOption() //Se instancia una opción
@@ -52,9 +54,12 @@ public class WheelManager : MonoBehaviour
 
     public void SpinWheel() //Gira la ruleta, cuando se pulsa el botón de girar
     {
+        if (rotating) return;
+        rotating = true;
         addButton.interactable = false; //Se bloquea el botón de girar
         foreach (var listOption in listManager.Options)
-                listOption.GetComponentInChildren<Button>().interactable = false; //Se bloquean los botones de eliminar opciones
+            foreach (var selectable in listOption.GetComponentsInChildren<Selectable>()) 
+                selectable.interactable = false; //Se bloquean los botones de eliminar opciones y los input fields
         StartCoroutine(Spin(Random.Range(spinDegreesMinMax[0], spinDegreesMinMax[1]), spinDuration)); //Comienza la corrutina de giro
         if(wheelCanvasGroup) wheelCanvasGroup.alpha = 1; //La rueda se vuelve completamente visible
     }
@@ -62,6 +67,7 @@ public class WheelManager : MonoBehaviour
     public void SkipAnimation() //Finaliza la animación de girar, cuando se pulsa el botón de skip
     {
         StopAllCoroutines(); //Se para la animación de giro
+        rotating = false;
         wheelTransform.rotation = Quaternion.Euler(0f, 0f, endRotation); //Se pone a la ruleta en la posición final
         ShowResult(); //Se muestran los restultados
     }
@@ -74,7 +80,11 @@ public class WheelManager : MonoBehaviour
         resultPanel.SetActive(inResults); //Se activa o desactiva el panel con el resultado
         skipButton.gameObject.SetActive(false); //Se desactiva el botón de skip en todos los casos (se activa sólo al pulsar el botón de girar)
         foreach (var listOption in listManager.Options)
-            if (options.Count > 1) listOption.GetComponentInChildren<Button>(true).interactable = true; //Se activan los botones de eliminar opción siempre que haya más de una
+            foreach (var selectable in listOption.GetComponentsInChildren<Selectable>())
+            {
+                if (selectable is Button && options.Count <= 1) continue; //Se activan los botones de eliminar opción siempre que haya más de una
+                selectable.interactable = true; 
+            }
     }
 
     private void UpdateWheel(bool updateDefaultNames = true) //Actualiza la ruleta con las opciones actuales
@@ -126,6 +136,7 @@ public class WheelManager : MonoBehaviour
             wheelTransform.rotation = Quaternion.Euler(0f, 0f, currentZ);
             yield return null;
         }
+        rotating = false;
         ShowResult(); //Enseña el resultado
     }
 }
