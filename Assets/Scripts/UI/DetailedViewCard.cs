@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
+using UnityEngine.Events;
 
 public class DetailedViewCard : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class DetailedViewCard : MonoBehaviour
     private DetailedViewCardManager manager; //Manager de la vista detallada
     private bool isDragging = false; //Booleano que indica si se está arrastrando la carta o no
     public CardInfo Info { get; private set; } = null; //Info desplegada por la carta
+    public UnityEvent OnMoveEnded;
 
     private void Awake()
     {
@@ -114,6 +116,7 @@ public class DetailedViewCard : MonoBehaviour
             yield return null;
         }
         //Se resetean el padre y la posición de la detailedCard
+        OnMoveEnded?.Invoke();
         image.transform.parent = rectTransform; 
         image.rectTransform.anchoredPosition = Vector2.zero;
         if (action != MovementType.None) manager.ToggleView(false); //La detailed view se cierra tanto si se ha mantenido como si se ha descartado

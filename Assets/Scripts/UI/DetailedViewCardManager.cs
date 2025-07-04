@@ -10,21 +10,31 @@ public class DetailedViewCardManager : MonoBehaviour
     [SerializeField] private RectTransform keptCardsContent; //Contenido del scroll rect de las cartas mantenidas
     [SerializeField] private GameObject keptCardPrefab; //Prefab de las cartas mantenidas
     [SerializeField] private GameObject blockingPanel; //Panel que bloquea la interacción del usuario cuando está detailed view activa
+    [SerializeField] private GameObject infoPanel; //Panel de información sobre cómo usar las detailed views, activo una vez para cada jugador
+    [SerializeField] private GameObject infoButton;
     private ScrollRect scrollRect; //ScrollRect de las cartas guardadas
     private Dictionary<CardInfo, GameObject> cardsKept = new(); //Diccionario de las cartas guardadas. Usan como clave las CardInfo de los CardManagers.
     private Volume dof; //Efecto de DoF cuando se abre detailed view
     private GameObject rngSection; //Botones de dados y ruleta
+    private bool isInfoUnderstood = false;
     public bool IsInDetailedView => detailedCard.gameObject.activeSelf; //Devuelve si la carta detailedCard está siendo mostrada
+    
 
     private void Awake()
     {
         dof = GetComponentInChildren<Volume>(true);
         rngSection = FindFirstObjectByType<RNGSection>().gameObject;
         scrollRect = GetComponentInChildren<ScrollRect>(true);
+        isInfoUnderstood = PlayerPrefs.GetInt("InfoUnderstood", 0) == 0 ? false : true;
     }
 
     public void SetDetailedInfo(CardInfo info)
     {
+        if (!isInfoUnderstood)
+        {
+            infoPanel.SetActive(true);
+            infoButton.SetActive(false);
+        }
         //Si hay una carta abierta y se pulsa una de las mantenidas la que estaba anteriormente se guarda antes de que la nueva se abra
         if (IsInDetailedView) KeepCard(detailedCard.Info); 
         ToggleView(true); //Se activa detailed view
@@ -37,6 +47,7 @@ public class DetailedViewCardManager : MonoBehaviour
         dof.enabled = activate; //Toggle del efecto de DoF
         rngSection.SetActive(!activate); //La UI de los dados se debe desactivar si está abierta la vista detallada
         blockingPanel.SetActive(activate); //Se activa el panel que bloquea la interacción con los elementos que estén detrás
+        if(isInfoUnderstood) infoButton.SetActive(activate);
     }
 
     public void KeepCard(CardInfo info) //Mantiene la carta actualmente mostrada
@@ -55,6 +66,14 @@ public class DetailedViewCardManager : MonoBehaviour
             cardsKept.Remove(info); //Se elimina la entrada del diccionario
             if (cardsKept.Count == 0) scrollRect.gameObject.SetActive(false); //Si ya no quedan elementos se oculta el scroll rect
         }
+    }
+
+    public void OnInfoUnderstood()
+    {
+        PlayerPrefs.SetInt("InfoUnderstood", 1);
+        isInfoUnderstood = true;
+        infoButton.SetActive(true);
+        infoPanel.SetActive(false);
     }
 
     IEnumerator SetupKeptInfo(CardInfo info)
