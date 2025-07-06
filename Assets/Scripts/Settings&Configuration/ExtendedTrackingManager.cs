@@ -57,6 +57,12 @@ public class ExtendedTrackingManager : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        allCanvasStates.Clear();
+        allCamsStates.Clear();
+    }
+
     private void OnApplicationPause(bool pauseStatus)
     {
         if (!pauseStatus && IsXTEnabled && IsXTReady) StartCoroutine(ResetCoroutine()); 
@@ -105,20 +111,16 @@ public class ExtendedTrackingManager : MonoBehaviour
         int initPlanes = planeManager.trackables.count;
         foreach (ARPlane p in planeManager.trackables) if(p != null) Destroy(p.gameObject);
         foreach (ARAnchor a in anchorManager.trackables) if(a != null) Destroy(a.gameObject);
-        Debug.Log("OP");
         if(initPlanes > 0) FindFirstObjectByType<ARSession>()?.Reset();
         if (allCanvasStates.Count() == 0 || allCamsStates.Count() == 0) return;
         //Si todos los canvas están apagados significa que ResetPlanesAndAnchors ya fue llamado, así que su estado previo no se reescribe
-        Debug.Log("ODSAP");
         if (allCanvasStates.Keys.Where((c) => c.enabled == false).Count() == allCanvasStates.Keys.Count) 
             return;
-        Debug.Log("OADFP5");
         foreach (var canvas in allCanvasStates.Keys.ToList())
         {
             allCanvasStates[canvas] = canvas.enabled;
             canvas.enabled = false;
         }
-        Debug.Log("3WWOP");
         foreach (var cam in allCamsStates.Keys.ToList())
         {
             allCamsStates[cam] = cam.activeSelf;
