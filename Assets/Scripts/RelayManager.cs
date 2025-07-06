@@ -114,6 +114,7 @@ public class RelayManager : MonoBehaviour
             lobby.SetActive(false); //Se desactiva el lobby 
             codeText.text = "Room code: " + joinCode.ToUpper(); //Se activa el texto con el código para que se pueda unir gente
             GameSettings.Instance.IsOnline = true; //Se configura la partida como online
+            LoadingScreenManager.ToggleLoadingScreen(true, false, "Joining online session...");
         }
         catch (RelayServiceException e)
         {
@@ -122,6 +123,7 @@ public class RelayManager : MonoBehaviour
             if (e.Message.ToLower().Contains("allocation is full"))
                 FeedbackManager.Instance.DisplayMessage("This game session is full. Please try a different code.", Color.white);
             else FeedbackManager.Instance.DisplayMessage("A game session with the provided code couldn't be found. Please, check the join code and try again.");
+            LoadingScreenManager.ToggleLoadingScreen(false);
         }
         catch (System.Exception e) //Si falla al unirse se hace sign out y se imprime un mensaje de error
         {
@@ -129,6 +131,7 @@ public class RelayManager : MonoBehaviour
             AuthenticationService.Instance.SignOut();
             StopAllCoroutines();
             FeedbackManager.Instance.DisplayMessage("Game session couldn't be found. Please, check your Internet connection and try again.");
+            LoadingScreenManager.ToggleLoadingScreen(false);
         }
         finally { ToggleButtonInteraction(true); } //En cualquier caso se reactiva la interacción con los elementos del lobby
     }

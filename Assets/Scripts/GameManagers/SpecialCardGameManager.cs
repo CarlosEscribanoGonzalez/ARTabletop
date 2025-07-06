@@ -19,15 +19,25 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     private void Start()
     {
         //Se aleatoriza la información una vez la semilla ha sido establecida
-        GameSettings.Instance.OnSeedSet += () => ApplyShuffle(false);
         currentInfoIndex.OnValueChanged += (int prevIndex, int currentIndex) => ApplyInfo(true); //La info se actualiza cuando el índice cambia
         totalDrags.OnValueChanged += (int prevIndex, int currentIndex) =>
         {
             if (specialCard != null) specialCard.PrevButton.GetComponent<Button>().interactable = currentIndex != 0; //El botón se actualiza cuando se cambia el contenido
         };
-        randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ApplyShuffle(); //Cuando se barajan las cartas se aplican los cambios en todos los clientes
+        randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ApplyShuffle(true); //Cuando se barajan las cartas se aplican los cambios en todos los clientes
         GetComponentInChildren<TextMeshProUGUI>().text = $"Dynamic cards '{CardName}' have been shuffled.";
         foreach (CardInfo card in CardsInfo) if (card.sprite == null) card.sprite = DefaultImage;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if (!IsHost && randomizerSeed.Value == default && !GameSettings.Instance.AutoShuffle) 
+            randomizedInfo = CardsInfo;
+        else
+        {
+            if (GameSettings.Instance.RandomSeed.Value != default) ApplyShuffle(false, IsHost);
+            else GameSettings.Instance.OnSeedSet += () => ApplyShuffle(false, IsHost);
+        }
     }
 
     public bool ProvideInfo(AGameUnit unit) //Se proporciona información sobre la carta a las cartas escaneadas
@@ -104,17 +114,17 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         specialCard.SetInfo(randomizedInfo[currentInfoIndex.Value], resetScale);
     }
 
-    private void ApplyShuffle(bool isFirstTime = true) //Se baraja igual en todos los clientes al compartir semilla
+    private void ApplyShuffle(bool showFeedback, bool isFirstTime = false) //Se baraja igual en todos los clientes al compartir semilla
     {
-        if (GameSettings.Instance.AutoShuffle || isFirstTime)
+        if(isFirstTime && !GameSettings.Instance.AutoShuffle) randomizedInfo = CardsInfo;
+        else 
         {
             int randomSeed = randomizerSeed.Value != default ? randomizerSeed.Value : Random.Range(0, 100000);
             System.Random rand = new System.Random(randomSeed);
             randomizedInfo = CardsInfo.OrderBy(x => rand.Next()).ToArray();
         }
-        else randomizedInfo = CardsInfo;
         ApplyInfo(true);
-        if(isFirstTime) StartCoroutine(DisplayShuffleFeedback());
+        if(showFeedback) StartCoroutine(DisplayShuffleFeedback());
     }
 
     private static SpecialCardGameManager currentManagerDisplaying; //Sólo un SpecialCardManager puede hacer display del feedback a la vez

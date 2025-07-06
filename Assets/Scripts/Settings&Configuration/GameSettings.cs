@@ -34,6 +34,7 @@ public class GameSettings : NetworkBehaviour
     {
         Random.InitState(seed); //La semilla configura Random para que en todos los clientes se sincronicen los números aleatorios
         OnSeedSet?.Invoke();
+        LoadingScreenManager.ToggleLoadingScreen(false);
         FindFirstObjectByType<ARSession>().Reset();
         FindFirstObjectByType<ExtendedTrackingManager>().enabled = true;
         FindFirstObjectByType<ARTrackedImageManager>().enabled = true; //En el momento que la semilla está configurada se activa el tracking
