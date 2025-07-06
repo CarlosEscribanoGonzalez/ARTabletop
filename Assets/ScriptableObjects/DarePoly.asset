@@ -1,0 +1,355 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e99b96a1c2ab7114fa1cdc809a181ab4, type: 3}
+  m_Name: DarePoly
+  m_EditorClassIdentifier: 
+  author: ARTabletop
+  lastEditor: 
+  rules: "Play the classic Monopoly... with a twist!\n\nChance and Community Chest
+    cards are replaced by Truth and Dare.\n\nIf a player refuses to answer or fails
+    their challenge, they must choose between losing their next turn, going to jail
+    or any other punishment decided by the players.\n\nMarkers required: \n - Dynamic
+    Card 01 - Truth cards\n - Dynamic Card 02 - Dare cards"
+  gameName: DarePoly
+  gameImage: {fileID: 21300000, guid: 06078199814ce514b9f87c187941dc2b, type: 3}
+  isDefault: 1
+  autoShuffle: 1
+  gameHasDice: 1
+  gameHasWheel: 0
+  gameHasCoins: 0
+  cardsInfo: []
+  defaultSprite: {fileID: 21300000, guid: a918fb94ed6526c4f9ca3b853470116c, type: 3}
+  numPieces: 0
+  defaultPiece: {fileID: 919132149155446097, guid: cd1b3ff48870c934499001c34d7997d5, type: 3}
+  pieces: []
+  boards3D: []
+  boards2D: []
+  specialCardsInfo:
+  - name: Truth
+    cardsInfo:
+    - sprite: {fileID: 0}
+      text: If you could switch lives with someone here for one day, who would it
+        be and why?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s a lie you've told that you're most proud of?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What's something you regret not doing this year?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What do you pretend to understand but actually don't?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s a belief you used to hold strongly but have changed your
+        mind about?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Who\u2019s someone in your life you\u2019ve misjudged at first?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If you had to delete one app from your phone forever, which one would
+        it be?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s something small that irrationally annoys you?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If you were invisible for one hour, what would you do?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What's a secret ambition you've never told anyone?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What was your last impulsive decision and how did it go?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s the most out-of-character thing you\u2019ve ever done?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Who here do you think would survive a zombie apocalypse the longest?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What's a conspiracy theory you lowkey believe might be true?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What do you envy most about someone at this table?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What would your \u201Cred flag\u201D be in a dating profile?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If you could only keep one memory, which would it be?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Have you ever ghosted someone? Why?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What do you think is your most underrated quality?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What's something you\u2019re irrationally afraid of?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Who\u2019s the last person you stalked on social media?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What's a childhood habit you still secretly have?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s the weirdest compliment you\u2019ve ever received?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If your thoughts were visible, what moment today would you be most embarrassed
+        about?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What's something you wish people knew about you without you having to
+        say it?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If you had to move to a new country tomorrow, where wouldn't you go and
+        why?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Have you ever pretended to like something to fit in?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s the most random fact you know by heart?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What song would ruin your image if people knew it was your guilty pleasure?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s a trend or fad you regret following?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What's a question you hope no one asks you today?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s the most difficult truth you\u2019ve ever had to accept?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What was your worst social fail ever?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Have you ever judged someone without knowing the full story?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s something that genuinely surprises people about you?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If you had a personal warning label, what would it say?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s your weirdest or most niche interest?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: When was the last time you changed your mind about something important?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If you could erase one habit of yours, what would it be?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s something you do when you\u2019re alone that you\u2019d
+        never do in front of others?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s your most irrational goal or dream?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If someone narrated your life, what genre would it be?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s the pettiest thing you\u2019ve ever done?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Have you ever sabotaged yourself?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s something you hate that everyone else seems to love?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If your phone unlocked itself and played one song on full volume in public,
+        which would be the worst?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: What kind of villain would you be?
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s a rule or law you think is pointless?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "What\u2019s a question you\u2019d be terrified to answer honestly?"
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: If you could instantly master one skill, what would it be?
+      sizeMult: 0
+    defaultImage: {fileID: 21300000, guid: fbe61f5058bd0424ba33525c57961dc8, type: 3}
+  - name: Dare
+    cardsInfo:
+    - sprite: {fileID: 0}
+      text: Talk in an accent chosen by the group for the next 3 rounds.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Let another player rearrange your phone\u2019s app icons however they
+        like (30 seconds)."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Take a dramatic selfie and post it to your story with no context.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Try to do 10 push-ups while reciting the alphabet.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Let someone write a status on your phone (you can approve before posting).
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Speak only in questions until your next turn.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Act out a famous movie scene \u2014 let the group pick which one."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Let the group decide what song you have to sing the chorus of \u2014
+        now."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Try to juggle 3 objects the group chooses.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Stand on one leg for the next two rounds.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Eat or drink a \u201Cmystery item\u201D the group chooses (nothing harmful!)."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Let someone draw a small doodle on your forehead with pen.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Take a video pretending you\u2019re an influencer doing a product review
+        of... your shoe."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Say two compliments to the person to your right \u2014 without laughing."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Do your best runway walk across the room.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Imitate someone in the group until they guess who it is.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Do your best impression of a robot trying to flirt.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Play blinfolded until the next round.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Whisper a random fact to everyone you talk to for the next round.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Wrap yourself in toilet paper like a mummy (or blanket if no paper).
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Stand up and deliver a 15-second motivational speech about chairs.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Draw a quick portrait of someone in the group and show it to them.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Send a random emoji of the group's choice to your most recent contact.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Take a \u201Cfamily photo\u201D with everyone \u2014 but pose dramatically."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Try to guess 3 objects in someone\u2019s bag or pocket."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Pick a song and silently lip sync it with full emotion.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Let someone else pick your hairstyle for the next round.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Create and perform a 10-second jingle about a random object.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Do a yoga pose \u2014 the group chooses which."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Reenact your most embarrassing moment you\u2019re willing to share."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Let someone else write a fortune for you and read it aloud.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Hold eye contact with someone across the table for 30 seconds.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Speak in third person for the next two turns.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Close your eyes and guess who\u2019s clapping around you."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Do a dramatic slow-motion walk.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Let someone else change your nickname in a group chat.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Narrate someone\u2019s actions like a wildlife documentary."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Share a meme from your saved folder or downloads.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Find something red in the room and treat it like your best friend for
+        one round.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Create a secret handshake with the person next to you.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Draw a mustache on your finger and keep it there for one round.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Make up a random conspiracy theory and try to convince the group.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Pretend your hands are stuck to the table until your next turn.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Make a serious political speech... about pizza toppings.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Create a commercial for the game you're currently playing.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "Try to guess everyone\u2019s favorite breakfast food."
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Put your elbows on the table and rest your chin like a villain.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Balance something on your head for 10 seconds.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: Try to make someone laugh in under 20 seconds.
+      sizeMult: 0
+    - sprite: {fileID: 0}
+      text: "You\u2019re now the game show host \u2014 narrate everyone\u2019s actions
+        for one round."
+      sizeMult: 0
+    defaultImage: {fileID: 21300000, guid: b4ea3aa0d6ae8e245b1769dd8e964fd7, type: 3}

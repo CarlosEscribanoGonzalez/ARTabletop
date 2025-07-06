@@ -19,6 +19,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     private void Start()
     {
         //Se aleatoriza la información una vez la semilla ha sido establecida
+        GameSettings.Instance.OnSeedSet += () => { if(!GameSettings.Instance.IsOnline) ApplyShuffle(false, true); };
         currentInfoIndex.OnValueChanged += (int prevIndex, int currentIndex) => ApplyInfo(true); //La info se actualiza cuando el índice cambia
         totalDrags.OnValueChanged += (int prevIndex, int currentIndex) =>
         {

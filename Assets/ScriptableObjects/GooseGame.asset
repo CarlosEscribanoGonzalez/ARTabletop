@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e99b96a1c2ab7114fa1cdc809a181ab4, type: 3}
+  m_Name: GooseGame
+  m_EditorClassIdentifier: 
+  author: ARTabletop
+  lastEditor: 
+  rules: "A timeless classic brought to life!\n\nMove along a spiral board, avoid
+    traps, and try to reach the final space before your opponents. The rules are
+    simple and follow the traditional version \u2014 no changes, no twists. Up to
+    16 players.\n\nJust roll the dice... and race to the end!\n\nMarkers required:
+    \n - Any Piece marker\n - Board 01 "
+  gameName: Game of the Goose
+  gameImage: {fileID: 21300000, guid: 1ab877b921fdbc149a593cbedc763c23, type: 3}
+  isDefault: 1
+  autoShuffle: 0
+  gameHasDice: 1
+  gameHasWheel: 0
+  gameHasCoins: 0
+  cardsInfo: []
+  defaultSprite: {fileID: 21300000, guid: a918fb94ed6526c4f9ca3b853470116c, type: 3}
+  numPieces: 16
+  defaultPiece: {fileID: 3341851434650876080, guid: 136acca72a163c54785757a41f4c9937, type: 3}
+  pieces: []
+  boards3D: []
+  boards2D:
+  - {fileID: 21300000, guid: e305443b71c80de4e9d61b7a0dca83ac, type: 3}
+  specialCardsInfo: []
