@@ -354,7 +354,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 859037145}
         m_TargetAssemblyTypeName: PieceBuilder, Assembly-CSharp
-        m_MethodName: PickPiece
+        m_MethodName: LoadPiece
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6485,7 +6485,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 859037145}
           m_TargetAssemblyTypeName: PieceBuilder, Assembly-CSharp
-          m_MethodName: PickPiece
+          m_MethodName: LoadPiece
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -7288,7 +7288,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2032103950}
         m_TargetAssemblyTypeName: BoardBuilder, Assembly-CSharp
-        m_MethodName: PickImage
+        m_MethodName: LoadImage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8072,7 +8072,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1788870840}
           m_TargetAssemblyTypeName: CardBuilder, Assembly-CSharp
-          m_MethodName: PickImage
+          m_MethodName: LoadImage
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -9804,7 +9804,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 859037145}
         m_TargetAssemblyTypeName: PieceBuilder, Assembly-CSharp
-        m_MethodName: SetAsDefault
+        m_MethodName: ResetPiece
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10884,7 +10884,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2032103950}
         m_TargetAssemblyTypeName: BoardBuilder, Assembly-CSharp
-        m_MethodName: PickModel
+        m_MethodName: LoadModel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -15,6 +15,11 @@ public class InfoButton : MonoBehaviour
 
     public void DisplayInfo() //El infopanel se muestra y se vuelve interactuable
     {
+        if(infoPanel == null)
+        {
+            infoPanel = FindFirstObjectByType<InfoPanel>();
+            title = GetComponentInChildren<TextMeshProUGUI>(true).text;
+        }
         //Su información se configura para mostrar la info requerida
         infoPanel.DisplayInfo(title, pages);
     }

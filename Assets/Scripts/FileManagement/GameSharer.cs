@@ -84,7 +84,7 @@ public class GameSharer : MonoBehaviour
     private static List<string> GetImagePaths(GameInfoSerializable game) //Obtiene el path de todas las imágenes
     {
         List<string> listToReturn = new();
-        AddPathIfNotContained(listToReturn, GetPathFromName(game.gameImageFileName));
+        AddPathIfNotContained(listToReturn, GetPathFromName(game.gameImageName));
         foreach (var cardInfo in game.cardsInfo)
         {
             AddPathIfNotContained(listToReturn, GetPathFromName(cardInfo.spriteFileName));
@@ -92,7 +92,7 @@ public class GameSharer : MonoBehaviour
         AddPathIfNotContained(listToReturn, GetPathFromName(game.defaultSpriteFileName));
         foreach (var specialCard in game.specialCardsInfo)
         {
-            AddPathIfNotContained(listToReturn, GetPathFromName(specialCard.defaultSpriteFileName));
+            AddPathIfNotContained(listToReturn, GetPathFromName(specialCard.defaultImageName));
             foreach (var cardInfo in specialCard.cardsInfo) AddPathIfNotContained(listToReturn, GetPathFromName(cardInfo.spriteFileName));
         }
         foreach (var board2d in game.boardImagesNames)

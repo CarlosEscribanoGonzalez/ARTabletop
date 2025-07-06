@@ -32,7 +32,7 @@ public class CardPreview : APreview<CardInfo>
         cardText.text = info.text;
     }
 
-    private void AdjustSize()
+    protected override void AdjustSize()
     {
         image.rectTransform.sizeDelta = ContentScaler.ScaleImage(image.sprite.texture, rectTransform.rect);
     }

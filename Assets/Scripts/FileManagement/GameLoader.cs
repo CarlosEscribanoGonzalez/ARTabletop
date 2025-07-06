@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class GameLoader : MonoBehaviour
 {
-    [SerializeField] private GameInfo[] baseGames; //Juegos base de la app
+    [SerializeField] private GameInfo[] builtInGames; //Juegos base de la app
 
     public void OnEnable()
     {
         GameOptionsManager gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
         GameOptionsManager.CustomGames.Clear();
-        foreach (GameInfo game in baseGames) gameOptionsManager.AddGame(game, true); //Añade los juegos base al menú principal
+        foreach (GameInfo game in builtInGames) gameOptionsManager.AddGame(game, true); //Añade los juegos base al menú principal
         LoadSavedGames(); //Carga los juegos guardados en memoria
     }
 
-    public static void LoadGame(GameInfo game) //Carga un juego en el menú principal a partir de su SO
+    public static void LoadSingleGame(GameInfo game) //Carga un juego en el menú principal a partir de su SO
     {
         GameOptionsManager gameOptionsManager = FindFirstObjectByType<GameOptionsManager>();
         if (gameOptionsManager != null) gameOptionsManager.AddGame(game);
@@ -34,7 +34,7 @@ public class GameLoader : MonoBehaviour
             try
             {
                 loadedGame = GameInfo.FromJsonToSO(File.ReadAllText(file.FullName), true); //Deserializa la info y la convierte en SO
-                LoadGame(loadedGame); //Carga el juego a partir del SO
+                LoadSingleGame(loadedGame); //Carga el juego a partir del SO
             }
             catch (System.Exception e)
             {

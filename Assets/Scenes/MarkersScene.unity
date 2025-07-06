@@ -8869,9 +8869,9 @@ MonoBehaviour:
   numberText: {fileID: 326452019}
   backgroundParent: {fileID: 180973130}
   textsParent: {fileID: 1504763662}
-  markerType: Piece
-  number: 08
-  abbreviation: P
+  markerType: Card
+  number: 01
+  abbreviation: C
   centreOffset: {x: 0.0208, y: 0.0387}
   maintainColor: 0
   folderName: GeneratedMarkers

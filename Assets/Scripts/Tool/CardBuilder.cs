@@ -31,6 +31,7 @@ public class CardBuilder : ABuilder<CardInfo>
     public override void SetInitInfo(GameInfo gameInfo)
     {
         ConfigureBuilder(gameInfo.cardsInfo, gameInfo.defaultSprite); //Para no escribir dos veces el mismo código
+        CheckContentButtons();
     }
 
     public void ConfigureBuilder(List<CardInfo> cardsInfo, Sprite defaultImage) //Hace falta esta función para que scards builder pueda configurar sus cartas
@@ -53,33 +54,40 @@ public class CardBuilder : ABuilder<CardInfo>
         sizeInputField.SetTextWithoutNotify(Content[index].sizeMult.ToString());
     }
 
-    public void PickImage(bool isDefaultImage)
+    public void LoadImage(bool isDefaultImage)
     {
         LoadingScreenManager.ToggleLoadingScreen(true, false, "Importing image...");
         ContentLoader.Instance.PickImage((path) =>
         {
-            if (path != null)
+            try
             {
-                Texture2D texture = NativeGallery.LoadImageAtPath(path, 1024, false);
-                if (texture == null)
+                if (path != null)
                 {
-                    FeedbackManager.Instance.DisplayMessage("Unexpected error: image couldn't be loaded. Please, try again.");
-                    Debug.LogError("No se pudo cargar la imagen.");
-                    return;
+                    Texture2D texture = NativeGallery.LoadImageAtPath(path, 1024, false);
+                    if (texture == null)
+                    {
+                        FeedbackManager.Instance.DisplayMessage("Unexpected error: image couldn't be loaded. Please, try again.");
+                        Debug.LogError("No se pudo cargar la imagen.");
+                        return;
+                    }
+                    if (Path.GetFileName(path).EndsWith(".png") || Path.GetFileName(path).EndsWith(".jpg"))
+                        texture.name = Path.GetFileName(path);
+                    else texture.name = Path.GetFileNameWithoutExtension(path) + ".jpg";
+                    Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                    if (isDefaultImage)
+                    {
+                        defaultImage = newSprite;
+                        defaultPreview.SetImage(defaultImage);
+                    }
+                    else Content[index].sprite = newSprite;
+                    preview?.UpdateValues(Content[index]);
                 }
-                if (Path.GetFileName(path).EndsWith(".png") || Path.GetFileName(path).EndsWith(".jpg"))
-                    texture.name = Path.GetFileName(path);
-                else texture.name = Path.GetFileNameWithoutExtension(path) + ".jpg";
-                Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                if (isDefaultImage)
-                {
-                    defaultImage = newSprite;
-                    defaultPreview.SetImage(defaultImage);
-                }
-                else Content[index].sprite = newSprite;
-                preview?.UpdateValues(Content[index]);
+                LoadingScreenManager.ToggleLoadingScreen(false);
             }
-            LoadingScreenManager.ToggleLoadingScreen(false);
+            catch
+            {
+                LoadingScreenManager.ToggleLoadingScreen(false);
+            }
         });
     }
 
@@ -88,7 +96,8 @@ public class CardBuilder : ABuilder<CardInfo>
         Content[index].sprite = null;
         Content[index].text = string.Empty;
         Content[index].sizeMult = 1;
-        sizeInputField.SetTextWithoutNotify(Content[index].sizeMult.ToString());
+        textInputField.SetTextWithoutNotify(string.Empty);
+        sizeInputField.SetTextWithoutNotify("1");
         preview.UpdateValues(Content[index]);
     }
 

@@ -2,9 +2,9 @@ using System.IO.Compression;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ReplaceConfirmation : MonoBehaviour
+public class GameReplacer : MonoBehaviour
 {
-    public static ReplaceConfirmation Instance { get; private set; }
+    public static GameReplacer Instance { get; private set; }
     private GameInfo gameToReplace;
     private string content = null;
 

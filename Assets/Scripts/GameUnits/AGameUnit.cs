@@ -4,8 +4,8 @@ using UnityEngine.XR.ARSubsystems;
 
 public class AGameUnit : MonoBehaviour
 {
-    [SerializeField] private float maxSize = 0.2f; //Tamaño máximo que puede tener la GameUnit
-    [SerializeField] protected Vector2 desiredTextureSize = new Vector2(50, 50); //Tamaño de la textura deseado
+    [SerializeField] private float maxModelSize = 0.2f; //Tamaño máximo que puede tener la GameUnit
+    [SerializeField] protected Vector2 maxSpriteSize = new Vector2(50, 50); //Tamaño de la textura deseado
     protected GameObject unitModel; //Modelo de la unidad
     protected Collider unitCollider; //Collider de la unidad
     protected SpriteRenderer spriteRend; //Renderer de sprites de la unidad
@@ -51,7 +51,7 @@ public class AGameUnit : MonoBehaviour
 
     protected virtual void AdjustModelSize() //Se ajusta el tamaño del modelo para que su magnitud no sea mayor que maxSize
     {
-        float scaleFactor = ContentScaler.ScaleModel(unitModel, maxSize);
+        float scaleFactor = ContentScaler.ScaleModel(unitModel, maxModelSize);
         unitModel.transform.localScale = Vector3.one * scaleFactor; //Todos los objetos así tienen la misma magnitud
         //Se le dan al modelo los componentes necesarios para calcular su posición en Y con OnTriggerEnter
         //Si no tiene collider se le asigna se pone en trigger
@@ -76,7 +76,7 @@ public class AGameUnit : MonoBehaviour
 
     protected virtual void AdjustSpriteSize() //Ajusta el sprite al tamaño deseado
     {
-        spriteScaleMult = ContentScaler.ScaleSprite(spriteRend.sprite.texture, desiredTextureSize);
+        spriteScaleMult = ContentScaler.ScaleSprite(spriteRend.sprite.texture, maxSpriteSize);
         spriteRend.transform.localScale *= spriteScaleMult;
     }
 }

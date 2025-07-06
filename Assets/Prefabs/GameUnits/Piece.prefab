@@ -673,7 +673,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f7157dd84699b6458b23130fa294440, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSize: 0.1
+  maxModelSize: 0.6
+  maxSpriteSize: {x: 50, y: 50}
   pieceName: {fileID: 5835391565672995046}
 --- !u!1 &8838924009156341425
 GameObject:

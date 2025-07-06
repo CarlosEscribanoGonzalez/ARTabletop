@@ -27,7 +27,7 @@ public class GameDeleter : MonoBehaviour
         bool contained = false;
         foreach (GameInfo game in GameOptionsManager.CustomGames) //Mira si dicha foto está presente en el resto de juegos o no
         {
-            string json = File.ReadAllText(game.ConvertToJson());
+            string json = File.ReadAllText(game.ConvertToJson()); //Sólo devuelve el path, así que no es costoso como crear un json
             GameInfoSerializable serializedGameInfo = JsonUtility.FromJson<GameInfoSerializable>(json); 
             List<string> otherGameTextures = GetAllUsedTextures(serializedGameInfo);
             if (otherGameTextures.Contains(textureName)) //Si la foto está presente en otro juego se pasa a la siguiente foto y no se elimina
@@ -62,13 +62,13 @@ public class GameDeleter : MonoBehaviour
     private static List<string> GetAllUsedTextures(GameInfoSerializable game) //Devuelve el nombre de todas las texturas usadas por un juego
     {
         List<string> textureNameList = new();
-        AddPathToList(textureNameList, game.gameImageFileName);
+        AddPathToList(textureNameList, game.gameImageName);
         foreach (var c in game.cardsInfo) AddPathToList(textureNameList, c.spriteFileName);
         AddPathToList(textureNameList, game.defaultSpriteFileName);
         foreach (var b in game.boardImagesNames) AddPathToList(textureNameList, b);
         foreach (var sc in game.specialCardsInfo)
         {
-            AddPathToList(textureNameList, sc.defaultSpriteFileName);
+            AddPathToList(textureNameList, sc.defaultImageName);
             foreach (var c in sc.cardsInfo) AddPathToList(textureNameList, c.spriteFileName);
         }
         return textureNameList;

@@ -22,10 +22,10 @@ public class ContentLoader : MonoBehaviour
         StartCoroutine(CooldownCoroutine());
     }
 
-    public void PickModel(FilePickedCallback callback, string[] allowedTypes)
+    public void PickModel(FilePickedCallback callback)
     {
         if (inCooldown) return;
-        PickFile(callback, allowedTypes);
+        PickFile(callback, new string[] { "application/octet-stream" });
         StartCoroutine(CooldownCoroutine());
     }
 

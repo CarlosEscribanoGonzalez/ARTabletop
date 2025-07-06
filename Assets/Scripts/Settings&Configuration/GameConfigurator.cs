@@ -46,8 +46,8 @@ public class GameConfigurator : MonoBehaviour
             if (i < completeInfo.specialCardsInfo.Count)
             {
                 managers[i].CardsInfo = completeInfo.specialCardsInfo[i].cardsInfo.ToArray();
-                managers[i].DefaultImage = completeInfo.specialCardsInfo[i].defaultSpecialSprite;
-                managers[i].CardTypeName = completeInfo.specialCardsInfo[i].name;
+                managers[i].DefaultImage = completeInfo.specialCardsInfo[i].defaultImage;
+                managers[i].CardName = completeInfo.specialCardsInfo[i].name;
             }
             else managers[i].gameObject.SetActive(false);
         }

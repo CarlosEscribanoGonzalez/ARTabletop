@@ -59,6 +59,8 @@ public class BoardPreview : APreview<GameObject>
         }
     }
 
+    protected override void AdjustSize(){}
+
     IEnumerator ReinitSpriteRend()
     {
         yield return null;

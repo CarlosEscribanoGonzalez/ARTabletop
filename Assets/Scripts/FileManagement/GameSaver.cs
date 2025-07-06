@@ -113,14 +113,14 @@ public class GameSaver : MonoBehaviour
         }
     }
 
-    public void SaveGameInfo(string content, ZipArchive archive) //Guarda el json y archivos en memoria
+    private void SaveGameInfo(string content, ZipArchive archive) //Guarda el json y archivos en memoria
     {
         string gameId = IDCreator.GetCustomJsonID(content); //Obtiene su CustomID
         string path = Path.Combine(Application.persistentDataPath, gameId); //Obtiene su path
         if (File.Exists(path))
         {
             Debug.Log("Juego ya se encuentra en el dispositivo: pidiendo confirmación de replace...");
-            ReplaceConfirmation.Instance.RequestConfirmation(content);
+            GameReplacer.Instance.RequestConfirmation(content);
             return;
         }
         try //Si el json no existe se almacena
@@ -132,7 +132,7 @@ public class GameSaver : MonoBehaviour
                 SaveImage(entry); //Se guardan las imágenes en memoria local
             addedModels.Clear(); //Lo mismo con los modelos
             foreach (var entry in archive.Entries.Where((p) => p.FullName.EndsWith(".glb"))) SaveModel(entry);
-            GameLoader.LoadGame(GameInfo.FromJsonToSO(content, true)); //Si se está en el menú principal se carga en la lista de juegos
+            GameLoader.LoadSingleGame(GameInfo.FromJsonToSO(content, true)); //Si se está en el menú principal se carga en la lista de juegos
         }
         catch (System.Exception e)
         {

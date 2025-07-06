@@ -76,7 +76,7 @@ public class ToolManager : MonoBehaviour
         foreach(var scard in scardBuilder.Content)
         {
             SpecialCardInfo newInfo = new();
-            newInfo.defaultSpecialSprite = scard.DefaultImage;
+            newInfo.defaultImage = scard.DefaultImage;
             newInfo.cardsInfo = scard.Content;
             newInfo.name = scardBuilder.Names[scardBuilder.Content.IndexOf(scard)];
             gameInfo.specialCardsInfo.Add(newInfo);
@@ -109,7 +109,7 @@ public class ToolManager : MonoBehaviour
         if (File.Exists(Path.Combine(Application.persistentDataPath, IDCreator.GetCustomJsonID(gameInfo))))
         {
             Debug.Log("Archivo con el mismo nombre e imagen ya existe, se pide replace confirmation...");
-            ReplaceConfirmation.Instance.RequestConfirmation(gameInfo);
+            GameReplacer.Instance.RequestConfirmation(gameInfo);
             return;
         }
         CreateGame();

@@ -5,19 +5,11 @@ using UnityEngine;
 namespace Serialization
 {
     [Serializable]
-    public class SpecialCardInfo
-    {
-        public string name;
-        public List<CardInfo> cardsInfo = new();
-        public Sprite defaultSpecialSprite;
-    }
-
-    [Serializable]
     public class SpecialCardInfoSerializable
     {
-        public string specialCardName;
+        public string name;
         public List<CardInfoSerializable> cardsInfo = new();
-        public string defaultSpriteFileName;
+        public string defaultImageName;
     }
 
     [Serializable]
@@ -25,7 +17,7 @@ namespace Serialization
     {
         public string spriteFileName;
         public string text;
-        public float size;
+        public float sizeMult;
     }
 
     [Serializable]
@@ -36,7 +28,7 @@ namespace Serialization
         public string rules;
 
         public string gameName;
-        public string gameImageFileName;
+        public string gameImageName;
 
         public bool autoShuffle;
         public bool gameHasDice;
@@ -54,6 +46,5 @@ namespace Serialization
         public List<string> boardModelsNames;
 
         public List<SpecialCardInfoSerializable> specialCardsInfo;
-
     }
 }

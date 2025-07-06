@@ -35,6 +35,7 @@ public class PieceBuilder : ABuilder<GameObject>
         if(!gameInfo.defaultPiece.name.Equals("DefaultPiece.glb")) defaultPiece = gameInfo.defaultPiece;
         defaultPreview.UpdateValues(defaultPiece);
         UpdateIndex(0);
+        CheckContentButtons();
     }
 
     public override void UpdateIndex(int dir)
@@ -43,43 +44,50 @@ public class PieceBuilder : ABuilder<GameObject>
         setAsDefaultButton.interactable = (Content[index] != null && !Content[index].name.Equals(defaultPiece.name));
     }
 
-    public void PickPiece(bool isDefaultPiece)
+    public void LoadPiece(bool isDefaultPiece)
     {
         LoadingScreenManager.ToggleLoadingScreen(true, false, "Importing model...");
         GameObject piecePrefab;
         ContentLoader.Instance.PickModel((path) =>
         {
-            if (path != null)
+            try
             {
-                Debug.Log("Archivo seleccionado: " + path);
-                if (!path.EndsWith(".glb"))
+                if (path != null)
                 {
-                    FeedbackManager.Instance.DisplayMessage("Invalid file selected. Please choose a file with .glb extension.", Color.white);
-                    Debug.LogError("No se ha podido cargar un modelo: tipo de archivo incorrecto");
-                    LoadingScreenManager.ToggleLoadingScreen(false);
-                    return;
+                    Debug.Log("Archivo seleccionado: " + path);
+                    if (!path.EndsWith(".glb"))
+                    {
+                        FeedbackManager.Instance.DisplayMessage("Invalid file selected. Please choose a file with .glb extension.", Color.white);
+                        Debug.LogError("No se ha podido cargar un modelo: tipo de archivo incorrecto");
+                        LoadingScreenManager.ToggleLoadingScreen(false);
+                        return;
+                    }
+                    GameObject piece = Importer.LoadFromFile(path);
+                    piecePrefab = Instantiate(piece);
+                    DestroyImmediate(piece);
+                    piecePrefab.hideFlags = HideFlags.HideAndDontSave;
+                    piecePrefab.SetActive(false);
+                    piecePrefab.name = IDCreator.GetCustomModelID(Path.GetFileNameWithoutExtension(path), piecePrefab);
+                    if (isDefaultPiece)
+                    {
+                        defaultPiece = piecePrefab;
+                        defaultPreview.UpdateValues(defaultPiece);
+                    }
+                    else Content[index] = piecePrefab;
+                    preview.UpdateValues(Content[index] ?? defaultPiece);
+                    setAsDefaultButton.interactable = (Content[index] != null && !Content[index].name.Equals(defaultPiece.name));
+                    if (!importedPaths.ContainsKey(path)) importedPaths.Add(path, piecePrefab.name);
                 }
-                GameObject piece = Importer.LoadFromFile(path);
-                piecePrefab = Instantiate(piece);
-                DestroyImmediate(piece);
-                piecePrefab.hideFlags = HideFlags.HideAndDontSave;
-                piecePrefab.SetActive(false);
-                piecePrefab.name = IDCreator.GetCustomModelID(Path.GetFileNameWithoutExtension(path), piecePrefab);
-                if (isDefaultPiece)
-                {
-                    defaultPiece = piecePrefab;
-                    defaultPreview.UpdateValues(defaultPiece);
-                }
-                else Content[index] = piecePrefab;
-                preview.UpdateValues(Content[index] ?? defaultPiece);
-                setAsDefaultButton.interactable = (Content[index] != null && !Content[index].name.Equals(defaultPiece.name));
-                if (!importedPaths.ContainsKey(path)) importedPaths.Add(path, piecePrefab.name);
+                LoadingScreenManager.ToggleLoadingScreen(false);
             }
-            LoadingScreenManager.ToggleLoadingScreen(false);
-        }, new string[] { "application/octet-stream" });
+            catch
+            {
+                LoadingScreenManager.ToggleLoadingScreen(false);
+            }
+        });
     }
 
-    public void SetAsDefault()
+    public void ResetPiece()
     {
         Content[index] = null;
         preview.UpdateValues(defaultPiece);

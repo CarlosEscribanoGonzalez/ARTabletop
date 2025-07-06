@@ -1093,8 +1093,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bf9090e4f4a5d44099e74d94680327f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSize: 0.2
-  desiredTextureSize: {x: 640, y: 896}
+  maxModelSize: 0.2
+  maxSpriteSize: {x: 640, y: 896}
   text: {fileID: 4443347288727445220}
   buttonCanvas: {fileID: 7984248322305880616}
   clickThreshold: 0.3

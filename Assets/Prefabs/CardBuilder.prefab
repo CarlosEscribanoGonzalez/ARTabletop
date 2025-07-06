@@ -306,7 +306,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 8466496873488688695}
           m_TargetAssemblyTypeName: CardBuilder, Assembly-CSharp
-          m_MethodName: PickImage
+          m_MethodName: LoadImage
           m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1250,7 +1250,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8466496873488688695}
         m_TargetAssemblyTypeName: CardBuilder, Assembly-CSharp
-        m_MethodName: PickImage
+        m_MethodName: LoadImage
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

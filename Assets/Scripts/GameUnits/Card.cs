@@ -128,7 +128,7 @@ public class Card : AGameUnit, IPointerDownHandler, IPointerUpHandler, IPointerE
         if (initTextSize == default) initTextSize = text.rectTransform.sizeDelta;
         float ratio = (float)spriteRend.sprite.texture.height / spriteRend.sprite.texture.width;
         //Se escala el texo dependiendo de si se está ajustando horizontalmente o verticalmente
-        if (desiredTextureSize.x - spriteRend.sprite.texture.width <= desiredTextureSize.y - spriteRend.sprite.texture.height)
+        if (maxSpriteSize.x - spriteRend.sprite.texture.width <= maxSpriteSize.y - spriteRend.sprite.texture.height)
             text.rectTransform.sizeDelta = new Vector2(initTextSize.x, initTextSize.x * ratio); //Ajuste horizontal
         else text.rectTransform.sizeDelta = new Vector2(initTextSize.y / ratio, initTextSize.y); //Vertical
     }

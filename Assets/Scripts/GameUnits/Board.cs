@@ -1,7 +1,10 @@
 public class Board : AGameUnit
 {
+    private BoardGameManager manager;
+
     private void Start()
     {
-        RequestInfo(FindFirstObjectByType<BoardGameManager>());  //Al ser escaneado por primera vez le pide la información al manager
+        manager = FindFirstObjectByType<BoardGameManager>();
+        RequestInfo(manager);  //Al ser escaneado por primera vez le pide la información al manager
     }
 }

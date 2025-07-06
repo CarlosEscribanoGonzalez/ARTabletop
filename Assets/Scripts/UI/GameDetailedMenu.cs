@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class GameDetailedInfo : MonoBehaviour
+public class GameDetailedMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private TextMeshProUGUI author;
@@ -58,7 +58,7 @@ public class GameDetailedInfo : MonoBehaviour
         StartCoroutine(EditCoroutine());
     }
 
-    public void Share() //Llamado cuando se pulsa el botón de compartir
+    public void ShareGame() //Llamado cuando se pulsa el botón de compartir
     {
         StartCoroutine(ShareCoroutine());
     }

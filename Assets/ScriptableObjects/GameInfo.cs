@@ -52,7 +52,7 @@ public class GameInfo : ScriptableObject
             rules = this.rules,
             //General settings:
             gameName = this.gameName,
-            gameImageFileName = this.gameImage != null ? this.gameImage.texture.name : null,
+            gameImageName = this.gameImage != null ? this.gameImage.texture.name : null,
             //RNG section:
             autoShuffle = this.autoShuffle,
             gameHasDice = this.gameHasDice,
@@ -63,7 +63,7 @@ public class GameInfo : ScriptableObject
             {
                 spriteFileName = card.sprite != null ? card.sprite.texture.name : null,
                 text = card.text,
-                size = card.sizeMult
+                sizeMult = card.sizeMult
             }).ToList(),
             defaultSpriteFileName = this.defaultSprite != null ? this.defaultSprite.texture.name : null,
             //Pieces:
@@ -76,14 +76,14 @@ public class GameInfo : ScriptableObject
             //Special cards:
             specialCardsInfo = this.specialCardsInfo.Select(card => new SpecialCardInfoSerializable
             {
-                specialCardName = card.name,
+                name = card.name,
                 cardsInfo = card.cardsInfo.Select(c => new CardInfoSerializable
                 {
                     spriteFileName = c.sprite != null ? c.sprite.texture.name : null,
                     text = c.text,
-                    size = c.sizeMult
+                    sizeMult = c.sizeMult
                 }).ToList(),
-                defaultSpriteFileName = card.defaultSpecialSprite != null ? card.defaultSpecialSprite.texture.name : null
+                defaultImageName = card.defaultImage != null ? card.defaultImage.texture.name : null
             }).ToList()
         };
         File.WriteAllText(path, JsonUtility.ToJson(gameInfoSerializable, true)); //Escribe la información en el path y lo devuelve
@@ -100,7 +100,7 @@ public class GameInfo : ScriptableObject
         newGameInfo.lastEditor = deserialized.lastEditor;
         newGameInfo.rules = deserialized.rules;
         newGameInfo.gameName = deserialized.gameName;
-        newGameInfo.gameImage = AssignSprite(deserialized.gameImageFileName);
+        newGameInfo.gameImage = AssignSprite(deserialized.gameImageName);
         newGameInfo.isDefault = false;
         if (provideOnlyEssential) return newGameInfo;
         //RNG section:
@@ -115,7 +115,7 @@ public class GameInfo : ScriptableObject
             CardInfo cardInfo = new CardInfo();
             cardInfo.text = card.text;
             cardInfo.sprite = AssignSprite(card.spriteFileName);
-            cardInfo.sizeMult = card.size;
+            cardInfo.sizeMult = card.sizeMult;
             newGameInfo.cardsInfo.Add(cardInfo);
         }
         newGameInfo.defaultSprite = AssignSprite(deserialized.defaultSpriteFileName);
@@ -131,16 +131,16 @@ public class GameInfo : ScriptableObject
         foreach (var scard in deserialized.specialCardsInfo)
         {
             SpecialCardInfo specialCardInfo = new SpecialCardInfo();
-            specialCardInfo.name = scard.specialCardName;
+            specialCardInfo.name = scard.name;
             foreach (var card in scard.cardsInfo)
             {
                 CardInfo cardInfo = new CardInfo();
                 cardInfo.text = card.text;
                 cardInfo.sprite = AssignSprite(card.spriteFileName);
-                cardInfo.sizeMult = card.size;
+                cardInfo.sizeMult = card.sizeMult;
                 specialCardInfo.cardsInfo.Add(cardInfo);
             }
-            specialCardInfo.defaultSpecialSprite = AssignSprite(scard.defaultSpriteFileName);
+            specialCardInfo.defaultImage = AssignSprite(scard.defaultImageName);
             newGameInfo.specialCardsInfo.Add(specialCardInfo);
         }
         return newGameInfo;

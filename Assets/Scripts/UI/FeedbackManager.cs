@@ -29,6 +29,7 @@ public class FeedbackManager : MonoBehaviour
         canvasGroup.alpha = 1;
         StopAllCoroutines();
         StartCoroutine(FadeOutCoroutine());
+        LoadingScreenManager.ToggleLoadingScreen(false);
     }
 
     IEnumerator FadeOutCoroutine()

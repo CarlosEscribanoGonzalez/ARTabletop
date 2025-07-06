@@ -13,7 +13,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     private NetworkVariable<int> totalDrags = new(0); //Índice de cartas sacadas sin barajar
     private NetworkVariable<int> randomizerSeed = new(0); //Semilla con la que se han barajado las cartas especiales
     public CardInfo[] CardsInfo { get; set; } = null; //Array de información de las cartas a mostrar
-    public string CardTypeName { get; set; } = "DynamicCard"; //Nombre de las cartas mostradas (Suerte, Caja de Comunidad... por ejemplo)
+    public string CardName { get; set; } = "DynamicCard"; //Nombre de las cartas mostradas (Suerte, Caja de Comunidad... por ejemplo)
     public Sprite DefaultImage { get; set; } = null; //Imagen por defecto a mostrar por las cartas de este manager
 
     private void Start()
@@ -26,7 +26,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
             if (specialCard != null) specialCard.PrevButton.GetComponent<Button>().interactable = currentIndex != 0; //El botón se actualiza cuando se cambia el contenido
         };
         randomizerSeed.OnValueChanged += (int prevSeed, int newSeed) => ApplyShuffle(); //Cuando se barajan las cartas se aplican los cambios en todos los clientes
-        GetComponentInChildren<TextMeshProUGUI>().text = $"Dynamic cards '{CardTypeName}' have been shuffled.";
+        GetComponentInChildren<TextMeshProUGUI>().text = $"Dynamic cards '{CardName}' have been shuffled.";
         foreach (CardInfo card in CardsInfo) if (card.sprite == null) card.sprite = DefaultImage;
     }
 

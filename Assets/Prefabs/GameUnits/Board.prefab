@@ -164,5 +164,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57e3c5ecb00a713458e77fd58035caf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSize: 4
-  desiredTextureSize: {x: 75, y: 75}
+  maxModelSize: 4
+  maxSpriteSize: {x: 75, y: 75}

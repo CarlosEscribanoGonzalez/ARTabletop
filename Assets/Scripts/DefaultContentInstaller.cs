@@ -13,7 +13,7 @@ public class DefaultContentInstaller : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance = null) Instance = this;
+        if (Instance == null) Instance = this;
         else Destroy(this.gameObject);
         DontDestroyOnLoad(this.gameObject);
     }

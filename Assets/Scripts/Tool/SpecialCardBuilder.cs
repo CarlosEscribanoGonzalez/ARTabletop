@@ -27,7 +27,7 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
         {
             var scardInfo = gameInfo.specialCardsInfo[i];
             CardBuilder newCardBuilder = GenerateSpecialCard(scardInfo.name);
-            newCardBuilder.ConfigureBuilder(scardInfo.cardsInfo, scardInfo.defaultSpecialSprite);
+            newCardBuilder.ConfigureBuilder(scardInfo.cardsInfo, scardInfo.defaultImage);
             newCardBuilder.gameObject.SetActive(false);
         }
         index = 0;

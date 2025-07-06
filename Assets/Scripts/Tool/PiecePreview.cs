@@ -29,12 +29,19 @@ public class PiecePreview : APreview<GameObject>
         }
     }
 
+    private GameObject piecePrefab;
     public override void UpdateValues(GameObject piecePrefab)
     {
         Destroy(currentPiece);
         previewTransform.localScale = Vector3.one;
         currentPiece = GameObject.Instantiate(piecePrefab, previewTransform);
         currentPiece.SetActive(true);
+        this.piecePrefab = piecePrefab;
+        AdjustSize();
+    }
+
+    protected override void AdjustSize()
+    {
         float scaleFactor = ContentScaler.ScaleModel(piecePrefab, targetSize);
         previewTransform.localScale = Vector3.one * scaleFactor;
     }

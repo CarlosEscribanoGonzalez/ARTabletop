@@ -16,6 +16,6 @@ public class DeleteConfirmation : MonoBehaviour
 
     public void OnDeleteConfirmed()
     {
-        FindFirstObjectByType<GameDetailedInfo>().DeleteGame(); //Se borran el botón y el juego cuando se pulsa el botón de confirmar
+        FindFirstObjectByType<GameDetailedMenu>().DeleteGame(); //Se borran el botón y el juego cuando se pulsa el botón de confirmar
     }
 }

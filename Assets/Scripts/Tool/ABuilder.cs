@@ -91,7 +91,7 @@ public abstract class ABuilder<T> : MonoBehaviour where T : new()
         arrows.SetActive(Content.Count > 1);
     }
 
-    private void CheckContentButtons()
+    protected void CheckContentButtons()
     {
         removeContentButton.interactable = Content.Count > 1;
         addContentButton.interactable = Content.Count < maxLength;

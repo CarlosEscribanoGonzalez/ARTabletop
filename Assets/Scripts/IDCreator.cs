@@ -8,7 +8,7 @@ public static class IDCreator
     public static string GetCustomJsonID(string jsonContent) //Crea un ID para cada juego, altamente improbable que dos juegos tengan el mismo ID
     {
         GameInfoSerializable info = JsonUtility.FromJson<GameInfoSerializable>(jsonContent);
-        string imageName = info.gameImageFileName; //Se usa el nombre de su imagen para hacer un hash
+        string imageName = info.gameImageName; //Se usa el nombre de su imagen para hacer un hash
         imageName = imageName.Substring(0, imageName.Length - 4);
         return info.gameName + "_" + imageName + ".artabletop"; //El custom id del juego se devuelve
     }

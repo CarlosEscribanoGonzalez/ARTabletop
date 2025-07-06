@@ -47,66 +47,80 @@ public class BoardBuilder : ABuilder<GameObject>
         UpdateUI();
     }
 
-    public void PickImage()
+    public void LoadImage()
     {
         LoadingScreenManager.ToggleLoadingScreen(true, false, "Importing image...");
         ContentLoader.Instance.PickImage((path) =>
         {
-            if (path != null)
+            try
             {
-                Texture2D texture = NativeGallery.LoadImageAtPath(path, 1024, false);
-                if (texture == null)
+                if (path != null)
                 {
-                    FeedbackManager.Instance.DisplayMessage("Unexpected error: image couldn't be loaded. Please, try again.");
-                    Debug.LogError("No se pudo cargar la imagen.");
-                    return;
+                    Texture2D texture = NativeGallery.LoadImageAtPath(path, 1024, false);
+                    if (texture == null)
+                    {
+                        FeedbackManager.Instance.DisplayMessage("Unexpected error: image couldn't be loaded. Please, try again.");
+                        Debug.LogError("No se pudo cargar la imagen.");
+                        return;
+                    }
+                    if (Path.GetFileName(path).EndsWith(".png") || Path.GetFileName(path).EndsWith(".jpg"))
+                        texture.name = Path.GetFileName(path);
+                    else texture.name = Path.GetFileNameWithoutExtension(path) + ".jpg";
+                    Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                    GameObject newContent = new();
+                    SpriteRenderer rend = newContent.AddComponent<SpriteRenderer>();
+                    rend.sprite = newSprite;
+                    Content.Add(newContent);
+                    this.index = Content.Count - 1;
+                    preview.UpdateValues(Content[index]);
+                    UpdateUI();
                 }
-                if (Path.GetFileName(path).EndsWith(".png") || Path.GetFileName(path).EndsWith(".jpg"))
-                    texture.name = Path.GetFileName(path);
-                else texture.name = Path.GetFileNameWithoutExtension(path) + ".jpg";
-                Sprite newSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                GameObject newContent = new();
-                SpriteRenderer rend = newContent.AddComponent<SpriteRenderer>();
-                rend.sprite = newSprite;
-                Content.Add(newContent);
-                this.index = Content.Count - 1;
-                preview.UpdateValues(Content[index]);
-                UpdateUI();
+                LoadingScreenManager.ToggleLoadingScreen(false);
             }
-            LoadingScreenManager.ToggleLoadingScreen(false);
+            catch
+            {
+                LoadingScreenManager.ToggleLoadingScreen(false);
+            }
         });
     }
 
-    public void PickModel()
+    public void LoadModel()
     {
         LoadingScreenManager.ToggleLoadingScreen(true, false, "Importing model...");
         GameObject boardPrefab;
         ContentLoader.Instance.PickModel((path) =>
         {
-            if (path != null)
+            try
             {
-                Debug.Log("Archivo seleccionado: " + path);
-                if (!path.EndsWith(".glb"))
+                if (path != null)
                 {
-                    FeedbackManager.Instance.DisplayMessage("Invalid file selected. Please choose a file with .glb extension.", Color.white);
-                    Debug.LogError("No se ha podido cargar un modelo: tipo de archivo incorrecto");
-                    LoadingScreenManager.ToggleLoadingScreen(false);
-                    return;
+                    Debug.Log("Archivo seleccionado: " + path);
+                    if (!path.EndsWith(".glb"))
+                    {
+                        FeedbackManager.Instance.DisplayMessage("Invalid file selected. Please choose a file with .glb extension.", Color.white);
+                        Debug.LogError("No se ha podido cargar un modelo: tipo de archivo incorrecto");
+                        LoadingScreenManager.ToggleLoadingScreen(false);
+                        return;
+                    }
+                    GameObject piece = Importer.LoadFromFile(path);
+                    boardPrefab = Instantiate(piece);
+                    DestroyImmediate(piece);
+                    boardPrefab.hideFlags = HideFlags.HideAndDontSave;
+                    boardPrefab.SetActive(false);
+                    boardPrefab.name = IDCreator.GetCustomModelID(Path.GetFileNameWithoutExtension(path), boardPrefab);
+                    Content.Add(boardPrefab);
+                    this.index = Content.Count - 1;
+                    preview.UpdateValues(Content[index]);
+                    UpdateUI();
+                    if (!importedPaths.ContainsKey(path)) importedPaths.Add(path, boardPrefab.name);
                 }
-                GameObject piece = Importer.LoadFromFile(path);
-                boardPrefab = Instantiate(piece);
-                DestroyImmediate(piece);
-                boardPrefab.hideFlags = HideFlags.HideAndDontSave;
-                boardPrefab.SetActive(false);
-                boardPrefab.name = IDCreator.GetCustomModelID(Path.GetFileNameWithoutExtension(path), boardPrefab);
-                Content.Add(boardPrefab);
-                this.index = Content.Count - 1;
-                preview.UpdateValues(Content[index]);
-                UpdateUI();
-                if (!importedPaths.ContainsKey(path)) importedPaths.Add(path, boardPrefab.name);
+                LoadingScreenManager.ToggleLoadingScreen(false);
             }
-            LoadingScreenManager.ToggleLoadingScreen(false);
-        }, new string[] { "application/octet-stream" });
+            catch
+            {
+                LoadingScreenManager.ToggleLoadingScreen(false);
+            }
+        });
     }
 
     public override GameObject GetDefaultContent()
