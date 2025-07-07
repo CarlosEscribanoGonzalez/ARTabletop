@@ -6,7 +6,7 @@ public class LookAtCamera : MonoBehaviour
     
     void Start()
     {
-        cameraTransform = Camera.main.transform;
+        cameraTransform = GameObject.FindWithTag("SecondCam").transform;
     }
 
     void Update()
