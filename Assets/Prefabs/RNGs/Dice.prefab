@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a681d482dbd3db42aa7a1b339da2339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  verticalThrustMinMax: {x: 3, y: 5}
-  angularThrustMinMax: {x: 0.5, y: 0.8}
+  verticalThrustMinMax: {x: 3, y: 6}
+  angularThrustMinMax: {x: 0.5, y: 1}
   textFadeSpeed: 2
 --- !u!65 &319367702958857122
 BoxCollider:
