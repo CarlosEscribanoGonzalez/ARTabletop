@@ -6818,10 +6818,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 0
   m_fontSizeMax: 70
   m_fontStyle: 1
@@ -7563,10 +7563,11 @@ MonoBehaviour:
   - "This application was developed by Carlos Escribano as part of the Video Game
     Design and Development degree at Universidad Rey Juan Carlos (URJC), Madrid.
     It was created as a Final Degree Project under the supervision of Aar\xF3n S\xFAjar."
-  - "Third-Party assets and tools: \n\n- Native File Picker by yasirkula\n\n- Native
-    Gallery by yasirkula\n\n- External Dependency Manager for Unity by Google LLC\n\n-
-    GLTFUtility by Siccity\n\n- ARFoundation by Unity Technologies\n\n- ARCore XR
-    Plugin by Google"
+  - "Third-Party assets and tools: \r\n- ARCore XR Plugin by Google\r\n- ARFoundation
+    by Unity Technologies\r\n- CanadianGoos by printable_models\r\n- External Dependency
+    Manager for Unity by Google LLC\r\n- Ghost character Free by Sigmoid Button Assets\r\n-
+    GLTFUtility by Siccity\r\n- M\xE9diums by Cristina Valero\r\n- Native File Picker
+    by yasirkula\r\n- Native Gallery by yasirkula\r\n- Voodoo Doll by bugrahan08\r"
   - Special thanks to Cristina Valero for her unconditional support throughout the
     development of ARTabletop.
 --- !u!1 &6190467256625914222
