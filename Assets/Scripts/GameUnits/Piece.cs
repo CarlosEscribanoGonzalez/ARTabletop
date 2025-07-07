@@ -27,15 +27,27 @@ public class Piece : AGameUnit
         if (GameSettings.Instance.IsOnline && manager != null) manager.RequestNameServerRpc(Index); 
     }
 
+    private bool failed = false;
     protected override void AdjustModelSize() 
     {
-        base.AdjustModelSize();
-        //Además de ajustar el tamaño del modelo se encarga de agregar el componente PieceNameToggler al collider, para que el jugador pueda hacer toggle del nombre pulsando la pieza
-        unitCollider.gameObject.AddComponent<PieceNameToggler>();
-        int randomSeed = (int)(Random.value * Index * 9973);
-        System.Random rand = new System.Random(randomSeed);
-        randomColor = new Color((float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble(), 1);
-        ManageColorDifferentiation(null, FindFirstObjectByType<Settings>().IsRandomColorEnabled);
+        try
+        {
+            base.AdjustModelSize();
+            //Además de ajustar el tamaño del modelo se encarga de agregar el componente PieceNameToggler al collider, para que el jugador pueda hacer toggle del nombre pulsando la pieza
+            unitCollider.gameObject.AddComponent<PieceNameToggler>();
+            int randomSeed = (int)(Random.value * Index * 9973);
+            System.Random rand = new System.Random(randomSeed);
+            randomColor = new Color((float)rand.NextDouble(), (float)rand.NextDouble(), (float)rand.NextDouble(), 1);
+            ManageColorDifferentiation(null, FindFirstObjectByType<Settings>().IsRandomColorEnabled);
+        }
+        catch
+        {
+            if (failed) return; //Evitamos recursividad
+            failed = true;
+            FeedbackManager.Instance.DisplayMessage($"Error loading '{unitModel.name}' model");
+            if (unitModel) Destroy(unitModel.gameObject);
+            SetModel(manager.DefaultPiece);
+        }
     }
 
     public void OnNameEditionEnter(string _) //Cuando el input field es activado 
