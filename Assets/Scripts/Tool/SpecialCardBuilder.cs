@@ -64,7 +64,7 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
 
     public void SetName(string name)
     {
-        while (name.EndsWith(" ")) name.Remove(name.Length - 2);
+        name = name.Trim();
         if (name == string.Empty)
         {
             Names[index] = "DCards " + Content.Count;
@@ -76,9 +76,9 @@ public class SpecialCardBuilder : ABuilder<CardBuilder>
                     else Names[i] = "DCards " + (i + 1);
                 }
             }
-            nameInputField.SetTextWithoutNotify(Names[index]);
         }
         else Names[index] = name;
+        nameInputField.SetTextWithoutNotify(Names[index]);
     }
 
     public override void DownloadInfo()

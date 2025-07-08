@@ -24,6 +24,7 @@ public class PieceBuilder : ABuilder<GameObject>
         contentDropdown.SetValueWithoutNotify(initLength - 1);
         preview.UpdateValues(defaultPiece);
         defaultPreview.UpdateValues(defaultPiece);
+        CheckContentButtons();
     }
 
     public override void SetInitInfo(GameInfo gameInfo)
