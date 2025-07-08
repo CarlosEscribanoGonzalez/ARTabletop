@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpecialCardGameManager : NetworkBehaviour, IGameManager
 {
@@ -19,7 +20,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     private void Start()
     {
         //Se aleatoriza la información una vez la semilla ha sido establecida
-        GameSettings.Instance.OnSeedSet += () => { if(!GameSettings.Instance.IsOnline) ApplyShuffle(false, true); };
+        GameSettings.Instance.OnSeedSet += () => { if (!GameSettings.Instance.IsOnline) ApplyShuffle(false, true); } ;
         currentInfoIndex.OnValueChanged += (int prevIndex, int currentIndex) => ApplyInfo(true); //La info se actualiza cuando el índice cambia
         totalDrags.OnValueChanged += (int prevIndex, int currentIndex) =>
         {
@@ -32,13 +33,8 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
 
     public override void OnNetworkSpawn()
     {
-        if (!IsHost && randomizerSeed.Value == default && !GameSettings.Instance.AutoShuffle) 
-            randomizedInfo = CardsInfo;
-        else
-        {
-            if (GameSettings.Instance.RandomSeed.Value != default) ApplyShuffle(false, IsHost);
-            else GameSettings.Instance.OnSeedSet += () => ApplyShuffle(false, IsHost);
-        }
+        base.OnNetworkSpawn();
+        ApplyShuffle(false, randomizerSeed.Value == default);
     }
 
     public bool ProvideInfo(AGameUnit unit) //Se proporciona información sobre la carta a las cartas escaneadas
@@ -120,7 +116,7 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
         if(isFirstTime && !GameSettings.Instance.AutoShuffle) randomizedInfo = CardsInfo;
         else 
         {
-            int randomSeed = randomizerSeed.Value != default ? randomizerSeed.Value : Random.Range(0, 100000);
+            int randomSeed = randomizerSeed.Value != default ? randomizerSeed.Value : GameSettings.Instance.RandomSeed.Value;
             System.Random rand = new System.Random(randomSeed);
             randomizedInfo = CardsInfo.OrderBy(x => rand.Next()).ToArray();
         }
@@ -129,15 +125,18 @@ public class SpecialCardGameManager : NetworkBehaviour, IGameManager
     }
 
     private static SpecialCardGameManager currentManagerDisplaying; //Sólo un SpecialCardManager puede hacer display del feedback a la vez
+    private static List<SpecialCardGameManager> managersRequested = new();
     IEnumerator DisplayShuffleFeedback() //Corrutina que enseña en la pantalla de todos los clientes cuando una carta especial ha sido barajada
     {
-        if (currentManagerDisplaying != this) //Si ya se está desplegando feedback sobre este manager la llamada se ignora
+        if (!managersRequested.Contains(this)) 
         {
-            while(currentManagerDisplaying != null) yield return new WaitForSeconds(0.3f); //Se espera a que termine el feedback anterior
+            managersRequested.Add(this);
+            while (currentManagerDisplaying != null) yield return new WaitForSeconds(0.3f); //Se espera a que termine el feedback anterior
             currentManagerDisplaying = this;
             GetComponent<Animator>().SetTrigger("Shuffled"); //Activa la animación
             yield return new WaitForSeconds(4.1f); //Espera un cooldown para que termine la animación antes de liberar currentManagerDisplaying
             currentManagerDisplaying = null;
-        }  
+            managersRequested.Remove(this);
+        }
     }
 }
