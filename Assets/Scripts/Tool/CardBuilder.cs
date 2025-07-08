@@ -26,6 +26,7 @@ public class CardBuilder : ABuilder<CardInfo>
             }
             contentDropdown.SetValueWithoutNotify(initLength - 1);
         }
+        CheckContentButtons();
     }
 
     public override void SetInitInfo(GameInfo gameInfo)
