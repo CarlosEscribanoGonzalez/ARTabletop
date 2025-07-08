@@ -20385,6 +20385,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 983924012}
+    - target: {fileID: 4709701154291131109, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4709701154291131109, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5167698466772115310, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -20466,6 +20474,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5893919086626773530, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 5893919086626773530, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 5893919086626773530, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -51.44507
       objectReference: {fileID: 0}
@@ -20476,6 +20492,14 @@ PrefabInstance:
     - target: {fileID: 6703942968813908767, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759550557680326744, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 6759550557680326744, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6759550557680326744, guid: 24e2cf8ed0acc214a973128f98cdfb25, type: 3}
       propertyPath: m_AnchoredPosition.x
