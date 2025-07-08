@@ -899,7 +899,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 206, y: 46}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8490469274803354445
@@ -4320,8 +4320,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 15, y: 0}
+  m_SizeDelta: {x: -30, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4370414418667669300
 MonoBehaviour:
@@ -4902,7 +4902,7 @@ MonoBehaviour:
     shared across the network, allowing players to write their names or any other
     information.
   - "Labels can be customized by simply tapping on them. Additionally, labels\u2019
-    visibility can be toggled by pressing and holding a piece\u2019s 3D model."
+    visibility can be toggled by pressing and holding the piece\u2019s 3D model."
   - From settings, users can enable an option that randomizes the color of the default
     piece of the game selected, making it easier to differentiate between pieces
     with the same model.
@@ -5692,11 +5692,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pages:
-  - "A document with all the official markers can be found in the main menu. Marker-based
-    augmented reality requires good visibility to track markers\u2019 position and
-    rotation."
-  - "It is recommended to print the markers and stick them on the back of poker cards,
-    as the markers\u2019 size matches the size of poker cards."
+  - "Marker-based augmented reality requires good visibility to track markers\u2019
+    position and rotation. A document with all the official markers can be found
+    in the main menu. "
+  - It is recommended to print the markers and stick them on the back of poker cards,
+    since they share the same size.
 --- !u!1 &5073371616449177688
 GameObject:
   m_ObjectHideFlags: 0
@@ -6276,8 +6276,8 @@ MonoBehaviour:
   pages:
   - Users can create their own games using ARTabletop's Game Creator. Through it,
     players can import any multimedia content to customize their games.
-  - The Game Creator can be launched using existing games, allowing users to create
-    variations or edit their information.
+  - Game Creator can be launched using existing games, allowing users to edit their
+    information or create variations of them.
   - ARTabletop automatically scales the dimensions of all imported 2D and 3D assets
     to maintain a consistent visual experience. However, it is not responsible for
     display issues caused by defective, corrupted, or improperly formatted models.
@@ -6746,8 +6746,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 15, y: 0}
+  m_SizeDelta: {x: -30, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &5010140181316562308
 MonoBehaviour:
@@ -7752,7 +7752,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.84, y: -20}
+  m_AnchoredPosition: {x: 10.1, y: -20}
   m_SizeDelta: {x: 10, y: -40}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &3622136000711649082

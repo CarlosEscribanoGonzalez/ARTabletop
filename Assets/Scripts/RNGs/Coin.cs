@@ -50,7 +50,7 @@ public class Coin : MonoBehaviour
 
     IEnumerator ShowResult(CoinResult result)
     {
-        yield return new WaitForSeconds(0.2f); //Tras un pequeño cooldown se notifica el resultado
+        yield return new WaitForSeconds(0.5f); //Tras un pequeño cooldown se notifica el resultado
         manager.NotifyCoinResult(result);
     }
 }

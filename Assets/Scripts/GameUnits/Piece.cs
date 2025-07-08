@@ -44,7 +44,7 @@ public class Piece : AGameUnit
         {
             if (failed) return; //Evitamos recursividad
             failed = true;
-            FeedbackManager.Instance.DisplayMessage($"Error loading '{unitModel.name}' model");
+            FeedbackManager.Instance.DisplayMessage($"Error loading model");
             if (unitModel) Destroy(unitModel.gameObject);
             SetModel(manager.DefaultPiece);
         }
