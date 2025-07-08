@@ -2906,6 +2906,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1378019598019733001, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378019598019733001, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378019598019733001, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1378019598019733001, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3803444921224051706, guid: 3cdf673077bc0524cb4e4c35bb7442b4, type: 3}
       propertyPath: m_Cameras.Array.size
       value: 3

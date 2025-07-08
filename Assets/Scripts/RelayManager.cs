@@ -8,6 +8,7 @@ using Unity.Services.Relay.Models;
 using Unity.Networking.Transport.Relay;
 using Unity.Netcode.Transports.UTP;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 public class RelayManager : MonoBehaviour
 {
@@ -19,13 +20,24 @@ public class RelayManager : MonoBehaviour
 
     private void Start()
     {
+        NetworkManager.Singleton.NetworkConfig.ClientConnectionBufferTimeout = 15;
         //La opción por defecto es la online
         hostButton.onClick.AddListener(CreateRelay); 
         clientButton.onClick.AddListener(JoinRelay);
-        SignOutFromPreviousSession();
     }
 
-    private async void SignOutFromPreviousSession()
+    private void OnEnable()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnected;
+    }
+
+    private void OnDisable()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnected;
+        SignOut();
+    }
+
+    private async void SignOut(bool changeScene = false)
     {
         try
         {
@@ -48,6 +60,14 @@ public class RelayManager : MonoBehaviour
         catch (System.Exception e)
         {
             Debug.LogError("Error al cerrar sesión: " + e.Message);
+        }
+        finally
+        {
+            if (changeScene)
+            {
+                SceneManager.LoadScene(0);
+                FeedbackManager.Instance.DisplayMessage("Connection lost. You have been disconnected from the game.");
+            }
         }
     }
 
@@ -170,5 +190,10 @@ public class RelayManager : MonoBehaviour
         {
             selectable.interactable = enable;
         }
+    }
+
+    private void OnClientDisconnected(ulong clientId)
+    {
+        if (clientId == NetworkManager.Singleton.LocalClientId) SignOut(true);
     }
 }
