@@ -64,15 +64,18 @@ public class ToolManager : MonoBehaviour
         gameInfo.numPieces = pieceBuilder.TotalPieces;
         gameInfo.defaultPiece = pieceBuilder.DefaultPiece;
         //Boards:
+        gameInfo.boards2D.Clear();
         foreach(var image in boardBuilder.Content.Where(go => go.GetComponentInChildren<SpriteRenderer>() != null))
         {
             gameInfo.boards2D.Add(image.GetComponentInChildren<SpriteRenderer>().sprite);
         }
+        gameInfo.boards3D.Clear();
         foreach (var model in boardBuilder.Content.Where(go => go.GetComponentInChildren<SpriteRenderer>() == null))
         {
             gameInfo.boards3D.Add(model);
         }
         //Special cards:
+        gameInfo.specialCardsInfo.Clear();
         foreach(var scard in scardBuilder.Content)
         {
             SpecialCardInfo newInfo = new();
