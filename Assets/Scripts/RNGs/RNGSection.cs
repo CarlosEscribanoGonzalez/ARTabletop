@@ -17,9 +17,15 @@ public class RNGSection : MonoBehaviour
 
     private void InitializeRNGSection()
     {
-        if (!GameHasDice) diceButton.gameObject.SetActive(false); //Si no hay dados el botón se destruye
-        if (!GameHasWheel) wheelButton.gameObject.SetActive(false); //Si no hay ruleta el botón se destruye
-        if (!GameHasCoins) coinButton.gameObject.SetActive(false); //Si no hay ruleta el botón se destruye
+        if (!GameHasDice) DestroyButton(diceButton); //Si no hay dados el botón se destruye
+        if (!GameHasWheel) DestroyButton(wheelButton); //Si no hay ruleta el botón se destruye
+        if (!GameHasCoins) DestroyButton(coinButton); //Si no hay ruleta el botón se destruye
         GetComponentInChildren<Canvas>(true).enabled = true; //Cuando se entra en partida se activa la UI
+    }
+
+    private void DestroyButton(Button button)
+    {
+        button.GetComponentInParent<LayoutManager>().RemoveContent(button.transform);
+        Destroy(button.gameObject);
     }
 }
